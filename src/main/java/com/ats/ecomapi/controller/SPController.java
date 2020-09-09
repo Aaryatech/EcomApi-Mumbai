@@ -16,9 +16,10 @@ public class SPController {
 	@Autowired RateVerificationRepo rateVerRepo;
 	
 	@RequestMapping(value = { "/getData" }, method = RequestMethod.POST)
-	public @ResponseBody List<RateVerificationList> getData(@RequestParam int type) {
+	public @ResponseBody List<GetMrnQueryItem> getData(
+			@RequestParam String fromDate,@RequestParam int itemId) {
 		
-		return rateVerRepo.getALLByVendId(type);
+		return rateVerRepo.getMrnQueryItem2(fromDate, itemId);
 
 	}
 	

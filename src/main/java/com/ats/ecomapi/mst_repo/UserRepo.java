@@ -27,8 +27,6 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	Integer countByUserMobileNoAndUserIdNotAndDelStatus(String mobile,int userId,int delStatus);
 
 	
-	
-	
 	@Query(value = " SELECT m_user.user_id FROM m_user where user_email=:userName and del_status=1 and is_active=1 ", nativeQuery = true)
 	int getUserId(@Param("userName") String userName);
 
@@ -40,7 +38,13 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	Integer updatePass(@Param("userId") int userId, @Param("userPass") String userPass,
 			@Param("makerUserId") int makerUserId,@Param("makerDttime") String makerDttime);
 	
+	@Transactional
+	@Modifying
+	@Query(value = " UPDATE m_user SET role_id=:roleId, "
+			+ " maker_user_id=:makerUserId, updt_dttime=:makerDttime"
+			+ " WHERE user_id IN (:userIdList) and del_status=1 ", nativeQuery = true)
 
-	
+	int updateRoleId(@Param("roleId") int roleId, 
+			@Param("userIdList") List<String> userIdList);
 	
 }

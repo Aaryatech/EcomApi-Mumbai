@@ -37,7 +37,6 @@ public class SPController {
 		Info info = new Info();
 		User loginUser = new User();
 		int userId = 0;
-		System.err.println("Pass " +pass);
 		try {
 
 			// Check if user name exists

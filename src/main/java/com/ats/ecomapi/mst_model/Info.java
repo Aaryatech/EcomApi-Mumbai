@@ -64,6 +64,9 @@ public class Info {
 				+ ", isSessionAlive=" + isSessionAlive + ", responseObject1=" + responseObject1 + ", responseObject2="
 				+ responseObject2 + "]";
 	}
+	public void setMessage(String string) {
+		msg = string;
+	}
 	
 
 }

@@ -18,7 +18,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
-	
+	private int isEnrolled;
 	private int userTypeId;
 	private String userName;
 	
@@ -59,7 +59,14 @@ public class User {
 	private Date exDate1;
 	private Date exDate2;
 	
+	private int roleId;
 	
+	public int getIsEnrolled() {
+		return isEnrolled;
+	}
+	public void setIsEnrolled(int isEnrolled) {
+		this.isEnrolled = isEnrolled;
+	}
 	public int getUserId() {
 		return userId;
 	}
@@ -247,17 +254,24 @@ public class User {
 		this.insertDttime = insertDttime;
 	}
 	
+	public int getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
+	
 	@Override
 	public String toString() {
-		return "UserMaster [userId=" + userId + ", userTypeId=" + userTypeId + ", userName=" + userName
-				+ ", userMobileNo=" + userMobileNo + ", userAddress=" + userAddress + ", userEmail=" + userEmail
-				+ ", regDate=" + regDate + ", birthDate=" + birthDate + ", deptId=" + deptId + ", profilePic="
-				+ profilePic + ", password=" + password + ", isActive=" + isActive + ", delStatus=" + delStatus
-				+ ", companyId=" + companyId + ", makerUserId=" + makerUserId + ", updtDttime=" + updtDttime
+		return "User [userId=" + userId + ", isEnrolled=" + isEnrolled + ", userTypeId=" + userTypeId + ", userName="
+				+ userName + ", userMobileNo=" + userMobileNo + ", userAddress=" + userAddress + ", userEmail="
+				+ userEmail + ", regDate=" + regDate + ", birthDate=" + birthDate + ", deptId=" + deptId
+				+ ", profilePic=" + profilePic + ", password=" + password + ", isActive=" + isActive + ", delStatus="
+				+ delStatus + ", companyId=" + companyId + ", makerUserId=" + makerUserId + ", updtDttime=" + updtDttime
 				+ ", insertDttime=" + insertDttime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3
 				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4
 				+ ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", exDate1="
-				+ exDate1 + ", exDate2=" + exDate2 + "]";
+				+ exDate1 + ", exDate2=" + exDate2 + ", roleId=" + roleId + "]";
 	}
 	
 }

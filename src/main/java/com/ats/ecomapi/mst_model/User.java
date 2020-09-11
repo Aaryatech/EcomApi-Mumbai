@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 //Sachin 10-09-2020
 @Entity
 @Table(name="m_user")
-public class UserMaster {
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

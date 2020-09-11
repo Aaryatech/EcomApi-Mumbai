@@ -39,6 +39,9 @@ public class UserMaster {
 	
 	private int companyId;
 	
+	private int makerUserId;
+	private String updtDttime;
+	private String insertDttime;
 	
 	private int exInt1;
 	private int exInt2;
@@ -225,6 +228,24 @@ public class UserMaster {
 	public void setExDate2(Date exDate2) {
 		this.exDate2 = exDate2;
 	}
+	public int getMakerUserId() {
+		return makerUserId;
+	}
+	public void setMakerUserId(int makerUserId) {
+		this.makerUserId = makerUserId;
+	}
+	public String getUpdtDttime() {
+		return updtDttime;
+	}
+	public void setUpdtDttime(String updtDttime) {
+		this.updtDttime = updtDttime;
+	}
+	public String getInsertDttime() {
+		return insertDttime;
+	}
+	public void setInsertDttime(String insertDttime) {
+		this.insertDttime = insertDttime;
+	}
 	
 	@Override
 	public String toString() {
@@ -232,7 +253,8 @@ public class UserMaster {
 				+ ", userMobileNo=" + userMobileNo + ", userAddress=" + userAddress + ", userEmail=" + userEmail
 				+ ", regDate=" + regDate + ", birthDate=" + birthDate + ", deptId=" + deptId + ", profilePic="
 				+ profilePic + ", password=" + password + ", isActive=" + isActive + ", delStatus=" + delStatus
-				+ ", companyId=" + companyId + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3
+				+ ", companyId=" + companyId + ", makerUserId=" + makerUserId + ", updtDttime=" + updtDttime
+				+ ", insertDttime=" + insertDttime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3
 				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4
 				+ ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", exDate1="
 				+ exDate1 + ", exDate2=" + exDate2 + "]";

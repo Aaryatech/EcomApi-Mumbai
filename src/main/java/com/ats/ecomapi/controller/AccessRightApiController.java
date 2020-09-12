@@ -17,6 +17,8 @@ import com.ats.ecomapi.ac_rights.AccessRightService;
 import com.ats.ecomapi.ac_rights.AssignRoleDetailList;
 import com.ats.ecomapi.ac_rights.AssignRoleDetailListRepository;
 import com.ats.ecomapi.ac_rights.CreatedRoleList;
+import com.ats.ecomapi.master.model.GetUser;
+import com.ats.ecomapi.master.repo.GetUserRepo;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.User;
 import com.ats.ecomapi.mst_repo.UserRepo;
@@ -122,15 +124,16 @@ public class AccessRightApiController {
 		return accessRightService.getRoleJsonByRoleId(roleId,1);
 		
 	}
+	@Autowired GetUserRepo getUserRepo;
 	
-	@RequestMapping(value = {"/getAllUserList"}, method = RequestMethod.GET)
-	public @ResponseBody List<User> getAllEmployees(){
+	@RequestMapping(value = {"/getUserListForAssignRole"}, method = RequestMethod.GET)
+	public @ResponseBody List<GetUser> getAllEmployees(){
 		
-		List<User> empList = new ArrayList<User>();
+		List<GetUser> empList = new ArrayList<GetUser>();
 		try {
-			empList = userListRepository.findByDelStatusAndIsActive(1, 1);
+			empList = getUserRepo.getUserListForAssignRole();
 		}catch (Exception e) {
-			System.err.println("Exce in getAllEmployees  " + e.getMessage());
+			System.err.println("Exce in getUserListForAssignRole  " + e.getMessage());
 		}
 		
 		return empList;

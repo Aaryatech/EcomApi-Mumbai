@@ -18,6 +18,7 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	//@Query(value = " SELECT * FROM m_user WHERE user_id=:userId ", nativeQuery = true)
 	User findByUserId( int userId);
 	
+	
 	List<User> findByDelStatusAndIsActive(int delStatus, int isActive);
 	
 	//to check if user mobile exists with given mobile no 

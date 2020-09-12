@@ -3,6 +3,7 @@
 // Modified By :- NA
 // Modified On :- NA
 // For :- UOM Module
+
 package com.ats.ecomapi.master.model;
 
 import javax.persistence.Column;

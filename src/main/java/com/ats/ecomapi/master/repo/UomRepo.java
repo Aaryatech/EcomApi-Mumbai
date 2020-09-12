@@ -28,6 +28,6 @@ public interface UomRepo extends JpaRepository<Uom, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE `m_uom` SET del_status=1 WHERE uom_id=:uomId",nativeQuery=true)
+	@Query(value="UPDATE `m_uom` SET del_status=0 WHERE uom_id=:uomId",nativeQuery=true)
 	public int deleteUom(@Param("uomId") int uomId);
 }

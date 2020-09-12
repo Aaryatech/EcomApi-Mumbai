@@ -7,9 +7,18 @@
 package com.ats.ecomapi.master.model;
 
 import javax.persistence.Column;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+@Entity
+@Table(name = "m_tax")
 public class Tax {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	@Column(name = "tax_id")
 	private int taxId;
 	
@@ -26,7 +35,7 @@ public class Tax {
 	private float cgstPer;
 	
 	@Column(name = "sgst_per")
-	private float sgst_per;
+	private float sgstPer;
 	
 	@Column(name = "igst_per")
 	private float igstPer;
@@ -113,12 +122,12 @@ public class Tax {
 		this.cgstPer = cgstPer;
 	}
 
-	public float getSgst_per() {
-		return sgst_per;
+	public float getSgstPer() {
+		return sgstPer;
 	}
 
-	public void setSgst_per(float sgst_per) {
-		this.sgst_per = sgst_per;
+	public void setSgstPer(float sgstPer) {
+		this.sgstPer = sgstPer;
 	}
 
 	public float getIgstPer() {
@@ -244,7 +253,7 @@ public class Tax {
 	@Override
 	public String toString() {
 		return "Tax [taxId=" + taxId + ", taxName=" + taxName + ", taxDesc=" + taxDesc + ", hsnCode=" + hsnCode
-				+ ", cgstPer=" + cgstPer + ", sgst_per=" + sgst_per + ", igstPer=" + igstPer + ", cessPer=" + cessPer
+				+ ", cgstPer=" + cgstPer + ", sgstPer=" + sgstPer + ", igstPer=" + igstPer + ", cessPer=" + cessPer
 				+ ", totalTaxPer=" + totalTaxPer + ", companyId=" + companyId + ", isParent=" + isParent
 				+ ", allowToCopy=" + allowToCopy + ", sortNo=" + sortNo + ", isActive=" + isActive + ", delStatus="
 				+ delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1

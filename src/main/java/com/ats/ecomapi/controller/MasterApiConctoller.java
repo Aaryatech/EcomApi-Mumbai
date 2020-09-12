@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.master.model.Tax;
 import com.ats.ecomapi.master.model.Uom;
+import com.ats.ecomapi.master.repo.TaxRepo;
 import com.ats.ecomapi.master.repo.UomRepo;
 import com.ats.ecomapi.mst_model.Info;
 
@@ -20,6 +22,9 @@ public class MasterApiConctoller {
 
 	@Autowired
 	UomRepo uomRepo;
+
+	@Autowired
+	TaxRepo taxRepo;
 
 	// Created By :- Mahendra Singh
 	// Created On :- 11-09-2020
@@ -31,7 +36,7 @@ public class MasterApiConctoller {
 
 		List<Uom> list = new ArrayList<Uom>();
 		try {
-			list = uomRepo.findByDelStatusAndCompanyIdOrderByUomIdDesc(0, compId);
+			list = uomRepo.findByDelStatusAndCompanyIdOrderByUomIdDesc(1, compId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -56,7 +61,7 @@ public class MasterApiConctoller {
 		return addUom;
 
 	}
-	
+
 	// Created By :- Mahendra Singh
 	// Created On :- 11-09-2020
 	// Modified By :- NA
@@ -81,7 +86,7 @@ public class MasterApiConctoller {
 	// Modified On :- NA
 	// Descriprion :- Delete UOM
 	@RequestMapping(value = { "/deleteUomById" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteDesignationById(@RequestParam int uomId) {
+	public @ResponseBody Info deleteUomById(@RequestParam int uomId) {
 
 		Info info = new Info();
 		try {
@@ -104,5 +109,94 @@ public class MasterApiConctoller {
 	// Created On :- 12-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Tax List
+	// Descriprion :- Get All Tax List
+	@RequestMapping(value = { "/getTaxes" }, method = RequestMethod.POST)
+	public @ResponseBody List<Tax> getTaxes(@RequestParam int compId) {
+
+		List<Tax> list = new ArrayList<Tax>();
+		try {
+			list = taxRepo.findByDelStatusAndCompanyIdOrderByTaxIdDesc(1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get Active Tax List
+	@RequestMapping(value = { "/getActiveTaxes" }, method = RequestMethod.POST)
+	public @ResponseBody List<Tax> getActiveTaxes(@RequestParam int compId) {
+
+		List<Tax> list = new ArrayList<Tax>();
+		try {
+			list = taxRepo.findByDelStatusAndCompanyIdAndIsActiveOrderByTaxIdDesc(1, compId, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Save Tax
+	@RequestMapping(value = { "/saveTax" }, method = RequestMethod.POST)
+	public @ResponseBody Tax saveTax(@RequestBody Tax tax) {
+
+		Tax addTax = new Tax();
+		try {
+			addTax = taxRepo.save(tax);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return addTax;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get Sigle Tax
+	@RequestMapping(value = { "/getTaxById" }, method = RequestMethod.POST)
+	public @ResponseBody Tax getTaxById(@RequestParam int taxId) {
+
+		Tax tax = new Tax();
+		try {
+			tax = taxRepo.findByTaxId(taxId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return tax;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Delete Tax
+	@RequestMapping(value = { "/deleteTaxById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteTaxById(@RequestParam int taxId) {
+
+		Info info = new Info();
+		try {
+			int res = taxRepo.deleteTax(taxId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Tax Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Tax");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
 }

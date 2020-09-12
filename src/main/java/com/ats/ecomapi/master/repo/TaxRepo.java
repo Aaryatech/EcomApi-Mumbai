@@ -27,6 +27,6 @@ public interface TaxRepo extends JpaRepository<Tax, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE `m_tax` SET del_status=1 WHERE tax_id=:taxId",nativeQuery=true)
+	@Query(value="UPDATE `m_tax` SET del_status=0 WHERE tax_id=:taxId",nativeQuery=true)
 	int deleteTax(@Param("taxId") int taxId);
 }

@@ -72,7 +72,7 @@ public class AccessRightServiceImpl implements AccessRightService {
 	@Override
 	public List<AssignRoleDetailList> getAllAccessRole() {
 
-		return assignRoleDetailListRepository.findByDelStatusOrderByRoleIdDesc(0);
+		return assignRoleDetailListRepository.findByDelStatusOrderByRoleIdDesc(1);
 	}
 
 	@Override

@@ -139,12 +139,14 @@ public class AccessRightApiController {
 	
 	@RequestMapping(value = { "/updateRoleOfUser" }, method = RequestMethod.POST)
 	@ResponseBody
-	public Info updateRoleOfUser(@RequestParam("userIdList") List<String> userIdList,@RequestParam("roleId") int roleId) {
+	public Info updateRoleOfUser(@RequestParam("userIdList") List<String> userIdList,@RequestParam("roleId") int roleId,
+			@RequestParam("makerUserId") int makerUserId ,
+			@RequestParam("makerDttime")String makerDttime) {
 
 		Info info = new Info();
 		try {
 			
-			int update =userListRepository.updateRoleId(roleId,userIdList);
+			int update =userListRepository.updateRoleId(roleId, userIdList, makerUserId, makerDttime);
 			info.setError(false);
 			info.setMessage("update");
 			

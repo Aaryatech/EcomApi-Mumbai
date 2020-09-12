@@ -45,6 +45,7 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 			+ " WHERE user_id IN (:userIdList) and del_status=1 ", nativeQuery = true)
 
 	int updateRoleId(@Param("roleId") int roleId, 
-			@Param("userIdList") List<String> userIdList);
+			@Param("userIdList") List<String> userIdList,
+			@Param("makerUserId") int makerUserId,@Param("makerDttime") String makerDttime);
 	
 }

@@ -11,15 +11,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.master.model.Uom;
+import com.ats.ecomapi.master.repo.UomRepo;
 import com.ats.ecomapi.mst_model.Info;
-import com.ats.ecomapi.mst_model.Uom;
-import com.ats.ecomapi.mst_repo.UomRepo;
 
 @RestController
 public class MasterApiConctoller {
 
-	@Autowired UomRepo uomRepo;
-	
+	@Autowired
+	UomRepo uomRepo;
+
+	// Created By :- Mahendra Singh
+	// Created On :- 11-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get UOM List
 	@RequestMapping(value = { "/getUoms" }, method = RequestMethod.POST)
 	public @ResponseBody List<Uom> getUoms(@RequestParam int compId) {
 
@@ -32,7 +38,12 @@ public class MasterApiConctoller {
 		return list;
 
 	}
-	
+
+	// Created By :- Mahendra Singh
+	// Created On :- 11-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Save UOM
 	@RequestMapping(value = { "/saveUom" }, method = RequestMethod.POST)
 	public @ResponseBody Uom saveUom(@RequestBody Uom uom) {
 
@@ -46,6 +57,11 @@ public class MasterApiConctoller {
 
 	}
 	
+	// Created By :- Mahendra Singh
+	// Created On :- 11-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get Single UOM
 	@RequestMapping(value = { "/getUomById" }, method = RequestMethod.POST)
 	public @ResponseBody Uom getUomById(@RequestParam int uomId) {
 
@@ -58,7 +74,12 @@ public class MasterApiConctoller {
 		return uom;
 
 	}
-	
+
+	// Created By :- Mahendra Singh
+	// Created On :- 11-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Delete UOM
 	@RequestMapping(value = { "/deleteUomById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteDesignationById(@RequestParam int uomId) {
 
@@ -77,5 +98,11 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
-	
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get Tax List
 }

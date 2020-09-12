@@ -1,3 +1,9 @@
+// Created By :- Mahendra Singh
+// Created On :- 12-09-2020
+// Modified By :- NA
+// Modified On :- NA
+// For :- UOM Module
+
 package com.ats.ecomapi.master.model;
 
 import javax.persistence.Column;

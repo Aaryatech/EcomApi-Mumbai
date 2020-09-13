@@ -38,7 +38,8 @@ public class SPController {
 		User loginUser = new User();
 		int userId = 0;
 		try {
-
+			System.err.println("Username ----------- "+userName);
+			System.err.println("Password ----------- "+pass);
 			// Check if user name exists
 			// User name should be case in sensitive
 			try {

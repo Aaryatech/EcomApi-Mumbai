@@ -117,6 +117,7 @@ public class ProductMaster {
 	private String updtDttime;
 	
 	private String insertDttime;
+	private int copyItemId;
 	
 	public int getProductId() {
 		return productId;
@@ -473,7 +474,12 @@ public class ProductMaster {
 	public void setInsertDttime(String insertDttime) {
 		this.insertDttime = insertDttime;
 	}
-	
+	public int getCopyItemId() {
+		return copyItemId;
+	}
+	public void setCopyItemId(int copyItemId) {
+		this.copyItemId = copyItemId;
+	}
 	@Override
 	public String toString() {
 		return "ProductMaster [productId=" + productId + ", productCode=" + productCode + ", productName=" + productName
@@ -495,7 +501,8 @@ public class ProductMaster {
 				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
 				+ ", exVar4=" + exVar4 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3
 				+ ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + ", makerUserId=" + makerUserId + ", updtDttime="
-				+ updtDttime + ", insertDttime=" + insertDttime + "]";
+				+ updtDttime + ", insertDttime=" + insertDttime + ", copyItemId=" + copyItemId + "]";
 	}
+	
 	
 }

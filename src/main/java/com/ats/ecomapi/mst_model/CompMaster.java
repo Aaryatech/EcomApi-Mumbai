@@ -9,62 +9,82 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 //Sachin 10-09-2020
+
+//Harsha 14-09-2020 Modified
+
 @Entity
-@Table(name="company_mst")
+@Table(name="m_company")
 public class CompMaster {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int companyId;
-	
 	private String companyName;
-	private String companyType;
-	
+	private int companyType;
 	private int parentCompId;
 	private String compAddress;
-	private String compCity;
+	private int compCity;
 	private String compState;
 	private String compContactNo;
 	private String compEmailAddress;
 	private String compGstNo;
 	private String compStateGstCode;
 	private String compWebsite;
-	
 	private String compBankName;
 	private String compBankBranchName;
 	private String compBankIfsc;
 	private String compBankAccNo;
-	
 	private String compCinNo;
 	private String compFdaNo;
 	private String compFdaDeclarText;
 	private String compPanNo;
-	
 	private Date compOpeningDate;
+	
+	private String paymentGatewayLink ;
+	
+	
+	private int  paymentGatewayApplicable;
 	
 	private int isActive;
 	private int delStatus;
-	
 	private int makerUserId;
 	private String updtDttime;
-	
 	private String insertDttime;
-	
 	private int exInt1;
 	private int exInt2;
 	private int exInt3;
-	
 	private String exVar1;
 	private String exVar2;
 	private String exVar3;
 	private String exVar4;
-	
 	private float exFloat1;
 	private float exFloat2;
 	private float exFloat3;
-	
 	private Date exDate1;
 	private Date exDate2;
+	
+	
+	private String companyLogo ;
+	
+	private String companyPrefix ;
+	
+	
+	private int compGstType;
+	
+	
+	
+	public String getPaymentGatewayLink() {
+		return paymentGatewayLink;
+	}
+	public void setPaymentGatewayLink(String paymentGatewayLink) {
+		this.paymentGatewayLink = paymentGatewayLink;
+	}
+	public int getPaymentGatewayApplicable() {
+		return paymentGatewayApplicable;
+	}
+	public void setPaymentGatewayApplicable(int paymentGatewayApplicable) {
+		this.paymentGatewayApplicable = paymentGatewayApplicable;
+	}
 	public int getCompanyId() {
 		return companyId;
 	}
@@ -77,10 +97,10 @@ public class CompMaster {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
-	public String getCompanyType() {
+	public Integer getCompanyType() {
 		return companyType;
 	}
-	public void setCompanyType(String companyType) {
+	public void setCompanyType(Integer companyType) {
 		this.companyType = companyType;
 	}
 	public int getParentCompId() {
@@ -95,10 +115,10 @@ public class CompMaster {
 	public void setCompAddress(String compAddress) {
 		this.compAddress = compAddress;
 	}
-	public String getCompCity() {
+	public Integer getCompCity() {
 		return compCity;
 	}
-	public void setCompCity(String compCity) {
+	public void setCompCity(Integer compCity) {
 		this.compCity = compCity;
 	}
 	public String getCompState() {
@@ -294,6 +314,24 @@ public class CompMaster {
 		this.exDate2 = exDate2;
 	}
 	
+	public String getCompanyLogo() {
+		return companyLogo;
+	}
+	public void setCompanyLogo(String companyLogo) {
+		this.companyLogo = companyLogo;
+	}
+	public String getCompanyPrefix() {
+		return companyPrefix;
+	}
+	public void setCompanyPrefix(String companyPrefix) {
+		this.companyPrefix = companyPrefix;
+	}
+	public int getCompGstType() {
+		return compGstType;
+	}
+	public void setCompGstType(int compGstType) {
+		this.compGstType = compGstType;
+	}
 	@Override
 	public String toString() {
 		return "CompMaster [companyId=" + companyId + ", companyName=" + companyName + ", companyType=" + companyType
@@ -303,12 +341,15 @@ public class CompMaster {
 				+ ", compWebsite=" + compWebsite + ", compBankName=" + compBankName + ", compBankBranchName="
 				+ compBankBranchName + ", compBankIfsc=" + compBankIfsc + ", compBankAccNo=" + compBankAccNo
 				+ ", compCinNo=" + compCinNo + ", compFdaNo=" + compFdaNo + ", compFdaDeclarText=" + compFdaDeclarText
-				+ ", compPanNo=" + compPanNo + ", compOpeningDate=" + compOpeningDate + ", isActive=" + isActive
-				+ ", delStatus=" + delStatus + ", makerUserId=" + makerUserId + ", updtDttime=" + updtDttime
+				+ ", compPanNo=" + compPanNo + ", compOpeningDate=" + compOpeningDate + ", paymentGatewayLink="
+				+ paymentGatewayLink + ", paymentGatewayApplicable=" + paymentGatewayApplicable + ", isActive="
+				+ isActive + ", delStatus=" + delStatus + ", makerUserId=" + makerUserId + ", updtDttime=" + updtDttime
 				+ ", insertDttime=" + insertDttime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3
 				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4
 				+ ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", exDate1="
-				+ exDate1 + ", exDate2=" + exDate2 + "]";
+				+ exDate1 + ", exDate2=" + exDate2 + ", companyLogo=" + companyLogo + ", companyPrefix=" + companyPrefix
+				+ ", compGstType=" + compGstType + "]";
 	}
+	 
 	
 }

@@ -1,60 +1,56 @@
 package com.ats.ecomapi.master.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "m_category")
-public class Category implements Serializable {
-
+@Table(name = "m_filter")
+public class MFilter {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	
-	@Column(name = "cat_id")
-	private int catId;
+	@Column(name = "filter_id")
+	private int filterId;
 
-	@Column(name = "cat_name")
-	private String catName;
+	@Column(name = "filter_name")
+	private String filterName;
 	
-	@Column(name = "cat_prefix")
-	private String catPrefix;
+	@Column(name = "filter_desc")
+	private String filterDesc;
+	
+	@Column(name = "filter_type_id")
+	private int filterTypeId;
 
-	@Column(name = "cat_desc")
-	private String catDesc;
+	@Column(name = "used_for_filter")
+	private int usedForFilter;
+	
+	@Column(name = "cost_affect")
+	private int costAffect;
+	
+	@Column(name = "used_for_description")
+	private int usedForDescription;
 	
 	@Column(name = "company_id")
 	private int companyId;
 	
 	@Column(name = "is_parent")
 	private int isParent;
-	
+
 	@Column(name = "allow_to_copy")
 	private int allowToCopy;
-
-	@Column(name = "del_status")
-	private int delStatus;
-
-	@Column(name = "image_name")
-	private String imageName;
-
+	
 	@Column(name = "sort_no")
 	private int sortNo;
 	
 	@Column(name = "is_active")
 	private int isActive;
+	
+	@Column(name = "del_status")
+	private int delStatus;
 	
 	@Column(name = "ex_int1")
 	private int exInt1;
@@ -74,36 +70,60 @@ public class Category implements Serializable {
 	@Column(name = "ex_var3")
 	private String exVar3;
 
-	public int getCatId() {
-		return catId;
+	public int getFilterId() {
+		return filterId;
 	}
 
-	public void setCatId(int catId) {
-		this.catId = catId;
+	public void setFilterId(int filterId) {
+		this.filterId = filterId;
 	}
 
-	public String getCatName() {
-		return catName;
+	public String getFilterName() {
+		return filterName;
 	}
 
-	public void setCatName(String catName) {
-		this.catName = catName;
+	public void setFilterName(String filterName) {
+		this.filterName = filterName;
 	}
 
-	public String getCatPrefix() {
-		return catPrefix;
+	public String getFilterDesc() {
+		return filterDesc;
 	}
 
-	public void setCatPrefix(String catPrefix) {
-		this.catPrefix = catPrefix;
+	public void setFilterDesc(String filterDesc) {
+		this.filterDesc = filterDesc;
 	}
 
-	public String getCatDesc() {
-		return catDesc;
+	public int getFilterTypeId() {
+		return filterTypeId;
 	}
 
-	public void setCatDesc(String catDesc) {
-		this.catDesc = catDesc;
+	public void setFilterTypeId(int filterTypeId) {
+		this.filterTypeId = filterTypeId;
+	}
+
+	public int getUsedForFilter() {
+		return usedForFilter;
+	}
+
+	public void setUsedForFilter(int usedForFilter) {
+		this.usedForFilter = usedForFilter;
+	}
+
+	public int getCostAffect() {
+		return costAffect;
+	}
+
+	public void setCostAffect(int costAffect) {
+		this.costAffect = costAffect;
+	}
+
+	public int getUsedForDescription() {
+		return usedForDescription;
+	}
+
+	public void setUsedForDescription(int usedForDescription) {
+		this.usedForDescription = usedForDescription;
 	}
 
 	public int getCompanyId() {
@@ -130,22 +150,6 @@ public class Category implements Serializable {
 		this.allowToCopy = allowToCopy;
 	}
 
-	public int getDelStatus() {
-		return delStatus;
-	}
-
-	public void setDelStatus(int delStatus) {
-		this.delStatus = delStatus;
-	}
-
-	public String getImageName() {
-		return imageName;
-	}
-
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
-	}
-
 	public int getSortNo() {
 		return sortNo;
 	}
@@ -160,6 +164,14 @@ public class Category implements Serializable {
 
 	public void setIsActive(int isActive) {
 		this.isActive = isActive;
+	}
+
+	public int getDelStatus() {
+		return delStatus;
+	}
+
+	public void setDelStatus(int delStatus) {
+		this.delStatus = delStatus;
 	}
 
 	public int getExInt1() {
@@ -212,12 +224,12 @@ public class Category implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Category [catId=" + catId + ", catName=" + catName + ", catPrefix=" + catPrefix + ", catDesc=" + catDesc
-				+ ", companyId=" + companyId + ", isParent=" + isParent + ", allowToCopy=" + allowToCopy
-				+ ", delStatus=" + delStatus + ", imageName=" + imageName + ", sortNo=" + sortNo + ", isActive="
-				+ isActive + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1
+		return "MFilter [filterId=" + filterId + ", filterName=" + filterName + ", filterDesc=" + filterDesc
+				+ ", filterTypeId=" + filterTypeId + ", usedForFilter=" + usedForFilter + ", costAffect=" + costAffect
+				+ ", usedForDescription=" + usedForDescription + ", companyId=" + companyId + ", isParent=" + isParent
+				+ ", allowToCopy=" + allowToCopy + ", sortNo=" + sortNo + ", isActive=" + isActive + ", delStatus="
+				+ delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1
 				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + "]";
 	}
-
 
 }

@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.ecomapi.master.model.Category;
 import com.ats.ecomapi.master.model.FilterTypes;
+import com.ats.ecomapi.master.model.MFilter;
 import com.ats.ecomapi.master.model.Tax;
 import com.ats.ecomapi.master.model.Uom;
 import com.ats.ecomapi.master.repo.CategoryRepo;
 import com.ats.ecomapi.master.repo.FilterTypesRepo;
+import com.ats.ecomapi.master.repo.MFilterRepo;
 import com.ats.ecomapi.master.repo.TaxRepo;
 import com.ats.ecomapi.master.repo.UomRepo;
 import com.ats.ecomapi.master.repo.UserTypeRepo;
@@ -45,6 +47,9 @@ public class MasterApiConctoller {
 
 	@Autowired
 	FilterTypesRepo filterTypeRepo;
+
+	@Autowired
+	MFilterRepo filterRepo;
 
 	// Created By :- Mahendra Singh
 	// Created On :- 11-09-2020
@@ -494,6 +499,23 @@ public class MasterApiConctoller {
 	// Created On :- 14-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
+	// Description :- Get Active Filter Types
+	@RequestMapping(value = { "/getActiveFilterTypes" }, method = RequestMethod.POST)
+	public @ResponseBody List<FilterTypes> getActiveFilterTypes(@RequestParam int compId) {
+
+		List<FilterTypes> fltrTypeList = new ArrayList<FilterTypes>();
+		try {
+			fltrTypeList = filterTypeRepo.findByDelStatusAndIsActiveAndCompanyIdOrderByFilterTypeIdDesc(1, 1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return fltrTypeList;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
 	// Description :- Get Filter Type By Id
 	@RequestMapping(value = { "/getFilterTypeById" }, method = RequestMethod.POST)
 	public @ResponseBody FilterTypes getFilterTypeById(@RequestParam int filterTypeId) {
@@ -541,6 +563,83 @@ public class MasterApiConctoller {
 			} else {
 				info.setError(true);
 				info.setMessage("Failed to Delete Filter Type");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	/*------------------------------------------------------------------------------------------------------*/
+
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Filter
+	@RequestMapping(value = { "/getAllFilter" }, method = RequestMethod.POST)
+	public @ResponseBody List<MFilter> getAllFilter(@RequestParam int compId) {
+
+		List<MFilter> filterList = new ArrayList<MFilter>();
+		try {
+			filterList = filterRepo.getAllFilters(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return filterList;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Filter By Id
+	@RequestMapping(value = { "/getFilterById" }, method = RequestMethod.POST)
+	public @ResponseBody MFilter getFilterById(@RequestParam int filterId) {
+
+		MFilter filter = new MFilter();
+		try {
+			filter = filterRepo.findByFilterId(filterId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return filter;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Save Category
+	@RequestMapping(value = { "/saveFilter" }, method = RequestMethod.POST)
+	public @ResponseBody MFilter saveFilter(@RequestBody MFilter filter) {
+
+		MFilter saveFilter = new MFilter();
+		try {
+			saveFilter = filterRepo.save(filter);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return saveFilter;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Delete Filter By Id
+	@RequestMapping(value = { "/deleteFilterById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteFilterById(@RequestParam int filterId) {
+
+		Info info = new Info();
+		try {
+			int res = filterRepo.deleteFilter(filterId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Filter Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Filter");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

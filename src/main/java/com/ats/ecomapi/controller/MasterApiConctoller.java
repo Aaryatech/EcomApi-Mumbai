@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.ecomapi.master.model.Category;
 import com.ats.ecomapi.master.model.FilterTypes;
 import com.ats.ecomapi.master.model.MFilter;
+import com.ats.ecomapi.master.model.SubCategory;
 import com.ats.ecomapi.master.model.Tax;
 import com.ats.ecomapi.master.model.Uom;
 import com.ats.ecomapi.master.repo.CategoryRepo;
 import com.ats.ecomapi.master.repo.FilterTypesRepo;
 import com.ats.ecomapi.master.repo.MFilterRepo;
+import com.ats.ecomapi.master.repo.SubCategoryRepo;
 import com.ats.ecomapi.master.repo.TaxRepo;
 import com.ats.ecomapi.master.repo.UomRepo;
 import com.ats.ecomapi.master.repo.UserTypeRepo;
@@ -50,6 +52,8 @@ public class MasterApiConctoller {
 
 	@Autowired
 	MFilterRepo filterRepo;
+	
+	@Autowired SubCategoryRepo subCatRepo;
 
 	// Created By :- Mahendra Singh
 	// Created On :- 11-09-2020
@@ -645,6 +649,25 @@ public class MasterApiConctoller {
 			e.printStackTrace();
 		}
 		return info;
+	}
+	
+	/*------------------------------------------------------------------------------------------------------*/
+
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Acive  Sub Categories
+	@RequestMapping(value = { "/getAllActiveSubCategories" }, method = RequestMethod.POST)
+	public @ResponseBody List<SubCategory> getAllActiveSubCategories(@RequestParam int compId) {
+
+		List<SubCategory> subCatList = new ArrayList<SubCategory>();
+		try {
+			subCatList = subCatRepo.getAllActiveSubcategories(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return subCatList;
 	}
 
 }

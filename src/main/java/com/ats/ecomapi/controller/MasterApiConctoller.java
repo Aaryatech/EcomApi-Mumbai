@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.ecomapi.master.model.Category;
+import com.ats.ecomapi.master.model.FilterTypes;
 import com.ats.ecomapi.master.model.Tax;
 import com.ats.ecomapi.master.model.Uom;
 import com.ats.ecomapi.master.repo.CategoryRepo;
+import com.ats.ecomapi.master.repo.FilterTypesRepo;
 import com.ats.ecomapi.master.repo.TaxRepo;
 import com.ats.ecomapi.master.repo.UomRepo;
 import com.ats.ecomapi.master.repo.UserTypeRepo;
@@ -31,21 +33,24 @@ public class MasterApiConctoller {
 
 	@Autowired
 	TaxRepo taxRepo;
-	
+
 	@Autowired
 	UserRepo userRepo;
-	
+
 	@Autowired
 	UserTypeRepo userTypeRepo;
-	
+
 	@Autowired
-	CategoryRepo catRepo; 
+	CategoryRepo catRepo;
+
+	@Autowired
+	FilterTypesRepo filterTypeRepo;
 
 	// Created By :- Mahendra Singh
 	// Created On :- 11-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get UOM List
+	// Description :- Get UOM List
 	@RequestMapping(value = { "/getUoms" }, method = RequestMethod.POST)
 	public @ResponseBody List<Uom> getUoms(@RequestParam int compId) {
 
@@ -63,7 +68,7 @@ public class MasterApiConctoller {
 	// Created On :- 11-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Save UOM
+	// Description :- Save UOM
 	@RequestMapping(value = { "/saveUom" }, method = RequestMethod.POST)
 	public @ResponseBody Uom saveUom(@RequestBody Uom uom) {
 
@@ -81,7 +86,7 @@ public class MasterApiConctoller {
 	// Created On :- 11-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Single UOM
+	// Description :- Get Single UOM
 	@RequestMapping(value = { "/getUomById" }, method = RequestMethod.POST)
 	public @ResponseBody Uom getUomById(@RequestParam int uomId) {
 
@@ -99,7 +104,7 @@ public class MasterApiConctoller {
 	// Created On :- 11-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete UOM
+	// Description :- Delete UOM
 	@RequestMapping(value = { "/deleteUomById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteUomById(@RequestParam int uomId) {
 
@@ -124,7 +129,7 @@ public class MasterApiConctoller {
 	// Created On :- 12-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get All Tax List
+	// Description :- Get All Tax List
 	@RequestMapping(value = { "/getTaxes" }, method = RequestMethod.POST)
 	public @ResponseBody List<Tax> getTaxes(@RequestParam int compId) {
 
@@ -142,7 +147,7 @@ public class MasterApiConctoller {
 	// Created On :- 12-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Active Tax List
+	// Description :- Get Active Tax List
 	@RequestMapping(value = { "/getActiveTaxes" }, method = RequestMethod.POST)
 	public @ResponseBody List<Tax> getActiveTaxes(@RequestParam int compId) {
 
@@ -160,7 +165,7 @@ public class MasterApiConctoller {
 	// Created On :- 12-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Save Tax
+	// Description :- Save Tax
 	@RequestMapping(value = { "/saveTax" }, method = RequestMethod.POST)
 	public @ResponseBody Tax saveTax(@RequestBody Tax tax) {
 
@@ -178,7 +183,7 @@ public class MasterApiConctoller {
 	// Created On :- 12-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Sigle Tax
+	// Description :- Get Sigle Tax
 	@RequestMapping(value = { "/getTaxById" }, method = RequestMethod.POST)
 	public @ResponseBody Tax getTaxById(@RequestParam int taxId) {
 
@@ -195,7 +200,7 @@ public class MasterApiConctoller {
 	// Created On :- 12-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete Tax
+	// Description :- Delete Tax
 	@RequestMapping(value = { "/deleteTaxById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteTaxById(@RequestParam int taxId) {
 
@@ -214,8 +219,13 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
-	
+
 	/*---------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Users List
 	@RequestMapping(value = { "/getAllUsers" }, method = RequestMethod.POST)
 	public @ResponseBody List<User> getAllUsers(@RequestParam int compId) {
 
@@ -228,6 +238,11 @@ public class MasterApiConctoller {
 		return userList;
 	}
 
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Users By Id
 	@RequestMapping(value = { "/getUserById" }, method = RequestMethod.POST)
 	public @ResponseBody User getUserById(@RequestParam int userId, @RequestParam int compId) {
 
@@ -240,6 +255,11 @@ public class MasterApiConctoller {
 		return user;
 	}
 
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Users By Mobile No.
 	@RequestMapping(value = { "/getUserByMobNo" }, method = RequestMethod.POST)
 	public @ResponseBody User getUserByMobNo(@RequestParam String mobNo, @RequestParam int userId) {
 
@@ -258,7 +278,12 @@ public class MasterApiConctoller {
 		}
 		return user;
 	}
-	
+
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Users By Email Id
 	@RequestMapping(value = { "/getUserByEmail" }, method = RequestMethod.POST)
 	public @ResponseBody User getUserByEmail(@RequestParam String email, @RequestParam int userId) {
 
@@ -278,6 +303,11 @@ public class MasterApiConctoller {
 		return user;
 	}
 
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Delete User
 	@RequestMapping(value = { "/deleteUserById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteUserById(@RequestParam int userId) {
 
@@ -297,6 +327,11 @@ public class MasterApiConctoller {
 		return info;
 	}
 
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Insert User in database
 	@RequestMapping(value = { "/addUser" }, method = RequestMethod.POST)
 	public @ResponseBody User addUser(@RequestBody User user) {
 
@@ -308,7 +343,13 @@ public class MasterApiConctoller {
 		}
 		return User;
 	}
+
 	/*-------------------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All User Types
 	@RequestMapping(value = { "/getAllUserTypes" }, method = RequestMethod.GET)
 	public @ResponseBody List<UserTypeMaster> getAllUserTypes() {
 
@@ -321,9 +362,13 @@ public class MasterApiConctoller {
 		return list;
 
 	}
+
 	/*--------------------------------------------------------------------------------------------*/
-	
-	
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Categories
 	@RequestMapping(value = { "/getAllCategories" }, method = RequestMethod.POST)
 	public @ResponseBody List<Category> getAllCategories(@RequestParam int compId) {
 
@@ -335,9 +380,14 @@ public class MasterApiConctoller {
 		}
 		return catList;
 	}
-	
+
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Category By Id
 	@RequestMapping(value = { "/getCatById" }, method = RequestMethod.POST)
-	public @ResponseBody Category getCatById( @RequestParam int catId) {
+	public @ResponseBody Category getCatById(@RequestParam int catId) {
 
 		Category cat = new Category();
 		try {
@@ -347,7 +397,12 @@ public class MasterApiConctoller {
 		}
 		return cat;
 	}
-	
+
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Delete Category By Id
 	@RequestMapping(value = { "/deleteCategoryById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteCategoryById(@RequestParam int catId) {
 
@@ -366,7 +421,12 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
-	
+
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Save Category
 	@RequestMapping(value = { "/saveCategory" }, method = RequestMethod.POST)
 	public @ResponseBody Category saveCategory(@RequestBody Category cat) {
 
@@ -378,7 +438,12 @@ public class MasterApiConctoller {
 		}
 		return saveCat;
 	}
-	
+
+	// Created By :- Mahendra Singh
+	// Created On :- 12-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Prefix for unique validation
 	@RequestMapping(value = { "/getCatByPrefix" }, method = RequestMethod.POST)
 	public @ResponseBody Info getSubCatByPrefix(@RequestParam("prefix") String prefix,
 			@RequestParam("catId") int catId) {
@@ -386,23 +451,101 @@ public class MasterApiConctoller {
 		Info res = new Info();
 		try {
 			Category value = new Category();
-			if(catId==0) {
-			  value = catRepo.findByCatPrefixIgnoreCase(prefix);
-			}else {
+			if (catId == 0) {
+				value = catRepo.findByCatPrefixIgnoreCase(prefix);
+			} else {
 				value = catRepo.findByCatPrefixIgnoreCaseAndCatIdNot(prefix, catId);
 			}
-			if(value!=null) {
+			if (value != null) {
 				res.setError(false);
 				res.setMessage("Prefix Found");
-			}else {
+			} else {
 				res.setError(true);
 				res.setMessage("Prefix Not  Found");
 			}
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 		return res;
 
 	}
+
+	/*------------------------------------------------------------------------------------------------------*/
+
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Filter Types
+	@RequestMapping(value = { "/getAllFilterTypes" }, method = RequestMethod.POST)
+	public @ResponseBody List<FilterTypes> getAllFilterTypes(@RequestParam int compId) {
+
+		List<FilterTypes> fltrTypeList = new ArrayList<FilterTypes>();
+		try {
+			fltrTypeList = filterTypeRepo.findByDelStatusAndCompanyIdOrderByFilterTypeIdDesc(1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return fltrTypeList;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Filter Type By Id
+	@RequestMapping(value = { "/getFilterTypeById" }, method = RequestMethod.POST)
+	public @ResponseBody FilterTypes getFilterTypeById(@RequestParam int filterTypeId) {
+
+		FilterTypes filterType = new FilterTypes();
+		try {
+			filterType = filterTypeRepo.findByFilterTypeId(filterTypeId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return filterType;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Save Filter Type
+	@RequestMapping(value = { "/saveFilterType" }, method = RequestMethod.POST)
+	public @ResponseBody FilterTypes saveFilterType(@RequestBody FilterTypes filterType) {
+
+		FilterTypes saveFilterType = new FilterTypes();
+		try {
+			saveFilterType = filterTypeRepo.save(filterType);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return saveFilterType;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Delete Filter Type By Id
+	@RequestMapping(value = { "/deleteFilterTypeById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteFilterTypeById(@RequestParam int filterTypeId) {
+
+		Info info = new Info();
+		try {
+			int res = filterTypeRepo.deleteFilterType(filterTypeId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Filter Type Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Filter Type");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
 }

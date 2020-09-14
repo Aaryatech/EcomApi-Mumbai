@@ -40,11 +40,11 @@ public interface SubCategoryRepo extends JpaRepository<SubCategory, Integer> {
 			"    m_sub_category s,\n" + 
 			"    m_category c\n" + 
 			"WHERE\n" + 
-			"    s.sub_cat_id=c.cat_id AND\n" + 
+			"    s.cat_id=c.cat_id AND\n" + 
 			"    s.del_status=1 AND\n" + 
 			"    s.is_active=1 AND\n" + 
 			"    c.del_status=1 AND\n" + 
 			"    c.is_active=1 AND\n" + 
-			"    s.company_id=: compId  ORDER BY s.sub_cat_id DESC",nativeQuery=true)
+			"    s.company_id=:compId  ORDER BY s.sub_cat_id DESC",nativeQuery=true)
 	List<SubCategory> getAllActiveSubcategories(@Param("compId") int compId);
 }

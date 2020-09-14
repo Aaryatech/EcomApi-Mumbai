@@ -96,6 +96,9 @@ public class ProductMaster {
 	
 	private String productImages; //comma sep image names
 	
+	private int isVeg; //0 Veg 1 non Veg 2 Both 14-09-2020
+	private int prepTime; //Cake Preparation time in minutes 14-09-2020
+	private int rateSettingType; //0apply_rate_per_UOM/1apply_rate_per_KG/2apply_rate_as_per _filter		
 	
 	private int exInt1;
 	private int exInt2;
@@ -119,6 +122,28 @@ public class ProductMaster {
 	private String insertDttime;
 	private int copyItemId;
 	
+	
+	
+	
+	
+	public int getIsVeg() {
+		return isVeg;
+	}
+	public void setIsVeg(int isVeg) {
+		this.isVeg = isVeg;
+	}
+	public int getPrepTime() {
+		return prepTime;
+	}
+	public void setPrepTime(int prepTime) {
+		this.prepTime = prepTime;
+	}
+	public int getRateSettingType() {
+		return rateSettingType;
+	}
+	public void setRateSettingType(int rateSettingType) {
+		this.rateSettingType = rateSettingType;
+	}
 	public int getProductId() {
 		return productId;
 	}

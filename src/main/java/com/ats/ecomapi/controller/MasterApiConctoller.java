@@ -582,11 +582,11 @@ public class MasterApiConctoller {
 	// Modified On :- NA
 	// Description :- Get All Filter
 	@RequestMapping(value = { "/getAllFilter" }, method = RequestMethod.POST)
-	public @ResponseBody List<MFilter> getAllFilter(@RequestParam int compId) {
+	public @ResponseBody List<MFilter> getAllFilter(@RequestParam int compId, @RequestParam int filterTypeId) {
 
 		List<MFilter> filterList = new ArrayList<MFilter>();
 		try {
-			filterList = filterRepo.getAllFilters(compId);
+			filterList = filterRepo.getAllFilters(compId, filterTypeId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

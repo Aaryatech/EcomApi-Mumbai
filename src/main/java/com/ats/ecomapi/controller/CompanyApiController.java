@@ -17,6 +17,7 @@ import com.ats.ecomapi.mst_model.Customer;
 import com.ats.ecomapi.mst_model.CustomerAddDetail;
 import com.ats.ecomapi.mst_model.GetCustomerInfo;
 import com.ats.ecomapi.mst_model.Info;
+import com.ats.ecomapi.mst_model.User;
 import com.ats.ecomapi.mst_repo.CompMasterRepo;
 import com.ats.ecomapi.mst_repo.CustomerAddDetailRepo;
 import com.ats.ecomapi.mst_repo.CustomerRepo;
@@ -288,12 +289,12 @@ public class CompanyApiController {
 	
 	
 	
-	@RequestMapping(value = { "/getAllCustomerDetail" }, method = RequestMethod.GET)
-	public @ResponseBody List<CustomerAddDetail> getAllCustomerDetail() {
+	@RequestMapping(value = { "/getAllCustomerDetailByCustId" }, method = RequestMethod.POST)
+	public @ResponseBody List<CustomerAddDetail> getAllCustomerDetail(@RequestParam int custId) {
 
 		List<CustomerAddDetail> list = new ArrayList<CustomerAddDetail>();
 		try {
-			list = customerAddDetailRepo.findByDelStatusOrderByCustDetailIdDesc(1);
+			list = customerAddDetailRepo.findByDelStatusAndCustIdOrderByCustDetailIdDesc(1,custId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -329,6 +330,14 @@ public class CompanyApiController {
 	}
 	@Autowired GetCustomerInfoRepo getCustomerInfoRepo;
 	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get All Customer Address Detail List
+	
+	
 	@RequestMapping(value = { "/getAllCustomerDetailInfo" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetCustomerInfo> getAllCustomerDetailInfo() {
 
@@ -342,7 +351,34 @@ public class CompanyApiController {
 
 	}
 	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Check unique Cust mobile
 	
+	
+	
+	@RequestMapping(value = { "/getCustByMobNo" }, method = RequestMethod.POST)
+	public @ResponseBody Customer getUserByMobNo(@RequestParam String mobNo, @RequestParam int userId) {
+
+		Customer user = new Customer();
+		try {
+			if (userId == 0) {
+
+				user = customerRepo.findByCustMobileNoAndDelStatus(mobNo, 1);
+			} else {
+
+				user = customerRepo.findByCustMobileNoAndDelStatusAndCustIdNot(mobNo, 1, userId);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+
 	
 
 }

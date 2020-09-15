@@ -22,7 +22,9 @@ public interface CustomerAddDetailRepo extends JpaRepository<CustomerAddDetail, 
 
 	public CustomerAddDetail findByCustDetailId(int custDetId);
 
-	public List<CustomerAddDetail> findByDelStatusOrderByCustDetailIdDesc(int i);
+ 
+ 
+	public List<CustomerAddDetail> findByDelStatusAndCustIdOrderByCustDetailIdDesc(int i, int custId);
 
 
 }

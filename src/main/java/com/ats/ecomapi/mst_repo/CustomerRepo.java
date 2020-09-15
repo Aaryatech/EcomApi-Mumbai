@@ -24,6 +24,10 @@ public interface CustomerRepo  extends JpaRepository<Customer, Integer>{
 
 	public List<Customer> findByDelStatusOrderByCustIdDesc(int i);
 
+	public Customer findByCustMobileNoAndDelStatus(String mobNo, int i);
+
+	public Customer findByCustMobileNoAndDelStatusAndCustIdNot(String mobNo, int i, int userId);
+
 
 
 }

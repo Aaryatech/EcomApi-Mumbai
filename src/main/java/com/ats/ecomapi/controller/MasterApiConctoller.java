@@ -582,16 +582,33 @@ public class MasterApiConctoller {
 	// Modified On :- NA
 	// Description :- Get All Filter
 	@RequestMapping(value = { "/getAllFilter" }, method = RequestMethod.POST)
-	public @ResponseBody List<MFilter> getAllFilter(@RequestParam int compId, @RequestParam int filterTypeId) {
+	public @ResponseBody List<MFilter> getAllFilter(@RequestParam int compId) {
 
 		List<MFilter> filterList = new ArrayList<MFilter>();
 		try {
-			filterList = filterRepo.getAllFilters(compId, filterTypeId);
+			filterList = filterRepo.getAllFilters(compId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return filterList;
 	}
+	
+	// Created By :- Mahendra Singh
+		// Created On :- 14-09-2020
+		// Modified By :- NA
+		// Modified On :- NA
+		// Description :- Get All Filter
+		@RequestMapping(value = { "/getFiltersListByTypeId" }, method = RequestMethod.POST)
+		public @ResponseBody List<MFilter> getAllFilter(@RequestParam int compId, @RequestParam int filterTypeId) {
+
+			List<MFilter> filterList = new ArrayList<MFilter>();
+			try {
+				filterList = filterRepo.getFiltersByFilterId(compId, filterTypeId);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return filterList;
+		}
 
 	// Created By :- Mahendra Singh
 	// Created On :- 14-09-2020

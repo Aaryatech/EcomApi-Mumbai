@@ -11,9 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.master.repo.GetCustomerInfoRepo;
 import com.ats.ecomapi.mst_model.CompMaster;
+import com.ats.ecomapi.mst_model.Customer;
+import com.ats.ecomapi.mst_model.CustomerAddDetail;
+import com.ats.ecomapi.mst_model.GetCustomerInfo;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_repo.CompMasterRepo;
+import com.ats.ecomapi.mst_repo.CustomerAddDetailRepo;
+import com.ats.ecomapi.mst_repo.CustomerRepo;
 
 @RestController
 public class CompanyApiController {
@@ -118,5 +124,225 @@ public class CompanyApiController {
 		}
 		return info;
 	}
+	
+	
+	
+	
+	@Autowired CustomerRepo customerRepo;
+	
+	
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Save Customer
+	
+	
+	@RequestMapping(value = { "/saveCustomer" }, method = RequestMethod.POST)
+	public @ResponseBody Customer saveCustomer(@RequestBody Customer cust) {
+		System.err.println("CompMaster***"+cust.toString());
+
+		Customer addCust = new Customer();
+		try {
+			addCust = customerRepo.save(cust);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return addCust;
+
+	}
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get Specific Customer
+	
+	
+ 
+	@RequestMapping(value = { "/getCustById" }, method = RequestMethod.POST)
+	public @ResponseBody Customer getCustById(@RequestParam int custId) {
+
+		Customer cust = new Customer();
+		try {
+			cust = customerRepo.findByCustId(custId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cust;
+
+	}
+
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get All Customer List
+	
+	
+	
+	@RequestMapping(value = { "/getAllCustomer" }, method = RequestMethod.GET)
+	public @ResponseBody List<Customer> getAllCustomer() {
+
+		List<Customer> list = new ArrayList<Customer>();
+		try {
+			list = customerRepo.findByDelStatusOrderByCustIdDesc(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Delete Customer
+	
+  
+	@RequestMapping(value = { "/deleteCustById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteCustById(@RequestParam int custId) {
+
+		Info info = new Info();
+		try {
+			int res = customerRepo.deleteCustomer(custId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Customer Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Customer");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+	
+	
+	@Autowired CustomerAddDetailRepo customerAddDetailRepo;
+	
+	
+	
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Save Customer Address Detail
+	
+	
+	@RequestMapping(value = { "/saveCustomerDet" }, method = RequestMethod.POST)
+	public @ResponseBody CustomerAddDetail saveCustomerDet(@RequestBody CustomerAddDetail custDet) {
+		System.err.println("CompMaster***"+custDet.toString());
+
+		CustomerAddDetail addCustDet = new CustomerAddDetail();
+		try {
+			addCustDet = customerAddDetailRepo.save(custDet);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return addCustDet;
+
+	}
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get Specific Customer Address Detail
+	
+	
+ 
+	@RequestMapping(value = { "/getCustDetById" }, method = RequestMethod.POST)
+	public @ResponseBody CustomerAddDetail getCustDetById(@RequestParam int custDetId) {
+
+		CustomerAddDetail cust = new CustomerAddDetail();
+		try {
+			cust = customerAddDetailRepo.findByCustDetailId(custDetId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cust;
+
+	}
+
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get All Customer Address Detail List
+	
+	
+	
+	@RequestMapping(value = { "/getAllCustomerDetail" }, method = RequestMethod.GET)
+	public @ResponseBody List<CustomerAddDetail> getAllCustomerDetail() {
+
+		List<CustomerAddDetail> list = new ArrayList<CustomerAddDetail>();
+		try {
+			list = customerAddDetailRepo.findByDelStatusOrderByCustDetailIdDesc(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Delete Customer Address Detail
+	
+  
+	@RequestMapping(value = { "/deleteCustDetById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteCustDetById(@RequestParam int custDetId) {
+
+		Info info = new Info();
+		try {
+			int res = customerAddDetailRepo.deleteCustDet(custDetId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Customer Address Detail Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Customer Address Detail");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+	@Autowired GetCustomerInfoRepo getCustomerInfoRepo;
+	
+	@RequestMapping(value = { "/getAllCustomerDetailInfo" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetCustomerInfo> getAllCustomerDetailInfo() {
+
+		List<GetCustomerInfo> list = new ArrayList<GetCustomerInfo>();
+		try {
+			list = getCustomerInfoRepo.getCustList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+	
+	
+	
 
 }

@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.master.model.Area;
+import com.ats.ecomapi.master.model.AreaCityList;
 import com.ats.ecomapi.master.model.Category;
+import com.ats.ecomapi.master.model.City;
 import com.ats.ecomapi.master.model.FilterTypes;
 import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.model.Language;
@@ -20,7 +23,10 @@ import com.ats.ecomapi.master.model.MFilter;
 import com.ats.ecomapi.master.model.SubCategory;
 import com.ats.ecomapi.master.model.Tax;
 import com.ats.ecomapi.master.model.Uom;
+import com.ats.ecomapi.master.repo.AreaCityListRepo;
+import com.ats.ecomapi.master.repo.AreaRepo;
 import com.ats.ecomapi.master.repo.CategoryRepo;
+import com.ats.ecomapi.master.repo.CityRepo;
 import com.ats.ecomapi.master.repo.FilterTypesRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.LanguageRepo;
@@ -66,6 +72,15 @@ public class MasterApiConctoller {
 
 	@Autowired
 	LanguageRepo langRepo;
+	
+	@Autowired
+	CityRepo cityRepo;
+	
+	@Autowired
+	AreaRepo areaRepo;
+	
+	@Autowired
+	AreaCityListRepo areaCityRepo;
 
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
@@ -879,4 +894,251 @@ public class MasterApiConctoller {
 		}
 		return newLang;
 	}
+	
+	/*------------------------------------------------------------------------------------*/
+	@RequestMapping(value = { "/getAllCities" }, method = RequestMethod.POST)
+	public @ResponseBody List<City> getAllCities(@RequestParam  int compId) {
+
+		List<City> cityList = new ArrayList<City>();
+		try {
+			cityList = cityRepo.findByDelStatusAndCompanyIdOrderByCityIdDesc(1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cityList;
+
+	}
+	
+	@RequestMapping(value = { "/getAllActiveCities" }, method = RequestMethod.GET)
+	public @ResponseBody List<City> getAllActiveCities() {
+
+		List<City> cityList = new ArrayList<City>();
+		try {
+			cityList = cityRepo.findByDelStatusAndIsActiveOrderByCityIdDesc(1, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cityList;
+
+	}
+	
+	@RequestMapping(value = { "/getAllCitiesByCompId" }, method = RequestMethod.POST)
+	public @ResponseBody List<City> getAllCitiesByCompId(@RequestParam int compId) {
+
+		List<City> cityList = new ArrayList<City>();
+		try {
+			cityList = cityRepo.findByDelStatusAndIsActiveAndCompanyIdOrderByCityIdDesc(1, 1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cityList;
+
+	}
+	
+	@RequestMapping(value = { "/getAllCitiesOnly" }, method = RequestMethod.POST)
+	public @ResponseBody List<City> getAllCitiesOnly(@RequestParam int compId) {
+
+		List<City> cityList = new ArrayList<City>();
+		try {
+			cityList = cityRepo.findByDelStatusAndCompanyIdAndExInt1OrderByCityIdDesc(1, compId, 0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cityList;
+
+	}
+
+	@RequestMapping(value = { "/getCityById" }, method = RequestMethod.POST)
+	public @ResponseBody City getCityById(@RequestParam int cityId) {
+
+		City city = new City();
+		try {
+			city = cityRepo.findByCityId(cityId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return city;
+
+	}
+
+	@RequestMapping(value = { "/getCityByCode" }, method = RequestMethod.POST)
+	public @ResponseBody City getCityByCode(@RequestParam String code, @RequestParam int cityId) {
+
+		City city = new City();
+		try {
+			if (cityId == 0) {
+
+				city = cityRepo.findByCityCodeIgnoreCase(code);
+			} else {
+
+				city = cityRepo.findByCityCodeIgnoreCaseAndCityIdNot(code, cityId);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return city;
+	}
+
+	@RequestMapping(value = { "/deleteCityById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteCityById(@RequestParam int cityId) {
+
+		Info info = new Info();
+		try {
+			int res = cityRepo.deleteCity(cityId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("City Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete City");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = { "/addCity" }, method = RequestMethod.POST)
+	public @ResponseBody City addCity(@RequestBody City city) {
+
+		City newCity = new City();
+		try {
+			newCity = cityRepo.save(city);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newCity;
+	}
+	
+	/*-----------------------------------------------------------------------------------------------*/
+	@RequestMapping(value = { "/getAllAreas" }, method = RequestMethod.POST)
+	public @ResponseBody List<Area> getAllArea(@RequestParam int compId) {
+
+		List<Area> areaList = new ArrayList<Area>();
+		try {
+			areaList = areaRepo.findByDelStatusAndCompanyIdAndIsActiveOrderByAreaIdDesc(1, compId, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return areaList;
+	}
+
+	@RequestMapping(value = { "/getAllAreaCityList" }, method = RequestMethod.POST)
+	public @ResponseBody List<AreaCityList> getAllAreaCityList(@RequestParam int compId) {
+
+		List<AreaCityList> areaList = new ArrayList<AreaCityList>();
+		try {
+			areaList = areaCityRepo.getAllAreaByCompId(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return areaList;
+	}
+
+	@RequestMapping(value = { "/getAreaById" }, method = RequestMethod.POST)
+	public @ResponseBody Area getAreaById(@RequestParam int areaId, @RequestParam int compId) {
+
+		Area area = new Area();
+		try {
+			area = areaRepo.findByAreaIdAndDelStatusAndCompanyId(areaId, 1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return area;
+	}
+
+	@RequestMapping(value = { "/getAreaByCode" }, method = RequestMethod.POST)
+	public @ResponseBody Area getAreaByCode(@RequestParam String code, @RequestParam int areaId,
+			@RequestParam int compId) {
+
+		Area area = new Area();
+		try {
+			if (areaId == 0) {
+
+				area = areaRepo.findByAreaCodeIgnoreCaseAndCompanyId(code, compId);
+			} else {
+
+				area = areaRepo.findByAreaCodeIgnoreCaseAndCompanyIdAndAreaIdNot(code, compId, areaId);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return area;
+	}
+
+	@RequestMapping(value = { "/deleteAreaById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteAreaById(@RequestParam int areaId) {
+
+		Info info = new Info();
+		try {
+			int res = areaRepo.deleteArea(areaId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Area Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Area");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = { "/addArea" }, method = RequestMethod.POST)
+	public @ResponseBody Area addArea(@RequestBody Area area) {
+
+		Area newArea = new Area();
+		try {
+			newArea = areaRepo.save(area);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newArea;
+	}
+
+	@RequestMapping(value = { "/getAreaByCityId" }, method = RequestMethod.POST)
+	public @ResponseBody int getAreaByCityId(@RequestParam int cityId) {
+
+		int res = 0;
+		try {
+			res = areaRepo.getMaxCountAreaCode(cityId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@RequestMapping(value = { "/getAreaByCityAndCompId" }, method = RequestMethod.POST)
+	public @ResponseBody List<Area> getAreaByCityIdAndCopmId(@RequestParam int cityId, @RequestParam int compId) {
+
+		List<Area> list = new ArrayList<Area>();
+
+		try {
+			list = areaRepo.findByCityIdAndCompanyIdAndDelStatus(cityId, compId, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@RequestMapping(value = { "/getAreaByCityIdsAndCompId" }, method = RequestMethod.POST)
+	public @ResponseBody List<Area> getAreaByCityIdAndCopmId(@RequestParam List<Integer> cityId,
+			@RequestParam int compId) {
+
+		List<Area> list = null;
+
+		try {
+			list = areaRepo.getAreaByCityIdsAndCompId(cityId, compId);
+			if (list == null) {
+				list = new ArrayList<Area>();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

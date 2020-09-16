@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,12 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.ecomapi.master.model.Category;
 import com.ats.ecomapi.master.model.FilterTypes;
+import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.model.MFilter;
 import com.ats.ecomapi.master.model.SubCategory;
 import com.ats.ecomapi.master.model.Tax;
 import com.ats.ecomapi.master.model.Uom;
 import com.ats.ecomapi.master.repo.CategoryRepo;
 import com.ats.ecomapi.master.repo.FilterTypesRepo;
+import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.MFilterRepo;
 import com.ats.ecomapi.master.repo.SubCategoryRepo;
 import com.ats.ecomapi.master.repo.TaxRepo;
@@ -52,9 +55,14 @@ public class MasterApiConctoller {
 
 	@Autowired
 	MFilterRepo filterRepo;
-	
-	@Autowired SubCategoryRepo subCatRepo;
 
+	@Autowired
+	SubCategoryRepo subCatRepo;
+
+	@Autowired
+	FranchiseRepo frRepo;
+
+	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
 	// Created On :- 11-09-2020
 	// Modified By :- NA
@@ -592,23 +600,23 @@ public class MasterApiConctoller {
 		}
 		return filterList;
 	}
-	
-	// Created By :- Mahendra Singh
-		// Created On :- 14-09-2020
-		// Modified By :- NA
-		// Modified On :- NA
-		// Description :- Get All Filter
-		@RequestMapping(value = { "/getFiltersListByTypeId" }, method = RequestMethod.POST)
-		public @ResponseBody List<MFilter> getAllFilter(@RequestParam int compId, @RequestParam int filterTypeId) {
 
-			List<MFilter> filterList = new ArrayList<MFilter>();
-			try {
-				filterList = filterRepo.getFiltersByFilterId(compId, filterTypeId);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return filterList;
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Filter
+	@RequestMapping(value = { "/getFiltersListByTypeId" }, method = RequestMethod.POST)
+	public @ResponseBody List<MFilter> getAllFilter(@RequestParam int compId, @RequestParam int filterTypeId) {
+
+		List<MFilter> filterList = new ArrayList<MFilter>();
+		try {
+			filterList = filterRepo.getFiltersByFilterId(compId, filterTypeId);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return filterList;
+	}
 
 	// Created By :- Mahendra Singh
 	// Created On :- 14-09-2020
@@ -667,14 +675,14 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
-	
+
 	/*------------------------------------------------------------------------------------------------------*/
 
 	// Created By :- Mahendra Singh
 	// Created On :- 14-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Description :- Get All Acive  Sub Categories
+	// Description :- Get All Active Sub Categories
 	@RequestMapping(value = { "/getAllActiveSubCategories" }, method = RequestMethod.POST)
 	public @ResponseBody List<SubCategory> getAllActiveSubCategories(@RequestParam int compId) {
 
@@ -687,4 +695,101 @@ public class MasterApiConctoller {
 		return subCatList;
 	}
 
+	/*------------------------------------------------------------------------------------------------------*/
+
+	// Created By :- Mahendra Singh
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Franchises
+	@RequestMapping(value = { "/getAllFranchises" }, method = RequestMethod.POST)
+	public @ResponseBody List<Franchise> getAllFranchises(@RequestParam int compId) {
+
+		List<Franchise> frList = new ArrayList<Franchise>();
+		try {
+			frList = frRepo.findByCompanyIdAndDelStatusOrderByFrIdDesc(compId, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return frList;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Franchise By Id
+	@RequestMapping(value = { "/getFranchiseById" }, method = RequestMethod.POST)
+	public @ResponseBody Franchise getFranchiseById(@RequestParam int frId) {
+
+		Franchise franchise = new Franchise();
+		try {
+			franchise = frRepo.findByFrId(frId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return franchise;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Save Franchise
+	@RequestMapping(value = { "/saveFranchise" }, method = RequestMethod.POST)
+	public @ResponseBody Franchise saveFranchise(@RequestBody Franchise franchise) {
+
+		Franchise saveFranshise = new Franchise();
+		try {
+			saveFranshise = frRepo.save(franchise);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return saveFranshise;
+	}
+	
+	
+	@RequestMapping(value = { "/getFrCnt" }, method = RequestMethod.POST)
+	public @ResponseBody int updateFrGstAndFdaDtl(@RequestParam int compId, @RequestParam String coPrefix) {
+
+		Info info = new Info();
+		int cnt = 0;
+		try {
+			cnt = frRepo.getCompCountByPrefix(compId, coPrefix);
+			if (cnt > 0) {
+				info.setError(false);
+				info.setMessage("Ok");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Delete Franchise By Id
+	@RequestMapping(value = { "/deleteFranchiseById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteFranchiseById(@RequestParam int frId) {
+
+		Info info = new Info();
+		try {
+			int res = frRepo.deleteFranchise(frId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Franchise Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Franchise");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
 }

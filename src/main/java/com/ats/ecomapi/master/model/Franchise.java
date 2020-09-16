@@ -85,13 +85,13 @@ public class Franchise {
 		
 	//Franchise Bank Details	///////////////////////////
 	@Column(name = "del_status")
-	private String delStatus;
+	private int delStatus;
 	
 	@Column(name = "company_id")
 	private int companyId;
 
 	@Column(name = "pan_no")
-	private String pan_no;
+	private String panNo;
 	
 	@Column(name = "city")
 	private String city;
@@ -344,11 +344,11 @@ public class Franchise {
 		this.isActive = isActive;
 	}
 
-	public String getDelStatus() {
+	public int getDelStatus() {
 		return delStatus;
 	}
 
-	public void setDelStatus(String delStatus) {
+	public void setDelStatus(int delStatus) {
 		this.delStatus = delStatus;
 	}
 
@@ -360,12 +360,12 @@ public class Franchise {
 		this.companyId = companyId;
 	}
 
-	public String getPan_no() {
-		return pan_no;
+	public String getPanNo() {
+		return panNo;
 	}
 
-	public void setPan_no(String pan_no) {
-		this.pan_no = pan_no;
+	public void setPanNo(String panNo) {
+		this.panNo = panNo;
 	}
 
 	public String getCity() {
@@ -616,7 +616,7 @@ public class Franchise {
 				+ ", fdaNumber=" + fdaNumber + ", gstType=" + gstType + ", gstNumber=" + gstNumber + ", pincode="
 				+ pincode + ", ownersBirthDay=" + ownersBirthDay + ", fdaLicenseDateExp=" + fdaLicenseDateExp
 				+ ", shopsLatitude=" + shopsLatitude + ", shopsLogitude=" + shopsLogitude + ", isActive=" + isActive
-				+ ", delStatus=" + delStatus + ", companyId=" + companyId + ", pan_no=" + pan_no + ", city=" + city
+				+ ", delStatus=" + delStatus + ", companyId=" + companyId + ", panNo=" + panNo + ", city=" + city
 				+ ", state=" + state + ", coBankName=" + coBankName + ", coBankBranchName=" + coBankBranchName
 				+ ", coBankIfscCode=" + coBankIfscCode + ", coBankAccNo=" + coBankAccNo
 				+ ", paymentGetwayLinkSameAsParent=" + paymentGetwayLinkSameAsParent + ", paymentGetwayLink="

@@ -16,6 +16,7 @@ import com.ats.ecomapi.master.model.Area;
 import com.ats.ecomapi.master.model.AreaCityList;
 import com.ats.ecomapi.master.model.Category;
 import com.ats.ecomapi.master.model.City;
+import com.ats.ecomapi.master.model.DeliveryInstruction;
 import com.ats.ecomapi.master.model.FilterTypes;
 import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.model.Language;
@@ -27,6 +28,7 @@ import com.ats.ecomapi.master.repo.AreaCityListRepo;
 import com.ats.ecomapi.master.repo.AreaRepo;
 import com.ats.ecomapi.master.repo.CategoryRepo;
 import com.ats.ecomapi.master.repo.CityRepo;
+import com.ats.ecomapi.master.repo.DeliveryInstructionRepo;
 import com.ats.ecomapi.master.repo.FilterTypesRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.LanguageRepo;
@@ -81,6 +83,9 @@ public class MasterApiConctoller {
 	
 	@Autowired
 	AreaCityListRepo areaCityRepo;
+	
+	@Autowired
+	DeliveryInstructionRepo delvInstuctRepo ;
 
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
@@ -1139,6 +1144,82 @@ public class MasterApiConctoller {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	/*-------------------------------------------------------------------------------------------------*/
+	@RequestMapping(value = { "/getAllDeliveryInstructions" }, method = RequestMethod.POST)
+	public @ResponseBody List<DeliveryInstruction> getAllDeliveryInstructions(@RequestParam int compId) {
+
+		List<DeliveryInstruction> instructnList = new ArrayList<DeliveryInstruction>();
+		try {
+			instructnList = delvInstuctRepo.findByDelStatusAndCompanyIdOrderByInstruIdDesc(1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return instructnList;
+	}
+
+	@RequestMapping(value = { "/getDeliveryInstructionById" }, method = RequestMethod.POST)
+	public @ResponseBody DeliveryInstruction getDeliveryInstructionById(@RequestParam int instructId) {
+
+		DeliveryInstruction del = new DeliveryInstruction();
+		try {
+			del = delvInstuctRepo.findByInstruIdAndDelStatus(instructId, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return del;
+	}
+
+	@RequestMapping(value = { "/getDeliveryInstructionByCaptn" }, method = RequestMethod.POST)
+	public @ResponseBody DeliveryInstruction getDeliveryInstructionByCaptn(@RequestParam String caption,
+			@RequestParam int compId, @RequestParam int instructId) {
+
+		DeliveryInstruction instruct = new DeliveryInstruction();
+		try {
+			if (instructId == 0) {
+
+				instruct = delvInstuctRepo.findByInstructnCaptionIgnoreCaseAndCompanyId(caption, compId);
+			} else {
+
+				instruct = delvInstuctRepo.findByInstructnCaptionIgnoreCaseAndCompanyIdAndInstruIdNot(caption, compId, instructId);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return instruct;
+	}
+
+	@RequestMapping(value = { "/deleteDeliveryInstructnById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteDeliveryInstructnById(@RequestParam int instructId) {
+
+		Info info = new Info();
+		try {
+			int res = delvInstuctRepo.deleteDelveryInstructnById(instructId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Delivery Instruction Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Delivery Instruction");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = { "/addDeliveryInstrunctn" }, method = RequestMethod.POST)
+	public @ResponseBody DeliveryInstruction addDeliveryInstrunctn(@RequestBody DeliveryInstruction instructn) {
+
+		DeliveryInstruction newinstructn = new DeliveryInstruction();
+		try {
+			newinstructn = delvInstuctRepo.save(instructn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newinstructn;
 	}
 
 }

@@ -19,6 +19,8 @@ import com.ats.ecomapi.master.model.City;
 import com.ats.ecomapi.master.model.DeliveryInstruction;
 import com.ats.ecomapi.master.model.FilterTypes;
 import com.ats.ecomapi.master.model.Franchise;
+import com.ats.ecomapi.master.model.GrievencesInstruction;
+import com.ats.ecomapi.master.model.GrievencesTypeInstructn;
 import com.ats.ecomapi.master.model.Language;
 import com.ats.ecomapi.master.model.MFilter;
 import com.ats.ecomapi.master.model.SubCategory;
@@ -31,6 +33,8 @@ import com.ats.ecomapi.master.repo.CityRepo;
 import com.ats.ecomapi.master.repo.DeliveryInstructionRepo;
 import com.ats.ecomapi.master.repo.FilterTypesRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
+import com.ats.ecomapi.master.repo.GrievencesInstructionRepo;
+import com.ats.ecomapi.master.repo.GrievencesTypeInstructnRepo;
 import com.ats.ecomapi.master.repo.LanguageRepo;
 import com.ats.ecomapi.master.repo.MFilterRepo;
 import com.ats.ecomapi.master.repo.SubCategoryRepo;
@@ -85,7 +89,13 @@ public class MasterApiConctoller {
 	AreaCityListRepo areaCityRepo;
 	
 	@Autowired
-	DeliveryInstructionRepo delvInstuctRepo ;
+	DeliveryInstructionRepo delvInstuctRepo;
+	
+	@Autowired 
+	GrievencesTypeInstructnRepo grievTypeInstructRepo;
+	
+	@Autowired 
+	GrievencesInstructionRepo grievanceRepo;
 
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
@@ -1220,6 +1230,173 @@ public class MasterApiConctoller {
 			e.printStackTrace();
 		}
 		return newinstructn;
+	}
+	
+	
+	/*----------------------------------------------------------------------------------*/	
+	@RequestMapping(value = { "/getAllGrievTypeInstruct" }, method = RequestMethod.POST)
+	public @ResponseBody List<GrievencesTypeInstructn> getAllGrievTypeInstruct(@RequestParam int compId) {
+
+		List<GrievencesTypeInstructn> grievTypeList = new ArrayList<GrievencesTypeInstructn>();
+		try {
+			grievTypeList = grievTypeInstructRepo.findByDelStatusAndCompanyIdOrderByGrevTypeIdDesc(1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return grievTypeList;
+	}
+	
+	@RequestMapping(value = { "/getAllGrievType" }, method = RequestMethod.GET)
+	public @ResponseBody List<GrievencesTypeInstructn> getAllGrievType() {
+
+		List<GrievencesTypeInstructn> grievTypeList = new ArrayList<GrievencesTypeInstructn>();
+		try {
+			grievTypeList = grievTypeInstructRepo.findByDelStatusOrderByGrevTypeIdDesc(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return grievTypeList;
+	}
+
+	@RequestMapping(value = { "/getGrievTypeInstructById" }, method = RequestMethod.POST)
+	public @ResponseBody GrievencesTypeInstructn getGrievTypeInstructById(@RequestParam int grievTypeId,
+			@RequestParam int compId) {
+
+		GrievencesTypeInstructn griev = new GrievencesTypeInstructn();
+		try {
+			griev = grievTypeInstructRepo.findByDelStatusAndGrevTypeIdAndCompanyId(1, grievTypeId, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return griev;
+	}
+
+	@RequestMapping(value = { "/getGrievTypeInstructByCaptn" }, method = RequestMethod.POST)
+	public @ResponseBody GrievencesTypeInstructn getGrievTypeInstructByCaptn(@RequestParam String caption,
+			@RequestParam int compId, @RequestParam int grievTypeId) {
+
+		GrievencesTypeInstructn griev = new GrievencesTypeInstructn();
+		try {
+			if (grievTypeId == 0) {
+
+				griev = grievTypeInstructRepo.findByCaptionIgnoreCaseAndCompanyId(caption, compId);
+			} else {
+
+				griev = grievTypeInstructRepo.findByCaptionIgnoreCaseAndCompanyIdAndGrevTypeIdNot(caption, compId, grievTypeId);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return griev;
+	}
+
+	@RequestMapping(value = { "/deleteGrievTypeInstructById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteGrievTypeInstructById(@RequestParam int grievTypeId) {
+
+		Info info = new Info();
+		try {
+			int res = grievTypeInstructRepo.deleteGrievancTypeInst(grievTypeId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Delivery Type Instruction Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Delivery Type Instruction");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = { "/addGrievTypeInstruct" }, method = RequestMethod.POST)
+	public @ResponseBody GrievencesTypeInstructn addGrievTypeInstruct(@RequestBody GrievencesTypeInstructn griev) {
+
+		GrievencesTypeInstructn newGriev = new GrievencesTypeInstructn();
+		try {
+			newGriev = grievTypeInstructRepo.save(griev);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newGriev;
+	}
+	
+	/*----------------------------------------------------------------------------------*/
+	@RequestMapping(value = { "/getAllGrievancesInstructns" }, method = RequestMethod.POST)
+	public @ResponseBody List<GrievencesInstruction> getAllGrievanceInstructn(@RequestParam int compId) {
+
+		List<GrievencesInstruction> grievList = new ArrayList<GrievencesInstruction>();
+		try {
+			grievList = grievanceRepo.findByDelStatusAndCompanyIdOrderByGrievanceIdDesc(1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return grievList;
+	}
+
+	@RequestMapping(value = { "/getGrievanceInstructnById" }, method = RequestMethod.POST)
+	public @ResponseBody GrievencesInstruction getGrievanceInstructnById(@RequestParam int grievanceId,
+			@RequestParam int compId) {
+
+		GrievencesInstruction grievance = new GrievencesInstruction();
+		try {
+			grievance = grievanceRepo.findByGrievanceIdAndDelStatusAndCompanyId(grievanceId, 1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return grievance;
+	}
+
+	@RequestMapping(value = { "/getGrievancenstructnByCaptn" }, method = RequestMethod.POST)
+	public @ResponseBody GrievencesInstruction getGrievancenstructnByCaptn(@RequestParam String caption,
+			@RequestParam int compId, @RequestParam int grievanceId) {
+
+		GrievencesInstruction grievance = new GrievencesInstruction();
+		try {
+			if (grievanceId == 0) {
+
+				grievance = grievanceRepo.findByCaptionIgnoreCaseAndCompanyId(caption, compId);
+			} else {
+
+				grievance = grievanceRepo.findByCaptionIgnoreCaseAndCompanyIdAndGrievanceIdNot(caption, compId, grievanceId);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return grievance;
+	}
+
+	@RequestMapping(value = { "/deleteGrievanceInstructnById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteGrievanceInstructnById(@RequestParam int grievanceId) {
+
+		Info info = new Info();
+		try {
+			int res = grievanceRepo.deleteGrievancesInstructn(grievanceId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Grievance Instruction Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Grievance Instruction");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = { "/addGrievance" }, method = RequestMethod.POST)
+	public @ResponseBody GrievencesInstruction addGrievanceInstructn(@RequestBody GrievencesInstruction grievance) {
+
+		GrievencesInstruction newGrievance = new GrievencesInstruction();
+		try {
+			newGrievance = grievanceRepo.save(grievance);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newGrievance;
 	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.ecomapi.master.model.Category;
 import com.ats.ecomapi.master.model.FilterTypes;
 import com.ats.ecomapi.master.model.Franchise;
+import com.ats.ecomapi.master.model.Language;
 import com.ats.ecomapi.master.model.MFilter;
 import com.ats.ecomapi.master.model.SubCategory;
 import com.ats.ecomapi.master.model.Tax;
@@ -22,6 +23,7 @@ import com.ats.ecomapi.master.model.Uom;
 import com.ats.ecomapi.master.repo.CategoryRepo;
 import com.ats.ecomapi.master.repo.FilterTypesRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
+import com.ats.ecomapi.master.repo.LanguageRepo;
 import com.ats.ecomapi.master.repo.MFilterRepo;
 import com.ats.ecomapi.master.repo.SubCategoryRepo;
 import com.ats.ecomapi.master.repo.TaxRepo;
@@ -61,6 +63,9 @@ public class MasterApiConctoller {
 
 	@Autowired
 	FranchiseRepo frRepo;
+
+	@Autowired
+	LanguageRepo langRepo;
 
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
@@ -747,8 +752,7 @@ public class MasterApiConctoller {
 		}
 		return saveFranshise;
 	}
-	
-	
+
 	@RequestMapping(value = { "/getFrCnt" }, method = RequestMethod.POST)
 	public @ResponseBody int updateFrGstAndFdaDtl(@RequestParam int compId, @RequestParam String coPrefix) {
 
@@ -791,5 +795,88 @@ public class MasterApiConctoller {
 			e.printStackTrace();
 		}
 		return info;
+	}
+	
+	/*------------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singh
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Show Language
+	@RequestMapping(value = { "/getAllLanguages" }, method = RequestMethod.POST)
+	public @ResponseBody List<Language> getAllLanguages(@RequestParam int compId) {
+
+		List<Language> langList = new ArrayList<Language>();
+		try {
+			langList = langRepo.findByDelStatusAndCompanyId(1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return langList;
+
+	}
+
+	@RequestMapping(value = { "/getLanguageById" }, method = RequestMethod.POST)
+	public @ResponseBody Language getLanguageById(@RequestParam int langId, @RequestParam int compId) {
+
+		Language lang = new Language();
+		try {
+			lang = langRepo.findByLangIdAndDelStatusAndCompanyId(langId, 1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lang;
+
+	}
+
+	@RequestMapping(value = { "/getLanguageByCode" }, method = RequestMethod.POST)
+	public @ResponseBody Language getLanguageByCode(@RequestParam String code, @RequestParam int langId,
+			@RequestParam int compId) {
+
+		Language lang = new Language();
+		try {
+			if (langId == 0) {
+				lang = langRepo.findByLangCodeIgnoreCaseAndCompanyId(code, compId);
+			} else {
+
+				lang = langRepo.findByLangCodeIgnoreCaseAndCompanyIdAndLangIdNot(code, compId, langId);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lang;
+
+	}
+
+	@RequestMapping(value = { "/deleteLanguageById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteLanguageById(@RequestParam int langId) {
+
+		Info info = new Info();
+		try {
+			int res = langRepo.deleteLanguage(langId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Language Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Language");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = { "/addLanguage" }, method = RequestMethod.POST)
+	public @ResponseBody Language addLanguage(@RequestBody Language lang) {
+
+		Language newLang = new Language();
+		try {
+			newLang = langRepo.save(lang);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newLang;
 	}
 }

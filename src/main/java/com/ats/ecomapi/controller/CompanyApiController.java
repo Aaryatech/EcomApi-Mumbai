@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.master.model.SubCategory;
 import com.ats.ecomapi.master.repo.GetCustomerInfoRepo;
+import com.ats.ecomapi.master.repo.SubCategoryRepo;
 import com.ats.ecomapi.mst_model.CompMaster;
 import com.ats.ecomapi.mst_model.Customer;
 import com.ats.ecomapi.mst_model.CustomerAddDetail;
@@ -379,6 +381,106 @@ public class CompanyApiController {
 		return user;
 	}
 
+	
+	
+	
+	//*********************subCat*******************
+	
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Save SubCategory
+	
+	@Autowired SubCategoryRepo subCatRepo;
+
+	@RequestMapping(value = { "/saveSubCat" }, method = RequestMethod.POST)
+	public @ResponseBody SubCategory saveCustomer(@RequestBody SubCategory subCat) {
+ 
+		SubCategory addSubCat = new SubCategory();
+		try {
+			addSubCat = subCatRepo.save(subCat);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return addSubCat;
+
+	}
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get SubCategory Customer
+	
+	
+ 
+	@RequestMapping(value = { "/getSubCatById" }, method = RequestMethod.POST)
+	public @ResponseBody SubCategory getSubCatById(@RequestParam int subCatId) {
+
+		SubCategory subCat = new SubCategory();
+		try {
+			subCat = subCatRepo.findBySubCatId(subCatId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return subCat;
+
+	}
+
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get AllSubCategoryList
+	
+	
+	
+	@RequestMapping(value = { "/getAllSubCat" }, method = RequestMethod.GET)
+	public @ResponseBody List<SubCategory> getAllSubCat() {
+
+		List<SubCategory> list = new ArrayList<SubCategory>();
+		try {
+			list = subCatRepo.getAllActiveSubcategories1();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Delete SubCategory
+	
+  
+	@RequestMapping(value = { "/deleteSubCatById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteSubCatById(@RequestParam int subCatId) {
+
+		Info info = new Info();
+		try {
+			int res = subCatRepo.deleteSubCat(subCatId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("SubCategory Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete SubCategory");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
 	
 
 }

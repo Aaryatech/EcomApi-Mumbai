@@ -123,7 +123,14 @@ public class ProductMaster {
 	private int copyItemId;
 	
 	
+private int maxWt;
 	
+	public int getMaxWt() {
+		return maxWt;
+	}
+	public void setMaxWt(int maxWt) {
+		this.maxWt = maxWt;
+	}
 	
 	
 	public int getIsVeg() {
@@ -505,6 +512,7 @@ public class ProductMaster {
 	public void setCopyItemId(int copyItemId) {
 		this.copyItemId = copyItemId;
 	}
+	
 	@Override
 	public String toString() {
 		return "ProductMaster [productId=" + productId + ", productCode=" + productCode + ", productName=" + productName
@@ -522,12 +530,12 @@ public class ProductMaster {
 				+ ", typeOfBread=" + typeOfBread + ", typeOfCream=" + typeOfCream + ", layeringCream=" + layeringCream
 				+ ", toppingCream=" + toppingCream + ", productDesc=" + productDesc + ", ingerdiants=" + ingerdiants
 				+ ", applicableTags=" + applicableTags + ", companyId=" + companyId + ", prodImagePrimary="
-				+ prodImagePrimary + ", productImages=" + productImages + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
-				+ ", exVar4=" + exVar4 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3
-				+ ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + ", makerUserId=" + makerUserId + ", updtDttime="
-				+ updtDttime + ", insertDttime=" + insertDttime + ", copyItemId=" + copyItemId + "]";
+				+ prodImagePrimary + ", productImages=" + productImages + ", isVeg=" + isVeg + ", prepTime=" + prepTime
+				+ ", rateSettingType=" + rateSettingType + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3="
+				+ exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4
+				+ ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", exDate1="
+				+ exDate1 + ", exDate2=" + exDate2 + ", makerUserId=" + makerUserId + ", updtDttime=" + updtDttime
+				+ ", insertDttime=" + insertDttime + ", copyItemId=" + copyItemId + ", maxWt=" + maxWt + "]";
 	}
-	
 	
 }

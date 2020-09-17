@@ -1,6 +1,7 @@
 package com.ats.ecomapi.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.ecomapi.master.model.Category;
 import com.ats.ecomapi.master.model.CategoryProduct;
+import com.ats.ecomapi.master.model.GetRequreProduct;
 import com.ats.ecomapi.master.model.RelatedProductConfig;
 import com.ats.ecomapi.master.repo.CategoryRepo;
+import com.ats.ecomapi.master.repo.GetRequreProductRepo;
 import com.ats.ecomapi.master.repo.RelatedProductConfigRepo;
+import com.ats.ecomapi.mst_model.GetRelatedProductConfig;
+import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.ProductMaster;
+import com.ats.ecomapi.mst_repo.GetRelatedProductConfigRepo;
 import com.ats.ecomapi.mst_repo.ProductMasterRepo;
 
 @RestController
@@ -62,8 +68,8 @@ public class ProductConfigurationApiController {
 
 				System.err.println("prolist" + proList.toString());
 				catP.setProductList(proList);
-				
-				System.err.println("catp"+catP.toString());
+
+				System.err.println("catp" + catP.toString());
 				list.add(catP);
 
 			}
@@ -81,7 +87,7 @@ public class ProductConfigurationApiController {
 		List<ProductMaster> proList = new ArrayList<ProductMaster>();
 
 		try {
-			proList = productMasterRepo.findByDelStatusAndCompanyId(1,compId);
+			proList = productMasterRepo.findByDelStatusAndCompanyId(1, compId);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -89,15 +95,80 @@ public class ProductConfigurationApiController {
 		}
 		return proList;
 	}
-	
-	
+
 	@RequestMapping(value = { "/getAllProductByCatId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ProductMaster> getAllProductByCatId(@RequestParam("catId") int catId) {
 		List<ProductMaster> proList = new ArrayList<ProductMaster>();
 
 		try {
-			proList = productMasterRepo.findByDelStatusAndProdCatId(1,catId);
+			proList = productMasterRepo.findByDelStatusAndProdCatId(1, catId);
 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return proList;
+	}
+
+	@Autowired
+	GetRelatedProductConfigRepo getRelatedProductConfigRepo;
+
+	@RequestMapping(value = { "/getRelProConfigByCompId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetRelatedProductConfig> getRelProConfigByCompId(@RequestParam("compId") int compId) {
+		List<GetRelatedProductConfig> proList = new ArrayList<GetRelatedProductConfig>();
+
+		try {
+			proList = getRelatedProductConfigRepo.getCRelatedProductConfig(compId);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return proList;
+	}
+
+	@RequestMapping(value = { "/deleteProdConfig" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteUserById(@RequestParam int relatedProductId) {
+
+		Info info = new Info();
+		try {
+			int res = relatedProductConfigRepo.deleteConfig(relatedProductId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage(" Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete  ");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@Autowired
+	GetRequreProductRepo getRequreProductRepo;
+
+	@RequestMapping(value = { "/getRelProConfigByPrimaryItemId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetRequreProduct> getRelProConfigByPrimaryItemId(
+			@RequestParam("primaryItemId") int primaryItemId) {
+		List<GetRequreProduct> proList = new ArrayList<GetRequreProduct>();
+		RelatedProductConfig temp = new RelatedProductConfig();
+		try {
+			temp = relatedProductConfigRepo.findByPrimaryItemId(primaryItemId);
+
+			String ids = temp.getSecondaryItemId();
+
+			String[] elements = ids.split(",");
+
+			// step two : convert String array to list of String
+			List<String> fixedLenghtList = Arrays.asList(elements);
+
+			System.err.println(fixedLenghtList.toString());
+
+			proList = getRequreProductRepo.getAllProductCat(fixedLenghtList);
+			
+			proList.get(0).setConfigId(temp.getRelatedProductId());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

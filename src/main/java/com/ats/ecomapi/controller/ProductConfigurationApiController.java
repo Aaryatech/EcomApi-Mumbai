@@ -63,6 +63,8 @@ public class ProductConfigurationApiController {
 
 				CategoryProduct catP = new CategoryProduct();
 				catP.setCat(catList.get(i));
+				
+				System.err.println(catList.get(i).getCatId());
 				List<ProductMaster> proList = productMasterRepo.findByProdCatIdAndDelStatus(catList.get(i).getCatId(),
 						1);
 

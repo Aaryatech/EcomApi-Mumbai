@@ -41,7 +41,7 @@ public class Franchise {
 	private float frRating;
 	
 	@Column(name = "fr_city")
-	private String frCity;
+	private int frCity;
 	
 	@Column(name = "fr_email_id")
 	private String frEmailId;
@@ -240,11 +240,11 @@ public class Franchise {
 		this.frRating = frRating;
 	}
 
-	public String getFrCity() {
+	public int getFrCity() {
 		return frCity;
 	}
 
-	public void setFrCity(String frCity) {
+	public void setFrCity(int frCity) {
 		this.frCity = frCity;
 	}
 

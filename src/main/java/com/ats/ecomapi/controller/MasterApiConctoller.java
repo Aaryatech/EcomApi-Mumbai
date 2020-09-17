@@ -42,8 +42,10 @@ import com.ats.ecomapi.master.repo.TaxRepo;
 import com.ats.ecomapi.master.repo.UomRepo;
 import com.ats.ecomapi.master.repo.UserTypeRepo;
 import com.ats.ecomapi.mst_model.Info;
+import com.ats.ecomapi.mst_model.ProductMaster;
 import com.ats.ecomapi.mst_model.User;
 import com.ats.ecomapi.mst_model.UserTypeMaster;
+import com.ats.ecomapi.mst_repo.ProductMasterRepo;
 import com.ats.ecomapi.mst_repo.UserRepo;
 
 @RestController
@@ -78,24 +80,27 @@ public class MasterApiConctoller {
 
 	@Autowired
 	LanguageRepo langRepo;
-	
+
 	@Autowired
 	CityRepo cityRepo;
-	
+
 	@Autowired
 	AreaRepo areaRepo;
-	
+
 	@Autowired
 	AreaCityListRepo areaCityRepo;
-	
+
 	@Autowired
 	DeliveryInstructionRepo delvInstuctRepo;
-	
-	@Autowired 
+
+	@Autowired
 	GrievencesTypeInstructnRepo grievTypeInstructRepo;
-	
-	@Autowired 
+
+	@Autowired
 	GrievencesInstructionRepo grievanceRepo;
+
+	@Autowired
+	ProductMasterRepo productMstrRepo;
 
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
@@ -826,7 +831,7 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
-	
+
 	/*------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
 	// Created On :- 15-09-2020
@@ -909,10 +914,10 @@ public class MasterApiConctoller {
 		}
 		return newLang;
 	}
-	
+
 	/*------------------------------------------------------------------------------------*/
 	@RequestMapping(value = { "/getAllCities" }, method = RequestMethod.POST)
-	public @ResponseBody List<City> getAllCities(@RequestParam  int compId) {
+	public @ResponseBody List<City> getAllCities(@RequestParam int compId) {
 
 		List<City> cityList = new ArrayList<City>();
 		try {
@@ -923,7 +928,7 @@ public class MasterApiConctoller {
 		return cityList;
 
 	}
-	
+
 	@RequestMapping(value = { "/getAllActiveCities" }, method = RequestMethod.GET)
 	public @ResponseBody List<City> getAllActiveCities() {
 
@@ -936,7 +941,7 @@ public class MasterApiConctoller {
 		return cityList;
 
 	}
-	
+
 	@RequestMapping(value = { "/getAllCitiesByCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<City> getAllCitiesByCompId(@RequestParam int compId) {
 
@@ -949,7 +954,7 @@ public class MasterApiConctoller {
 		return cityList;
 
 	}
-	
+
 	@RequestMapping(value = { "/getAllCitiesOnly" }, method = RequestMethod.POST)
 	public @ResponseBody List<City> getAllCitiesOnly(@RequestParam int compId) {
 
@@ -1025,7 +1030,7 @@ public class MasterApiConctoller {
 		}
 		return newCity;
 	}
-	
+
 	/*-----------------------------------------------------------------------------------------------*/
 	@RequestMapping(value = { "/getAllAreas" }, method = RequestMethod.POST)
 	public @ResponseBody List<Area> getAllArea(@RequestParam int compId) {
@@ -1155,7 +1160,7 @@ public class MasterApiConctoller {
 		}
 		return list;
 	}
-	
+
 	/*-------------------------------------------------------------------------------------------------*/
 	@RequestMapping(value = { "/getAllDeliveryInstructions" }, method = RequestMethod.POST)
 	public @ResponseBody List<DeliveryInstruction> getAllDeliveryInstructions(@RequestParam int compId) {
@@ -1192,7 +1197,8 @@ public class MasterApiConctoller {
 				instruct = delvInstuctRepo.findByInstructnCaptionIgnoreCaseAndCompanyId(caption, compId);
 			} else {
 
-				instruct = delvInstuctRepo.findByInstructnCaptionIgnoreCaseAndCompanyIdAndInstruIdNot(caption, compId, instructId);
+				instruct = delvInstuctRepo.findByInstructnCaptionIgnoreCaseAndCompanyIdAndInstruIdNot(caption, compId,
+						instructId);
 			}
 
 		} catch (Exception e) {
@@ -1231,9 +1237,8 @@ public class MasterApiConctoller {
 		}
 		return newinstructn;
 	}
-	
-	
-	/*----------------------------------------------------------------------------------*/	
+
+	/*----------------------------------------------------------------------------------*/
 	@RequestMapping(value = { "/getAllGrievTypeInstruct" }, method = RequestMethod.POST)
 	public @ResponseBody List<GrievencesTypeInstructn> getAllGrievTypeInstruct(@RequestParam int compId) {
 
@@ -1245,7 +1250,7 @@ public class MasterApiConctoller {
 		}
 		return grievTypeList;
 	}
-	
+
 	@RequestMapping(value = { "/getAllGrievType" }, method = RequestMethod.GET)
 	public @ResponseBody List<GrievencesTypeInstructn> getAllGrievType() {
 
@@ -1282,7 +1287,8 @@ public class MasterApiConctoller {
 				griev = grievTypeInstructRepo.findByCaptionIgnoreCaseAndCompanyId(caption, compId);
 			} else {
 
-				griev = grievTypeInstructRepo.findByCaptionIgnoreCaseAndCompanyIdAndGrevTypeIdNot(caption, compId, grievTypeId);
+				griev = grievTypeInstructRepo.findByCaptionIgnoreCaseAndCompanyIdAndGrevTypeIdNot(caption, compId,
+						grievTypeId);
 			}
 
 		} catch (Exception e) {
@@ -1321,7 +1327,7 @@ public class MasterApiConctoller {
 		}
 		return newGriev;
 	}
-	
+
 	/*----------------------------------------------------------------------------------*/
 	@RequestMapping(value = { "/getAllGrievancesInstructns" }, method = RequestMethod.POST)
 	public @ResponseBody List<GrievencesInstruction> getAllGrievanceInstructn(@RequestParam int compId) {
@@ -1359,7 +1365,8 @@ public class MasterApiConctoller {
 				grievance = grievanceRepo.findByCaptionIgnoreCaseAndCompanyId(caption, compId);
 			} else {
 
-				grievance = grievanceRepo.findByCaptionIgnoreCaseAndCompanyIdAndGrievanceIdNot(caption, compId, grievanceId);
+				grievance = grievanceRepo.findByCaptionIgnoreCaseAndCompanyIdAndGrievanceIdNot(caption, compId,
+						grievanceId);
 			}
 
 		} catch (Exception e) {
@@ -1399,4 +1406,79 @@ public class MasterApiConctoller {
 		return newGrievance;
 	}
 
+	@RequestMapping(value = { "/getFilterIds" }, method = RequestMethod.POST)
+	public @ResponseBody String getFilterIds(@RequestParam int filterTypeId) {
+
+		String getIds = new String();
+		try {
+			if (filterTypeId == 2) {
+				getIds = productMstrRepo.getTimeSlotFilterIds();
+			} else if (filterTypeId == 4) {
+				getIds = productMstrRepo.getFlavourFilterIds();
+			} else if (filterTypeId == 6) {
+				getIds = productMstrRepo.getEventFilterIds();
+			} else if (filterTypeId == 7) {
+				getIds = productMstrRepo.getTagFilterIds();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return getIds;
+	}
+
+	@RequestMapping(value = { "/getProductsNotConfigure" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProductMaster> getProductsNotConfigure(@RequestParam int filterTypeId,
+			@RequestParam int filterId, @RequestParam int optionVal) {
+
+		List<ProductMaster> list = new ArrayList<ProductMaster>();
+		try {
+			if (optionVal == 1) {
+				if (filterTypeId == 2) {
+					list = productMstrRepo.getProductsNoTimeSlots(filterId);
+				} else if (filterTypeId == 4) {
+					list = productMstrRepo.getProductsNoFlavours(filterId);
+				} else if (filterTypeId == 6) {
+					list = productMstrRepo.getProductsNoEvents(filterId);
+				} else if (filterTypeId == 7) {
+					list = productMstrRepo.getProductsNoTags(filterId);
+				}
+			}
+			System.out.println("List--------------" + list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = { "/configProductWithFilter" }, method = RequestMethod.POST)
+	public @ResponseBody Info configProductWithFilter(@RequestParam int filterTypeId,
+			@RequestParam String filterId, @RequestParam List<Integer> prdctIdsStr) {
+
+		Info info = new Info();
+		int res = 0;
+		try {
+			System.err.println("Params----------------"+filterTypeId +"*****"+ filterId +"*****" + prdctIdsStr);
+			if (filterTypeId == 2) {
+				res = productMstrRepo.getConfigProductsTimeSlots(filterId, prdctIdsStr);
+			} else if (filterTypeId == 4) {
+				res = productMstrRepo.getConfigProductsFlavours(filterId, prdctIdsStr);
+			} else if (filterTypeId == 6) {
+				res = productMstrRepo.getConfigProductsEvents(filterId, prdctIdsStr);
+			} else if (filterTypeId == 7) {
+				res = productMstrRepo.getConfigProductsTags(filterId, prdctIdsStr);
+			}
+			
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Grievance Instruction Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Grievance Instruction");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
 }

@@ -19,7 +19,7 @@ public interface OfferConfigRepo extends JpaRepository<OfferConfig, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE mn_offer_config SET del_status=1 WHERE offer_config_id=:frOfferConfigId",nativeQuery=true)
+	@Query(value="UPDATE mn_offer_config SET del_status=0 WHERE offer_config_id=:frOfferConfigId",nativeQuery=true)
 	public int deleteOfferConfigurationById(@Param("frOfferConfigId")  int frOfferConfigId);
 
 	@Transactional

@@ -2,6 +2,7 @@ package com.ats.ecomapi.controller;
 
 import java.util.ArrayList;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ats.ecomapi.master.repo.ImagesService;
+ import com.ats.ecomapi.master.repo.ImagesService;
 import com.ats.ecomapi.mst_model.Info;
+import com.ats.ecomapi.offer.repo.CompanyServices;
 import com.ats.ecomapi.offer.repo.OfferDetailRepo;
 import com.ats.ecomapi.offer.repo.OfferHeaderRepo;
+import com.ats.ecomapi.offer_model.GetConfigureOfferList;
+import com.ats.ecomapi.offer_model.GetOfferFrConfiguredList;
 import com.ats.ecomapi.offer_model.Images;
+import com.ats.ecomapi.offer_model.OfferConfig;
 import com.ats.ecomapi.offer_model.OfferDetail;
 import com.ats.ecomapi.offer_model.OfferHeader;
 
@@ -158,6 +163,114 @@ public class OfferApiController {
 		return info;
 	}
 	
+	
+	@RequestMapping(value = { "/getAllOfferHeads" }, method = RequestMethod.POST)
+	public @ResponseBody List<OfferHeader> getAllFranchise(@RequestParam int compId) {
+
+		List<OfferHeader> frOfferList = new ArrayList<OfferHeader>();
+		try {
+			frOfferList = companyService.getFrOfferConfigList(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return frOfferList;
+	}
+
+	
+	@Autowired
+	CompanyServices companyService;
+
+	
+	
+	/************************** Fr Offer Config ********************************/
+	@RequestMapping(value = { "/getConfigureOfferList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetConfigureOfferList> getConfigureOfferList(@RequestParam int offerId) {
+
+		List<GetConfigureOfferList> frOfferList = new ArrayList<GetConfigureOfferList>();
+		try {
+			frOfferList = companyService.getConfigureOfferListById(offerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return frOfferList;
+	}
+
+	@RequestMapping(value = { "/getOfferInfoByOfferId" }, method = RequestMethod.POST)
+	public @ResponseBody OfferConfig getOfferInfoByOfferId(@RequestParam int offerId) {
+
+		OfferConfig offer = new OfferConfig();
+		try {
+			offer = companyService.getConfigureFrOfferDetailById(offerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return offer;
+	}
+
+	@RequestMapping(value = { "/addFrOfferConfiguration" }, method = RequestMethod.POST)
+	public @ResponseBody OfferConfig addFrOfferConfiguration(@RequestBody OfferConfig offer) {
+
+		OfferConfig saveOffer = new OfferConfig();
+		try {
+			saveOffer = companyService.insertFrOfferConfig(offer);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return saveOffer;
+	}
+
+	@RequestMapping(value = { "/updateFrOfferConfig" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateFrOfferConfig(@RequestParam String frIdStr, @RequestParam int offerId,
+			@RequestParam String updtTime, @RequestParam int userId) {
+
+		Info info = new Info();
+		try {
+			int res = companyService.udateFrOfferConfig(frIdStr, offerId, updtTime, userId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Update Franchisee Offer Configuration Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed Update Franchisee Offer Configuration");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = { "/deleteFrOfferConfigById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteFrOfferConfigById(@RequestParam int frOfferConfigId) {
+
+		Info info = new Info();
+		try {
+			int res = companyService.deleteFrOfferConfig(frOfferConfigId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Delete Franchisee Offer Configuration Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed To Delete Franchisee Offer Configuration");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = { "/getAllOfferFrConfiguredList" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetOfferFrConfiguredList> getAllOfferFrConfiguredList() {
+
+		List<GetOfferFrConfiguredList> offerList = new ArrayList<GetOfferFrConfiguredList>();
+		try {
+			offerList = companyService.getOfferFrConfiguredList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return offerList;
+	}
+
+	/********************************/
 	
 	@RequestMapping(value = { "/saveImage" }, method = RequestMethod.POST)
 	public @ResponseBody Images saveImage(@RequestBody Images image) {

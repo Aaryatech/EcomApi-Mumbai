@@ -45,7 +45,7 @@ public interface OfferHeaderRepo extends JpaRepository<OfferHeader, Integer> {
 			"    FROM\r\n" + 
 			"        mn_offer_config\r\n" + 
 			"    WHERE\r\n" + 
-			"        FIND_IN_SET(:frId, fr_id) AND del_status = 0\r\n" + 
+			"        FIND_IN_SET(:frId, fr_id) AND del_status = 1\r\n" + 
 			") AND IF(\r\n" + 
 			"    h.frequency_type = 1,\r\n" + 
 			"    IF(\r\n" + 

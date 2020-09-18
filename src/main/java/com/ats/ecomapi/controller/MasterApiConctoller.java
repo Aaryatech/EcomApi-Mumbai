@@ -1525,24 +1525,24 @@ public class MasterApiConctoller {
 		if (optionVal == 1) {
 			if (typeConfigId == 1) {
 				list = productMstrRepo.getProductsByNoTaxId(filterId, compId);
-				
-			}else if (typeConfigId == 2) {
+
+			} else if (typeConfigId == 2) {
 				list = productMstrRepo.getProductsByNoReturnPer(compId);
-				
+
 			} else if (typeConfigId == 3) {
 				list = productMstrRepo.getProductsByNoCakeShape(filterId, compId);
-				
+
 			}
 		} else {
 			if (typeConfigId == 1) {
 				list = productMstrRepo.getProductsByTaxId(filterId, compId);
-				
+
 			} else if (typeConfigId == 2) {
 				list = productMstrRepo.getProductsByNoReturnPer(compId);
-				
+
 			} else if (typeConfigId == 3) {
 				list = productMstrRepo.getProductsByCakeShape(filterId, compId);
-				
+
 			}
 		}
 
@@ -1552,26 +1552,36 @@ public class MasterApiConctoller {
 
 	@RequestMapping(value = { "/configProductOtherFilter" }, method = RequestMethod.POST)
 	public @ResponseBody Info configProductOtherFilter(@RequestParam int typeConfigId, @RequestParam int filterId,
-			@RequestParam List<Integer> prdctIdsStr) {
+			@RequestParam List<Integer> prdctIdsStr, @RequestParam int optnValue) {
 		Info info = new Info();
 		int res = 0;
 		try {
 			System.err.println("Params----------------" + typeConfigId + "*****" + filterId + "*****" + prdctIdsStr);
 
-			if (typeConfigId == 1) {
-				res = productMstrRepo.updateConfigProductsTax(filterId, prdctIdsStr);
+			if (optnValue == 1) {
+				if (typeConfigId == 1) {
+					res = productMstrRepo.updateConfigProductsTax(filterId, prdctIdsStr);
 
-			} else if (typeConfigId == 3) {
+				} else if (typeConfigId == 3) {
 
-				res = productMstrRepo.updateConfigProductsCakeShap(filterId, prdctIdsStr);
-			}
+					res = productMstrRepo.updateConfigProductsCakeShap(filterId, prdctIdsStr);
+				}
 
-			if (res > 0) {
-				info.setError(false);
-				info.setMessage("Product Configure Successfully");
-			} else {
-				info.setError(true);
-				info.setMessage("Failed to Configure Product");
+				if (res > 0) {
+					info.setError(false);
+					info.setMessage("Product Configure Successfully");
+				} else {
+					info.setError(true);
+					info.setMessage("Failed to Configure Product");
+				}
+			}else {
+				if (typeConfigId == 1) {
+					res = productMstrRepo.updateConfigProductsRemoveTax(prdctIdsStr);
+
+				}else if (typeConfigId == 3) {
+
+					res = productMstrRepo.updateConfigProductsRemoveCakeShap(prdctIdsStr);
+				}
 			}
 
 		} catch (Exception e) {
@@ -1582,11 +1592,12 @@ public class MasterApiConctoller {
 	}
 
 	@RequestMapping(value = { "/configProductReturnPer" }, method = RequestMethod.POST)
-	public @ResponseBody Info configProductRetunrPer( @RequestParam float returnVal, @RequestParam List<Integer> prdctIdsStr) {
+	public @ResponseBody Info configProductReturnPer(@RequestParam float returnVal,
+			@RequestParam List<Integer> prdctIdsStr) {
 		Info info = new Info();
 		int res = 0;
 		try {
-			
+
 			res = productMstrRepo.updateConfigProductsReturnPer(returnVal, prdctIdsStr);
 
 			if (res > 0) {
@@ -1603,4 +1614,6 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
+	
+	
 }

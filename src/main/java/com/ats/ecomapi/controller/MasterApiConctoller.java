@@ -1455,7 +1455,7 @@ public class MasterApiConctoller {
 					list = productMstrRepo.getProductsTags(filterId, compId);
 				}
 			}
-			System.out.println("List--------------" + list);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1469,8 +1469,7 @@ public class MasterApiConctoller {
 		Info info = new Info();
 		int res = 0;
 		try {
-			System.err.println("Params----------------" + filterTypeId + "*****" + filterId + "*****" + prdctIdsStr
-					+ "******" + optnValue);
+			
 			if (optnValue == 1) {
 				if (filterTypeId == 2) {
 					res = productMstrRepo.getConfigProductsTimeSlots(filterId, prdctIdsStr);
@@ -1527,22 +1526,32 @@ public class MasterApiConctoller {
 				list = productMstrRepo.getProductsByNoTaxId(filterId, compId);
 
 			} else if (typeConfigId == 2) {
-				list = productMstrRepo.getProductsByNoReturnPer(compId);
+				list = productMstrRepo.getProductsByReturnPer(compId);
 
 			} else if (typeConfigId == 3) {
 				list = productMstrRepo.getProductsByNoCakeShape(filterId, compId);
 
+			}else if(typeConfigId == 4){
+				list = productMstrRepo.getActiveProducts(compId);
+				
+			}else if(typeConfigId == 5){
+				list = productMstrRepo.getInActiveProducts(compId);				
 			}
 		} else {
 			if (typeConfigId == 1) {
 				list = productMstrRepo.getProductsByTaxId(filterId, compId);
 
 			} else if (typeConfigId == 2) {
-				list = productMstrRepo.getProductsByNoReturnPer(compId);
+				list = productMstrRepo.getProductsByReturnPer(compId);
 
 			} else if (typeConfigId == 3) {
 				list = productMstrRepo.getProductsByCakeShape(filterId, compId);
 
+			}else if(typeConfigId == 4){
+				list = productMstrRepo.getActiveProducts(compId);
+				
+			}else if(typeConfigId == 5){
+				list = productMstrRepo.getInActiveProducts(compId);				
 			}
 		}
 
@@ -1556,8 +1565,7 @@ public class MasterApiConctoller {
 		Info info = new Info();
 		int res = 0;
 		try {
-			System.err.println("Params----------------" + typeConfigId + "*****" + filterId + "*****" + prdctIdsStr);
-
+			
 			if (optnValue == 1) {
 				if (typeConfigId == 1) {
 					res = productMstrRepo.updateConfigProductsTax(filterId, prdctIdsStr);
@@ -1600,6 +1608,33 @@ public class MasterApiConctoller {
 
 			res = productMstrRepo.updateConfigProductsReturnPer(returnVal, prdctIdsStr);
 
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Product Configure Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Configure Product");
+			}
+
+		} catch (Exception e) {
+			System.err.println("dfdf" + e.getMessage());
+			e.printStackTrace();
+		}
+		return info;
+	}
+	
+	@RequestMapping(value = { "/configProductStatus" }, method = RequestMethod.POST)
+	public @ResponseBody Info configProductStatus(@RequestParam float typeConfigId,
+			@RequestParam List<Integer> prdctIdsStr) {
+		Info info = new Info();
+		int res = 0;
+		try {
+			if(typeConfigId==4) {				
+			res = productMstrRepo.updtProductsStatusToInActive(prdctIdsStr);
+			
+			}else {
+				res = productMstrRepo.updtProductsStatusToActive(prdctIdsStr);
+			}
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage("Product Configure Successfully");

@@ -148,8 +148,13 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 	List<ProductMaster> getProductsByNoCakeShape(@Param("filterId") int filterId, @Param("compId") int compId);
 	
 	@Query(value="SELECT * FROM `m_product` WHERE is_return_allow = 1 AND company_id=:compId",  nativeQuery=true)
-	List<ProductMaster> getProductsByNoReturnPer(@Param("compId")  int compId);
+	List<ProductMaster> getProductsByReturnPer(@Param("compId")  int compId);
+	
+	@Query(value="SELECT * FROM `m_product` WHERE is_active=1 AND company_id=:compId",nativeQuery=true)
+	List<ProductMaster> getActiveProducts(@Param("compId") int compId);
 
+	@Query(value="SELECT * FROM `m_product` WHERE is_active!=1 AND company_id=:compId",nativeQuery=true)
+	List<ProductMaster> getInActiveProducts(@Param("compId") int compId);
 	/*------------------------------------------------------------------------------------------------------------*/
 	
 	//Replace Product Other Filters(Tax, Cake Shape, Return % etc.)
@@ -180,5 +185,19 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 	@Modifying
 	@Query(value=" UPDATE m_product SET shape_id=0 WHERE product_id IN (:prdctIdsStr)",nativeQuery=true)
 	int updateConfigProductsRemoveCakeShap(List<Integer> prdctIdsStr);
+
+	@Transactional
+	@Modifying
+	@Query(value=" UPDATE m_product SET is_active=0 WHERE product_id IN (:prdctIdsStr)",nativeQuery=true)
+	int updtProductsStatusToInActive(@Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	
+	@Transactional
+	@Modifying
+	@Query(value=" UPDATE m_product SET is_active=1 WHERE product_id IN (:prdctIdsStr)",nativeQuery=true)
+	int updtProductsStatusToActive(@Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	
+	
+	
+	
 	
 }

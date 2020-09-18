@@ -1586,8 +1586,7 @@ public class MasterApiConctoller {
 		Info info = new Info();
 		int res = 0;
 		try {
-			System.err.println("Params----------------" +returnVal + "*****" + prdctIdsStr);
-
+			
 			res = productMstrRepo.updateConfigProductsReturnPer(returnVal, prdctIdsStr);
 
 			if (res > 0) {

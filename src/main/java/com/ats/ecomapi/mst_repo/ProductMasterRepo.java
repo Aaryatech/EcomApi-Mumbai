@@ -37,31 +37,31 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 
 	/*------------------------------------------------------------------------*/
 	
-	@Query(value="SELECT * FROM `m_product` WHERE NOT FIND_IN_SET (:filterId, applicable_tags)", nativeQuery=true)
-	List<ProductMaster> getProductsNoTags(@Param("filterId") int filterId);
+	@Query(value="SELECT * FROM `m_product` WHERE NOT FIND_IN_SET (:filterId, applicable_tags) AND company_id=:compId", nativeQuery=true)
+	List<ProductMaster> getProductsNoTags(@Param("filterId") int filterId, @Param("compId") int compId);
 
-	@Query(value="SELECT * FROM `m_product` WHERE NOT FIND_IN_SET (:filterId, events_ids)", nativeQuery=true)
-	List<ProductMaster> getProductsNoEvents(@Param("filterId") int filterId);
+	@Query(value="SELECT * FROM `m_product` WHERE NOT FIND_IN_SET (:filterId, events_ids) AND company_id=:compId", nativeQuery=true)
+	List<ProductMaster> getProductsNoEvents(@Param("filterId") int filterId, @Param("compId") int compId);
 
-	@Query(value="SELECT * FROM `m_product` WHERE NOT FIND_IN_SET (:filterId, flavour_ids)", nativeQuery=true)
-	List<ProductMaster> getProductsNoFlavours(@Param("filterId") int filterId);
+	@Query(value="SELECT * FROM `m_product` WHERE NOT FIND_IN_SET (:filterId, flavour_ids) AND company_id=:compId", nativeQuery=true)
+	List<ProductMaster> getProductsNoFlavours(@Param("filterId") int filterId, @Param("compId") int compId);
 
-	@Query(value="SELECT * FROM `m_product` WHERE NOT FIND_IN_SET (:filterId, same_day_time_allowed_slot)", nativeQuery=true)
-	List<ProductMaster> getProductsNoTimeSlots(@Param("filterId") int filterId);
+	@Query(value="SELECT * FROM `m_product` WHERE NOT FIND_IN_SET (:filterId, same_day_time_allowed_slot) AND company_id=:compId", nativeQuery=true)
+	List<ProductMaster> getProductsNoTimeSlots(@Param("filterId") int filterId, @Param("compId") int compId);
 
 	/*------------------------------------------------------------------------*/
 	
-	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, applicable_tags)", nativeQuery=true)
-	List<ProductMaster> getProductsTags(@Param("filterId") int filterId);
+	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, applicable_tags) AND company_id=:compId", nativeQuery=true)
+	List<ProductMaster> getProductsTags(@Param("filterId") int filterId, @Param("compId") int compId);
 
-	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, events_ids)", nativeQuery=true)
-	List<ProductMaster> getProductsEvents(@Param("filterId") int filterId);
+	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, events_ids) AND company_id=:compId", nativeQuery=true)
+	List<ProductMaster> getProductsEvents(@Param("filterId") int filterId, @Param("compId") int compId);
 
-	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, flavour_ids)", nativeQuery=true)
-	List<ProductMaster> getProductsFlavours(@Param("filterId") int filterId);
+	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, flavour_ids) AND company_id=:compId", nativeQuery=true)
+	List<ProductMaster> getProductsFlavours(@Param("filterId") int filterId, @Param("compId") int compId);
 
-	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, same_day_time_allowed_slot)", nativeQuery=true)
-	List<ProductMaster> getProductsTimeSlots(@Param("filterId") int filterId);
+	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, same_day_time_allowed_slot) AND company_id=:compId", nativeQuery=true)
+	List<ProductMaster> getProductsTimeSlots(@Param("filterId") int filterId, @Param("compId") int compId);
 	
 	/*-------------------------------------------------------------------------*/
 	@Transactional

@@ -1429,29 +1429,29 @@ public class MasterApiConctoller {
 
 	@RequestMapping(value = { "/getProductsNotConfigure" }, method = RequestMethod.POST)
 	public @ResponseBody List<ProductMaster> getProductsNotConfigure(@RequestParam int filterTypeId,
-			@RequestParam int filterId, @RequestParam int optionVal) {
+			@RequestParam int filterId, @RequestParam int optionVal , @RequestParam int compId) {
 
 		List<ProductMaster> list = new ArrayList<ProductMaster>();
 		try {
 			if (optionVal == 1) {
 				if (filterTypeId == 2) {
-					list = productMstrRepo.getProductsNoTimeSlots(filterId);
+					list = productMstrRepo.getProductsNoTimeSlots(filterId, compId);
 				} else if (filterTypeId == 4) {
-					list = productMstrRepo.getProductsNoFlavours(filterId);
+					list = productMstrRepo.getProductsNoFlavours(filterId, compId);
 				} else if (filterTypeId == 6) {
-					list = productMstrRepo.getProductsNoEvents(filterId);
+					list = productMstrRepo.getProductsNoEvents(filterId, compId);
 				} else if (filterTypeId == 7) {
-					list = productMstrRepo.getProductsNoTags(filterId);
+					list = productMstrRepo.getProductsNoTags(filterId, compId);
 				}
 			} else {
 				if (filterTypeId == 2) {
-					list = productMstrRepo.getProductsTimeSlots(filterId);
+					list = productMstrRepo.getProductsTimeSlots(filterId, compId);
 				} else if (filterTypeId == 4) {
-					list = productMstrRepo.getProductsFlavours(filterId);
+					list = productMstrRepo.getProductsFlavours(filterId, compId);
 				} else if (filterTypeId == 6) {
-					list = productMstrRepo.getProductsEvents(filterId);
+					list = productMstrRepo.getProductsEvents(filterId, compId);
 				} else if (filterTypeId == 7) {
-					list = productMstrRepo.getProductsTags(filterId);
+					list = productMstrRepo.getProductsTags(filterId, compId);
 				}
 			}
 			System.out.println("List--------------" + list);

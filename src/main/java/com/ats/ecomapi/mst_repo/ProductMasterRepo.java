@@ -130,5 +130,45 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 	@Modifying
 	@Query(value="UPDATE m_product SET applicable_tags = TRIM(BOTH ',' FROM REPLACE (REPLACE(applicable_tags, :filterId, ''),',,',',')) WHERE product_id IN(:prdctIdsStr)",nativeQuery=true)
 	int unconfigProductTags(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+
+	/*------------------------------------------------------------------------------------------------------------*/
+	
+	@Query(value="SELECT * FROM `m_product` WHERE tax_id=:filterId AND company_id=:compId", nativeQuery=true)
+	List<ProductMaster> getProductsByTaxId(@Param("filterId") int filterId, @Param("compId") int compId);
+
+	@Query(value="SELECT * FROM `m_product` WHERE shape_id=:filterId AND company_id=:compId", nativeQuery=true)
+	List<ProductMaster> getProductsByCakeShape(@Param("filterId") int filterId, @Param("compId") int compId);
+	
+	/*------------------------------------------------------------------------------------------------------------*/
+	
+	@Query(value="SELECT * FROM `m_product` WHERE tax_id!=:filterId AND company_id=:compId",  nativeQuery=true)
+	List<ProductMaster> getProductsByNoTaxId(@Param("filterId") int filterId, @Param("compId") int compId);
+
+	@Query(value="SELECT * FROM `m_product` WHERE shape_id!=:filterId AND company_id=:compId",  nativeQuery=true)
+	List<ProductMaster> getProductsByNoCakeShape(@Param("filterId") int filterId, @Param("compId") int compId);
+	
+	@Query(value="SELECT * FROM `m_product` WHERE is_return_allow = 1 AND company_id=:compId",  nativeQuery=true)
+	List<ProductMaster> getProductsByNoReturnPer(@Param("compId")  int compId);
+
+	/*------------------------------------------------------------------------------------------------------------*/
+	
+	//Replace Product Other Filters(Tax, Cake Shape, Return % etc.)
+	@Transactional
+	@Modifying
+	@Query(value=" UPDATE m_product SET tax_id=:filterId WHERE product_id IN (:prdctIdsStr) ",nativeQuery=true)
+	int updateConfigProductsTax(@Param("filterId") int filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+
+	@Transactional
+	@Modifying
+	@Query(value=" UPDATE m_product SET shape_id=:filterId WHERE product_id IN (:prdctIdsStr)",nativeQuery=true)
+	int updateConfigProductsCakeShap(@Param("filterId")  int filterId, @Param("prdctIdsStr")  List<Integer> prdctIdsStr);
+
+	@Transactional
+	@Modifying
+	@Query(value=" UPDATE m_product SET ret_per=:returnVal WHERE product_id IN (:prdctIdsStr)",nativeQuery=true)
+	int updateConfigProductsReturnPer(@Param("returnVal")  float returnVal, @Param("prdctIdsStr")  List<Integer> prdctIdsStr);
+
+
+	
 	
 }

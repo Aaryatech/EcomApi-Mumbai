@@ -1406,6 +1406,7 @@ public class MasterApiConctoller {
 		return newGrievance;
 	}
 
+	/*********************************************************************************************/
 	@RequestMapping(value = { "/getFilterIds" }, method = RequestMethod.POST)
 	public @ResponseBody String getFilterIds(@RequestParam int filterTypeId) {
 
@@ -1429,7 +1430,7 @@ public class MasterApiConctoller {
 
 	@RequestMapping(value = { "/getProductsNotConfigure" }, method = RequestMethod.POST)
 	public @ResponseBody List<ProductMaster> getProductsNotConfigure(@RequestParam int filterTypeId,
-			@RequestParam int filterId, @RequestParam int optionVal , @RequestParam int compId) {
+			@RequestParam int filterId, @RequestParam int optionVal, @RequestParam int compId) {
 
 		List<ProductMaster> list = new ArrayList<ProductMaster>();
 		try {
@@ -1480,7 +1481,7 @@ public class MasterApiConctoller {
 				} else if (filterTypeId == 7) {
 					res = productMstrRepo.getConfigProductsTags(filterId, prdctIdsStr);
 				}
-				
+
 				if (res > 0) {
 					info.setError(false);
 					info.setMessage("Product Configure Successfully");
@@ -1488,7 +1489,7 @@ public class MasterApiConctoller {
 					info.setError(true);
 					info.setMessage("Failed to Configure Product");
 				}
-			}else {
+			} else {
 				System.err.println("In Remove");
 				if (filterTypeId == 2) {
 					res = productMstrRepo.unconfigProductTimeSlots(filterId, prdctIdsStr);
@@ -1499,7 +1500,7 @@ public class MasterApiConctoller {
 				} else if (filterTypeId == 7) {
 					res = productMstrRepo.unconfigProductTags(filterId, prdctIdsStr);
 				}
-				
+
 				if (res > 0) {
 					info.setError(false);
 					info.setMessage("Product Unconfigure Successfully");
@@ -1509,8 +1510,96 @@ public class MasterApiConctoller {
 				}
 			}
 
-			
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	/***********************************************************************************/
+	@RequestMapping(value = { "/getProductsByTaxId" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProductMaster> getProductsByTaxId(@RequestParam int typeConfigId,
+			@RequestParam int filterId, @RequestParam int compId, @RequestParam int optionVal) {
+		List<ProductMaster> list = new ArrayList<ProductMaster>();
+
+		if (optionVal == 1) {
+			if (typeConfigId == 1) {
+				list = productMstrRepo.getProductsByNoTaxId(filterId, compId);
+				
+			}else if (typeConfigId == 2) {
+				list = productMstrRepo.getProductsByNoReturnPer(compId);
+				
+			} else if (typeConfigId == 3) {
+				list = productMstrRepo.getProductsByNoCakeShape(filterId, compId);
+				
+			}
+		} else {
+			if (typeConfigId == 1) {
+				list = productMstrRepo.getProductsByTaxId(filterId, compId);
+				
+			} else if (typeConfigId == 2) {
+				list = productMstrRepo.getProductsByNoReturnPer(compId);
+				
+			} else if (typeConfigId == 3) {
+				list = productMstrRepo.getProductsByCakeShape(filterId, compId);
+				
+			}
+		}
+
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/configProductOtherFilter" }, method = RequestMethod.POST)
+	public @ResponseBody Info configProductOtherFilter(@RequestParam int typeConfigId, @RequestParam int filterId,
+			@RequestParam List<Integer> prdctIdsStr) {
+		Info info = new Info();
+		int res = 0;
+		try {
+			System.err.println("Params----------------" + typeConfigId + "*****" + filterId + "*****" + prdctIdsStr);
+
+			if (typeConfigId == 1) {
+				res = productMstrRepo.updateConfigProductsTax(filterId, prdctIdsStr);
+
+			} else if (typeConfigId == 3) {
+
+				res = productMstrRepo.updateConfigProductsCakeShap(filterId, prdctIdsStr);
+			}
+
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Product Configure Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Configure Product");
+			}
+
+		} catch (Exception e) {
+			System.err.println("dfdf" + e.getMessage());
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = { "/configProductReturnPer" }, method = RequestMethod.POST)
+	public @ResponseBody Info configProductRetunrPer( @RequestParam float returnVal, @RequestParam List<Integer> prdctIdsStr) {
+		Info info = new Info();
+		int res = 0;
+		try {
+			System.err.println("Params----------------" +returnVal + "*****" + prdctIdsStr);
+
+			res = productMstrRepo.updateConfigProductsReturnPer(returnVal, prdctIdsStr);
+
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Product Configure Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Configure Product");
+			}
+
+		} catch (Exception e) {
+			System.err.println("dfdf" + e.getMessage());
 			e.printStackTrace();
 		}
 		return info;

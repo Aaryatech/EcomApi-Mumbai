@@ -168,6 +168,17 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 	@Query(value=" UPDATE m_product SET ret_per=:returnVal WHERE product_id IN (:prdctIdsStr)",nativeQuery=true)
 	int updateConfigProductsReturnPer(@Param("returnVal")  float returnVal, @Param("prdctIdsStr")  List<Integer> prdctIdsStr);
 
+/*------------------------------------------------------------------------------------------------------------*/
+	
 
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE `m_product` SET tax_id=0 WHERE product_id IN (:prdctIdsStr)",nativeQuery=true)
+	int updateConfigProductsRemoveTax(@Param("prdctIdsStr") List<Integer> prdctIdsStr);
+
+	@Transactional
+	@Modifying
+	@Query(value=" UPDATE m_product SET shape_id=0 WHERE product_id IN (:prdctIdsStr)",nativeQuery=true)
+	int updateConfigProductsRemoveCakeShap(List<Integer> prdctIdsStr);
 	
 }

@@ -183,25 +183,29 @@ public class SPController {
 	List<MFilter> filterList = new ArrayList<MFilter>();
 
 	@RequestMapping(value = { "/getProdConf" }, method = RequestMethod.POST)
-	public @ResponseBody String getProdConf(@RequestParam int compId) {
+	public @ResponseBody String getProdConf(@RequestParam int compId,@RequestParam int catId) {
 
 		filterList = new ArrayList<MFilter>();
 		try {
+			//Get Filter By Comp Id and Filter type ie 4 for Flavor
 			filterList = filterRepo.getFiltersByFilterId(compId, 4);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		try {
-			List<ProductMaster> prodList = productMasterRepo.findByProdCatIdAndDelStatus(1, 1);
+			List<ProductMaster> prodList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyId(catId, 1,compId);
 
 			for (int i = 0; i < prodList.size(); i++) {
 				List<Integer> vegNonVegList = new ArrayList<>();
 
 				if (prodList.get(i).getIsVeg() == 2) {
+					
 					vegNonVegList.add(0);
 					vegNonVegList.add(1);
+					
 				} else {
+					
 				}
 				List<TempProdConfig> tempProdConfList = new ArrayList<>();
 				System.err.println("prod Id " + prodList.get(i).getProductId());
@@ -366,5 +370,24 @@ public class SPController {
 		}
 
 		return flavList;
+	}
+	
+	
+	//get All Prod By Cat Id CompId
+	//Sachin 18-09-2020
+	
+	@RequestMapping(value = { "/getProdListByCatIdCompId" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProductMaster> getProdListByCatIdCompId(@RequestParam("catId") int catId,
+			@RequestParam("compId") int compId) {
+		List<ProductMaster> proList = new ArrayList<ProductMaster>();
+
+		try {
+			proList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyId(catId,1, compId);
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return proList;
 	}
 }

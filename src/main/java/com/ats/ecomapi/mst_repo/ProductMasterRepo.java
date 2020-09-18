@@ -9,12 +9,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.ProductMaster;
 
 public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>{
 
 	List<ProductMaster> findByProdCatIdAndDelStatus(int catId, int i);
+	List<ProductMaster> findByProdCatIdAndDelStatusAndCompanyId(int catId, int i,int companyId);
 
 	List<ProductMaster> findByDelStatus(int i);
 

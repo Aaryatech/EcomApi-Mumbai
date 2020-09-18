@@ -50,6 +50,20 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 	List<ProductMaster> getProductsNoTimeSlots(@Param("filterId") int filterId);
 
 	/*------------------------------------------------------------------------*/
+	
+	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, applicable_tags)", nativeQuery=true)
+	List<ProductMaster> getProductsTags(@Param("filterId") int filterId);
+
+	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, events_ids)", nativeQuery=true)
+	List<ProductMaster> getProductsEvents(@Param("filterId") int filterId);
+
+	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, flavour_ids)", nativeQuery=true)
+	List<ProductMaster> getProductsFlavours(@Param("filterId") int filterId);
+
+	@Query(value="SELECT * FROM `m_product` WHERE FIND_IN_SET (:filterId, same_day_time_allowed_slot)", nativeQuery=true)
+	List<ProductMaster> getProductsTimeSlots(@Param("filterId") int filterId);
+	
+	/*-------------------------------------------------------------------------*/
 	@Transactional
 	@Modifying
 	@Query(value="UPDATE\n" + 
@@ -93,4 +107,28 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 			"WHERE\n" + 
 			"    product_id IN(:prdctIdsStr)",nativeQuery=true)
 	int getConfigProductsTags(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	
+	/*----------------------------------------------------------------------------------------------------*/
+	
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE m_product SET same_day_time_allowed_slot = TRIM(BOTH ',' FROM REPLACE (REPLACE(same_day_time_allowed_slot, :filterId, ''),',,',',')) WHERE product_id IN(:prdctIdsStr)",nativeQuery=true)
+	int unconfigProductTimeSlots(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	
+	
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE m_product SET flavour_ids = TRIM(BOTH ',' FROM REPLACE (REPLACE(flavour_ids, :filterId, ''),',,',',')) WHERE product_id IN(:prdctIdsStr)",nativeQuery=true)
+	int unconfigProductFlavour(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE m_product SET events_ids = TRIM(BOTH ',' FROM REPLACE (REPLACE(events_ids, :filterId, ''),',,',',')) WHERE product_id IN(:prdctIdsStr)",nativeQuery=true)
+	int unconfigProductEvents(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE m_product SET applicable_tags = TRIM(BOTH ',' FROM REPLACE (REPLACE(applicable_tags, :filterId, ''),',,',',')) WHERE product_id IN(:prdctIdsStr)",nativeQuery=true)
+	int unconfigProductTags(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	
 }

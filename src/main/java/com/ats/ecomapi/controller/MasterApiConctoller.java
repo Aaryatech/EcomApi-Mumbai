@@ -1443,6 +1443,16 @@ public class MasterApiConctoller {
 				} else if (filterTypeId == 7) {
 					list = productMstrRepo.getProductsNoTags(filterId);
 				}
+			} else {
+				if (filterTypeId == 2) {
+					list = productMstrRepo.getProductsTimeSlots(filterId);
+				} else if (filterTypeId == 4) {
+					list = productMstrRepo.getProductsFlavours(filterId);
+				} else if (filterTypeId == 6) {
+					list = productMstrRepo.getProductsEvents(filterId);
+				} else if (filterTypeId == 7) {
+					list = productMstrRepo.getProductsTags(filterId);
+				}
 			}
 			System.out.println("List--------------" + list);
 		} catch (Exception e) {
@@ -1450,32 +1460,56 @@ public class MasterApiConctoller {
 		}
 		return list;
 	}
-	
+
 	@RequestMapping(value = { "/configProductWithFilter" }, method = RequestMethod.POST)
-	public @ResponseBody Info configProductWithFilter(@RequestParam int filterTypeId,
-			@RequestParam String filterId, @RequestParam List<Integer> prdctIdsStr) {
+	public @ResponseBody Info configProductWithFilter(@RequestParam int filterTypeId, @RequestParam String filterId,
+			@RequestParam List<Integer> prdctIdsStr, @RequestParam int optnValue) {
 
 		Info info = new Info();
 		int res = 0;
 		try {
-			System.err.println("Params----------------"+filterTypeId +"*****"+ filterId +"*****" + prdctIdsStr);
-			if (filterTypeId == 2) {
-				res = productMstrRepo.getConfigProductsTimeSlots(filterId, prdctIdsStr);
-			} else if (filterTypeId == 4) {
-				res = productMstrRepo.getConfigProductsFlavours(filterId, prdctIdsStr);
-			} else if (filterTypeId == 6) {
-				res = productMstrRepo.getConfigProductsEvents(filterId, prdctIdsStr);
-			} else if (filterTypeId == 7) {
-				res = productMstrRepo.getConfigProductsTags(filterId, prdctIdsStr);
+			System.err.println("Params----------------" + filterTypeId + "*****" + filterId + "*****" + prdctIdsStr
+					+ "******" + optnValue);
+			if (optnValue == 1) {
+				if (filterTypeId == 2) {
+					res = productMstrRepo.getConfigProductsTimeSlots(filterId, prdctIdsStr);
+				} else if (filterTypeId == 4) {
+					res = productMstrRepo.getConfigProductsFlavours(filterId, prdctIdsStr);
+				} else if (filterTypeId == 6) {
+					res = productMstrRepo.getConfigProductsEvents(filterId, prdctIdsStr);
+				} else if (filterTypeId == 7) {
+					res = productMstrRepo.getConfigProductsTags(filterId, prdctIdsStr);
+				}
+				
+				if (res > 0) {
+					info.setError(false);
+					info.setMessage("Product Configure Successfully");
+				} else {
+					info.setError(true);
+					info.setMessage("Failed to Configure Product");
+				}
+			}else {
+				System.err.println("In Remove");
+				if (filterTypeId == 2) {
+					res = productMstrRepo.unconfigProductTimeSlots(filterId, prdctIdsStr);
+				} else if (filterTypeId == 4) {
+					res = productMstrRepo.unconfigProductFlavour(filterId, prdctIdsStr);
+				} else if (filterTypeId == 6) {
+					res = productMstrRepo.unconfigProductEvents(filterId, prdctIdsStr);
+				} else if (filterTypeId == 7) {
+					res = productMstrRepo.unconfigProductTags(filterId, prdctIdsStr);
+				}
+				
+				if (res > 0) {
+					info.setError(false);
+					info.setMessage("Product Unconfigure Successfully");
+				} else {
+					info.setError(true);
+					info.setMessage("Failed to Unconfigure Product");
+				}
 			}
+
 			
-			if (res > 0) {
-				info.setError(false);
-				info.setMessage("Grievance Instruction Deleted Successfully");
-			} else {
-				info.setError(true);
-				info.setMessage("Failed to Delete Grievance Instruction");
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

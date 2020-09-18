@@ -264,6 +264,8 @@ public class OfferApiController {
 		List<GetOfferFrConfiguredList> offerList = new ArrayList<GetOfferFrConfiguredList>();
 		try {
 			offerList = companyService.getOfferFrConfiguredList();
+			
+			System.err.println();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

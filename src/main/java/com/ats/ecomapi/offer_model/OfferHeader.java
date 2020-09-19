@@ -52,6 +52,10 @@ public class OfferHeader {
 
 	@Column(name = "to_time")
 	private String toTime;
+	
+	
+	@Column(name = "offer_images")
+	private String offerImages;
 
 	@Column(name = "maker_user_id")
 	private int makerUserId;
@@ -109,6 +113,16 @@ public class OfferHeader {
 
 	@Transient
 	List<Images> imageList;
+	
+	
+
+	public String getOfferImages() {
+		return offerImages;
+	}
+
+	public void setOfferImages(String offerImages) {
+		this.offerImages = offerImages;
+	}
 
 	public int getOfferId() {
 		return offerId;
@@ -363,12 +377,15 @@ public class OfferHeader {
 		return "OfferHeader [offerId=" + offerId + ", offerName=" + offerName + ", offerDesc=" + offerDesc + ", type="
 				+ type + ", applicableFor=" + applicableFor + ", offerType=" + offerType + ", frequencyType="
 				+ frequencyType + ", frequency=" + frequency + ", fromDate=" + fromDate + ", toDate=" + toDate
-				+ ", fromTime=" + fromTime + ", toTime=" + toTime + ", makerUserId=" + makerUserId + ", makerDatetime="
-				+ makerDatetime + ", lastUpdatedDatetime=" + lastUpdatedDatetime + ", compId=" + compId + ", isActive="
-				+ isActive + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3="
-				+ exInt3 + ", exInt4=" + exInt4 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
-				+ ", exVar4=" + exVar4 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3
-				+ ", exFloat4=" + exFloat4 + ", imageList=" + imageList + "]";
+				+ ", fromTime=" + fromTime + ", toTime=" + toTime + ", offerImages=" + offerImages + ", makerUserId="
+				+ makerUserId + ", makerDatetime=" + makerDatetime + ", lastUpdatedDatetime=" + lastUpdatedDatetime
+				+ ", compId=" + compId + ", isActive=" + isActive + ", delStatus=" + delStatus + ", exInt1=" + exInt1
+				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exInt4=" + exInt4 + ", exVar1=" + exVar1
+				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + ", exFloat1=" + exFloat1
+				+ ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", exFloat4=" + exFloat4 + ", imageList="
+				+ imageList + "]";
 	}
+
+	 
 
 }

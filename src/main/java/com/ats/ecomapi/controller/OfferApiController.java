@@ -176,6 +176,25 @@ public class OfferApiController {
 		return frOfferList;
 	}
 
+	@RequestMapping(value = { "/updateOfferImg" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateOfferImg(@RequestParam("filesList") String filesList,@RequestParam("offerId") int offerId) {
+
+		Info info = new Info();
+
+		int res = offerHeaderRepo.updateImage(filesList,offerId);
+		if (res > 0) {
+			info.setError(false);
+			info.setMessage("Success");
+		} else {
+			info.setError(true);
+			info.setMessage("Failed");
+		}
+
+		return info;
+	}
+	
+	
+	
 	
 	@Autowired
 	CompanyServices companyService;

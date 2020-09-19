@@ -64,4 +64,11 @@ public interface OfferHeaderRepo extends JpaRepository<OfferHeader, Integer> {
 			"        ) = 1 AND CURTIME() BETWEEN h.from_time AND h.to_time AND FIND_IN_SET(:applicableFor, h.applicable_for) AND h.type = :type", nativeQuery = true)
 	List<OfferHeader> getOfferHeaderByFr(@Param("frId") int frId, @Param("type") int type, @Param("applicableFor") int applicableFor);
 
+	
+	
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE mn_offer_header SET offer_images=:filesList WHERE offer_id =:offerId",nativeQuery=true)
+	public int updateImage(@Param("filesList") String filesList,@Param("offerId") int offerId);
+
 }

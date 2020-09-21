@@ -34,6 +34,12 @@ public interface OfferHeaderRepo extends JpaRepository<OfferHeader, Integer> {
 	public int deleteOfferHeader(@Param("offerId") int offerId,@Param("status") int status);
 	
 	
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE mn_offer_header SET offer_images = TRIM(BOTH ',' FROM REPLACE(REPLACE(offer_images,:imageName, ''), ',,', ',')) WHERE offer_id=:offerId",nativeQuery=true)
+	public int removeImage(@Param("imageName") String imageName,@Param("offerId") int offerId);
+	
+	
 	@Query(value = "SELECT\r\n" + 
 			"    *\r\n" + 
 			"FROM\r\n" + 

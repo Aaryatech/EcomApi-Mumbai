@@ -107,7 +107,7 @@ public class OfferApiController {
 	@RequestMapping(value = { "/getAllOfferHeaderListByCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<OfferHeader> getAllOfferHeaderListByCompId(@RequestParam("compId") int compId) {
 
-		List<OfferHeader> res = offerHeaderRepo.findByCompIdAndDelStatusAndIsActive(compId, 0, 0);
+		List<OfferHeader> res = offerHeaderRepo.findByCompIdAndDelStatusAndIsActive(compId, 1, 1);
 
 		if (res == null) {
 			res = new ArrayList<>();
@@ -120,7 +120,7 @@ public class OfferApiController {
 	@RequestMapping(value = { "/getOfferDetailListByOfferId" }, method = RequestMethod.POST)
 	public @ResponseBody List<OfferDetail> getOfferDetailListByOfferId(@RequestParam("offerId") int offerId) {
 
-		List<OfferDetail> res = offerDetailRepo.findAllByOfferIdAndIsActiveAndDelStatus(offerId, 0, 0);
+		List<OfferDetail> res = offerDetailRepo.findAllByOfferIdAndIsActiveAndDelStatus(offerId, 1, 1);
 
 		if (res == null) {
 			res = new ArrayList<>();
@@ -310,10 +310,59 @@ public class OfferApiController {
 	// Author-Anmol Shirke Created On-16-07-2020
 	// Desc- Returns Images list - get all images by docId and delete status=0.
 	@RequestMapping(value = { "/getImagesByDocIdAndDocType" }, method = RequestMethod.POST)
-	public @ResponseBody List<Images> getImagesByDocId(@RequestParam int docId, int docType) {
-		List<Images> res = imagesService.getImageListByDocIdAndDocType(docId, docType);
-		return res;
+	public @ResponseBody List<String> getImagesByDocId(@RequestParam int selectId) {
+		/*
+		 * List<Images> res = imagesService.getImageListByDocIdAndDocType(docId,
+		 * docType); return res;
+		 */
+		
+		List<String> convertedRankList = new ArrayList<String>();
+	 
+		try {
+			OfferHeader res = offerHeaderRepo.findByOfferId(selectId);
+
+			if(res!=null) {
+				String[] convertedRankArray = res.getOfferImages().split(",");
+			
+				for (String number : convertedRankArray) {
+				    convertedRankList.add(number.trim());
+				}
+			}
+			
+			
+			System.err.println("convertedRankList"+convertedRankList.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return  convertedRankList;
+		
 	}
+	
+	@RequestMapping(value = { "/deleteByImageOfOffer" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteByImageOfOffer(@RequestParam int offerId,@RequestParam String imageName) {
+		
+		
+		Info info = new Info();
+		
+		int n=offerHeaderRepo.removeImage(imageName, offerId);
+		if (n > 0) {
+			info.setError(false);
+			info.setMessage("Delete Image Successfully");
+		} else {
+			info.setError(true);
+			info.setMessage("Failed To Delete Image ");
+		}
+		
+		
+		return info;
+	
+	
+	}
+	
+	
 
 	// Author-Anmol Shirke Created On-16-07-2020
 	// Desc- Returns Info object - delete image by imageId - physical delete.

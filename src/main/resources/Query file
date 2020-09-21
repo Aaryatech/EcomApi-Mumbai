@@ -4,3 +4,21 @@ m_product.is_active,m_uom.uom_show_name,m_product.allow_same_day_delivery,m_filt
 FROM m_product,m_category,m_sub_category,m_uom,m_filter
 WHERE m_product.prod_cat_id=m_category.cat_id AND m_product.prod_sub_cat_id=m_sub_category.sub_cat_id AND m_product.uom_id=m_uom.uom_id AND m_product.prod_status_id=m_filter.filter_id and m_filter.filter_type_id=5
 and m_product.del_status=1
+
+
+#Get Prod Confi Detail 
+SELECT UUId() as uuid ,tn_item_config_detail.config_detail_id,tn_item_config_detail.config_header_id,tn_item_config_detail.product_id,tn_item_config_detail.flavor_id,tn_item_config_detail.is_veg as veg_type,
+tn_item_config_detail.rate_setting_type,tn_item_config_detail.qty as weight,
+tn_item_config_detail.rate_amt  ,
+tn_item_config_detail.mrp_amt ,
+tn_item_config_detail.sp_rate_amt1,
+tn_item_config_detail.sp_rate_amt2,
+tn_item_config_detail.sp_rate_amt3,
+tn_item_config_detail.sp_rate_amt4 ,
+m_filter.filter_name as flavor_name,
+tn_item_config_detail.updt_dttime as cur_time_stamp,
+m_product.product_name,m_product.prod_cat_id as cat_id,
+tn_item_config_detail.maker_user_id,tn_item_config_detail.updt_dttime
+
+FROM tn_item_config_detail,m_filter,m_product
+WHERE tn_item_config_detail.product_id=m_product.product_id AND m_filter.filter_id=tn_item_config_detail.flavor_id

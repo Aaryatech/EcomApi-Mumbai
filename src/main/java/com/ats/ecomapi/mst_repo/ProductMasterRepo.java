@@ -197,6 +197,9 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 	int updtProductsStatusToActive(@Param("prdctIdsStr") List<Integer> prdctIdsStr);
 	
 	
+	//Sachin 21-09-2020
+	List<ProductMaster> findByProductIdIn(List<Integer> prodIdList);
+	
 	
 	
 	

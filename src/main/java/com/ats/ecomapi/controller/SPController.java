@@ -2,8 +2,10 @@ package com.ats.ecomapi.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.ecomapi.common.CommonUtility;
 import com.ats.ecomapi.master.model.MFilter;
+import com.ats.ecomapi.master.repo.GetItemConfHeadRepo;
 import com.ats.ecomapi.master.repo.GetProdListRepo;
 import com.ats.ecomapi.master.repo.GetSubCatPrefixRepo;
 import com.ats.ecomapi.master.repo.MFilterRepo;
+import com.ats.ecomapi.mst_model.GetItemConfHead;
 import com.ats.ecomapi.mst_model.GetProdList;
 import com.ats.ecomapi.mst_model.GetSubCatPrefix;
 import com.ats.ecomapi.mst_model.Info;
+import com.ats.ecomapi.mst_model.ItemConfDetail;
+import com.ats.ecomapi.mst_model.ItemConfHeader;
 import com.ats.ecomapi.mst_model.ProductMaster;
 import com.ats.ecomapi.mst_model.TempProdConfig;
 import com.ats.ecomapi.mst_model.User;
+import com.ats.ecomapi.mst_repo.ItemConfDetailRepo;
+import com.ats.ecomapi.mst_repo.ItemConfHeaderRepo;
 import com.ats.ecomapi.mst_repo.ProductMasterRepo;
+import com.ats.ecomapi.mst_repo.TempProdConfigRepo;
 import com.ats.ecomapi.mst_repo.UserRepo;
 
 @RestController
@@ -183,29 +192,29 @@ public class SPController {
 	List<MFilter> filterList = new ArrayList<MFilter>();
 
 	@RequestMapping(value = { "/getProdConf" }, method = RequestMethod.POST)
-	public @ResponseBody String getProdConf(@RequestParam int compId,@RequestParam int catId) {
+	public @ResponseBody String getProdConf(@RequestParam int compId, @RequestParam int catId) {
 
 		filterList = new ArrayList<MFilter>();
 		try {
-			//Get Filter By Comp Id and Filter type ie 4 for Flavor
+			// Get Filter By Comp Id and Filter type ie 4 for Flavor
 			filterList = filterRepo.getFiltersByFilterId(compId, 4);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		try {
-			List<ProductMaster> prodList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyId(catId, 1,compId);
+			List<ProductMaster> prodList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyId(catId, 1, compId);
 
 			for (int i = 0; i < prodList.size(); i++) {
 				List<Integer> vegNonVegList = new ArrayList<>();
 
 				if (prodList.get(i).getIsVeg() == 2) {
-					
+
 					vegNonVegList.add(0);
 					vegNonVegList.add(1);
-					
+
 				} else {
-					
+
 				}
 				List<TempProdConfig> tempProdConfList = new ArrayList<>();
 				System.err.println("prod Id " + prodList.get(i).getProductId());
@@ -309,7 +318,7 @@ public class SPController {
 
 										config.setWeight(1);
 										tempProdConfList.add(config);
-									}// end of vegNonVegList Y for 
+									} // end of vegNonVegList Y for
 								} // end of vegNonVegList.size()==2
 								else {
 
@@ -371,23 +380,170 @@ public class SPController {
 
 		return flavList;
 	}
-	
-	
-	//get All Prod By Cat Id CompId
-	//Sachin 18-09-2020
-	
+
+	// get All Prod By Cat Id CompId
+	// Sachin 18-09-2020
+
 	@RequestMapping(value = { "/getProdListByCatIdCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ProductMaster> getProdListByCatIdCompId(@RequestParam("catId") int catId,
 			@RequestParam("compId") int compId) {
 		List<ProductMaster> proList = new ArrayList<ProductMaster>();
 
 		try {
-			proList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyId(catId,1, compId);
+			proList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyId(catId, 1, compId);
 
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 		return proList;
 	}
+
+	// saveProdConfHD
+	// Sachin 21-09-2020
+	@Autowired
+	ItemConfHeaderRepo itemConfHeaderRepo;
+	@Autowired
+	ItemConfDetailRepo itemConfDetailRepo;
+
+	@RequestMapping(value = { "/saveProdConfHD" }, method = RequestMethod.POST)
+	public @ResponseBody Object saveProdConfHD(@RequestBody ItemConfHeader confHeaderInput) {
+		ItemConfHeader confHeader = new ItemConfHeader();
+		try {
+			confHeader = itemConfHeaderRepo.save(confHeaderInput);
+			if (confHeader == null) {
+
+				System.err.println("Its confHeader Res " + confHeader);
+				confHeader = new ItemConfHeader();
+			} else {
+
+				List<ItemConfDetail> confDetList = confHeaderInput.getItemConfDetList();
+
+				for (int i = 0; i < confDetList.size(); i++) {
+
+					confDetList.get(i).setConfigHeaderId(confHeader.getConfigHeaderId());
+				}
+
+				List<ItemConfDetail> detailSaveRes = itemConfDetailRepo.saveAll(confDetList);
+			}
+
+		} catch (Exception e) {
+			confHeader = new ItemConfHeader();
+			System.err.println("In Exception");
+			e.printStackTrace();
+		}
+
+		return confHeader;
+	}
+
+	// Sachin 21-09-2020
+	// Desc-Web Service to get Prod Conf Header by company and Cat Id(s)
+	// Updated On 21-09-2020
+	// Updated By Sachin
+	@Autowired
+	GetItemConfHeadRepo getItemConfHeadRepo;
+
+	@RequestMapping(value = { "/getProdConfList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetItemConfHead> getProdConfList(@RequestParam int companyId,
+			@RequestParam List<Integer> catIdList) {
+
+		List<GetItemConfHead> confHeaderList = new ArrayList<>();
+
+		try {
+
+			confHeaderList = getItemConfHeadRepo.getItemConfHeadListByCatId(catIdList, companyId);
+
+		} catch (Exception e) {
+
+			confHeaderList = new ArrayList<>();
+			System.err.println("In Exception");
+			e.printStackTrace();
+
+		}
+
+		return confHeaderList;
+	}
+
+	// Get Prod Conf Detail for Edit
+
+	// Sachin 21-09-2020
+	// Desc-Web Service to get Prod Conf detail By confHeaderId for edit
+	// Updated On 21-09-2020
+	// Updated By Sachin
+	@Autowired
+	TempProdConfigRepo getProdConfDetail;
+
+	@RequestMapping(value = { "/getProdConfDetailByConfHeader" }, method = RequestMethod.POST)
+	public @ResponseBody List<TempProdConfig> getProdConfDetailByConfHeader(@RequestParam int configHeaderId) {
+
+		List<TempProdConfig> prodConfDetailList = new ArrayList<>();
+
+		try {
+			List<Integer> prodcutIdList = new ArrayList<Integer>();
+			prodConfDetailList = getProdConfDetail.getProdConfByConfHeaderId(configHeaderId);
+
+			for (int i = 0; i < prodConfDetailList.size(); i++) {
+				prodcutIdList.add(prodConfDetailList.get(i).getProductId());
+			}
+
+			Set set = new HashSet<>();
+			set.addAll(prodcutIdList);
+			prodcutIdList.clear();
+
+			prodcutIdList.addAll(set);
+			System.err.println("prodcutIdList " + prodcutIdList.toString());
+			List<ProductMaster> prodList = productMasterRepo.findByProductIdIn(prodcutIdList);
+			
+			for (int i = 0; i < prodList.size(); i++) {
+
+				ProductMaster pm = prodList.get(i);
+
+					for (int j = 0; j < prodConfDetailList.size(); j++) {
+
+						Integer isProdMatch = Integer.compare(pm.getProductId(), prodConfDetailList.get(j).getProductId());
+
+							if (isProdMatch.equals(0)) {
+
+								List<String> prodFlavIdList = Arrays.asList(pm.getFlavourIds().split(",", -1));
+
+									System.err.println("prodFlavIdList " + prodFlavIdList.toString());
+
+										List<MFilter> flavList = getFlavList(prodFlavIdList);
+
+											for (int k = 0; k < flavList.size(); k++) {
+							
+												MFilter flavor = flavList.get(k);
+							
+												Integer isFlavMatch = Integer.compare(flavor.getFilterId(),
+														prodConfDetailList.get(j).getFlavorId());
+							
+												if (!isFlavMatch.equals(0)) {
+													
+													
+								
+								
+												}//end of if (!isFlavMatch.equals(0))
+
+
+											}// End of flavList For Loop K
+
+									}// end of 	if (isProdMatch.equals(0))
+
+							} //end of prodConfDetailList For Loop J
+				
+				
+					} //end of prodList For Loop I
+
+		} catch (Exception e) {
+
+			prodConfDetailList = new ArrayList<>();
+			System.err.println("In Exception");
+			e.printStackTrace();
+
+		}
+
+		return prodConfDetailList;
+
+	}
+
 }

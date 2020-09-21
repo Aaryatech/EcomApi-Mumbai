@@ -23,6 +23,7 @@ import com.ats.ecomapi.master.model.GrievencesInstruction;
 import com.ats.ecomapi.master.model.GrievencesTypeInstructn;
 import com.ats.ecomapi.master.model.Language;
 import com.ats.ecomapi.master.model.MFilter;
+import com.ats.ecomapi.master.model.SpDayHomePage;
 import com.ats.ecomapi.master.model.SubCategory;
 import com.ats.ecomapi.master.model.Tax;
 import com.ats.ecomapi.master.model.Uom;
@@ -37,6 +38,7 @@ import com.ats.ecomapi.master.repo.GrievencesInstructionRepo;
 import com.ats.ecomapi.master.repo.GrievencesTypeInstructnRepo;
 import com.ats.ecomapi.master.repo.LanguageRepo;
 import com.ats.ecomapi.master.repo.MFilterRepo;
+import com.ats.ecomapi.master.repo.SpDayHomePageRepo;
 import com.ats.ecomapi.master.repo.SubCategoryRepo;
 import com.ats.ecomapi.master.repo.TaxRepo;
 import com.ats.ecomapi.master.repo.UomRepo;
@@ -101,6 +103,9 @@ public class MasterApiConctoller {
 
 	@Autowired
 	ProductMasterRepo productMstrRepo;
+
+	@Autowired
+	SpDayHomePageRepo spDayHomePageRepo;
 
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
@@ -1455,7 +1460,7 @@ public class MasterApiConctoller {
 					list = productMstrRepo.getProductsTags(filterId, compId);
 				}
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1469,7 +1474,7 @@ public class MasterApiConctoller {
 		Info info = new Info();
 		int res = 0;
 		try {
-			
+
 			if (optnValue == 1) {
 				if (filterTypeId == 2) {
 					res = productMstrRepo.getConfigProductsTimeSlots(filterId, prdctIdsStr);
@@ -1531,11 +1536,11 @@ public class MasterApiConctoller {
 			} else if (typeConfigId == 3) {
 				list = productMstrRepo.getProductsByNoCakeShape(filterId, compId);
 
-			}else if(typeConfigId == 4){
+			} else if (typeConfigId == 4) {
 				list = productMstrRepo.getActiveProducts(compId);
-				
-			}else if(typeConfigId == 5){
-				list = productMstrRepo.getInActiveProducts(compId);				
+
+			} else if (typeConfigId == 5) {
+				list = productMstrRepo.getInActiveProducts(compId);
 			}
 		} else {
 			if (typeConfigId == 1) {
@@ -1547,11 +1552,11 @@ public class MasterApiConctoller {
 			} else if (typeConfigId == 3) {
 				list = productMstrRepo.getProductsByCakeShape(filterId, compId);
 
-			}else if(typeConfigId == 4){
+			} else if (typeConfigId == 4) {
 				list = productMstrRepo.getActiveProducts(compId);
-				
-			}else if(typeConfigId == 5){
-				list = productMstrRepo.getInActiveProducts(compId);				
+
+			} else if (typeConfigId == 5) {
+				list = productMstrRepo.getInActiveProducts(compId);
 			}
 		}
 
@@ -1565,7 +1570,7 @@ public class MasterApiConctoller {
 		Info info = new Info();
 		int res = 0;
 		try {
-			
+
 			if (optnValue == 1) {
 				if (typeConfigId == 1) {
 					res = productMstrRepo.updateConfigProductsTax(filterId, prdctIdsStr);
@@ -1582,11 +1587,11 @@ public class MasterApiConctoller {
 					info.setError(true);
 					info.setMessage("Failed to Configure Product");
 				}
-			}else {
+			} else {
 				if (typeConfigId == 1) {
 					res = productMstrRepo.updateConfigProductsRemoveTax(prdctIdsStr);
 
-				}else if (typeConfigId == 3) {
+				} else if (typeConfigId == 3) {
 
 					res = productMstrRepo.updateConfigProductsRemoveCakeShap(prdctIdsStr);
 				}
@@ -1622,17 +1627,17 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
-	
+
 	@RequestMapping(value = { "/configProductStatus" }, method = RequestMethod.POST)
 	public @ResponseBody Info configProductStatus(@RequestParam float typeConfigId,
 			@RequestParam List<Integer> prdctIdsStr) {
 		Info info = new Info();
 		int res = 0;
 		try {
-			if(typeConfigId==4) {				
-			res = productMstrRepo.updtProductsStatusToInActive(prdctIdsStr);
-			
-			}else {
+			if (typeConfigId == 4) {
+				res = productMstrRepo.updtProductsStatusToInActive(prdctIdsStr);
+
+			} else {
 				res = productMstrRepo.updtProductsStatusToActive(prdctIdsStr);
 			}
 			if (res > 0) {
@@ -1649,6 +1654,83 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
-	
-	
+
+	/*----------------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singh
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Special Day Home Page List
+	@RequestMapping(value = { "/getSpDayHomePages" }, method = RequestMethod.POST)
+	public @ResponseBody List<SpDayHomePage> getSpDayHomePages(@RequestParam int compId) {
+
+		List<SpDayHomePage> list = new ArrayList<SpDayHomePage>();
+		try {
+			list = spDayHomePageRepo.findByCompanyIdAndDelStatusOrderBySpDayIdDesc(compId, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Special Day Home Page By Id
+	@RequestMapping(value = { "/getSpDayHomePageById" }, method = RequestMethod.POST)
+	public @ResponseBody SpDayHomePage getSpDayHomePageById(@RequestParam int spDayId) {
+
+		SpDayHomePage spDay = new SpDayHomePage();
+		try {
+			spDay = spDayHomePageRepo.findBySpDayId(spDayId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return spDay;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Save Special Day Home Page
+	@RequestMapping(value = { "/saveSpDayHomePage" }, method = RequestMethod.POST)
+	public @ResponseBody SpDayHomePage saveSpDayHomePage(@RequestBody SpDayHomePage spDay) {
+
+		SpDayHomePage spDaySave = new SpDayHomePage();
+		try {
+			spDaySave = spDayHomePageRepo.save(spDay);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return spDaySave;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Delete Special Day Home Page
+	@RequestMapping(value = { "/deleteSpDayHomePage" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteSpDayHomePage(@RequestParam int spDayId) {
+
+		Info info = new Info();
+		try {
+			int res = spDayHomePageRepo.deleteSpDayId(spDayId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Special Day Home Page Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Special Day Home Page");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
 }

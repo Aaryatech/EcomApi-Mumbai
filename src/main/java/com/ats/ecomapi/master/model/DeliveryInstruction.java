@@ -31,6 +31,12 @@ public class DeliveryInstruction {
 	@Column(name = "company_id")
 	private int companyId;
 	
+	@Column(name = "allow_to_copy")
+	private int allowToCopy;
+	
+	@Column(name = "is_parent")
+	private int isParent;
+	
 	@Column(name = "ex_int1")
 	private int exInt1;
 	
@@ -123,12 +129,29 @@ public class DeliveryInstruction {
 		this.exVar2 = exVar2;
 	}
 
+	public int getAllowToCopy() {
+		return allowToCopy;
+	}
+
+	public void setAllowToCopy(int allowToCopy) {
+		this.allowToCopy = allowToCopy;
+	}
+
+	public int getIsParent() {
+		return isParent;
+	}
+
+	public void setIsParent(int isParent) {
+		this.isParent = isParent;
+	}
+
 	@Override
 	public String toString() {
 		return "DeliveryInstruction [instruId=" + instruId + ", description=" + description + ", instructnCaption="
 				+ instructnCaption + ", delStatus=" + delStatus + ", isActive=" + isActive + ", companyId=" + companyId
-				+ ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
+				+ ", allowToCopy=" + allowToCopy + ", isParent=" + isParent + ", exInt1=" + exInt1 + ", exInt2="
+				+ exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
 	}
-	
+		
 	
 }

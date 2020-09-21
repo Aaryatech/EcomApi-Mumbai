@@ -22,6 +22,8 @@ public interface GrievencesInstructionRepo extends JpaRepository<GrievencesInstr
 			"    grv.grievence_type_id,\n" + 
 			"    grv.is_active,\n" + 
 			"    grv.company_id,\n" + 
+			"    grv.allow_to_copy,\n" +
+			"    grv.is_parent,\n" +
 			"    grv.ex_int1,\n" + 
 			"    grv.ex_int2,\n" + 
 			"    grv.ex_var1,\n" + 

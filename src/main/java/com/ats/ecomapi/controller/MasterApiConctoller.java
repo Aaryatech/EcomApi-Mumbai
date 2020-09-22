@@ -721,6 +721,23 @@ public class MasterApiConctoller {
 		return info;
 	}
 
+	// Created By :- Mahendra Singh
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Filter For Home Page and Product Configuration
+	@RequestMapping(value = { "/getAllFilterForConfig" }, method = RequestMethod.POST)
+	public @ResponseBody List<MFilter> getAllFilterForConfig(@RequestParam int filterTypeId, @RequestParam int compId) {
+
+		List<MFilter> filterList = new ArrayList<MFilter>();
+		try {
+			filterList = filterRepo.findByFilterTypeIdAndDelStatusAndCompanyIdAndIsActiveOrderByFilterIdDesc(filterTypeId, 1, compId, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return filterList;
+	}
+
 	/*------------------------------------------------------------------------------------------------------*/
 
 	// Created By :- Mahendra Singh
@@ -1655,6 +1672,18 @@ public class MasterApiConctoller {
 		return info;
 	}
 
+	@RequestMapping(value = { "/getProductByStatusId" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProductMaster> configProductStatus(@RequestParam int statusId,
+			@RequestParam int compId) {
+		List<ProductMaster> list = new ArrayList<ProductMaster>();
+		try {
+			list = productMstrRepo.findByProdStatusIdAndDelStatusAndIsActiveAndCompanyId(statusId, 1, 1, compId);
+		} catch (Exception e) {
+			System.err.println("dfdf" + e.getMessage());
+			e.printStackTrace();
+		}
+		return list;
+	}
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
 	// Created On :- 21-09-2020

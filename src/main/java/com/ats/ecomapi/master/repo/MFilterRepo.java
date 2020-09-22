@@ -86,4 +86,9 @@ public interface MFilterRepo extends JpaRepository<MFilter, Integer> {
 	@Modifying
 	@Query(value="UPDATE `m_filter` SET del_status=0 WHERE filter_id=:filterId",nativeQuery=true)
 	int deleteFilter(@Param("filterId") int filterId);
+	
+	List<MFilter> findByFilterTypeIdAndDelStatusAndCompanyIdAndIsActiveOrderByFilterIdDesc(int filterTypeId, 
+			int del, int compId, int activeId);
+	
+	
 }

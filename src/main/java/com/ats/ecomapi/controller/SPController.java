@@ -472,7 +472,7 @@ public class SPController {
 	// Updated By Sachin
 	@Autowired
 	TempProdConfigRepo getProdConfDetail;
-
+ 
 	@RequestMapping(value = { "/getProdConfDetailByConfHeader" }, method = RequestMethod.POST)
 	public @ResponseBody Info getProdConfDetailByConfHeader(@RequestParam int configHeaderId,
 			@RequestParam int companyId) {

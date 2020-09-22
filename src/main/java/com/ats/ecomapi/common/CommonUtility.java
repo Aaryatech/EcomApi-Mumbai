@@ -196,7 +196,6 @@ public class CommonUtility {
 	public static String getCurrentYMDDateTime() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
-		System.out.println(dateFormat.format(cal.getTime()));
 		return dateFormat.format(cal.getTime());
 	}
 

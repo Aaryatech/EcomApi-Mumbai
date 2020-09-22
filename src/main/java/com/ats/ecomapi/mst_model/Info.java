@@ -1,5 +1,8 @@
 package com.ats.ecomapi.mst_model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Info {
 	
 	private boolean isError; //true means Error present, false means no Error
@@ -15,6 +18,21 @@ public class Info {
 	private String responseObject2;
 	
 	
+	List<TempProdConfig> prodConfDetailList ;//Sachin 22-09-2020
+	List<TempProdConfig> tempProdConfList   ;//Sachin 22-09-2020
+
+	public List<TempProdConfig> getProdConfDetailList() {
+		return prodConfDetailList;
+	}
+	public void setProdConfDetailList(List<TempProdConfig> prodConfDetailList) {
+		this.prodConfDetailList = prodConfDetailList;
+	}
+	public List<TempProdConfig> getTempProdConfList() {
+		return tempProdConfList;
+	}
+	public void setTempProdConfList(List<TempProdConfig> tempProdConfList) {
+		this.tempProdConfList = tempProdConfList;
+	}
 	public String getResponseObject1() {
 		return responseObject1;
 	}
@@ -58,15 +76,16 @@ public class Info {
 		this.isSessionAlive = isSessionAlive;
 	}
 
-	@Override
-	public String toString() {
-		return "Info [isError=" + isError + ", msg=" + msg + ", statusCode=" + statusCode + ", statusText=" + statusText
-				+ ", isSessionAlive=" + isSessionAlive + ", responseObject1=" + responseObject1 + ", responseObject2="
-				+ responseObject2 + "]";
-	}
 	public void setMessage(String string) {
 		msg = string;
 	}
 	
-
+	@Override
+	public String toString() {
+		return "Info [isError=" + isError + ", msg=" + msg + ", statusCode=" + statusCode + ", statusText=" + statusText
+				+ ", isSessionAlive=" + isSessionAlive + ", responseObject1=" + responseObject1 + ", responseObject2="
+				+ responseObject2 + ", prodConfDetailList=" + prodConfDetailList + ", tempProdConfList="
+				+ tempProdConfList + "]";
+	}
+	
 }

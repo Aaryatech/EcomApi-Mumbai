@@ -216,6 +216,7 @@ public class SPController {
 				} else {
 
 				}
+
 				List<TempProdConfig> tempProdConfList = new ArrayList<>();
 				System.err.println("prod Id " + prodList.get(i).getProductId());
 
@@ -247,7 +248,6 @@ public class SPController {
 										// Create Bean and Assign Values
 										for (int y = 0; y < vegNonVegList.size(); y++) {
 											TempProdConfig config = new TempProdConfig();
-
 											UUID uuid = UUID.randomUUID();
 											config.setUuid(uuid.toString());
 
@@ -474,14 +474,28 @@ public class SPController {
 	TempProdConfigRepo getProdConfDetail;
 
 	@RequestMapping(value = { "/getProdConfDetailByConfHeader" }, method = RequestMethod.POST)
-	public @ResponseBody List<TempProdConfig> getProdConfDetailByConfHeader(@RequestParam int configHeaderId) {
-
+	public @ResponseBody Info getProdConfDetailByConfHeader(@RequestParam int configHeaderId,
+			@RequestParam int companyId) {
+		Info info=new Info();
 		List<TempProdConfig> prodConfDetailList = new ArrayList<>();
+		List<TempProdConfig> tempProdConfList = new ArrayList<>();
+
+		filterList = new ArrayList<MFilter>();
+		try {
+			// Get Filter By Comp Id and Filter type ie 4 for Flavor
+			filterList = filterRepo.getFiltersByFilterId(companyId, 4);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		try {
+
 			List<Integer> prodcutIdList = new ArrayList<Integer>();
 			prodConfDetailList = getProdConfDetail.getProdConfByConfHeaderId(configHeaderId);
-
+			info.setProdConfDetailList(prodConfDetailList);
+			
+			System.err.println("prodConfDetailList " + prodConfDetailList.toString());
+			
 			for (int i = 0; i < prodConfDetailList.size(); i++) {
 				prodcutIdList.add(prodConfDetailList.get(i).getProductId());
 			}
@@ -493,56 +507,310 @@ public class SPController {
 			prodcutIdList.addAll(set);
 			System.err.println("prodcutIdList " + prodcutIdList.toString());
 			List<ProductMaster> prodList = productMasterRepo.findByProductIdIn(prodcutIdList);
-			
+
 			for (int i = 0; i < prodList.size(); i++) {
 
 				ProductMaster pm = prodList.get(i);
 
+				List<Integer> vegNonVegList = new ArrayList<>();
+
+				if (pm.getIsVeg() == 2) {
+					vegNonVegList.add(0);
+					vegNonVegList.add(1);
+				} // end of if (pm.getIsVeg() == 2)
+				else {
+					vegNonVegList.add(pm.getIsVeg());
+				}
+
+				List<String> prodFlavIdList = Arrays.asList(pm.getFlavourIds().split(",", -1));
+				List<MFilter> flavList = getFlavList(prodFlavIdList);
+
+				List<String> prodWtList = Arrays.asList(pm.getAvailInWeights().split(",", -1));
+
+				for (int k = 0; k < flavList.size(); k++) {
+					int flag = -1;
+					MFilter flavor = new MFilter();
 					for (int j = 0; j < prodConfDetailList.size(); j++) {
 
-						Integer isProdMatch = Integer.compare(pm.getProductId(), prodConfDetailList.get(j).getProductId());
+						Integer isProdMatch = Integer.compare(pm.getProductId(),
+								prodConfDetailList.get(j).getProductId());
 
-							if (isProdMatch.equals(0)) {
+						if (isProdMatch.equals(0)) {
+							flag = 0;
+							flavor = flavList.get(k);
 
-								List<String> prodFlavIdList = Arrays.asList(pm.getFlavourIds().split(",", -1));
+							Integer isFlavMatch = Integer.compare(flavor.getFilterId(),
+									prodConfDetailList.get(j).getFlavorId());
 
-									System.err.println("prodFlavIdList " + prodFlavIdList.toString());
+							if (isFlavMatch.equals(0)) {
+								flag = 1;
+								break;
+							} // end of if (isFlavMatch.equals(0))
 
-										List<MFilter> flavList = getFlavList(prodFlavIdList);
+						} // end of if (isProdMatch.equals(0))
+					} // end of prodConfDetailList For Loop J
 
-											for (int k = 0; k < flavList.size(); k++) {
-							
-												MFilter flavor = flavList.get(k);
-							
-												Integer isFlavMatch = Integer.compare(flavor.getFilterId(),
-														prodConfDetailList.get(j).getFlavorId());
-							
-												if (!isFlavMatch.equals(0)) {
-													
-													
-								
-								
-												}//end of if (!isFlavMatch.equals(0))
+					if (flag == 0) {
+						// Flavor Id not found in Product Detail
+						System.err.println("New Flavor Found");
+						if (pm.getRateSettingType() == 2) {
+							// ie by weight Ids
 
+							List<String> wtList = Arrays.asList(pm.getAvailInWeights().split(",", -1));
 
-											}// End of flavList For Loop K
+							for (int x = 0; x < wtList.size(); x++) {
 
-									}// end of 	if (isProdMatch.equals(0))
+								if (vegNonVegList.size() == 2) {
 
-							} //end of prodConfDetailList For Loop J
-				
-				
-					} //end of prodList For Loop I
+									for (int y = 0; y < vegNonVegList.size(); y++) {
+										TempProdConfig config = new TempProdConfig();
+										UUID uuid = UUID.randomUUID();
+										config.setUuid(uuid.toString());
 
+										config.setCatId(pm.getProdCatId());
+										config.setCurTimeStamp(CommonUtility.getCurrentYMDDateTime());
+										config.setFlavorId(flavor.getFilterId());
+										config.setFlavorName(flavor.getFilterName());
+										config.setProductId(pm.getProductId());
+										config.setProductName(pm.getProductName());
+										config.setRateSetingType(pm.getRateSettingType());
+
+										config.setVegType(vegNonVegList.get(y));
+
+										config.setWeight(Float.parseFloat(wtList.get(x)));
+										tempProdConfList.add(config);
+									} // end of for vegNonVegList Y
+								} // end of if vegNonVegList.size() == 2
+								else {
+
+									TempProdConfig config = new TempProdConfig();
+
+									UUID uuid = UUID.randomUUID();
+									config.setUuid(uuid.toString());
+
+									config.setCatId(pm.getProdCatId());
+									config.setCurTimeStamp(CommonUtility.getCurrentYMDDateTime());
+									config.setFlavorId(flavor.getFilterId());
+									config.setFlavorName(flavor.getFilterName());
+									config.setProductId(pm.getProductId());
+									config.setProductName(pm.getProductName());
+									config.setRateSetingType(pm.getRateSettingType());
+
+									config.setVegType(pm.getIsVeg());
+
+									config.setWeight(Float.parseFloat(wtList.get(x)));
+									tempProdConfList.add(config);
+
+								} // end of else if vegNonVegList.size() == 2
+
+							} // end of wtList for X
+
+						} // end of if(pm.getRateSettingType()==2)
+						else {
+							// ie as per UOM/Kg
+							if (vegNonVegList.size() == 2) {
+
+								for (int y = 0; y < vegNonVegList.size(); y++) {
+
+									TempProdConfig config = new TempProdConfig();
+
+									UUID uuid = UUID.randomUUID();
+									config.setUuid(uuid.toString());
+
+									config.setCatId(pm.getProdCatId());
+									config.setCurTimeStamp(CommonUtility.getCurrentYMDDateTime());
+									config.setFlavorId(flavor.getFilterId());
+									config.setFlavorName(flavor.getFilterName());
+									config.setProductId(pm.getProductId());
+									config.setProductName(pm.getProductName());
+									config.setRateSetingType(pm.getRateSettingType());
+
+									config.setVegType(vegNonVegList.get(y));
+
+									config.setWeight(1);
+									tempProdConfList.add(config);
+								} // end of for vegNonVegList Y
+							} // end of if vegNonVegList.size() == 2
+							else {
+
+								TempProdConfig config = new TempProdConfig();
+
+								UUID uuid = UUID.randomUUID();
+								config.setUuid(uuid.toString());
+
+								config.setCatId(pm.getProdCatId());
+								config.setCurTimeStamp(CommonUtility.getCurrentYMDDateTime());
+								config.setFlavorId(flavor.getFilterId());
+								config.setFlavorName(flavor.getFilterName());
+								config.setProductId(pm.getProductId());
+								config.setProductName(pm.getProductName());
+								config.setRateSetingType(pm.getRateSettingType());
+
+								config.setVegType(pm.getIsVeg());
+
+								config.setWeight(1);
+								tempProdConfList.add(config);
+
+							} // end of else if vegNonVegList.size() == 2
+
+						} // end of else if(pm.getRateSettingType()==2)
+
+					} // end of if flag==0
+
+				} // End of flavList For Loop K
+
+				// End of flavor logic
+
+				// Start Logic with prodWtList
+
+				for (int k = 0; k < prodWtList.size(); k++) {
+
+					float wt = Float.parseFloat(prodWtList.get(k));
+
+					int flag = -1;
+					for (int j = 0; j < prodConfDetailList.size(); j++) {
+						flag = 0;
+						Integer isProdMatch = Integer.compare(pm.getProductId(),
+								prodConfDetailList.get(j).getProductId());
+
+						if (isProdMatch.equals(0)) {
+							Integer isWtMatch = Float.compare(wt, prodConfDetailList.get(j).getWeight());
+							System.err.println("Weight Result " + isWtMatch + "wt = " + wt + "prod WT "
+									+ prodConfDetailList.get(j).getWeight());
+							if (isWtMatch.equals(0)) {
+								// Same weight
+								flag = 1;
+								break;
+							}
+
+						} // end of if (isProdMatch.equals(0))
+					} // end of prodConfDetailList For J
+
+					if (flag == 0) {
+						// Insert Logic New Weight Found
+						System.err.println("New Weight found " + wt);
+
+						for (int a = 0; a < flavList.size(); a++) {
+							MFilter flavor = new MFilter();
+							flavor = flavList.get(a);
+							if (vegNonVegList.size() == 2) {
+
+								for (int y = 0; y < vegNonVegList.size(); y++) {
+
+									TempProdConfig config = new TempProdConfig();
+
+									UUID uuid = UUID.randomUUID();
+									config.setUuid(uuid.toString());
+
+									config.setCatId(pm.getProdCatId());
+									config.setCurTimeStamp(CommonUtility.getCurrentYMDDateTime());
+									config.setFlavorId(flavor.getFilterId());
+									config.setFlavorName(flavor.getFilterName());
+									config.setProductId(pm.getProductId());
+									config.setProductName(pm.getProductName());
+									config.setRateSetingType(pm.getRateSettingType());
+
+									config.setVegType(vegNonVegList.get(y));
+
+									config.setWeight(wt);
+									tempProdConfList.add(config);
+
+								} // end of vegNonVegList For Y
+
+							} // end of if(vegNonVegList.size()==2)
+							else {
+								TempProdConfig config = new TempProdConfig();
+
+								UUID uuid = UUID.randomUUID();
+								config.setUuid(uuid.toString());
+
+								config.setCatId(pm.getProdCatId());
+								config.setCurTimeStamp(CommonUtility.getCurrentYMDDateTime());
+								config.setFlavorId(flavor.getFilterId());
+								config.setFlavorName(flavor.getFilterName());
+								config.setProductId(pm.getProductId());
+								config.setProductName(pm.getProductName());
+								config.setRateSetingType(pm.getRateSettingType());
+
+								config.setVegType(pm.getIsVeg());
+
+								config.setWeight(wt);
+								tempProdConfList.add(config);
+
+							} // end of Else if(vegNonVegList.size()==2)
+						} // end of flavList For A
+					} // end of If Flag==0
+				} // end of prodWtList For K
+
+				// End of Logic for Weight Changes.
+
+				// Start Logic for VegType change
+
+				for (int p = 0; p < vegNonVegList.size(); p++) {
+
+					int flag = -1;
+					for (int j = 0; j < prodConfDetailList.size(); j++) {
+						flag = 0;
+						Integer isProdMatch = Integer.compare(pm.getProductId(),
+								prodConfDetailList.get(j).getProductId());
+
+						if (isProdMatch.equals(0)) {
+
+							Integer isVegTypeMach = Integer.compare((int) vegNonVegList.get(p),
+									prodConfDetailList.get(j).getVegType());
+
+							if (isVegTypeMach.equals(0)) {
+								flag = 1;
+								break;
+							}
+
+						} // end of if (isProdMatch.equals(0))
+					} // end of prodConfDetailList For J
+
+					if (flag == 0) {
+						System.err.println("new isVeg Non Veg Found");
+						for (int a = 0; a < flavList.size(); a++) {
+							MFilter flavor = new MFilter();
+							flavor = flavList.get(a);
+
+							for (int k = 0; k < prodWtList.size(); k++) {
+
+								TempProdConfig config = new TempProdConfig();
+
+								UUID uuid = UUID.randomUUID();
+								config.setUuid(uuid.toString());
+
+								config.setCatId(pm.getProdCatId());
+								config.setCurTimeStamp(CommonUtility.getCurrentYMDDateTime());
+								config.setFlavorId(flavor.getFilterId());
+								config.setFlavorName(flavor.getFilterName());
+								config.setProductId(pm.getProductId());
+								config.setProductName(pm.getProductName());
+								config.setRateSetingType(pm.getRateSettingType());
+
+								config.setVegType(vegNonVegList.get(a));
+
+								config.setWeight(Float.parseFloat(prodWtList.get(k)));
+								tempProdConfList.add(config);
+
+							} // end of prodWtList For K
+
+						} // end of flavList For A
+
+					} // End of if flag==0
+
+				} // end of For vegNonVegList For P
+
+			} // end of prodList For Loop I
+			System.err.println("tempProdConfList " + tempProdConfList.toString());
+			info.setTempProdConfList(tempProdConfList);
 		} catch (Exception e) {
-
 			prodConfDetailList = new ArrayList<>();
 			System.err.println("In Exception");
 			e.printStackTrace();
-
 		}
 
-		return prodConfDetailList;
+		return info;
 
 	}
 

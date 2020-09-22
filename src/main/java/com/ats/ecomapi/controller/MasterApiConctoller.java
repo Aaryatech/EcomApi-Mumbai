@@ -23,6 +23,8 @@ import com.ats.ecomapi.master.model.GrievencesInstruction;
 import com.ats.ecomapi.master.model.GrievencesTypeInstructn;
 import com.ats.ecomapi.master.model.Language;
 import com.ats.ecomapi.master.model.MFilter;
+import com.ats.ecomapi.master.model.ProductHomPage;
+import com.ats.ecomapi.master.model.ProductHomePageDetail;
 import com.ats.ecomapi.master.model.SpDayHomePage;
 import com.ats.ecomapi.master.model.SubCategory;
 import com.ats.ecomapi.master.model.Tax;
@@ -31,6 +33,7 @@ import com.ats.ecomapi.master.repo.AreaCityListRepo;
 import com.ats.ecomapi.master.repo.AreaRepo;
 import com.ats.ecomapi.master.repo.CategoryRepo;
 import com.ats.ecomapi.master.repo.CityRepo;
+import com.ats.ecomapi.master.repo.ConfigHomePageProductRepo;
 import com.ats.ecomapi.master.repo.DeliveryInstructionRepo;
 import com.ats.ecomapi.master.repo.FilterTypesRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
@@ -38,11 +41,14 @@ import com.ats.ecomapi.master.repo.GrievencesInstructionRepo;
 import com.ats.ecomapi.master.repo.GrievencesTypeInstructnRepo;
 import com.ats.ecomapi.master.repo.LanguageRepo;
 import com.ats.ecomapi.master.repo.MFilterRepo;
+import com.ats.ecomapi.master.repo.ProductHomPageRepo;
+import com.ats.ecomapi.master.repo.ProductHomePageDetailRepo;
 import com.ats.ecomapi.master.repo.SpDayHomePageRepo;
 import com.ats.ecomapi.master.repo.SubCategoryRepo;
 import com.ats.ecomapi.master.repo.TaxRepo;
 import com.ats.ecomapi.master.repo.UomRepo;
 import com.ats.ecomapi.master.repo.UserTypeRepo;
+import com.ats.ecomapi.mst_model.ConfigHomePageProduct;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.ProductMaster;
 import com.ats.ecomapi.mst_model.User;
@@ -106,6 +112,15 @@ public class MasterApiConctoller {
 
 	@Autowired
 	SpDayHomePageRepo spDayHomePageRepo;
+
+	@Autowired
+	ProductHomPageRepo prdctHomeRepo;
+
+	@Autowired
+	ProductHomePageDetailRepo prdctHomePageDtlRepo;
+
+	@Autowired
+	ConfigHomePageProductRepo configPrdctHomRepo;
 
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
@@ -731,7 +746,8 @@ public class MasterApiConctoller {
 
 		List<MFilter> filterList = new ArrayList<MFilter>();
 		try {
-			filterList = filterRepo.findByFilterTypeIdAndDelStatusAndCompanyIdAndIsActiveOrderByFilterIdDesc(filterTypeId, 1, compId, 1);
+			filterList = filterRepo.findByFilterTypeIdAndDelStatusAndCompanyIdAndIsActiveOrderByFilterIdDesc(
+					filterTypeId, 1, compId, 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1673,8 +1689,7 @@ public class MasterApiConctoller {
 	}
 
 	@RequestMapping(value = { "/getProductByStatusId" }, method = RequestMethod.POST)
-	public @ResponseBody List<ProductMaster> configProductStatus(@RequestParam int statusId,
-			@RequestParam int compId) {
+	public @ResponseBody List<ProductMaster> configProductStatus(@RequestParam int statusId, @RequestParam int compId) {
 		List<ProductMaster> list = new ArrayList<ProductMaster>();
 		try {
 			list = productMstrRepo.findByProdStatusIdAndDelStatusAndIsActiveAndCompanyId(statusId, 1, 1, compId);
@@ -1684,6 +1699,7 @@ public class MasterApiConctoller {
 		}
 		return list;
 	}
+
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
 	// Created On :- 21-09-2020
@@ -1756,6 +1772,191 @@ public class MasterApiConctoller {
 			} else {
 				info.setError(true);
 				info.setMessage("Failed to Delete Special Day Home Page");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	/*--------------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singh
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Save Configuration Product Home Page
+	@RequestMapping(value = { "/savePrdctHomePageConfige" }, method = RequestMethod.POST)
+	public @ResponseBody ProductHomPage savePrdctHomePageConfige(@RequestBody ProductHomPage prdctHomeHead) {
+
+		ProductHomPage spDaySave = new ProductHomPage();
+
+		List<ProductHomePageDetail> productHomeList = prdctHomeHead.getPrdctHomeList();
+		try {
+			spDaySave = prdctHomeRepo.save(prdctHomeHead);
+
+			for (int i = 0; i < productHomeList.size(); i++) {
+				productHomeList.get(i).setHomePageStatusId(spDaySave.getHomePageStatusId());
+			}
+
+			List<ProductHomePageDetail> saveDtl = prdctHomePageDtlRepo.saveAll(productHomeList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return spDaySave;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Save Configuration Product Home Page
+	@RequestMapping(value = { "/getPrdctHomePageById" }, method = RequestMethod.POST)
+	public @ResponseBody ProductHomPage getPrdctHomePageById(@RequestParam int id) {
+
+		ProductHomPage res = prdctHomeRepo.findByHomePageStatusId(id);
+		return res;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Update Configuration Product Home Page SortNo
+	@RequestMapping(value = { "/updatePrdctHomePageSortNo" }, method = RequestMethod.POST)
+	public @ResponseBody Info updatePrdctHomePageSortNo(@RequestParam int configStatusId, @RequestParam int sortNo, 
+			@RequestParam int isActve) {
+
+		Info info = new Info();
+		try {
+			int res = prdctHomeRepo.updateSortNo(configStatusId, sortNo, isActve);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Sort No Update Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Update Sort No");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Save Configuration Product Home Page Details
+	@RequestMapping(value = { "/saveHomePagePrdctConfigDtl" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProductHomePageDetail> saveHomePagePrdctConfigDtl(
+			@RequestBody List<ProductHomePageDetail> details) {
+
+		List<ProductHomePageDetail> saveDtl = new ArrayList<ProductHomePageDetail>();
+		try {
+
+			saveDtl = prdctHomePageDtlRepo.saveAll(details);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return saveDtl;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Home Page Staus List
+	@RequestMapping(value = { "/getHomePageSatusList" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProductHomPage> getHomePageSatusList(@RequestParam int compId) {
+
+		List<ProductHomPage> list = new ArrayList<ProductHomPage>();
+		try {
+			list = prdctHomeRepo.findByCompanyIdAndDelStatusAndIsActive(compId, 1, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Show Configure Product Home Page List
+	@RequestMapping(value = { "/getHomePageConfigProductList" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProductHomPage> getHomePageConfigProductList(@RequestParam int compId) {
+
+		List<ProductHomPage> list = new ArrayList<ProductHomPage>();
+		try {
+			list = prdctHomeRepo.getHomePageProductConfigList(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/getProductStatusConfigList" }, method = RequestMethod.POST)
+	public @ResponseBody List<ConfigHomePageProduct> getProductStatusConfigList(@RequestParam int statusType,
+			@RequestParam int compId) {
+		List<ConfigHomePageProduct> list = new ArrayList<ConfigHomePageProduct>();
+		try {
+			list = configPrdctHomRepo.getConfigHomePagePrdctList(statusType, compId);
+		} catch (Exception e) {
+			System.err.println("dfdf" + e.getMessage());
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Delete Configure Product Home Page Detail By Header Id
+	@RequestMapping(value = { "/deleteHomePageStatusDtl" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteHomepageStatusDtl(@RequestParam int configStatusId) {
+
+		Info info = new Info();
+		try {
+			int res = prdctHomePageDtlRepo.deleteHomepageStatusDtl(configStatusId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Detail Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Detail");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Delete Data Configure Product Home Page Header Detail
+	@RequestMapping(value = { "/deleteHomePagePrdct" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteHomePagePrdct(@RequestParam int id) {
+
+		Info info = new Info();
+		try {
+			int res = prdctHomeRepo.deleteHomePageConfig(id);
+			if (res > 0) {
+				int del = prdctHomePageDtlRepo.deleteHomepageStatusDtl(id);
+				
+				info.setError(false);
+				info.setMessage("Configuration Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Configuration");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -22,5 +22,14 @@ Integer>{
 	
 	List<GetItemConfHead> getItemConfHeadListByCatId(@Param("catIdList")List<Integer> catIdList
 			,@Param("companyId") int companyId);
-
+	
+	//Sachin 23-09-2020
+	//Desc-to get Product Conf Header By config_header_id
+	@Query(value = " SELECT tn_item_config_header.config_header_id,tn_item_config_header.cat_id,tn_item_config_header.config_name,tn_item_config_header.company_id, " + 
+			" tn_item_config_header.is_allow_to_copy,tn_item_config_header.is_active, " + 
+			" m_category.cat_name FROM m_category,tn_item_config_header " + 
+			" WHERE tn_item_config_header.cat_id=m_category.cat_id AND tn_item_config_header.del_status=1  and tn_item_config_header.config_header_id=:configHeaderId", nativeQuery = true)
+	
+	GetItemConfHead getProdConfHeaderByConfHeadId(@Param("configHeaderId") int configHeaderId);
+	
 }

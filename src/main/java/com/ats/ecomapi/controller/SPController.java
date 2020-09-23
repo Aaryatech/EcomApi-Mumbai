@@ -29,6 +29,7 @@ import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.ItemConfDetail;
 import com.ats.ecomapi.mst_model.ItemConfHeader;
 import com.ats.ecomapi.mst_model.ProductMaster;
+import com.ats.ecomapi.mst_model.TempConfTraveller;
 import com.ats.ecomapi.mst_model.TempProdConfig;
 import com.ats.ecomapi.mst_model.User;
 import com.ats.ecomapi.mst_repo.ItemConfDetailRepo;
@@ -474,12 +475,17 @@ public class SPController {
 	TempProdConfigRepo getProdConfDetail;
  
 	@RequestMapping(value = { "/getProdConfDetailByConfHeader" }, method = RequestMethod.POST)
-	public @ResponseBody Info getProdConfDetailByConfHeader(@RequestParam int configHeaderId,
+	public @ResponseBody TempConfTraveller getProdConfDetailByConfHeader(@RequestParam int configHeaderId,
 			@RequestParam int companyId) {
-		Info info=new Info();
+		
+		TempConfTraveller traveller=new TempConfTraveller();
+		
 		List<TempProdConfig> prodConfDetailList = new ArrayList<>();
 		List<TempProdConfig> tempProdConfList = new ArrayList<>();
-
+		
+		GetItemConfHead confHead=getItemConfHeadRepo.getProdConfHeaderByConfHeadId(configHeaderId);
+		traveller.setConfHead(confHead);
+		
 		filterList = new ArrayList<MFilter>();
 		try {
 			// Get Filter By Comp Id and Filter type ie 4 for Flavor
@@ -492,7 +498,7 @@ public class SPController {
 
 			List<Integer> prodcutIdList = new ArrayList<Integer>();
 			prodConfDetailList = getProdConfDetail.getProdConfByConfHeaderId(configHeaderId);
-			info.setProdConfDetailList(prodConfDetailList);
+			traveller.setProdConfDetailList(prodConfDetailList);
 			
 			System.err.println("prodConfDetailList " + prodConfDetailList.toString());
 			
@@ -803,15 +809,57 @@ public class SPController {
 
 			} // end of prodList For Loop I
 			System.err.println("tempProdConfList " + tempProdConfList.toString());
-			info.setTempProdConfList(tempProdConfList);
+			traveller.setTempProdConfList(tempProdConfList);
 		} catch (Exception e) {
 			prodConfDetailList = new ArrayList<>();
 			System.err.println("In Exception");
 			e.printStackTrace();
 		}
 
-		return info;
+		return traveller;
 
+	}
+	
+	
+	
+	@RequestMapping(value = { "/saveUpdateProdConfHD" }, method = RequestMethod.POST)
+	public @ResponseBody Object saveUpdateProdConfHD(@RequestBody TempConfTraveller traveller) {
+		ItemConfHeader confHeader = new ItemConfHeader();
+		try {
+			GetItemConfHead confHead=traveller.getConfHead();
+			int headerUpdateRes = itemConfHeaderRepo.updateProdConfHeader(confHead.getConfigName(), confHead.getCatId(), 
+					confHead.getCatName(), confHead.getConfigHeaderId());
+
+			//confHeader = itemConfHeaderRepo.updateProdConfHeader(configName, makerUserId, updtDttime, configHeaderId)
+			if (headerUpdateRes>0) {
+				List<ItemConfDetail> confDetList = traveller.getConfDetailList();
+
+				List<ItemConfDetail> detailSaveRes = itemConfDetailRepo.saveAll(confDetList);
+				
+				List<TempProdConfig> updateDetList=traveller.getProdConfDetailList();
+				
+				for(int j=0;j<updateDetList.size();j++) {
+					TempProdConfig detail=updateDetList.get(j);
+					
+					int detailRes=itemConfDetailRepo.updateProdConfDetail(detail.getRateAmt(), detail.getMrpAmt(), detail.getSpRateAmt1(),
+							detail.getSpRateAmt2(), 
+							detail.getSpRateAmt3(), detail.getSpRateAmt4(), detail.getMakerUserId(), detail.getUpdtDttime(), detail.getConfigDetailId());
+					
+				}
+					
+				
+			} else {
+
+				
+			}
+
+		} catch (Exception e) {
+			confHeader = new ItemConfHeader();
+			System.err.println("In Exception");
+			e.printStackTrace();
+		}
+
+		return confHeader;
 	}
 
 }

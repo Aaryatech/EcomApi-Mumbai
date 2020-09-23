@@ -121,6 +121,7 @@ public class ProductMaster {
 	private int makerUserId;
 	private String updtDttime;
 	
+	@javax.persistence.Column(updatable=false)
 	private String insertDttime;
 	private int copyItemId;
 	

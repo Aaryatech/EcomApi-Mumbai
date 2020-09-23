@@ -128,7 +128,7 @@ public class MasterApiConctoller {
 
 	@Autowired
 	HomePageTestimonialRepo testimonialRepo;
-	
+
 	@Autowired
 	DesignationRepo desigRepo;
 
@@ -878,6 +878,54 @@ public class MasterApiConctoller {
 			e.printStackTrace();
 		}
 		return info;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Franchise By Mobile No.
+	@RequestMapping(value = { "/getFranchiseByMobNo" }, method = RequestMethod.POST)
+	public @ResponseBody Franchise getFranchiseByMobNo(@RequestParam String mobNo, @RequestParam int frId) {
+
+		Franchise franchise = new Franchise();
+		try {
+			if (frId == 0) {
+
+				franchise = frRepo.findByFrContactNoAndDelStatus(mobNo, 1);
+			} else {
+
+				franchise = frRepo.findByFrContactNoAndDelStatusAndFrIdNot(mobNo, 1, frId);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return franchise;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Franchise By Email Id
+	@RequestMapping(value = { "/getFranchiseByEmail" }, method = RequestMethod.POST)
+	public @ResponseBody Franchise getFranchiseByEmail(@RequestParam String email, @RequestParam int frId) {
+
+		Franchise franchise = new Franchise();
+		try {
+			if (frId == 0) {
+
+				franchise = frRepo.findByFrEmailIdAndDelStatus(email, 1);
+			} else {
+
+				franchise = frRepo.findByFrEmailIdAndDelStatusAndFrIdNot(email, 1, frId);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return franchise;
 	}
 
 	/*------------------------------------------------------------------------------------*/
@@ -2053,10 +2101,10 @@ public class MasterApiConctoller {
 		return info;
 	}
 	/*--------------------------------------------------------------------------------------------*/
-	
+
 	@RequestMapping(value = { "/insertDesignation" }, method = RequestMethod.POST)
 	public @ResponseBody Designation insertDesignation(@RequestBody Designation desig) {
-		
+
 		Designation res = new Designation();
 		try {
 			res = desigRepo.save(desig);
@@ -2091,6 +2139,7 @@ public class MasterApiConctoller {
 		return list;
 
 	}
+
 	@RequestMapping(value = { "/getDesignationById" }, method = RequestMethod.POST)
 	public @ResponseBody Designation getDesignationById(@RequestParam int desigId, @RequestParam int compId) {
 
@@ -2103,6 +2152,7 @@ public class MasterApiConctoller {
 		return designation;
 
 	}
+
 	@RequestMapping(value = { "/deleteDesignationById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteDesignationById(@RequestParam int desigId) {
 

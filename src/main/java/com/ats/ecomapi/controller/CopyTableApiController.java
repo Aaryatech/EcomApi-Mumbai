@@ -136,7 +136,7 @@ public class CopyTableApiController {
 				for (int i = 0; i < catList.size(); i++) {
 					Category catm = catList.get(i);
 					Category cat = new Category();
-					cat.setAllowToCopy(catm.getAllowToCopy());
+					cat.setAllowToCopy(0);
 					cat.setCatDesc(catm.getCatDesc());
 					cat.setCatName(catm.getCatName());
 					cat.setCatPrefix(catm.getCatPrefix());
@@ -184,7 +184,7 @@ public class CopyTableApiController {
 					uom.setExVar3("NA");
 					uom.setExVar4("NA");
 					uom.setIsParent(um.getIsParent());
-					uom.setAllowToCopy(um.getAllowToCopy());
+					uom.setAllowToCopy(0);
 					uom.setIsActive(um.getIsActive());
 					uom.setSortNo(um.getSortNo());
 					uom.setUomDesc(um.getUomDesc());

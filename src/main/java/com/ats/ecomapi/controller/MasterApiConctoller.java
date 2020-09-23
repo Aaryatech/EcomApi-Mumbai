@@ -17,10 +17,12 @@ import com.ats.ecomapi.master.model.AreaCityList;
 import com.ats.ecomapi.master.model.Category;
 import com.ats.ecomapi.master.model.City;
 import com.ats.ecomapi.master.model.DeliveryInstruction;
+import com.ats.ecomapi.master.model.Designation;
 import com.ats.ecomapi.master.model.FilterTypes;
 import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.model.GrievencesInstruction;
 import com.ats.ecomapi.master.model.GrievencesTypeInstructn;
+import com.ats.ecomapi.master.model.HomePageTestimonial;
 import com.ats.ecomapi.master.model.Language;
 import com.ats.ecomapi.master.model.MFilter;
 import com.ats.ecomapi.master.model.ProductHomPage;
@@ -35,10 +37,12 @@ import com.ats.ecomapi.master.repo.CategoryRepo;
 import com.ats.ecomapi.master.repo.CityRepo;
 import com.ats.ecomapi.master.repo.ConfigHomePageProductRepo;
 import com.ats.ecomapi.master.repo.DeliveryInstructionRepo;
+import com.ats.ecomapi.master.repo.DesignationRepo;
 import com.ats.ecomapi.master.repo.FilterTypesRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.GrievencesInstructionRepo;
 import com.ats.ecomapi.master.repo.GrievencesTypeInstructnRepo;
+import com.ats.ecomapi.master.repo.HomePageTestimonialRepo;
 import com.ats.ecomapi.master.repo.LanguageRepo;
 import com.ats.ecomapi.master.repo.MFilterRepo;
 import com.ats.ecomapi.master.repo.ProductHomPageRepo;
@@ -121,6 +125,12 @@ public class MasterApiConctoller {
 
 	@Autowired
 	ConfigHomePageProductRepo configPrdctHomRepo;
+
+	@Autowired
+	HomePageTestimonialRepo testimonialRepo;
+	
+	@Autowired
+	DesignationRepo desigRepo;
 
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
@@ -1825,7 +1835,7 @@ public class MasterApiConctoller {
 	// Modified On :- NA
 	// Description :- Update Configuration Product Home Page SortNo
 	@RequestMapping(value = { "/updatePrdctHomePageSortNo" }, method = RequestMethod.POST)
-	public @ResponseBody Info updatePrdctHomePageSortNo(@RequestParam int configStatusId, @RequestParam int sortNo, 
+	public @ResponseBody Info updatePrdctHomePageSortNo(@RequestParam int configStatusId, @RequestParam int sortNo,
 			@RequestParam int isActve) {
 
 		Info info = new Info();
@@ -1951,12 +1961,160 @@ public class MasterApiConctoller {
 			int res = prdctHomeRepo.deleteHomePageConfig(id);
 			if (res > 0) {
 				int del = prdctHomePageDtlRepo.deleteHomepageStatusDtl(id);
-				
+
 				info.setError(false);
 				info.setMessage("Configuration Deleted Successfully");
 			} else {
 				info.setError(true);
 				info.setMessage("Failed to Delete Configuration");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	/*-----------------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singh
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Home Page Testimonials List
+	@RequestMapping(value = { "/getTestimonials" }, method = RequestMethod.POST)
+	public @ResponseBody List<HomePageTestimonial> getTestimonials(@RequestParam int compId) {
+
+		List<HomePageTestimonial> list = new ArrayList<HomePageTestimonial>();
+		try {
+			list = testimonialRepo.findByCompanyIdAndDelStatusOrderByTestimonialsIdDesc(compId, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Save Home Page Testimonials List
+	@RequestMapping(value = { "/saveTestimonial" }, method = RequestMethod.POST)
+	public @ResponseBody HomePageTestimonial saveTestimonials(@RequestBody HomePageTestimonial testimonial) {
+
+		HomePageTestimonial newTestimonial = new HomePageTestimonial();
+		try {
+			newTestimonial = testimonialRepo.save(testimonial);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newTestimonial;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Home Page Testimonial By Id
+	@RequestMapping(value = { "/getTestimonialsById" }, method = RequestMethod.POST)
+	public @ResponseBody HomePageTestimonial getTestimonialsById(@RequestParam int testimonialId) {
+
+		HomePageTestimonial testimonial = new HomePageTestimonial();
+		try {
+			testimonial = testimonialRepo.findByTestimonialsId(testimonialId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return testimonial;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Delete Home Page Testimonial By Id
+	@RequestMapping(value = { "/deleteTestimonialsById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteTestimonialsById(@RequestParam int testimonialId) {
+
+		Info info = new Info();
+		try {
+			int res = testimonialRepo.deleteTestimonial(testimonialId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Testimonial Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Testimonial");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+	/*--------------------------------------------------------------------------------------------*/
+	
+	@RequestMapping(value = { "/insertDesignation" }, method = RequestMethod.POST)
+	public @ResponseBody Designation insertDesignation(@RequestBody Designation desig) {
+		
+		Designation res = new Designation();
+		try {
+			res = desigRepo.save(desig);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@RequestMapping(value = { "/getDesignations" }, method = RequestMethod.GET)
+	public @ResponseBody List<Designation> getDesignations() {
+
+		List<Designation> list = new ArrayList<Designation>();
+		try {
+			list = desigRepo.findByDelStatusOrderByDesignationIdDesc(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/getDesignationsByCompId" }, method = RequestMethod.POST)
+	public @ResponseBody List<Designation> getDesignationsByCompId(@RequestParam int compId) {
+
+		List<Designation> list = new ArrayList<Designation>();
+		try {
+			list = desigRepo.findByDelStatusAndExInt1OrderByDesignationIdDesc(1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+	@RequestMapping(value = { "/getDesignationById" }, method = RequestMethod.POST)
+	public @ResponseBody Designation getDesignationById(@RequestParam int desigId, @RequestParam int compId) {
+
+		Designation designation = new Designation();
+		try {
+			designation = desigRepo.findBydesignationIdAndExInt1(desigId, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return designation;
+
+	}
+	@RequestMapping(value = { "/deleteDesignationById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteDesignationById(@RequestParam int desigId) {
+
+		Info info = new Info();
+		try {
+			int res = desigRepo.deleteDesignation(desigId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Designation Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Designation");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

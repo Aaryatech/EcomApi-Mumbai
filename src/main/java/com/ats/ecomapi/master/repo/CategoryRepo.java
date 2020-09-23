@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ats.ecomapi.master.model.Category;
+import com.ats.ecomapi.master.model.Uom;
 
 
 public interface CategoryRepo extends JpaRepository<Category, Integer>{
@@ -26,5 +27,14 @@ public interface CategoryRepo extends JpaRepository<Category, Integer>{
 	public Category findByCatPrefixIgnoreCase(String catId);
 
 	public Category findByCatPrefixIgnoreCaseAndCatIdNot(String prefix, int catId);
+
+	 
+
+ 
+	public List<Category> findByDelStatusAndCatIdIn(int i, List<Integer> primaryIds);
+
+	
+	
+ 
 
 }

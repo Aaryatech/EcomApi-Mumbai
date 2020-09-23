@@ -1,5 +1,6 @@
 package com.ats.ecomapi.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,19 +8,29 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.master.model.Category;
 import com.ats.ecomapi.master.model.CopyTable;
 import com.ats.ecomapi.master.model.GetTableFields;
+import com.ats.ecomapi.master.model.Uom;
+import com.ats.ecomapi.master.repo.CategoryRepo;
 import com.ats.ecomapi.master.repo.CopyTableRepo;
 import com.ats.ecomapi.master.repo.GetTableFieldsRepo;
 import com.ats.ecomapi.master.repo.GetTableNamesRepo;
+import com.ats.ecomapi.master.repo.UomRepo;
 import com.ats.ecomapi.mst_model.GetTableNames;
+import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.User;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
@@ -79,6 +90,12 @@ public class CopyTableApiController {
 
 	}
 
+	@Autowired
+	CategoryRepo catRepo;
+
+	@Autowired
+	UomRepo uomRepo;
+
 	@RequestMapping(value = { "/getCopyTbl" }, method = RequestMethod.POST)
 	public @ResponseBody List<String> getCopyTbl(String tbl_name) {
 
@@ -100,6 +117,103 @@ public class CopyTableApiController {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@RequestMapping(value = { "/insertRec" }, method = RequestMethod.POST)
+	public @ResponseBody Info insertRec(@RequestParam String tbl_name, @RequestParam List<Integer> primaryIds,
+			@RequestParam int compId, @RequestParam int userId, @RequestParam String curDateTime) {
+		System.err.println("hii");
+		Info res = new Info();
+		try {
+
+			if (tbl_name.equals("m_category")) {
+				System.err.println("hiicat");
+				List<Category> catList = new ArrayList<Category>();
+				List<Category> savecatList = new ArrayList<Category>();
+
+				catList = catRepo.findByDelStatusAndCatIdIn(1, primaryIds);
+
+				for (int i = 0; i < catList.size(); i++) {
+					Category catm = catList.get(i);
+					Category cat = new Category();
+					cat.setAllowToCopy(catm.getAllowToCopy());
+					cat.setCatDesc(catm.getCatDesc());
+					cat.setCatName(catm.getCatName());
+					cat.setCatPrefix(catm.getCatPrefix());
+					cat.setIsParent(catm.getIsParent());
+					cat.setCompanyId(compId);
+					cat.setImageName(catm.getImageName());
+					cat.setIsActive(catm.getIsActive());
+					cat.setSortNo(0);
+					cat.setDelStatus(1);
+					cat.setExInt1(0);
+					cat.setExInt2(0);
+					cat.setExInt3(0);
+					cat.setExVar1("NA");
+					cat.setExVar2("NA");
+					cat.setExVar3("NA");
+					savecatList.add(cat);
+				}
+
+				List<Category> val = catRepo.saveAll(savecatList);
+
+				if (val != null) {
+					res.setError(false);
+					res.setMessage("Copied Successfully");
+				} else {
+					res.setError(true);
+					res.setMessage("Failed to Copy");
+				}
+
+			} else if (tbl_name.equals("m_uom")) {
+				List<Uom> list = new ArrayList<>();
+				List<Uom> list1 = new ArrayList<>();
+				list = uomRepo.findByDelStatusAndUomIdIn(1, primaryIds);
+				for (int i = 0; i < list.size(); i++) {
+
+					Uom um = list.get(i);
+
+					Uom uom = new Uom();
+					uom.setCompanyId(compId);
+					uom.setDelStatus(1);
+					uom.setExInt1(0);
+					uom.setExInt2(0);
+					uom.setExInt3(0);
+					uom.setExVar1("NA");
+					uom.setExVar2("NA");
+					uom.setExVar3("NA");
+					uom.setExVar4("NA");
+					uom.setIsParent(um.getIsParent());
+					uom.setAllowToCopy(um.getAllowToCopy());
+					uom.setIsActive(um.getIsActive());
+					uom.setSortNo(um.getSortNo());
+					uom.setUomDesc(um.getUomDesc());
+					uom.setUomName(um.getUomName());
+					uom.setUomShowName(um.getUomShowName());
+
+					list1.add(uom);
+
+				}
+				List<Uom> val = uomRepo.saveAll(list1);
+
+
+				if (val != null) {
+					res.setError(false);
+					res.setMessage("Copied Successfully");
+				} else {
+					res.setError(true);
+					res.setMessage("Failed to Copy");
+				}
+
+			} else {
+				res.setError(true);
+				res.setMessage("Failed to Copy");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 }

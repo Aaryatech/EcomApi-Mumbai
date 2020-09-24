@@ -22,4 +22,6 @@ public interface ItemConfHeaderRepo extends JpaRepository<ItemConfHeader, Intege
 	int updateProdConfHeader(@Param("configName") String configName, @Param("makerUserId") int makerUserId,
 			@Param("updtDttime") String updtDttime,@Param("configHeaderId") int configHeaderId);
 
+	List<ItemConfHeader> findByCatIdAndDelStatus(int catId, int i);
+
 }

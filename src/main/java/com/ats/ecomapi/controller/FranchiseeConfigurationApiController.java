@@ -18,6 +18,8 @@ import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.model.GetTableFields;
 import com.ats.ecomapi.master.repo.FrConfigurationRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
+import com.ats.ecomapi.master.repo.GetFrForConfigRepo;
+import com.ats.ecomapi.mst_model.GetFrConfigList;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.ItemConfHeader;
 import com.ats.ecomapi.mst_repo.ItemConfHeaderRepo;
@@ -33,6 +35,9 @@ public class FranchiseeConfigurationApiController {
 
 	@Autowired
 	FrConfigurationRepo frConfigurationRepo;
+
+	@Autowired
+	GetFrForConfigRepo getFrForConfigRepo;
 
 	@RequestMapping(value = { "/getConfigurationByCatId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemConfHeader> getConfigurationByCatId(@RequestParam int catId) {
@@ -59,11 +64,12 @@ public class FranchiseeConfigurationApiController {
 			List<ItemConfHeader> cnlist = itemConfHeaderRepo.findAll();
 
 			/* if (cnlist.size() > 0) { */
-				list = franchiseRepo.getFranchiseToConfig(companyId, catId);
-			/*} else {
-				list = franchiseRepo.findByCompanyIdAndDelStatusOrderByFrIdDesc(companyId, 1);
-			}*/
-			//System.err.println("list" + list.toString());
+			list = getFrForConfigRepo.getFranchiseToConfig(companyId, catId);
+			/*
+			 * } else { list =
+			 * franchiseRepo.findByCompanyIdAndDelStatusOrderByFrIdDesc(companyId, 1); }
+			 */
+			// System.err.println("list" + list.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -76,16 +82,14 @@ public class FranchiseeConfigurationApiController {
 	public @ResponseBody Info insertFrConfig(@RequestParam int actualRate, @RequestParam int displayRate,
 			@RequestParam List<Integer> frIds, @RequestParam int cfgId, @RequestParam int userId,
 			@RequestParam String curDateTime) {
-		 
-		
+
 		Info res = new Info();
-		
-		
+
 		try {
-			List<FrConfiguration> configList=new ArrayList<>();
-			for(int i=0;i<frIds.size();i++) {
-				
-				FrConfiguration fr=new FrConfiguration();
+			List<FrConfiguration> configList = new ArrayList<>();
+			for (int i = 0; i < frIds.size(); i++) {
+
+				FrConfiguration fr = new FrConfiguration();
 				fr.setActualRate(actualRate);
 				fr.setConfigHeaderId(cfgId);
 				fr.setDisplayRate(displayRate);
@@ -98,28 +102,46 @@ public class FranchiseeConfigurationApiController {
 				fr.setExInt2(0);
 				fr.setExVar1("NA");
 				fr.setExVar2("NA");
-				
+
 				configList.add(fr);
 			}
-			
-		List<FrConfiguration> save=	frConfigurationRepo.saveAll(configList);
 
-		if (save != null) {
-			res.setError(false);
-			res.setMessage("Francise Configured Successfully");
-		} else {
-			res.setError(true);
-			res.setMessage("Failed to Configure");
-		}
+			List<FrConfiguration> save = frConfigurationRepo.saveAll(configList);
+
+			if (save != null) {
+				res.setError(false);
+				res.setMessage("Francise Configured Successfully");
+			} else {
+				res.setError(true);
+				res.setMessage("Failed to Configure");
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			res.setError(true);
 			res.setMessage("Failed to Configure");
 		}
-	 
 
-	return res;
-}
+		return res;
+	}
+
+	@RequestMapping(value = { "/getFranchiseConfigList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetFrConfigList> getFranchiseConfigList(@RequestParam List<String> frIds,
+			@RequestParam List<String> configIds, @RequestParam String orderBy) {
+
+		List<GetFrConfigList> list = new ArrayList<GetFrConfigList>();
+
+		if (frIds.contains("0") && !configIds.contains("0")) {
+
+		} else if (configIds.contains("0") && !frIds.contains("0")) {
+		} else if (!configIds.contains("0") && !frIds.contains("0")) {
+
+		} else {
+
+		}
+
+		return null;
+
+	}
 
 }

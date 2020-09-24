@@ -183,7 +183,34 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 	List<ProductMaster> findByProductIdIn(List<Integer> prodIdList);
 
 	// Mahendra 21-09-2020
-	List<ProductMaster> findByProdStatusIdAndDelStatusAndIsActiveAndCompanyId(int statusId, int del, 
-			int isActive, int compId);
+	List<ProductMaster> findByProdStatusIdAndDelStatusAndIsActiveAndCompanyId(int statusId, int del, int isActive,
+			int compId);
+
+	@Query(value = "" + " SELECT " + "    prod.product_id,\n" + "    prod.product_code,\n" + "    prod.product_name,\n"
+			+ "    prod.prod_cat_id,\n" + "    prod.prod_sub_cat_id,\n" + "    prod.tax_id,\n" + "    prod.sort_id,\n"
+			+ "    prod.del_status,\n" + "    prod.min_qty,\n" + "    prod.shelf_life,\n"
+			+ "    prod.is_return_allow,\n" + "    prod.ret_per,\n" + "    prod.is_active,\n" + "    prod.uom_id,\n"
+			+ "    prod.short_name,\n" + "    prod.shape_id,\n" + "    prod.allow_same_day_delivery,\n"
+			+ "    prod.same_day_time_allowed_slot,\n" + "    prod.prod_type_id,\n" + "    prod.avail_in_weights,\n"
+			+ "    prod.flavour_ids,\n" + "    prod.prod_status_id,\n" + "    prod.book_before,\n"
+			+ "    prod.events_ids,\n" + "    prod.is_char_limit,\n" + "    prod.no_of_chars_for_alpha_cake,\n"
+			+ "    prod.allow_cover_photo_upload,\n" + "    prod.allow_base_photo_upload,\n"
+			+ "    prod.allow_special_instruction,\n" + "    prod.allow_msg_on_cake,\n"
+			+ "    prod.no_of_chars_on_cake,\n" + "    prod.is_used,\n" + "    prod.is_slot_used,\n"
+			+ "    prod.type_of_bread,\n" + "    prod.type_of_cream,\n" + "    prod.layering_cream,\n"
+			+ "    prod.topping_cream,\n" + "    prod.product_desc,\n" + "    prod.ingerdiants,\n"
+			+ "    prod.applicable_tags,\n" + "    prod.company_id,\n" + "    prod.prod_image_primary,\n"
+			+ "    prod.product_images,\n" + "    prod.maker_user_id,\n" + "    prod.updt_dttime,\n"
+			+ "    prod.insert_dttime, " + "    prod.copy_item_id, " + "    prod.is_veg, " + "    prod.prep_time, "
+			+ "    prod.rate_setting_type, " + "    prod.ex_int1, " + "    prod.ex_int2, " + "    prod.ex_int3, "
+			+ "    prod.ex_var1, " + "    prod.ex_var2, " + "    prod.ex_var3, " + "    prod.ex_var4, "
+			+ "    prod.ex_float1, " + "    prod.ex_float2, " + "    prod.ex_float3, " + "    prod.ex_date1, "
+			+ "    prod.ex_date2, " + "    prod.max_wt " + " FROM " + "    m_product prod " + "      " + " WHERE "
+			+ "    prod.del_status = 1 AND prod.product_id NOT IN "
+			+ " (SELECT tn_item_config_detail.product_id FROM  tn_item_config_detail "
+			+ " WHERE tn_item_config_detail.config_header_id=:configId) AND "
+			+ " prod.prod_cat_id=:catId and prod.company_id=:compId ", nativeQuery = true)
+
+	List<ProductMaster> getProdListForAddingNewItemInExConf(@Param("catId") int catId, @Param("compId") int compId, @Param("configId") int configId);
 
 }

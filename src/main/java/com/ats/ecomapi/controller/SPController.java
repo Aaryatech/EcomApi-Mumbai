@@ -400,6 +400,23 @@ public class SPController {
 		return proList;
 	}
 
+	// get All Prod By Cat Id CompId
+		// Sachin 24-09-2020
+	@RequestMapping(value = { "/getProdListForAddingNewItemInExConf" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProductMaster> getProdListForAddingNewItemInExConf(@RequestParam("catId") int catId,
+			@RequestParam("compId") int compId,@RequestParam("configId") int configId) {
+		List<ProductMaster> proList = new ArrayList<ProductMaster>();
+
+		try {
+			proList = productMasterRepo.getProdListForAddingNewItemInExConf(catId,  compId,configId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return proList;
+	}
+	
 	// saveProdConfHD
 	// Sachin 21-09-2020
 	@Autowired
@@ -436,6 +453,27 @@ public class SPController {
 
 		return confHeader;
 	}
+	
+	//Sachin 24-09-2020
+	//Desc -Save new Items In Existing Product conf Header
+	
+	
+	@RequestMapping(value = { "/saveNewItemToProdConf" }, method = RequestMethod.POST)
+	public @ResponseBody Object saveNewItemToProdConf(@RequestBody List<ItemConfDetail> confDetList ) {
+		System.err.println("In saveNewItemToProdConf ");
+		List<ItemConfDetail> detailSaveRes=new ArrayList<ItemConfDetail>();
+		try {
+				 detailSaveRes = itemConfDetailRepo.saveAll(confDetList);
+		} catch (Exception e) {
+			detailSaveRes=new ArrayList<ItemConfDetail>();
+			System.err.println("In Exception");
+			e.printStackTrace();
+		}
+
+		return detailSaveRes;
+	}
+	
+	
 
 	// Sachin 21-09-2020
 	// Desc-Web Service to get Prod Conf Header by company and Cat Id(s)

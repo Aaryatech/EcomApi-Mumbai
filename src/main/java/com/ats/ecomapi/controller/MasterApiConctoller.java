@@ -1612,7 +1612,7 @@ public class MasterApiConctoller {
 	}
 
 	/***********************************************************************************/
-	@RequestMapping(value = { "/getProductsByTaxId" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/getProductsByType" }, method = RequestMethod.POST)
 	public @ResponseBody List<ProductMaster> getProductsByTaxId(@RequestParam int typeConfigId,
 			@RequestParam int filterId, @RequestParam int compId, @RequestParam int optionVal) {
 		List<ProductMaster> list = new ArrayList<ProductMaster>();
@@ -1872,8 +1872,14 @@ public class MasterApiConctoller {
 	// Description :- Save Configuration Product Home Page
 	@RequestMapping(value = { "/getPrdctHomePageById" }, method = RequestMethod.POST)
 	public @ResponseBody ProductHomPage getPrdctHomePageById(@RequestParam int homePageStatusId) {
+		ProductHomPage res = new ProductHomPage();
+		try {
 
-		ProductHomPage res = prdctHomeRepo.findByHomePageStatusId(homePageStatusId);
+			res = prdctHomeRepo.findByHomePageStatusId(homePageStatusId);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return res;
 	}
 

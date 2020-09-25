@@ -24,4 +24,6 @@ public interface ItemConfHeaderRepo extends JpaRepository<ItemConfHeader, Intege
 
 	List<ItemConfHeader> findByCatIdAndDelStatus(int catId, int i);
 
+	List<ItemConfHeader> findByCompanyIdAndDelStatus(int compId, int i);
+
 }

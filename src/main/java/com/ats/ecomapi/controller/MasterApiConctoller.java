@@ -570,7 +570,7 @@ public class MasterApiConctoller {
 
 		List<FilterTypes> fltrTypeList = new ArrayList<FilterTypes>();
 		try {
-			fltrTypeList = filterTypeRepo.findByDelStatusAndCompanyIdOrderByFilterTypeIdDesc(1, compId);
+			fltrTypeList = filterTypeRepo.findByDelStatusOrderByFilterTypeIdDesc(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -587,7 +587,7 @@ public class MasterApiConctoller {
 
 		List<FilterTypes> fltrTypeList = new ArrayList<FilterTypes>();
 		try {
-			fltrTypeList = filterTypeRepo.findByDelStatusAndIsActiveAndCompanyIdOrderByFilterTypeIdDesc(1, 1, compId);
+			fltrTypeList = filterTypeRepo.findByDelStatusAndIsActiveOrderByFilterTypeIdDesc(1, 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -837,7 +837,7 @@ public class MasterApiConctoller {
 	}
 
 	@RequestMapping(value = { "/getFrCnt" }, method = RequestMethod.POST)
-	public @ResponseBody int updateFrGstAndFdaDtl(@RequestParam int compId, @RequestParam String coPrefix) {
+	public @ResponseBody int getFrCnt(@RequestParam int compId, @RequestParam String coPrefix) {
 
 		Info info = new Info();
 		int cnt = 0;
@@ -1241,7 +1241,7 @@ public class MasterApiConctoller {
 	}
 
 	@RequestMapping(value = { "/getAreaByCityIdsAndCompId" }, method = RequestMethod.POST)
-	public @ResponseBody List<Area> getAreaByCityIdAndCopmId(@RequestParam List<Integer> cityId,
+	public @ResponseBody List<Area> getAreaByCitysIdAndCopmId(@RequestParam List<Integer> cityId,
 			@RequestParam int compId) {
 
 		List<Area> list = null;
@@ -1568,13 +1568,13 @@ public class MasterApiConctoller {
 
 			if (optnValue == 1) {
 				if (filterTypeId == 2) {
-					res = productMstrRepo.getConfigProductsTimeSlots(filterId, prdctIdsStr);
+					res = productMstrRepo.updtConfigProductsTimeSlots(filterId, prdctIdsStr);
 				} else if (filterTypeId == 4) {
-					res = productMstrRepo.getConfigProductsFlavours(filterId, prdctIdsStr);
+					res = productMstrRepo.updtConfigProductsFlavours(filterId, prdctIdsStr);
 				} else if (filterTypeId == 6) {
-					res = productMstrRepo.getConfigProductsEvents(filterId, prdctIdsStr);
+					res = productMstrRepo.updtConfigProductsEvents(filterId, prdctIdsStr);
 				} else if (filterTypeId == 7) {
-					res = productMstrRepo.getConfigProductsTags(filterId, prdctIdsStr);
+					res = productMstrRepo.updtConfigProductsTags(filterId, prdctIdsStr);
 				}
 
 				if (res > 0) {
@@ -1587,13 +1587,13 @@ public class MasterApiConctoller {
 			} else {
 				System.err.println("In Remove");
 				if (filterTypeId == 2) {
-					res = productMstrRepo.unconfigProductTimeSlots(filterId, prdctIdsStr);
+					res = productMstrRepo.unconfigUpdtProductTimeSlots(filterId, prdctIdsStr);
 				} else if (filterTypeId == 4) {
-					res = productMstrRepo.unconfigProductFlavour(filterId, prdctIdsStr);
+					res = productMstrRepo.unconfigUpdtProductFlavour(filterId, prdctIdsStr);
 				} else if (filterTypeId == 6) {
-					res = productMstrRepo.unconfigProductEvents(filterId, prdctIdsStr);
+					res = productMstrRepo.unconfigUpdtProductEvents(filterId, prdctIdsStr);
 				} else if (filterTypeId == 7) {
-					res = productMstrRepo.unconfigProductTags(filterId, prdctIdsStr);
+					res = productMstrRepo.unconfigUpdtProductTags(filterId, prdctIdsStr);
 				}
 
 				if (res > 0) {
@@ -1871,9 +1871,9 @@ public class MasterApiConctoller {
 	// Modified On :- NA
 	// Description :- Save Configuration Product Home Page
 	@RequestMapping(value = { "/getPrdctHomePageById" }, method = RequestMethod.POST)
-	public @ResponseBody ProductHomPage getPrdctHomePageById(@RequestParam int id) {
+	public @ResponseBody ProductHomPage getPrdctHomePageById(@RequestParam int homePageStatusId) {
 
-		ProductHomPage res = prdctHomeRepo.findByHomePageStatusId(id);
+		ProductHomPage res = prdctHomeRepo.findByHomePageStatusId(homePageStatusId);
 		return res;
 	}
 
@@ -1933,7 +1933,7 @@ public class MasterApiConctoller {
 
 		List<ProductHomPage> list = new ArrayList<ProductHomPage>();
 		try {
-			list = prdctHomeRepo.findByCompanyIdAndDelStatusAndIsActive(compId, 1, 1);
+			list = prdctHomeRepo.findByCompanyIdAndDelStatus(compId, 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

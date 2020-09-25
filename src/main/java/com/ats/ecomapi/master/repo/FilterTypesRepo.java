@@ -15,7 +15,11 @@ public interface FilterTypesRepo extends JpaRepository<FilterTypes, Integer> {
 
 	List<FilterTypes> findByDelStatusAndIsActiveAndCompanyIdOrderByFilterTypeIdDesc(int del, int compId, int isActive);
 	
+	List<FilterTypes> findByDelStatusAndIsActiveOrderByFilterTypeIdDesc(int del, int isActive);
+	
 	List<FilterTypes> findByDelStatusAndCompanyIdOrderByFilterTypeIdDesc(int del, int compId);
+	
+	List<FilterTypes> findByDelStatusOrderByFilterTypeIdDesc(int del);
 	
 	FilterTypes findByFilterTypeId(int filterTypeId);
 	

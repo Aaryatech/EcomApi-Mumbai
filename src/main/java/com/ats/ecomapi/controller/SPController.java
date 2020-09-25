@@ -60,8 +60,6 @@ public class SPController {
 		User loginUser = new User();
 		int userId = 0;
 		try {
-			System.err.println("Username ----------- " + userName);
-			System.err.println("Password ----------- " + pass);
 			// Check if user name exists
 			// User name should be case in sensitive
 			try {
@@ -124,7 +122,6 @@ public class SPController {
 		try {
 			prodMasterRes = productMasterRepo.save(prod);
 			if (prodMasterRes == null) {
-				System.err.println("Its prodMaster Res " + prodMasterRes);
 				prodMasterRes = new ProductMaster();
 			}
 		} catch (Exception e) {
@@ -172,14 +169,11 @@ public class SPController {
 		try {
 			prodList = getProdListRepo.getProdList(compId);
 			if (prodList == null || prodList.isEmpty()) {
-				System.err.println(" In Null");
 				prodList = new ArrayList<GetProdList>();
 			} else {
-				System.err.println("Not null");
 			}
 
 		} catch (Exception e) {
-			System.err.println("In Exce");
 			prodList = new ArrayList<GetProdList>();
 		}
 
@@ -391,34 +385,43 @@ public class SPController {
 		List<ProductMaster> proList = new ArrayList<ProductMaster>();
 
 		try {
+			
 			proList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyId(catId, 1, compId);
-
+			
+			if (proList == null) {
+				proList = new ArrayList<ProductMaster>();
+			}
+			
 		} catch (Exception e) {
-
+			proList = new ArrayList<ProductMaster>();
 			e.printStackTrace();
 		}
 		return proList;
 	}
 
 	// get All Prod By Cat Id CompId
-		// Sachin 24-09-2020
+	// Sachin 24-09-2020
 	@RequestMapping(value = { "/getProdListForAddingNewItemInExConf" }, method = RequestMethod.POST)
 	public @ResponseBody List<ProductMaster> getProdListForAddingNewItemInExConf(@RequestParam("catId") int catId,
-			@RequestParam("compId") int compId,@RequestParam("configId") int configId) {
-		List<ProductMaster> proList = new ArrayList<ProductMaster>();
+			@RequestParam("compId") int compId, @RequestParam("configId") int configId) {
+		List<ProductMaster> prodList = new ArrayList<ProductMaster>();
 
 		try {
-			proList = productMasterRepo.getProdListForAddingNewItemInExConf(catId,  compId,configId);
-
+			prodList = productMasterRepo.getProdListForAddingNewItemInExConf(catId, compId, configId);
+			
+			if(prodList==null) {
+				prodList = new ArrayList<ProductMaster>();
+			}
 		} catch (Exception e) {
-
+			prodList = new ArrayList<ProductMaster>();
 			e.printStackTrace();
 		}
-		return proList;
+		return prodList;
 	}
-	
+
 	// saveProdConfHD
 	// Sachin 21-09-2020
+	//Desc- To save Product Conf Header and details
 	@Autowired
 	ItemConfHeaderRepo itemConfHeaderRepo;
 	@Autowired
@@ -430,8 +433,6 @@ public class SPController {
 		try {
 			confHeader = itemConfHeaderRepo.save(confHeaderInput);
 			if (confHeader == null) {
-
-				System.err.println("Its confHeader Res " + confHeader);
 				confHeader = new ItemConfHeader();
 			} else {
 
@@ -453,27 +454,28 @@ public class SPController {
 
 		return confHeader;
 	}
-	
-	//Sachin 24-09-2020
-	//Desc -Save new Items In Existing Product conf Header
-	
-	
+
+	// Sachin 24-09-2020
+	// Desc -Save new Items In Existing Product conf Header
+
 	@RequestMapping(value = { "/saveNewItemToProdConf" }, method = RequestMethod.POST)
-	public @ResponseBody Object saveNewItemToProdConf(@RequestBody List<ItemConfDetail> confDetList ) {
-		System.err.println("In saveNewItemToProdConf ");
-		List<ItemConfDetail> detailSaveRes=new ArrayList<ItemConfDetail>();
+	public @ResponseBody Object saveNewItemToProdConf(@RequestBody List<ItemConfDetail> confDetList) {
+		
+		List<ItemConfDetail> detailSaveRes = new ArrayList<ItemConfDetail>();
 		try {
-				 detailSaveRes = itemConfDetailRepo.saveAll(confDetList);
+			detailSaveRes = itemConfDetailRepo.saveAll(confDetList);
+		
+			if(detailSaveRes==null) {
+				detailSaveRes = new ArrayList<ItemConfDetail>();
+			}
+			
 		} catch (Exception e) {
-			detailSaveRes=new ArrayList<ItemConfDetail>();
-			System.err.println("In Exception");
+			detailSaveRes = new ArrayList<ItemConfDetail>();
 			e.printStackTrace();
 		}
 
 		return detailSaveRes;
 	}
-	
-	
 
 	// Sachin 21-09-2020
 	// Desc-Web Service to get Prod Conf Header by company and Cat Id(s)
@@ -492,10 +494,12 @@ public class SPController {
 
 			confHeaderList = getItemConfHeadRepo.getItemConfHeadListByCatId(catIdList, companyId);
 
+			if(confHeaderList==null) {
+				confHeaderList =new ArrayList<>();
+			}
+			
 		} catch (Exception e) {
-
 			confHeaderList = new ArrayList<>();
-			System.err.println("In Exception");
 			e.printStackTrace();
 
 		}
@@ -511,19 +515,19 @@ public class SPController {
 	// Updated By Sachin
 	@Autowired
 	TempProdConfigRepo getProdConfDetail;
- 
+
 	@RequestMapping(value = { "/getProdConfDetailByConfHeader" }, method = RequestMethod.POST)
 	public @ResponseBody TempConfTraveller getProdConfDetailByConfHeader(@RequestParam int configHeaderId,
 			@RequestParam int companyId) {
-		
-		TempConfTraveller traveller=new TempConfTraveller();
-		
+
+		TempConfTraveller traveller = new TempConfTraveller();
+
 		List<TempProdConfig> prodConfDetailList = new ArrayList<>();
 		List<TempProdConfig> tempProdConfList = new ArrayList<>();
-		
-		GetItemConfHead confHead=getItemConfHeadRepo.getProdConfHeaderByConfHeadId(configHeaderId);
+
+		GetItemConfHead confHead = getItemConfHeadRepo.getProdConfHeaderByConfHeadId(configHeaderId);
 		traveller.setConfHead(confHead);
-		
+
 		filterList = new ArrayList<MFilter>();
 		try {
 			// Get Filter By Comp Id and Filter type ie 4 for Flavor
@@ -537,9 +541,7 @@ public class SPController {
 			List<Integer> prodcutIdList = new ArrayList<Integer>();
 			prodConfDetailList = getProdConfDetail.getProdConfByConfHeaderId(configHeaderId);
 			traveller.setProdConfDetailList(prodConfDetailList);
-			
-			System.err.println("prodConfDetailList " + prodConfDetailList.toString());
-			
+
 			for (int i = 0; i < prodConfDetailList.size(); i++) {
 				prodcutIdList.add(prodConfDetailList.get(i).getProductId());
 			}
@@ -549,7 +551,6 @@ public class SPController {
 			prodcutIdList.clear();
 
 			prodcutIdList.addAll(set);
-			System.err.println("prodcutIdList " + prodcutIdList.toString());
 			List<ProductMaster> prodList = productMasterRepo.findByProductIdIn(prodcutIdList);
 
 			for (int i = 0; i < prodList.size(); i++) {
@@ -596,7 +597,6 @@ public class SPController {
 
 					if (flag == 0) {
 						// Flavor Id not found in Product Detail
-						System.err.println("New Flavor Found");
 						if (pm.getRateSettingType() == 2) {
 							// ie by weight Ids
 
@@ -846,54 +846,45 @@ public class SPController {
 				} // end of For vegNonVegList For P
 
 			} // end of prodList For Loop I
-			System.err.println("tempProdConfList " + tempProdConfList.toString());
 			traveller.setTempProdConfList(tempProdConfList);
 		} catch (Exception e) {
 			prodConfDetailList = new ArrayList<>();
-			System.err.println("In Exception");
 			e.printStackTrace();
 		}
 
 		return traveller;
 
 	}
-	
-	
-	
+//Sachin 23-09-2020
+	//Desc- to save Prod conf Header Detail Edit Call ie some items added and some existing edited
 	@RequestMapping(value = { "/saveUpdateProdConfHD" }, method = RequestMethod.POST)
 	public @ResponseBody Object saveUpdateProdConfHD(@RequestBody TempConfTraveller traveller) {
 		ItemConfHeader confHeader = new ItemConfHeader();
 		try {
-			GetItemConfHead confHead=traveller.getConfHead();
-			int headerUpdateRes = itemConfHeaderRepo.updateProdConfHeader(confHead.getConfigName(), confHead.getCatId(), 
+			GetItemConfHead confHead = traveller.getConfHead();
+			int headerUpdateRes = itemConfHeaderRepo.updateProdConfHeader(confHead.getConfigName(), confHead.getCatId(),
 					confHead.getCatName(), confHead.getConfigHeaderId());
 
-			//confHeader = itemConfHeaderRepo.updateProdConfHeader(configName, makerUserId, updtDttime, configHeaderId)
-			if (headerUpdateRes>0) {
+			if (headerUpdateRes > 0) {
 				List<ItemConfDetail> confDetList = traveller.getConfDetailList();
-
 				List<ItemConfDetail> detailSaveRes = itemConfDetailRepo.saveAll(confDetList);
-				
-				List<TempProdConfig> updateDetList=traveller.getProdConfDetailList();
-				
-				for(int j=0;j<updateDetList.size();j++) {
-					TempProdConfig detail=updateDetList.get(j);
-					
-					int detailRes=itemConfDetailRepo.updateProdConfDetail(detail.getRateAmt(), detail.getMrpAmt(), detail.getSpRateAmt1(),
-							detail.getSpRateAmt2(), 
-							detail.getSpRateAmt3(), detail.getSpRateAmt4(), detail.getMakerUserId(), detail.getUpdtDttime(), detail.getConfigDetailId());
-					
+
+				List<TempProdConfig> updateDetList = traveller.getProdConfDetailList();
+
+				for (int j = 0; j < updateDetList.size(); j++) {
+					TempProdConfig detail = updateDetList.get(j);
+
+					int detailRes = itemConfDetailRepo.updateProdConfDetail(detail.getRateAmt(), detail.getMrpAmt(),
+							detail.getSpRateAmt1(), detail.getSpRateAmt2(), detail.getSpRateAmt3(),
+							detail.getSpRateAmt4(), detail.getMakerUserId(), detail.getUpdtDttime(),
+							detail.getConfigDetailId());
 				}
-					
-				
 			} else {
 
-				
 			}
 
 		} catch (Exception e) {
 			confHeader = new ItemConfHeader();
-			System.err.println("In Exception");
 			e.printStackTrace();
 		}
 

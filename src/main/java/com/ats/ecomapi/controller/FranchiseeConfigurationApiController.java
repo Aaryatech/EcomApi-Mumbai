@@ -18,6 +18,7 @@ import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.model.GetTableFields;
 import com.ats.ecomapi.master.repo.FrConfigurationRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
+import com.ats.ecomapi.master.repo.GetFrConfigListRepo;
 import com.ats.ecomapi.master.repo.GetFrForConfigRepo;
 import com.ats.ecomapi.mst_model.GetFrConfigList;
 import com.ats.ecomapi.mst_model.Info;
@@ -39,6 +40,9 @@ public class FranchiseeConfigurationApiController {
 	@Autowired
 	GetFrForConfigRepo getFrForConfigRepo;
 
+	@Autowired
+	GetFrConfigListRepo getFrConfigListRepo;
+
 	@RequestMapping(value = { "/getConfigurationByCatId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemConfHeader> getConfigurationByCatId(@RequestParam int catId) {
 
@@ -54,6 +58,24 @@ public class FranchiseeConfigurationApiController {
 		return list;
 
 	}
+	
+	
+	@RequestMapping(value = { "/getConfigurationByCompId" }, method = RequestMethod.POST)
+	public @ResponseBody List<ItemConfHeader> getConfigurationByCompId(@RequestParam int compId) {
+
+		List<ItemConfHeader> list = new ArrayList<ItemConfHeader>();
+
+		try {
+			list = itemConfHeaderRepo.findByCompanyIdAndDelStatus(compId, 1);
+			System.err.println("list" + list.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+ 
 
 	@RequestMapping(value = { "/getFranchiseForConfig" }, method = RequestMethod.POST)
 	public @ResponseBody List<Franchise> getFranchiseForConfig(@RequestParam int catId, @RequestParam int companyId) {
@@ -127,21 +149,70 @@ public class FranchiseeConfigurationApiController {
 
 	@RequestMapping(value = { "/getFranchiseConfigList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetFrConfigList> getFranchiseConfigList(@RequestParam List<String> frIds,
-			@RequestParam List<String> configIds, @RequestParam String orderBy) {
-
+			@RequestParam List<String> configIds, @RequestParam int orderBy) {
+		// 1-config 2-fr
 		List<GetFrConfigList> list = new ArrayList<GetFrConfigList>();
 
-		if (frIds.contains("0") && !configIds.contains("0")) {
+		try {
+			if (frIds.contains("0") && !configIds.contains("0") && orderBy == 1) {
 
-		} else if (configIds.contains("0") && !frIds.contains("0")) {
-		} else if (!configIds.contains("0") && !frIds.contains("0")) {
+				list = getFrConfigListRepo.getAllFranchiseToFrAllFrOrCon(configIds);
 
-		} else {
+			} else if (configIds.contains("0") && !frIds.contains("0") && orderBy == 1) {
 
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrCon(frIds);
+
+			} else if (!configIds.contains("0") && !frIds.contains("0") && orderBy == 1) {
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrCon(frIds, configIds);
+			} else if (configIds.contains("0") && frIds.contains("0") && orderBy == 1) {
+
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllOrCon();
+			} else if (frIds.contains("0") && !configIds.contains("0") && orderBy == 2) {
+				list = getFrConfigListRepo.getAllFranchiseToFrAllFrOrFr(configIds);
+			} else if (configIds.contains("0") && !frIds.contains("0") && orderBy == 2) {
+
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrFr(frIds);
+			} else if (!configIds.contains("0") && !frIds.contains("0") && orderBy == 2) {
+
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrFr(frIds, configIds);
+
+			} else {
+				// configIds.contains("0") && frIds.contains("0") && orderBy==
+
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllOrFr();
+
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		return null;
+		return list;
 
+	}
+
+	@RequestMapping(value = { "/deleteFrConfig" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteFrConfig(@RequestParam List<Integer> configIds) {
+
+		Info res = new Info();
+		int n = 0;
+
+		try {
+			n = frConfigurationRepo.delFrConfig(configIds);
+
+			if (n > 0) {
+				res.setError(false);
+				res.setMessage("Franchise Configuration Deleted Successfully");
+			} else {
+				res.setError(true);
+				res.setMessage("Failed to Delete Franchise  Configuration");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return res;
 	}
 
 }

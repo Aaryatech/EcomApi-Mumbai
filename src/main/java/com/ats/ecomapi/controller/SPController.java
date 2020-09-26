@@ -38,6 +38,7 @@ import com.ats.ecomapi.mst_repo.ItemConfHeaderRepo;
 import com.ats.ecomapi.mst_repo.ProductMasterRepo;
 import com.ats.ecomapi.mst_repo.TempProdConfigRepo;
 import com.ats.ecomapi.mst_repo.UserRepo;
+import com.ats.ecomapi.offer_model.OfferHeader;
 
 @RestController
 public class SPController {
@@ -908,4 +909,31 @@ public class SPController {
 		}
 		return prodMaster;
 	}
+	
+	//Sachin 26-09-2020
+	//Desc - to get Image name array list of a product by product Id
+	
+	@RequestMapping(value = { "/getProdImagesByProductId" }, method = RequestMethod.POST)
+	public @ResponseBody List<String> getProdImagesByProductId(@RequestParam int productId) {
+		
+		List<String> imageNameList = new ArrayList<String>();
+		try {
+			ProductMaster product = productMasterRepo.findByDelStatusAndProductId(1, productId);
+
+			if(product!=null) {
+				String[] imageNameArray = product.getProductImages().split(",");
+			
+				for (String imgName : imageNameArray) {
+					imageNameList.add(imgName.trim());
+				}
+			}
+			System.err.println(" imageNameList "+ imageNameList.toString());
+		} catch (Exception e) {
+			imageNameList = new ArrayList<String>();
+			e.printStackTrace();
+		}
+		
+		return  imageNameList;
+	}
+	
 }

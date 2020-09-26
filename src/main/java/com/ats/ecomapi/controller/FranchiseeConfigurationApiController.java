@@ -21,6 +21,7 @@ import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.GetFrConfigListRepo;
 import com.ats.ecomapi.master.repo.GetFrForConfigRepo;
 import com.ats.ecomapi.mst_model.GetFrConfigList;
+import com.ats.ecomapi.mst_model.GetFrForConfig;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.ItemConfHeader;
 import com.ats.ecomapi.mst_repo.ItemConfHeaderRepo;
@@ -78,9 +79,9 @@ public class FranchiseeConfigurationApiController {
  
 
 	@RequestMapping(value = { "/getFranchiseForConfig" }, method = RequestMethod.POST)
-	public @ResponseBody List<Franchise> getFranchiseForConfig(@RequestParam int catId, @RequestParam int companyId) {
+	public @ResponseBody List<GetFrForConfig> getFranchiseForConfig(@RequestParam int catId, @RequestParam int companyId) {
 
-		List<Franchise> list = new ArrayList<Franchise>();
+		List<GetFrForConfig> list = new ArrayList<GetFrForConfig>();
 
 		try {
 			List<ItemConfHeader> cnlist = itemConfHeaderRepo.findAll();

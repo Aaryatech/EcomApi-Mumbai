@@ -22,14 +22,14 @@ public interface GetFrConfigListRepo extends JpaRepository<GetFrConfigList, Inte
 			"    m_franchise.fr_code,\n" + 
 			"    m_franchise.fr_name,\n" + 
 			"    mn_city.city_name as fr_city,\n" + 
-			"    0 AS route,\n" + 
+			"     m_route.route_name AS route,\n" + 
 			"    tn_item_config_header.config_name\n" + 
 			"FROM\n" + 
 			"    tn_item_config_header,\n" + 
 			"    m_fr_configration,\n" + 
-			"    m_franchise,mn_city\n" + 
+			"    m_franchise,mn_city,m_route \n" + 
 			"WHERE\n" + 
-			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.config_header_id IN(:configIds) ORDER BY m_fr_configration.config_header_id  DESC",nativeQuery=true)
+			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.config_header_id IN(:configIds) AND find_in_set(m_franchise.fr_id,m_route.fr_ids) ORDER BY m_fr_configration.config_header_id  DESC",nativeQuery=true)
 	public List<GetFrConfigList> getAllFranchiseToFrAllFrOrCon(@Param("configIds") List<String> configIds);
 	
 	
@@ -42,14 +42,14 @@ public interface GetFrConfigListRepo extends JpaRepository<GetFrConfigList, Inte
 			"    m_franchise.fr_code,\n" + 
 			"    m_franchise.fr_name,\n" + 
 			"    mn_city.city_name as fr_city,\n" + 
-			"    0 AS route,\n" + 
+			"    m_route.route_name AS route,\n" + 
 			"    tn_item_config_header.config_name\n" + 
 			"FROM\n" + 
 			"    tn_item_config_header,\n" + 
 			"    m_fr_configration,\n" + 
-			"    m_franchise,mn_city\n" + 
+			"    m_franchise,mn_city,m_route \n" + 
 			"WHERE\n" + 
-			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.config_header_id IN(:configIds) ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
+			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.config_header_id IN(:configIds)  AND find_in_set(m_franchise.fr_id,m_route.fr_ids)  ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
 	public List<GetFrConfigList> getAllFranchiseToFrAllFrOrFr(@Param("configIds") List<String> configIds);
 	
 	
@@ -62,14 +62,14 @@ public interface GetFrConfigListRepo extends JpaRepository<GetFrConfigList, Inte
 			"    m_franchise.fr_code,\n" + 
 			"    m_franchise.fr_name,\n" + 
 			"    mn_city.city_name as fr_city,\n" + 
-			"    0 AS route,\n" + 
+			"     m_route.route_name AS route,\n" + 
 			"    tn_item_config_header.config_name\n" + 
 			"FROM\n" + 
 			"    tn_item_config_header,\n" + 
 			"    m_fr_configration,\n" + 
-			"    m_franchise,mn_city\n" + 
+			"    m_franchise,mn_city,m_route \n" + 
 			"WHERE\n" + 
-			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.fr_id IN(:frIds) ORDER BY m_fr_configration.config_header_id  DESC",nativeQuery=true)
+			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.fr_id IN(:frIds) AND find_in_set(m_franchise.fr_id,m_route.fr_ids)  ORDER BY m_fr_configration.config_header_id  DESC",nativeQuery=true)
 	public List<GetFrConfigList> getAllFranchiseToConfigAllConfigOrCon(@Param("frIds") List<String> frIds);
 	
 	
@@ -82,14 +82,14 @@ public interface GetFrConfigListRepo extends JpaRepository<GetFrConfigList, Inte
 			"    m_franchise.fr_code,\n" + 
 			"    m_franchise.fr_name,\n" + 
 			"    mn_city.city_name as fr_city,\n" + 
-			"    0 AS route,\n" + 
+			"    m_route.route_name AS route,\n" + 
 			"    tn_item_config_header.config_name\n" + 
 			"FROM\n" + 
 			"    tn_item_config_header,\n" + 
 			"    m_fr_configration,\n" + 
-			"    m_franchise,mn_city\n" + 
+			"    m_franchise,mn_city,m_route \n" + 
 			"WHERE\n" + 
-			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.fr_id IN(:frIds) ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
+			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.fr_id IN(:frIds) AND find_in_set(m_franchise.fr_id,m_route.fr_ids)  ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
 	public List<GetFrConfigList> getAllFranchiseToConfigAllConfigOrFr(@Param("frIds") List<String> frIds);
 	
 	//both All
@@ -105,14 +105,14 @@ public interface GetFrConfigListRepo extends JpaRepository<GetFrConfigList, Inte
 			"    m_franchise.fr_code,\n" + 
 			"    m_franchise.fr_name,\n" + 
 			"    mn_city.city_name as fr_city,\n" + 
-			"    0 AS route,\n" + 
+			"    m_route.route_name AS route,\n" + 
 			"    tn_item_config_header.config_name\n" + 
 			"FROM\n" + 
 			"    tn_item_config_header,\n" + 
 			"    m_fr_configration,\n" + 
-			"    m_franchise,mn_city\n" + 
+			"    m_franchise,mn_city,m_route \n" + 
 			"WHERE\n" + 
-			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city   ORDER BY m_fr_configration.config_header_id  DESC",nativeQuery=true)
+			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city AND find_in_set(m_franchise.fr_id,m_route.fr_ids)    ORDER BY m_fr_configration.config_header_id  DESC",nativeQuery=true)
 	public List<GetFrConfigList> getAllFranchiseToConfigAllOrCon();
 	
 	
@@ -125,14 +125,14 @@ public interface GetFrConfigListRepo extends JpaRepository<GetFrConfigList, Inte
 			"    m_franchise.fr_code,\n" + 
 			"    m_franchise.fr_name,\n" + 
 			"    mn_city.city_name as fr_city,\n" + 
-			"    0 AS route,\n" + 
+			"    m_route.route_name AS route,\n" + 
 			"    tn_item_config_header.config_name\n" + 
 			"FROM\n" + 
 			"    tn_item_config_header,\n" + 
 			"    m_fr_configration,\n" + 
-			"    m_franchise,mn_city\n" + 
+			"    m_franchise,mn_city,m_route \n" + 
 			"WHERE\n" + 
-			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city    ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
+			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city AND find_in_set(m_franchise.fr_id,m_route.fr_ids)     ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
 	public List<GetFrConfigList> getAllFranchiseToConfigAllOrFr();
 
 
@@ -146,14 +146,14 @@ public interface GetFrConfigListRepo extends JpaRepository<GetFrConfigList, Inte
 			"    m_franchise.fr_code,\n" + 
 			"    m_franchise.fr_name,\n" + 
 			"    mn_city.city_name as fr_city,\n" + 
-			"    0 AS route,\n" + 
+			"     m_route.route_name AS route,\n" + 
 			"    tn_item_config_header.config_name\n" + 
 			"FROM\n" + 
 			"    tn_item_config_header,\n" + 
 			"    m_fr_configration,\n" + 
-			"    m_franchise,mn_city\n" + 
+			"    m_franchise,mn_city,m_route \n" + 
 			"WHERE\n" + 
-			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.fr_id IN(:frIds) AND  m_fr_configration.config_header_id IN(:configIds) ORDER BY m_fr_configration.config_header_id  DESC",nativeQuery=true)
+			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.fr_id IN(:frIds) AND  m_fr_configration.config_header_id IN(:configIds)  AND find_in_set(m_franchise.fr_id,m_route.fr_ids) ORDER BY m_fr_configration.config_header_id  DESC",nativeQuery=true)
 	public List<GetFrConfigList> getAllFranchiseToConfigAllConfigOrCon(@Param("frIds") List<String> frIds,@Param("configIds") List<String> configIds);
 	
 	
@@ -166,14 +166,14 @@ public interface GetFrConfigListRepo extends JpaRepository<GetFrConfigList, Inte
 			"    m_franchise.fr_code,\n" + 
 			"    m_franchise.fr_name,\n" + 
 			"    mn_city.city_name as fr_city,\n" + 
-			"    0 AS route,\n" + 
+			"    m_route.route_name AS route,\n" + 
 			"    tn_item_config_header.config_name\n" + 
 			"FROM\n" + 
 			"    tn_item_config_header,\n" + 
 			"    m_fr_configration,\n" + 
-			"    m_franchise,mn_city\n" + 
+			"    m_franchise,mn_city,m_route \n" + 
 			"WHERE\n" + 
-			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.fr_id IN(:frIds) m_fr_configration.config_header_id IN(:configIds) ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
+			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.fr_id IN(:frIds) m_fr_configration.config_header_id IN(:configIds)  AND find_in_set(m_franchise.fr_id,m_route.fr_ids) ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
 	public List<GetFrConfigList> getAllFranchiseToConfigAllConfigOrFr(@Param("frIds") List<String> frIds,@Param("configIds") List<String> configIds);
 
 

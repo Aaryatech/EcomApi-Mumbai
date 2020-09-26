@@ -12,9 +12,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.ecomapi.master.model.BannerPage;
+import com.ats.ecomapi.master.model.GetRouteList;
+import com.ats.ecomapi.master.model.Route;
+import com.ats.ecomapi.master.model.RouteDelivery;
+import com.ats.ecomapi.master.model.RouteType;
 import com.ats.ecomapi.master.model.SubCategory;
 import com.ats.ecomapi.master.repo.BannerPageRepo;
 import com.ats.ecomapi.master.repo.GetCustomerInfoRepo;
+import com.ats.ecomapi.master.repo.GetRouteListRepo;
+import com.ats.ecomapi.master.repo.RouteDeliveryRepo;
+import com.ats.ecomapi.master.repo.RouteRepo;
+import com.ats.ecomapi.master.repo.RouteTypeRepo;
 import com.ats.ecomapi.master.repo.SubCategoryRepo;
 import com.ats.ecomapi.mst_model.CompMaster;
 import com.ats.ecomapi.mst_model.Customer;
@@ -520,5 +528,271 @@ public class CompanyApiController {
 		}
 		return info;
 	}
+	/* route master */
+	
+	@Autowired
+	RouteRepo routeRepo;
+
+	@RequestMapping(value = { "/saveRoute" }, method = RequestMethod.POST)
+	public @ResponseBody Route saveRoute(@RequestBody Route route) {
+ 
+		Route addComp = new Route();
+		try {
+			addComp = routeRepo.save(route);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return addComp;
+
+	}
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get Specific Company
+
+	@RequestMapping(value = { "/getRouteById" }, method = RequestMethod.POST)
+	public @ResponseBody Route getRouteById(@RequestParam int routeId) {
+
+		Route comp = new Route();
+		try {
+			comp = routeRepo.findByRouteId(routeId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comp;
+
+	}
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get All Comapny List
+
+	@RequestMapping(value = { "/getAllRoute" }, method = RequestMethod.GET)
+	public @ResponseBody List<Route> getAllRoute() {
+
+		List<Route> list = new ArrayList<Route>();
+		try {
+			list = routeRepo.findByDelStatusOrderByRouteIdDesc(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Delete Company
+
+	@RequestMapping(value = { "/deleteRouteById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteRouteById(@RequestParam int routeId) {
+
+		Info info = new Info();
+		try {
+			int res = routeRepo.deleteRoute(routeId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Route Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Route");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+	@Autowired
+	GetRouteListRepo getRouteListRepo;
+	
+	@RequestMapping(value = { "/getAllRouteByCompId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetRouteList> getAllRouteByCompId(@RequestParam int compId) {
+
+		List<GetRouteList> list = new ArrayList<GetRouteList>();
+		try {
+			list = getRouteListRepo.getAllRoutes(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+	
+	@Autowired
+	RouteTypeRepo routeTypeRepo;
+	
+	@RequestMapping(value = { "/saveRouteType" }, method = RequestMethod.POST)
+	public @ResponseBody RouteType saveRoute(@RequestBody RouteType route) {
+ 
+		RouteType addComp = new RouteType();
+		try {
+			addComp = routeTypeRepo.save(route);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return addComp;
+
+	}
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get Specific Company
+
+	@RequestMapping(value = { "/getRouteTypeById" }, method = RequestMethod.POST)
+	public @ResponseBody RouteType getRouteTypeById(@RequestParam int routeId) {
+
+		RouteType comp = new RouteType();
+		try {
+			comp = routeTypeRepo.findByRouteTypeId(routeId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comp;
+
+	}
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get All Comapny List
+
+	@RequestMapping(value = { "/getAllRouteType" }, method = RequestMethod.GET)
+	public @ResponseBody List<RouteType> getAllRouteType() {
+
+		List<RouteType> list = new ArrayList<RouteType>();
+		try {
+			list = routeTypeRepo.findByDelStatusOrderByRouteTypeIdDesc(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Delete Company
+
+	@RequestMapping(value = { "/deleteRouteTypeById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteRouteTypeById(@RequestParam int routeId) {
+
+		Info info = new Info();
+		try {
+			int res = routeTypeRepo.deleteRouteType(routeId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Route Type Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Route Type");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+	 
+	
+	@Autowired
+	RouteDeliveryRepo routeDeliveryRepo;
+	
+	@RequestMapping(value = { "/saveRouteDelivery" }, method = RequestMethod.POST)
+	public @ResponseBody RouteDelivery saveRouteDelivery(@RequestBody RouteDelivery route) {
+ 
+		RouteDelivery addComp = new RouteDelivery();
+		try {
+			addComp = routeDeliveryRepo.save(route);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return addComp;
+
+	}
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get Specific Company
+
+	@RequestMapping(value = { "/getRouteDeliveryById" }, method = RequestMethod.POST)
+	public @ResponseBody RouteDelivery getRouteDeliveryById(@RequestParam int routeId) {
+
+		RouteDelivery comp = new RouteDelivery();
+		try {
+			comp = routeDeliveryRepo.findByRouidDelveryId(routeId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comp;
+
+	}
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get All Comapny List
+
+	@RequestMapping(value = { "/getAllRouteDelivery" }, method = RequestMethod.GET)
+	public @ResponseBody List<RouteDelivery> getAllRouteDelivery() {
+
+		List<RouteDelivery> list = new ArrayList<RouteDelivery>();
+		try {
+			list = routeDeliveryRepo.findByDelStatusOrderByRouidDelveryIdDesc(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Delete Company
+
+	@RequestMapping(value = { "/deleteRouteDeliveryById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteRouteDeliveryById(@RequestParam int delvId) {
+
+		Info info = new Info();
+		try {
+			int res = routeDeliveryRepo.deleteRouteDelivery(delvId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Route Delivery Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Route Delivery");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+	 
+
+
 
 }

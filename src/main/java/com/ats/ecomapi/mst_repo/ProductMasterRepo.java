@@ -69,50 +69,50 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 	@Query(value = "UPDATE\n" + "    `m_product` SET same_day_time_allowed_slot=\n" + " CASE WHEN \n"
 			+ "    same_day_time_allowed_slot != '' THEN   CONCAT(same_day_time_allowed_slot, ',', :filterId) ELSE  :filterId\n"
 			+ "END\n" + "WHERE\n" + "    product_id IN(:prdctIdsStr)", nativeQuery = true)
-	int getConfigProductsTimeSlots(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	int updtConfigProductsTimeSlots(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
 
 	@Transactional
 	@Modifying
 	@Query(value = "UPDATE\n" + "    `m_product` SET flavour_ids=\n" + " CASE WHEN \n"
 			+ "    flavour_ids != '' THEN   CONCAT(flavour_ids, ',', :filterId) ELSE  :filterId\n" + "END\n" + "WHERE\n"
 			+ "    product_id IN(:prdctIdsStr)", nativeQuery = true)
-	int getConfigProductsFlavours(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	int updtConfigProductsFlavours(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
 
 	@Transactional
 	@Modifying
 	@Query(value = "UPDATE\n" + "    `m_product` SET events_ids=\n" + " CASE WHEN \n"
 			+ "    events_ids != '' THEN   CONCAT(events_ids, ',', :filterId) ELSE  :filterId\n" + "END\n" + "WHERE\n"
 			+ "    product_id IN(:prdctIdsStr)", nativeQuery = true)
-	int getConfigProductsEvents(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	int updtConfigProductsEvents(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
 
 	@Transactional
 	@Modifying
 	@Query(value = "UPDATE\n" + "    `m_product` SET applicable_tags=\n" + " CASE WHEN \n"
 			+ "    applicable_tags != '' THEN   CONCAT(applicable_tags, ',', :filterId) ELSE  :filterId\n" + "END\n"
 			+ "WHERE\n" + "    product_id IN(:prdctIdsStr)", nativeQuery = true)
-	int getConfigProductsTags(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	int updtConfigProductsTags(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
 
 	/*----------------------------------------------------------------------------------------------------*/
 
 	@Transactional
 	@Modifying
 	@Query(value = "UPDATE m_product SET same_day_time_allowed_slot = TRIM(BOTH ',' FROM REPLACE (REPLACE(same_day_time_allowed_slot, :filterId, ''),',,',',')) WHERE product_id IN(:prdctIdsStr)", nativeQuery = true)
-	int unconfigProductTimeSlots(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	int unconfigUpdtProductTimeSlots(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
 
 	@Transactional
 	@Modifying
 	@Query(value = "UPDATE m_product SET flavour_ids = TRIM(BOTH ',' FROM REPLACE (REPLACE(flavour_ids, :filterId, ''),',,',',')) WHERE product_id IN(:prdctIdsStr)", nativeQuery = true)
-	int unconfigProductFlavour(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	int unconfigUpdtProductFlavour(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
 
 	@Transactional
 	@Modifying
 	@Query(value = "UPDATE m_product SET events_ids = TRIM(BOTH ',' FROM REPLACE (REPLACE(events_ids, :filterId, ''),',,',',')) WHERE product_id IN(:prdctIdsStr)", nativeQuery = true)
-	int unconfigProductEvents(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	int unconfigUpdtProductEvents(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
 
 	@Transactional
 	@Modifying
 	@Query(value = "UPDATE m_product SET applicable_tags = TRIM(BOTH ',' FROM REPLACE (REPLACE(applicable_tags, :filterId, ''),',,',',')) WHERE product_id IN(:prdctIdsStr)", nativeQuery = true)
-	int unconfigProductTags(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
+	int unconfigUpdtProductTags(@Param("filterId") String filterId, @Param("prdctIdsStr") List<Integer> prdctIdsStr);
 
 	/*------------------------------------------------------------------------------------------------------------*/
 

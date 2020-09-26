@@ -132,7 +132,7 @@ public interface GetFrConfigListRepo extends JpaRepository<GetFrConfigList, Inte
 			"    m_fr_configration,\n" + 
 			"    m_franchise,mn_city\n" + 
 			"WHERE\n" + 
-			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND  ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
+			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city    ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
 	public List<GetFrConfigList> getAllFranchiseToConfigAllOrFr();
 
 

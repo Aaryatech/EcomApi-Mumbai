@@ -15,6 +15,8 @@ public interface ProductHomPageRepo extends JpaRepository<ProductHomPage, Intege
 
 	List<ProductHomPage> findByCompanyIdAndDelStatusAndIsActive(int compId, int del, int isActive);
 	
+	List<ProductHomPage> findByCompanyIdAndDelStatus(int compId, int del);
+	
 	@Query(value="SELECT\n" + 
 			"    head.home_page_status_id,\n" + 
 			"    head.company_id,\n" + 
@@ -35,9 +37,9 @@ public interface ProductHomPageRepo extends JpaRepository<ProductHomPage, Intege
 			"    head.del_status=1 AND\n" +  
 			"    f.del_status=1 AND\n" + 
 			"    f.is_active=1 AND\n" + 
-			"    head.home_page_status_id=:id\n" + 
+			"    head.home_page_status_id=:homePageStatusId\n" + 
 			"ORDER BY head.home_page_status_id DESC", nativeQuery=true)
-	ProductHomPage findByHomePageStatusId(int id);
+	ProductHomPage findByHomePageStatusId(@Param("homePageStatusId") int homePageStatusId);
 	
 	@Query(value="SELECT\n" + 
 			"    head.home_page_status_id,\n" + 

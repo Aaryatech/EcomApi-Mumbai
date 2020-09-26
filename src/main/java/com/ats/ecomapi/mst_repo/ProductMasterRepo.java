@@ -213,4 +213,6 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 
 	List<ProductMaster> getProdListForAddingNewItemInExConf(@Param("catId") int catId, @Param("compId") int compId, @Param("configId") int configId);
 
+	ProductMaster findByDelStatusAndProductId(int delStatus, int productId);
+
 }

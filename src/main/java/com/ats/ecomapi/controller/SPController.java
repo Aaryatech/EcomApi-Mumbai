@@ -1,5 +1,6 @@
 package com.ats.ecomapi.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -891,4 +892,20 @@ public class SPController {
 		return confHeader;
 	}
 
+	
+	//Sachin 25-09-2020
+	//Desc Get Product By Product Id For Edit
+	@RequestMapping(value = { "/getProductByProductId" }, method = RequestMethod.POST)
+	public @ResponseBody Object getProductByProductId(@RequestParam("productId") int productId) {
+		ProductMaster prodMaster = new ProductMaster();
+		try {
+			prodMaster=productMasterRepo.findByDelStatusAndProductId(1,productId);
+			if(prodMaster==null) {
+				prodMaster=new ProductMaster();
+			}
+		}catch (Exception e) {
+			prodMaster=new ProductMaster();
+		}
+		return prodMaster;
+	}
 }

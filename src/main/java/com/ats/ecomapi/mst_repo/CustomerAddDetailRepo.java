@@ -17,8 +17,8 @@ public interface CustomerAddDetailRepo extends JpaRepository<CustomerAddDetail, 
 
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE `m_customer_address_detail` SET del_status=0 WHERE cust_detail_id=:custDetId",nativeQuery=true)
-	public int deleteCustDet(@Param("custDetId") int custDetId);
+	@Query(value="UPDATE `m_customer_address_detail` SET del_status=0 WHERE cust_detail_id=:custDetId AND maker_user_id=:userId AND updt_dttime=:dateTime",nativeQuery=true)
+	public int deleteCustDet(@Param("custDetId") int custDetId,@Param("userId") int userId,@Param("dateTime") String dateTime);
 
 	public CustomerAddDetail findByCustDetailId(int custDetId);
 

@@ -19,8 +19,8 @@ public interface CompMasterRepo extends JpaRepository<CompMaster, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE `m_company` SET del_status=0 WHERE company_id=:compId",nativeQuery=true)
-	public int deleteCompany(@Param("compId") int compId);
+	@Query(value="UPDATE `m_company` SET del_status=0 WHERE company_id=:compId AND maker_user_id=:userId AND updt_dttime=:dateTime ",nativeQuery=true)
+	public int deleteCompany(@Param("compId") int compId,@Param("userId") int userId,@Param("dateTime") String dateTime);
 
 
 

@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.ecomapi.master.model.Category;
 import com.ats.ecomapi.master.model.CopyTable;
 import com.ats.ecomapi.master.model.GetTableFields;
+import com.ats.ecomapi.master.model.Setting;
 import com.ats.ecomapi.master.model.Uom;
 import com.ats.ecomapi.master.repo.CategoryRepo;
 import com.ats.ecomapi.master.repo.CopyTableRepo;
 import com.ats.ecomapi.master.repo.GetTableFieldsRepo;
 import com.ats.ecomapi.master.repo.GetTableNamesRepo;
+import com.ats.ecomapi.master.repo.SettingRepo;
 import com.ats.ecomapi.master.repo.UomRepo;
 import com.ats.ecomapi.mst_model.GetTableNames;
 import com.ats.ecomapi.mst_model.Info;
@@ -43,16 +45,20 @@ public class CopyTableApiController {
 	@Autowired
 	CopyTableRepo copyTableRepo;
 
+	@Autowired
+	SettingRepo settingRepo;
+	
+
 	@RequestMapping(value = { "/getAllTables" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetTableNames> getAllUsers() {
 
-		System.err.println("hii");
 		List<GetTableNames> tablList = new ArrayList<GetTableNames>();
 		try {
-			System.err.println("hii11");
 
-			tablList = getTableNamesRepo.getTableList();
-			System.err.println("hii22");
+			Setting settt = settingRepo.findBySettingKey("dbName");
+
+			String dbName = settt.getSettingValue();
+			tablList = getTableNamesRepo.getTableList(dbName.trim());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -195,7 +201,6 @@ public class CopyTableApiController {
 
 				}
 				List<Uom> val = uomRepo.saveAll(list1);
-
 
 				if (val != null) {
 					res.setError(false);

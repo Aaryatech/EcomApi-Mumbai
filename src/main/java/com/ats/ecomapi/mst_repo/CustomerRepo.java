@@ -17,8 +17,8 @@ public interface CustomerRepo  extends JpaRepository<Customer, Integer>{
 
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE `m_customer` SET del_status=0 WHERE cust_id=:custId",nativeQuery=true)
-	public int deleteCustomer(@Param("custId") int custId);
+	@Query(value="UPDATE `m_customer` SET del_status=0 WHERE cust_id=:custId AND   maker_user_id=:userId AND updt_dttime=:dateTime  ",nativeQuery=true)
+	public int deleteCustomer(@Param("custId") int custId,@Param("userId") int userId,@Param("dateTime") String dateTime);
 
 	public Customer findByCustId(int custId);
 

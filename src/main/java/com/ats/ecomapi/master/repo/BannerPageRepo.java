@@ -17,8 +17,8 @@ public interface BannerPageRepo extends JpaRepository<BannerPage, Integer>{
 	
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE `banner_home_page` SET del_status=0 WHERE banner_id=:bannerId",nativeQuery=true)
-	int deleteBanner(@Param("bannerId") int bannerId);
+	@Query(value="UPDATE `banner_home_page` SET del_status=0 WHERE banner_id=:bannerId AND update_date_time=:dateTime AND update_user_id=:userId",nativeQuery=true)
+	int deleteBanner(@Param("bannerId") int bannerId,@Param("userId") int userId,@Param("dateTime") String dateTime);
 
 	List<BannerPage> findByCompIdAndDelStatus(int compId, int i);
  

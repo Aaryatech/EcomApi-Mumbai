@@ -6,7 +6,7 @@ import com.ats.ecomapi.master.model.CopyTable;
 
 public interface CopyTableRepo extends JpaRepository<CopyTable, Integer> {
 
-	CopyTable findByCopyNameAndDelStatus(String tbl_name, int i);
+	CopyTable findByCopyNameAndDelStatus(String copyName, int delStatus);
 	
 	
 	

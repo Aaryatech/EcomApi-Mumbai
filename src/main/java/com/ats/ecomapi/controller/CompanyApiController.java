@@ -109,11 +109,11 @@ public class CompanyApiController {
 	// Descriprion :- Delete Company
 
 	@RequestMapping(value = { "/deleteCompById" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteCompById(@RequestParam int compId) {
+	public @ResponseBody Info deleteCompById(@RequestParam int compId,@RequestParam int userId,@RequestParam String dateTime) {
 
 		Info info = new Info();
 		try {
-			int res = compMasterRepo.deleteCompany(compId);
+			int res = compMasterRepo.deleteCompany(compId,userId,dateTime);
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage("Company Deleted Successfully");
@@ -199,11 +199,11 @@ public class CompanyApiController {
 	// Descriprion :- Delete Customer
 
 	@RequestMapping(value = { "/deleteCustById" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteCustById(@RequestParam int custId) {
+	public @ResponseBody Info deleteCustById(@RequestParam int custId,@RequestParam int userId,@RequestParam String dateTime) {
 
 		Info info = new Info();
 		try {
-			int res = customerRepo.deleteCustomer(custId);
+			int res = customerRepo.deleteCustomer(custId,userId,dateTime);
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage("Customer Deleted Successfully");
@@ -289,11 +289,11 @@ public class CompanyApiController {
 	// Descriprion :- Delete Customer Address Detail
 
 	@RequestMapping(value = { "/deleteCustDetById" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteCustDetById(@RequestParam int custDetId) {
+	public @ResponseBody Info deleteCustDetById(@RequestParam int custDetId,@RequestParam int userId,@RequestParam String dateTime) {
 
 		Info info = new Info();
 		try {
-			int res = customerAddDetailRepo.deleteCustDet(custDetId);
+			int res = customerAddDetailRepo.deleteCustDet(custDetId,userId,dateTime);
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage("Customer Address Detail Deleted Successfully");
@@ -511,11 +511,11 @@ public class CompanyApiController {
 	// Descriprion :- Delete SubCategory
 
 	@RequestMapping(value = { "/deleteBannerById" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteBannerById(@RequestParam int bannerId) {
+	public @ResponseBody Info deleteBannerById(@RequestParam int bannerId,@RequestParam int userId,@RequestParam String dateTime) {
 
 		Info info = new Info();
 		try {
-			int res = bannerPageRepo.deleteBanner(bannerId);
+			int res = bannerPageRepo.deleteBanner(bannerId,userId,dateTime);
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage("BannerPage Deleted Successfully");

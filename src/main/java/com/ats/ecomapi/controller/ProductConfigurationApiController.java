@@ -155,22 +155,21 @@ public class ProductConfigurationApiController {
 	public @ResponseBody List<GetRequreProduct> getRelProConfigByPrimaryItemId(
 			@RequestParam("primaryItemId") int primaryItemId) {
 		List<GetRequreProduct> proList = new ArrayList<GetRequreProduct>();
-		RelatedProductConfig temp = new RelatedProductConfig();
+		RelatedProductConfig relProConfig = new RelatedProductConfig();
 		try {
-			temp = relatedProductConfigRepo.findByPrimaryItemId(primaryItemId);
+			relProConfig = relatedProductConfigRepo.findByPrimaryItemId(primaryItemId);
 
-			String ids = temp.getSecondaryItemId();
+			String ids = relProConfig.getSecondaryItemId();
 
 			String[] elements = ids.split(",");
 
 			// step two : convert String array to list of String
-			List<String> fixedLenghtList = Arrays.asList(elements);
+			List<String> list = Arrays.asList(elements);
 
-			System.err.println(fixedLenghtList.toString());
-
-			proList = getRequreProductRepo.getAllProductCat(fixedLenghtList);
+ 
+			proList = getRequreProductRepo.getAllProductCat(list);
 			
-			proList.get(0).setConfigId(temp.getRelatedProductId());
+			proList.get(0).setConfigId(relProConfig.getRelatedProductId());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

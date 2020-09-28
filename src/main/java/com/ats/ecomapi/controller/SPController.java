@@ -936,4 +936,41 @@ public class SPController {
 		return  imageNameList;
 	}
 	
+	@RequestMapping(value = { "/updateProdImg" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateProdImg(@RequestParam("filesList") String filesList,@RequestParam("productId") int productId) {
+
+		Info info = new Info();
+
+		int updateRes = productMasterRepo.updateProductImages(filesList, productId);
+		if (updateRes > 0) {
+			info.setError(false);
+			info.setMessage("Success");
+		} else {
+			info.setError(true);
+			info.setMessage("Failed");
+		}
+
+		return info;
+	}
+	
+	
+	@RequestMapping(value = { "/removeImageFromProduct" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteByImageOfOffer(@RequestParam int productId,@RequestParam String imageName) {
+		
+		
+		Info info = new Info();
+		
+		int deleteRes=productMasterRepo.removeImageFromProduct(imageName, productId);
+		if (deleteRes > 0) {
+			info.setError(false);
+			info.setMessage("Delete Image Successfully");
+		} else {
+			info.setError(true);
+			info.setMessage("Failed To Delete Image ");
+		}
+		
+		return info;
+	
+	}
+	
 }

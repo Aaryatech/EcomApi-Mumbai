@@ -215,4 +215,16 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 
 	ProductMaster findByDelStatusAndProductId(int delStatus, int productId);
 
+	//Sachin 28-09-2020 update Product images 
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE m_product SET product_images=:filesList WHERE product_id =:productId",nativeQuery=true)
+	public int updateProductImages(@Param("filesList") String filesList,@Param("productId") int productId);
+
+	//Sachin 28-09-2020  removes a Product image from list of images
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE m_product SET product_images = TRIM(BOTH ',' FROM REPLACE(REPLACE(product_images,:imageName, ''), ',,', ',')) WHERE product_id=:productId",nativeQuery=true)
+	public int removeImageFromProduct(@Param("imageName") String imageName,@Param("productId") int productId);
+	
 }

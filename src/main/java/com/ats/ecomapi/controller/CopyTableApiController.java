@@ -125,8 +125,8 @@ public class CopyTableApiController {
 		return list;
 	}
 
-	@RequestMapping(value = { "/insertRec" }, method = RequestMethod.POST)
-	public @ResponseBody Info insertRec(@RequestParam String tbl_name, @RequestParam List<Integer> primaryIds,
+	@RequestMapping(value = { "/insertCopyTableRec" }, method = RequestMethod.POST)
+	public @ResponseBody Info insertCopyTableRec(@RequestParam String tbl_name, @RequestParam List<Integer> primaryIds,
 			@RequestParam int compId, @RequestParam int userId, @RequestParam String curDateTime) {
 		System.err.println("hii");
 		Info res = new Info();

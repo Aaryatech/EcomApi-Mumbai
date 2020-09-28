@@ -49,15 +49,15 @@ public class CompanyApiController {
 
 	@RequestMapping(value = { "/saveCompany" }, method = RequestMethod.POST)
 	public @ResponseBody CompMaster saveCompany(@RequestBody CompMaster comp) {
-		System.err.println("CompMaster***" + comp.toString());
+		//System.err.println("CompMaster***" + comp.toString());
 
-		CompMaster addComp = new CompMaster();
+		CompMaster save = new CompMaster();
 		try {
-			addComp = compMasterRepo.save(comp);
+			save = compMasterRepo.save(comp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return addComp;
+		return save;
 
 	}
 
@@ -68,8 +68,8 @@ public class CompanyApiController {
 	// Modified On :- NA
 	// Descriprion :- Get Specific Company
 
-	@RequestMapping(value = { "/getCompById" }, method = RequestMethod.POST)
-	public @ResponseBody CompMaster getCompById(@RequestParam int compId) {
+	@RequestMapping(value = { "/getCompanyByCompanyId" }, method = RequestMethod.POST)
+	public @ResponseBody CompMaster getCompanyByCompanyId(@RequestParam int compId) {
 
 		CompMaster comp = new CompMaster();
 		try {
@@ -450,6 +450,14 @@ public class CompanyApiController {
 	@Autowired
 	BannerPageRepo bannerPageRepo;
 
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 21-09-2020
+	// Modified By :- NAfgfdfg
+	// Modified On :- NA
+	// Descriprion :- saveBanner
 	@RequestMapping(value = { "/saveBanner" }, method = RequestMethod.POST)
 	public @ResponseBody BannerPage saveBanner(@RequestBody BannerPage subCat) {
 
@@ -465,10 +473,10 @@ public class CompanyApiController {
 //hhhh
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 15-09-2020
+	// Created On :- 21-09-2020
 	// Modified By :- NAfgfdfg
 	// Modified On :- NA
-	// Descriprion :- Get SubCategory Customer
+	// Descriprion :- Get Banner
 
 	@RequestMapping(value = { "/getBannerById" }, method = RequestMethod.POST)
 	public @ResponseBody BannerPage getBannerById(@RequestParam int bannerId) {
@@ -485,11 +493,10 @@ public class CompanyApiController {
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 15-09-2020
+	// Created On :- 21-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get AllSubCategoryList
-
+	// Descriprion :- getAllBannerByCompId
 	@RequestMapping(value = { "/getAllBannerByCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<BannerPage> getAllBannerByCompId(@RequestParam int compId) {
 
@@ -505,10 +512,10 @@ public class CompanyApiController {
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 15-09-2020
+	// Created On :- 21-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete SubCategory
+	// Descriprion :- Delete Banner
 
 	@RequestMapping(value = { "/deleteBannerById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteBannerById(@RequestParam int bannerId,@RequestParam int userId,@RequestParam String dateTime) {

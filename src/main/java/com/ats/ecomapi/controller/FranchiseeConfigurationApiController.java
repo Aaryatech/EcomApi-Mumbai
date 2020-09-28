@@ -84,8 +84,9 @@ public class FranchiseeConfigurationApiController {
 		List<GetFrForConfig> list = new ArrayList<GetFrForConfig>();
 
 		try {
-			List<ItemConfHeader> cnlist = itemConfHeaderRepo.findAll();
-
+			/*
+			 * List<ItemConfHeader> cnlist = itemConfHeaderRepo.findAll();
+			 */
 			/* if (cnlist.size() > 0) { */
 			list = getFrForConfigRepo.getFranchiseToConfig(companyId, catId);
 			/*

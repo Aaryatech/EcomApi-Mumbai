@@ -38,7 +38,6 @@ public class ProductConfigurationApiController {
 
 	@RequestMapping(value = { "/saveRelatedProductConfig" }, method = RequestMethod.POST)
 	public @ResponseBody RelatedProductConfig saveRelatedProductConfig(@RequestBody RelatedProductConfig config) {
-		System.err.println("RelatedProductConfig***" + config.toString());
 
 		RelatedProductConfig save = new RelatedProductConfig();
 		try {
@@ -53,30 +52,24 @@ public class ProductConfigurationApiController {
 	@RequestMapping(value = { "/getAllProductAndCategory" }, method = RequestMethod.POST)
 	public @ResponseBody List<CategoryProduct> getAllProductAndCategory(@RequestParam("compId") int compId) {
 
-		System.err.println("compId" + compId);
 		List<CategoryProduct> list = new ArrayList<CategoryProduct>();
 		List<Category> catList = new ArrayList<Category>();
 		try {
 			catList = catRepo.findByDelStatusAndCompanyIdOrderByCatId(1, compId);
-			System.err.println("catlist" + catList.toString());
 			for (int i = 0; i < catList.size(); i++) {
 
 				CategoryProduct catP = new CategoryProduct();
 				catP.setCat(catList.get(i));
 				
-				System.err.println(catList.get(i).getCatId());
 				List<ProductMaster> proList = productMasterRepo.findByProdCatIdAndDelStatus(catList.get(i).getCatId(),
 						1);
 
-				System.err.println("prolist" + proList.toString());
 				catP.setProductList(proList);
 
-				System.err.println("catp" + catP.toString());
 				list.add(catP);
 
 			}
 
-			System.err.println("list" + list.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -130,11 +123,11 @@ public class ProductConfigurationApiController {
 	}
 
 	@RequestMapping(value = { "/deleteProdConfig" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteUserById(@RequestParam int relatedProductId) {
+	public @ResponseBody Info deleteUserById(@RequestParam int relatedProductId,@RequestParam int userId,@RequestParam String  dateTime) {
 
 		Info info = new Info();
 		try {
-			int res = relatedProductConfigRepo.deleteConfig(relatedProductId);
+			int res = relatedProductConfigRepo.deleteConfig(relatedProductId,userId,dateTime);
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage(" Deleted Successfully");

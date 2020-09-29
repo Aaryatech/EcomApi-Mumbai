@@ -87,7 +87,6 @@ public class CopyTableApiController {
 			// m_category.del_status = 1 AND m_category.allow_to_copy = 1";
 
 			fields = jdbcTemplate.query(copyTabl.getQuery(), new BeanPropertyRowMapper(GetTableFields.class));
-			System.err.println("fields" + fields.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -128,12 +127,10 @@ public class CopyTableApiController {
 	@RequestMapping(value = { "/insertCopyTableRec" }, method = RequestMethod.POST)
 	public @ResponseBody Info insertCopyTableRec(@RequestParam String tbl_name, @RequestParam List<Integer> primaryIds,
 			@RequestParam int compId, @RequestParam int userId, @RequestParam String curDateTime) {
-		System.err.println("hii");
 		Info res = new Info();
 		try {
 
 			if (tbl_name.equals("m_category")) {
-				System.err.println("hiicat");
 				List<Category> catList = new ArrayList<Category>();
 				List<Category> savecatList = new ArrayList<Category>();
 

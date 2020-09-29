@@ -139,7 +139,6 @@ public class CompanyApiController {
 
 	@RequestMapping(value = { "/saveCustomer" }, method = RequestMethod.POST)
 	public @ResponseBody Customer saveCustomer(@RequestBody Customer cust) {
-		System.err.println("CompMaster***" + cust.toString());
 
 		Customer addCust = new Customer();
 		try {
@@ -229,7 +228,6 @@ public class CompanyApiController {
 
 	@RequestMapping(value = { "/saveCustomerDet" }, method = RequestMethod.POST)
 	public @ResponseBody CustomerAddDetail saveCustomerDet(@RequestBody CustomerAddDetail custDet) {
-		System.err.println("CompMaster***" + custDet.toString());
 
 		CustomerAddDetail addCustDet = new CustomerAddDetail();
 		try {

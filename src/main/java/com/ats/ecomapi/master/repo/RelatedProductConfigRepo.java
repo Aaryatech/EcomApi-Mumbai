@@ -17,8 +17,8 @@ public interface RelatedProductConfigRepo extends JpaRepository<RelatedProductCo
 	
 	@Transactional
 	@Modifying
-	@Query(value="Delete from  m_product_configuration  WHERE related_product_id=:relatedProductId",nativeQuery=true)
- 	int deleteConfig(@Param("relatedProductId") int relatedProductId);
+	@Query(value="Delete from  m_product_configuration  WHERE related_product_id=:relatedProductId AND updt_dttime=:dateTime AND maker_user_id=:userId",nativeQuery=true)
+ 	int deleteConfig(@Param("relatedProductId") int relatedProductId,@Param("userId") int userId,@Param("dateTime") String dateTime);
 	
 	
 	

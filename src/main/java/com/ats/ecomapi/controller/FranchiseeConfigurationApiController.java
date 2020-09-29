@@ -51,7 +51,6 @@ public class FranchiseeConfigurationApiController {
 
 		try {
 			list = itemConfHeaderRepo.findByCatIdAndDelStatus(catId, 1);
-			System.err.println("list" + list.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,7 +67,6 @@ public class FranchiseeConfigurationApiController {
 
 		try {
 			list = itemConfHeaderRepo.findByCompanyIdAndDelStatus(compId, 1);
-			System.err.println("list" + list.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -42,7 +42,6 @@ public class OfferApiController {
 	@RequestMapping(value = { "/saveOfferHeader" }, method = RequestMethod.POST)
 	public @ResponseBody OfferHeader saveOfferHeader(@RequestBody OfferHeader offerHeader) {
 		
-		System.err.println("*******"+offerHeader.toString());
 
 		OfferHeader res = offerHeaderRepo.save(offerHeader);
 
@@ -165,7 +164,7 @@ public class OfferApiController {
 	
 	
 	@RequestMapping(value = { "/getAllOfferHeads" }, method = RequestMethod.POST)
-	public @ResponseBody List<OfferHeader> getAllFranchise(@RequestParam int compId) {
+	public @ResponseBody List<OfferHeader> getAllOfferHeads(@RequestParam int compId) {
 
 		List<OfferHeader> frOfferList = new ArrayList<OfferHeader>();
 		try {
@@ -284,7 +283,6 @@ public class OfferApiController {
 		try {
 			offerList = companyService.getOfferFrConfiguredList();
 			
-			System.err.println();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -295,7 +293,15 @@ public class OfferApiController {
 	
 	@RequestMapping(value = { "/saveImage" }, method = RequestMethod.POST)
 	public @ResponseBody Images saveImage(@RequestBody Images image) {
-		Images res = imagesService.saveImage(image);
+		
+		
+		Images res = new Images();
+		try {
+			res = imagesService.saveImage(image);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return res;
 	}
 
@@ -330,7 +336,6 @@ public class OfferApiController {
 			}
 			
 			
-			System.err.println("convertedRankList"+convertedRankList.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -43,6 +43,16 @@ public class FranchiseeConfigurationApiController {
 
 	@Autowired
 	GetFrConfigListRepo getFrConfigListRepo;
+	
+	
+	
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 24-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- get all configs
 
 	@RequestMapping(value = { "/getConfigurationByCatId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemConfHeader> getConfigurationByCatId(@RequestParam int catId) {
@@ -60,6 +70,16 @@ public class FranchiseeConfigurationApiController {
 	}
 	
 	
+	
+	
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 24-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- get all configs by company
+
 	@RequestMapping(value = { "/getConfigurationByCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemConfHeader> getConfigurationByCompId(@RequestParam int compId) {
 
@@ -74,6 +94,16 @@ public class FranchiseeConfigurationApiController {
 		return list;
 
 	}
+	
+	
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 24-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- get all fr configs
+
  
 
 	@RequestMapping(value = { "/getFranchiseForConfig" }, method = RequestMethod.POST)
@@ -99,6 +129,16 @@ public class FranchiseeConfigurationApiController {
 		return list;
 
 	}
+
+	
+	
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 24-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- insert all configs
 
 	@RequestMapping(value = { "/insertFrConfig" }, method = RequestMethod.POST)
 	public @ResponseBody Info insertFrConfig(@RequestParam int actualRate, @RequestParam int displayRate,
@@ -147,6 +187,17 @@ public class FranchiseeConfigurationApiController {
 		return res;
 	}
 
+	
+	
+	
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 25-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- get all configs list by filter
+
 	@RequestMapping(value = { "/getFranchiseConfigList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetFrConfigList> getFranchiseConfigList(@RequestParam List<String> frIds,
 			@RequestParam List<String> configIds, @RequestParam int orderBy) {
@@ -191,6 +242,15 @@ public class FranchiseeConfigurationApiController {
 
 	}
 
+	
+	
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 25-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- delete configs  
 	@RequestMapping(value = { "/deleteFrConfig" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteFrConfig(@RequestParam List<Integer> configIds) {
 

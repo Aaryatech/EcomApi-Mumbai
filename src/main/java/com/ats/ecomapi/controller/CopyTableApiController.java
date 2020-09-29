@@ -48,6 +48,15 @@ public class CopyTableApiController {
 	@Autowired
 	SettingRepo settingRepo;
 	
+	
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :-   table  names in db
 
 	@RequestMapping(value = { "/getAllTables" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetTableNames> getAllUsers() {
@@ -70,6 +79,15 @@ public class CopyTableApiController {
 	GetTableFieldsRepo getTableFieldsRepo;
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :-   getTableData
 
 	@RequestMapping(value = { "/getTableData" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetTableFields> getTableData(String tbl_name) {
@@ -100,6 +118,16 @@ public class CopyTableApiController {
 
 	@Autowired
 	UomRepo uomRepo;
+	
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 22-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :-  getCopyTbl
+
 
 	@RequestMapping(value = { "/getCopyTbl" }, method = RequestMethod.POST)
 	public @ResponseBody List<String> getCopyTbl(String tbl_name) {
@@ -123,6 +151,16 @@ public class CopyTableApiController {
 		}
 		return list;
 	}
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 23-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :-  insertCopyTableRec
+
+
 
 	@RequestMapping(value = { "/insertCopyTableRec" }, method = RequestMethod.POST)
 	public @ResponseBody Info insertCopyTableRec(@RequestParam String tbl_name, @RequestParam List<Integer> primaryIds,

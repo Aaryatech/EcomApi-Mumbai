@@ -537,6 +537,15 @@ public class CompanyApiController {
 	
 	@Autowired
 	RouteRepo routeRepo;
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 25-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Add Route
+
 
 	@RequestMapping(value = { "/saveRoute" }, method = RequestMethod.POST)
 	public @ResponseBody Route saveRoute(@RequestBody Route route) {
@@ -553,10 +562,10 @@ public class CompanyApiController {
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 14-09-2020
+	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Specific Company
+	// Descriprion :- Get Single Route
 
 	@RequestMapping(value = { "/getRouteById" }, method = RequestMethod.POST)
 	public @ResponseBody Route getRouteById(@RequestParam int routeId) {
@@ -573,10 +582,11 @@ public class CompanyApiController {
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 14-09-2020
+	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get All Comapny List
+	// Descriprion :- Get All Route
+
 
 	@RequestMapping(value = { "/getAllRoute" }, method = RequestMethod.GET)
 	public @ResponseBody List<Route> getAllRoute() {
@@ -593,10 +603,11 @@ public class CompanyApiController {
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 14-09-2020
+	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete Company
+	// Descriprion :- Delete Route
+
 
 	@RequestMapping(value = { "/deleteRouteById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteRouteById(@RequestParam int routeId) {
@@ -619,6 +630,15 @@ public class CompanyApiController {
 	@Autowired
 	GetRouteListRepo getRouteListRepo;
 	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 25-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get Route Company Wise
+
+	
 	@RequestMapping(value = { "/getAllRouteByCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetRouteList> getAllRouteByCompId(@RequestParam int compId) {
 
@@ -635,6 +655,14 @@ public class CompanyApiController {
 	@Autowired
 	RouteTypeRepo routeTypeRepo;
 	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 25-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Save Route 
+	
 	@RequestMapping(value = { "/saveRouteType" }, method = RequestMethod.POST)
 	public @ResponseBody RouteType saveRoute(@RequestBody RouteType route) {
  
@@ -650,10 +678,10 @@ public class CompanyApiController {
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 14-09-2020
+	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Specific Company
+	// Descriprion :- Get Specific Route
 
 	@RequestMapping(value = { "/getRouteTypeById" }, method = RequestMethod.POST)
 	public @ResponseBody RouteType getRouteTypeById(@RequestParam int routeId) {
@@ -670,10 +698,10 @@ public class CompanyApiController {
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 14-09-2020
+	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get All Comapny List
+	// Descriprion :- Get All Route
 
 	@RequestMapping(value = { "/getAllRouteType" }, method = RequestMethod.GET)
 	public @ResponseBody List<RouteType> getAllRouteType() {
@@ -690,10 +718,10 @@ public class CompanyApiController {
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 14-09-2020
+	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete Company
+	// Descriprion :- Delete Rote
 
 	@RequestMapping(value = { "/deleteRouteTypeById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteRouteTypeById(@RequestParam int routeId) {
@@ -718,6 +746,14 @@ public class CompanyApiController {
 	@Autowired
 	RouteDeliveryRepo routeDeliveryRepo;
 	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 25-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :-Save Route Delivery
+
+	
 	@RequestMapping(value = { "/saveRouteDelivery" }, method = RequestMethod.POST)
 	public @ResponseBody RouteDelivery saveRouteDelivery(@RequestBody RouteDelivery route) {
  
@@ -733,10 +769,10 @@ public class CompanyApiController {
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 14-09-2020
+	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Specific Company
+	// Descriprion :- Get Specific Route Delivery
 
 	@RequestMapping(value = { "/getRouteDeliveryById" }, method = RequestMethod.POST)
 	public @ResponseBody RouteDelivery getRouteDeliveryById(@RequestParam int routeId) {
@@ -753,10 +789,10 @@ public class CompanyApiController {
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 14-09-2020
+	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get All Comapny List
+	// Descriprion :- Get All Comapny Route Delivery
 
 	@RequestMapping(value = { "/getAllRouteDelivery" }, method = RequestMethod.GET)
 	public @ResponseBody List<RouteDelivery> getAllRouteDelivery() {
@@ -773,10 +809,10 @@ public class CompanyApiController {
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
-	// Created On :- 14-09-2020
+	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete Company
+	// Descriprion :- Delete Route Delivery
 
 	@RequestMapping(value = { "/deleteRouteDeliveryById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteRouteDeliveryById(@RequestParam int delvId) {

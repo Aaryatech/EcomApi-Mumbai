@@ -35,6 +35,14 @@ public class ProductConfigurationApiController {
 
 	@Autowired
 	ProductMasterRepo productMasterRepo;
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 16-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- saveRelatedProductConfig
 
 	@RequestMapping(value = { "/saveRelatedProductConfig" }, method = RequestMethod.POST)
 	public @ResponseBody RelatedProductConfig saveRelatedProductConfig(@RequestBody RelatedProductConfig config) {
@@ -49,6 +57,14 @@ public class ProductConfigurationApiController {
 
 	}
 
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :-16-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getAllProductAndCategory
 	@RequestMapping(value = { "/getAllProductAndCategory" }, method = RequestMethod.POST)
 	public @ResponseBody List<CategoryProduct> getAllProductAndCategory(@RequestParam("compId") int compId) {
 
@@ -76,6 +92,14 @@ public class ProductConfigurationApiController {
 		return list;
 
 	}
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :-16-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getAllProductByCompId
 
 	@RequestMapping(value = { "/getAllProductByCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ProductMaster> getAllProduct(@RequestParam("compId") int compId) {
@@ -90,6 +114,14 @@ public class ProductConfigurationApiController {
 		}
 		return proList;
 	}
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 16-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getAllProductByCatId
 
 	@RequestMapping(value = { "/getAllProductByCatId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ProductMaster> getAllProductByCatId(@RequestParam("catId") int catId) {
@@ -104,6 +136,14 @@ public class ProductConfigurationApiController {
 		}
 		return proList;
 	}
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 16-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getRelProConfigByCompId
 
 	@Autowired
 	GetRelatedProductConfigRepo getRelatedProductConfigRepo;
@@ -122,6 +162,14 @@ public class ProductConfigurationApiController {
 		return proList;
 	}
 
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :-16-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- deleteProdConfig
 	@RequestMapping(value = { "/deleteProdConfig" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteUserById(@RequestParam int relatedProductId,@RequestParam int userId,@RequestParam String  dateTime) {
 
@@ -141,6 +189,14 @@ public class ProductConfigurationApiController {
 		return info;
 	}
 
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :-16-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getRelProConfigByPrimaryItemId
 	@Autowired
 	GetRequreProductRepo getRequreProductRepo;
 

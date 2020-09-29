@@ -39,6 +39,15 @@ public class OfferApiController {
 	@Autowired
 	ImagesService imagesService;
 	
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- saveOfferHeader
+	
 	@RequestMapping(value = { "/saveOfferHeader" }, method = RequestMethod.POST)
 	public @ResponseBody OfferHeader saveOfferHeader(@RequestBody OfferHeader offerHeader) {
 		
@@ -52,8 +61,15 @@ public class OfferApiController {
 		return res;
 	}
 
-	// Author-Anmol Shirke Created On-22-07-2020
-	@RequestMapping(value = { "/saveOfferDetailList" }, method = RequestMethod.POST)
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- saveOfferDetailList
+ 	@RequestMapping(value = { "/saveOfferDetailList" }, method = RequestMethod.POST)
 	public @ResponseBody Info saveOfferDetailList(@RequestBody List<OfferDetail> offerDetailList) {
 
 		Info info = new Info();
@@ -70,8 +86,12 @@ public class OfferApiController {
 		return info;
 	}
 
-	// Author-Anmol Shirke Created On-22-07-2020
-	// Desc- Returns OfferHeader object - save OfferHeader.
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getOfferHeaderById
 	@RequestMapping(value = { "/getOfferHeaderById" }, method = RequestMethod.POST)
 	public @ResponseBody OfferHeader getOfferHeaderById(@RequestParam("offerId") int offerId) {
 
@@ -84,6 +104,14 @@ public class OfferApiController {
 		return res;
 	}
 
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- deleteOfferHeaderById
 	@RequestMapping(value = { "/deleteOfferHeaderById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteOfferHeaderById(@RequestParam("offerId") int offerId,
 			@RequestParam("status") int status) {
@@ -102,7 +130,12 @@ public class OfferApiController {
 		return info;
 	}
 
-	// Author-Anmol Shirke Created On-24-07-2020
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getAllOfferHeaderListByCompId
 	@RequestMapping(value = { "/getAllOfferHeaderListByCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<OfferHeader> getAllOfferHeaderListByCompId(@RequestParam("compId") int compId) {
 
@@ -115,7 +148,12 @@ public class OfferApiController {
 		return res;
 	}
 
-	// Author-Anmol Shirke Created On-22-07-2020
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getOfferDetailListByOfferId
 	@RequestMapping(value = { "/getOfferDetailListByOfferId" }, method = RequestMethod.POST)
 	public @ResponseBody List<OfferDetail> getOfferDetailListByOfferId(@RequestParam("offerId") int offerId) {
 
@@ -128,6 +166,14 @@ public class OfferApiController {
 		return res;
 	}
 
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- updateOfferType
 	@RequestMapping(value = { "/updateOfferType" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateOfferType(@RequestParam("offerId") int offerId, @RequestParam("type") int type) {
 
@@ -144,6 +190,14 @@ public class OfferApiController {
 
 		return info;
 	}
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- removeOfferDetailIds
 
 	@RequestMapping(value = { "/removeOfferDetailIds" }, method = RequestMethod.POST)
 	public @ResponseBody Info removeOfferDetailIds(@RequestParam("offerDetailIds") List<Integer> offerDetailIds) {
@@ -163,6 +217,14 @@ public class OfferApiController {
 	}
 	
 	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getAllOfferHeads
+	
 	@RequestMapping(value = { "/getAllOfferHeads" }, method = RequestMethod.POST)
 	public @ResponseBody List<OfferHeader> getAllOfferHeads(@RequestParam int compId) {
 
@@ -174,6 +236,14 @@ public class OfferApiController {
 		}
 		return frOfferList;
 	}
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- updateOfferImg
 
 	@RequestMapping(value = { "/updateOfferImg" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateOfferImg(@RequestParam("filesList") String filesList,@RequestParam("offerId") int offerId) {
@@ -200,6 +270,13 @@ public class OfferApiController {
 
 	
 	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getConfigureOfferList
 	/************************** Fr Offer Config ********************************/
 	@RequestMapping(value = { "/getConfigureOfferList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetConfigureOfferList> getConfigureOfferList(@RequestParam int offerId) {
@@ -213,6 +290,14 @@ public class OfferApiController {
 		return frOfferList;
 	}
 
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getOfferInfoByOfferId
 	@RequestMapping(value = { "/getOfferInfoByOfferId" }, method = RequestMethod.POST)
 	public @ResponseBody OfferConfig getOfferInfoByOfferId(@RequestParam int offerId) {
 
@@ -225,6 +310,14 @@ public class OfferApiController {
 		return offer;
 	}
 
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- addFrOfferConfiguration
 	@RequestMapping(value = { "/addFrOfferConfiguration" }, method = RequestMethod.POST)
 	public @ResponseBody OfferConfig addFrOfferConfiguration(@RequestBody OfferConfig offer) {
 
@@ -237,6 +330,14 @@ public class OfferApiController {
 		return saveOffer;
 	}
 
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- updateFrOfferConfig
 	@RequestMapping(value = { "/updateFrOfferConfig" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateFrOfferConfig(@RequestParam String frIdStr, @RequestParam int offerId,
 			@RequestParam String updtTime, @RequestParam int userId) {
@@ -256,6 +357,13 @@ public class OfferApiController {
 		}
 		return info;
 	}
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- deleteFrOfferConfigById
 
 	@RequestMapping(value = { "/deleteFrOfferConfigById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteFrOfferConfigById(@RequestParam int frOfferConfigId) {
@@ -276,6 +384,13 @@ public class OfferApiController {
 		return info;
 	}
 
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 18-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getAllOfferFrConfiguredList
 	@RequestMapping(value = { "/getAllOfferFrConfiguredList" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetOfferFrConfiguredList> getAllOfferFrConfiguredList() {
 
@@ -291,6 +406,14 @@ public class OfferApiController {
 
 	/********************************/
 	
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- saveImage
+	
 	@RequestMapping(value = { "/saveImage" }, method = RequestMethod.POST)
 	public @ResponseBody Images saveImage(@RequestBody Images image) {
 		
@@ -305,16 +428,26 @@ public class OfferApiController {
 		return res;
 	}
 
-	// Author-Anmol Shirke Created On-16-07-2020
-	// Desc- Returns Info object - save multiple image.
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- saveMultipleImage
 	@RequestMapping(value = { "/saveMultipleImage" }, method = RequestMethod.POST)
 	public @ResponseBody Info saveMultipleImage(@RequestBody List<Images> imageList) {
 		Info info = imagesService.saveMultipleImages(imageList);
 		return info;
 	}
 
-	// Author-Anmol Shirke Created On-16-07-2020
-	// Desc- Returns Images list - get all images by docId and delete status=0.
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- getImagesByDocIdAndDocType
 	@RequestMapping(value = { "/getImagesByDocIdAndDocType" }, method = RequestMethod.POST)
 	public @ResponseBody List<String> getImagesByDocId(@RequestParam int selectId) {
 		/*
@@ -346,6 +479,14 @@ public class OfferApiController {
 		
 	}
 	
+	
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- deleteByImageOfOffer
 	@RequestMapping(value = { "/deleteByImageOfOffer" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteByImageOfOffer(@RequestParam int offerId,@RequestParam String imageName) {
 		
@@ -369,8 +510,13 @@ public class OfferApiController {
 	
 	
 
-	// Author-Anmol Shirke Created On-16-07-2020
-	// Desc- Returns Info object - delete image by imageId - physical delete.
+
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Harsha Patil
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- deleteByImageId
 	@RequestMapping(value = { "/deleteByImageId" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteByImageId(@RequestParam int imageId) {
 		Info res = imagesService.deletImageById(imageId);

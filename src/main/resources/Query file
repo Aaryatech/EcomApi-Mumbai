@@ -22,3 +22,124 @@ tn_item_config_detail.maker_user_id,tn_item_config_detail.updt_dttime
 
 FROM tn_item_config_detail,m_filter,m_product
 WHERE tn_item_config_detail.product_id=m_product.product_id AND m_filter.filter_id=tn_item_config_detail.flavor_id
+
+#28-09-2020
+
+//GET Banner List
+SELECT UUID() as uuid, banner_home_page.banner_id,banner_home_page.banner_event_name,banner_home_page.banner_image,banner_home_page.sort_no,banner_home_page.fr_ids,banner_home_page.tag_ids,banner_home_page.caption_onproduct_page,banner_home_page.update_date_time,banner_home_page.ex_var1
+FROM banner_home_page WHERE find_in_set(5,banner_home_page.fr_ids) ORDER by sort_no DESC //Dynamic Fr Id as 5
+
+SELECT UUID() as uuid, banner_home_page.banner_id,banner_home_page.banner_event_name,banner_home_page.banner_image,banner_home_page.sort_no,banner_home_page.fr_ids,banner_home_page.tag_ids,banner_home_page.caption_onproduct_page,banner_home_page.update_date_time,banner_home_page.ex_var1
+FROM banner_home_page WHERE banner_home_page.comp_id=1 ORDER by sort_no DESC //company Id dynamic
+
+//GET Category List 
+SELECT UUID() as uuid, m_category.cat_id, m_category.cat_name,m_category.cat_prefix,m_category.cat_desc,m_category.image_name,m_category.ex_var1
+FROM m_category WHERE m_category.company_id=1 and m_category.is_parent=1 and m_category.is_parent=1 and m_category.del_status=1 ORDER BY m_category.sort_no DESC
+
+//GET TESTIMONIALS 
+SELECT UUID() as uuid, home_page_testimonials.testimonials_id,home_page_testimonials.caption_name,
+home_page_testimonials.images,home_page_testimonials.messages,home_page_testimonials.name,
+mn_designation.designation
+FROM mn_designation,home_page_testimonials
+WHERE home_page_testimonials.del_status=1 AND  home_page_testimonials.is_active=1 AND home_page_testimonials.designation=mn_designation.designation_id 
+and home_page_testimonials.company_id=1 ORDER by home_page_testimonials.sort_no DESC
+
+//prod List Home page Front End
+
+cp /home/siddharth/ecomAdmin.war /opt/apache-tomcat-8.5.37/webapps
+
+
+30-09-2020
+SELECT home_page_status_detail.product_id FROM home_page_status_detail,home_page_status_header,m_filter
+WHERE m_filter.filter_type_id=5 and m_filter.filter_id=home_page_status_header.status_id AND 
+home_page_status_header.home_page_status_id=home_page_status_detail.home_page_status_id and 
+m_filter.company_id=home_page_status_header.company_id and home_page_status_header.del_status=1 and home_page_status_header.is_active=1  and home_page_status_header.company_id=1
+
+
+
+//Final Header Query 30-09-2020
+SELECT
+    UUID() AS prod_uuid, m_product.product_id, m_product.product_code, m_product.product_name, m_product.prod_cat_id, m_product.prod_sub_cat_id, m_product.tax_id, m_product.min_qty, m_product.uom_id, m_product.short_name, m_product.shape_id, m_product.allow_same_day_delivery, m_product.same_day_time_allowed_slot, m_product.prod_type_id, m_product.avail_in_weights, m_product.flavour_ids, m_product.prod_status_id, m_product.book_before, m_product.events_ids, m_product.is_char_limit, m_product.no_of_chars_for_alpha_cake, m_product.allow_cover_photo_upload, m_product.allow_base_photo_upload, m_product.allow_special_instruction, m_product.allow_msg_on_cake, m_product.no_of_chars_on_cake, m_product.product_desc, m_product.ingerdiants, m_product.applicable_tags, m_product.company_id, m_product.prod_image_primary, m_product.product_images, m_product.is_veg, m_product.prep_time, m_product.rate_setting_type, m_product.max_wt, m_product.ex_var1, m_product.ex_var2, m_fr_configration.display_rate, m_fr_configration.actual_rate, m_fr_configration.frachase_config_id, 0 AS is_home_page_prod, tn_item_config_header.config_header_id
+FROM
+    m_product, tn_item_config_detail, tn_item_config_header, m_fr_configration
+WHERE
+    m_product.product_id = tn_item_config_detail.product_id AND tn_item_config_detail.del_status = 1 AND tn_item_config_detail.is_active = 1 AND tn_item_config_detail.config_header_id = tn_item_config_header.config_header_id AND tn_item_config_header.del_status = 1 AND tn_item_config_header.is_active = 1 AND tn_item_config_header.config_header_id = m_fr_configration.config_header_id AND m_fr_configration.fr_id = 5
+GROUP BY
+    m_product.product_id
+
+//Detail Query
+SELECT UUID() as conf_detail_uuid, tn_item_config_detail.config_detail_id,tn_item_config_detail.product_id,
+tn_item_config_detail.flavor_id,tn_item_config_detail.is_veg,tn_item_config_detail.rate_setting_type,tn_item_config_detail.qty
+
+FROM tn_item_config_detail 
+WHERE tn_item_config_detail.config_header_id in(4) and tn_item_config_detail.product_id in (1,4)
+#GROUP by tn_item_config_detail.product_id,tn_item_config_detail.flavor_id,tn_item_config_detail.qty,tn_item_config_detail.is_veg
+
+@Detail Final 30-09-2020
+
+SELECT UUID() as conf_detail_uuid, tn_item_config_detail.config_detail_id,tn_item_config_detail.product_id,
+tn_item_config_detail.flavor_id,tn_item_config_detail.is_veg,tn_item_config_detail.rate_setting_type,tn_item_config_detail.qty,
+CASE m_fr_configration.display_rate
+WHEN 1 THEN tn_item_config_detail.rate_amt
+WHEN 2 THEN tn_item_config_detail.mrp_amt
+WHEN 3 THEN tn_item_config_detail.sp_rate_amt1
+WHEN 4 THEN tn_item_config_detail.sp_rate_amt2
+WHEN 5 THEN tn_item_config_detail.sp_rate_amt3
+WHEN 6 THEN tn_item_config_detail.sp_rate_amt4
+END AS display_rate,
+CASE m_fr_configration.actual_rate
+WHEN 1 THEN tn_item_config_detail.rate_amt
+WHEN 2 THEN tn_item_config_detail.mrp_amt
+WHEN 3 THEN tn_item_config_detail.sp_rate_amt1
+WHEN 4 THEN tn_item_config_detail.sp_rate_amt2
+WHEN 5 THEN tn_item_config_detail.sp_rate_amt3
+WHEN 6 THEN tn_item_config_detail.sp_rate_amt4
+END AS actual_rate
+FROM tn_item_config_detail,m_fr_configration
+WHERE tn_item_config_detail.config_header_id in(2,4,5) and tn_item_config_detail.product_id in (1,4,11,7)
+and m_fr_configration.config_header_id=tn_item_config_detail.config_header_id and m_fr_configration.fr_id=5 order by product_id ASC
+
+#final get Category List by FrId 1-10-2020
+
+SELECT UUID() as cat_uuid, m_category.cat_id,m_category.cat_name,m_category.cat_prefix,m_category.cat_desc,m_category.company_id,
+m_category.image_name,m_category.sort_no
+FROM m_fr_configration,m_category,tn_item_config_header
+WHERE m_category.cat_id=tn_item_config_header.cat_id AND tn_item_config_header.config_header_id=m_fr_configration.config_header_id AND m_fr_configration.fr_id=5
+and m_category.del_status=1 and m_category.is_active=1 AND tn_item_config_header.del_status=1 and tn_item_config_header.is_active=1 AND m_fr_configration.is_active=1
+ORDER BY m_category.sort_no DESC
+
+#final get Category List by Company Id 1-10-2020
+SELECT  UUID() as cat_uuid, m_category.cat_id,m_category.cat_name,m_category.cat_prefix,m_category.cat_desc,m_category.company_id,
+m_category.image_name,m_category.sort_no
+FROM m_category
+WHERE 
+ m_category.del_status=1 and m_category.is_active=1 AND m_category.company_id=1
+ORDER BY m_category.sort_no DESC
+
+#final get Flavor,Tag Ids,Status Ids (4,7,5) 1-10-2020
+
+SELECT m_filter.filter_id,m_filter.filter_name,m_filter.filter_type_id,m_filter.used_for_filter,
+m_filter.cost_affect,m_filter.used_for_description,m_filter.company_id,m_filter.sort_no
+FROM m_filter 
+WHERE m_filter.filter_type_id IN (4,7,5) and m_filter.del_status=1 AND m_filter.is_active=1 AND m_filter.company_id=1
+ORDER  BY m_filter.sort_no ,m_filter.filter_type_id
+
+#Final Get testimonials for Company Id -Each record have comma separated frIds for displaying to Franchise  01-10-2020
+
+SELECT UUID() as uuid, home_page_testimonials.testimonials_id,home_page_testimonials.caption_name,
+home_page_testimonials.images,home_page_testimonials.messages,home_page_testimonials.name,home_page_testimonials.fr_ids,
+mn_designation.designation
+FROM mn_designation,home_page_testimonials
+WHERE home_page_testimonials.del_status=1 AND  home_page_testimonials.is_active=1 AND home_page_testimonials.designation=mn_designation.designation_id 
+and home_page_testimonials.company_id=1 ORDER by home_page_testimonials.sort_no DESC
+
+#Get Banner List for Franchise 01-10-2020
+/GET Banner List
+SELECT UUID() as uuid, banner_home_page.banner_id,banner_home_page.banner_event_name,banner_home_page.banner_image,banner_home_page.sort_no,banner_home_page.fr_ids,banner_home_page.tag_ids,banner_home_page.caption_onproduct_page,banner_home_page.update_date_time,banner_home_page.ex_var1
+FROM banner_home_page WHERE find_in_set(5,banner_home_page.fr_ids) ORDER by sort_no DESC //Dynamic Fr Id as 5
+
+#Get Banner List for Company 01-10-2020
+/GET Banner List
+SELECT UUID() as uuid, banner_home_page.banner_id,banner_home_page.banner_event_name,banner_home_page.banner_image,banner_home_page.sort_no,banner_home_page.fr_ids,banner_home_page.tag_ids,banner_home_page.caption_onproduct_page,banner_home_page.update_date_time,banner_home_page.ex_var1
+FROM banner_home_page WHERE banner_home_page.comp_id=1 ORDER by sort_no DESC //company Id dynamic
+

@@ -33,5 +33,9 @@ public interface FranchiseRepo extends JpaRepository<Franchise, Integer> {
 	@Query(value="SELECT COUNT(fr_id) FROM `m_franchise` WHERE `fr_code` LIKE %:coPrefix% AND company_id=:compId",nativeQuery=true)
 	public int getCompCountByPrefix(@Param("compId") int compId, @Param("coPrefix") String coPrefix);
 	
+	
+	//Sachin 02-10-2020
+	List<Franchise> findByCompanyIdAndDelStatusAndIsActiveOrderByFrIdDesc(int companyId, int delStatus,int isActive);
+
 
 }

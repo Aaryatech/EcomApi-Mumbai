@@ -14,7 +14,9 @@ public interface OrderDetailListRepo extends JpaRepository<GetOrderDetailDisplay
 			"        UUID() AS id,\n" + 
 			"        t1.*,\n" + 
 			"        COALESCE(t2.product_name,\n" + 
-			"        '') AS item_name,\n" + 
+			"        '') AS item_name,\n" +
+			"        COALESCE(t2.item_pic,\n" + 
+			"        '') AS item_pic,\n" +
 			"        COALESCE(t2.cat_id,\n" + 
 			"        0) AS cat_id,\n" + 
 			"        COALESCE(t2.cat_name,\n" + 
@@ -69,6 +71,7 @@ public interface OrderDetailListRepo extends JpaRepository<GetOrderDetailDisplay
 			"            SELECT\n" + 
 			"                i.product_id,\n" + 
 			"                i.product_name,\n" + 
+			"                SUBSTRING_INDEX(i.product_images, ',', 1) AS item_pic,\n" + 
 			"                i.prod_cat_id AS cat_id,\n" + 
 			"                u.uom_name,\n" + 
 			"                u.uom_id,\n" + 

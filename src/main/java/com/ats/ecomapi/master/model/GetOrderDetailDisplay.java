@@ -43,6 +43,7 @@ public class GetOrderDetailDisplay {
 	private float exFloat4;
 
 	private String itemName;
+	private String itemPic;
 	private int catId;
 	private String catName;
 	private String itemUom;
@@ -347,6 +348,14 @@ public class GetOrderDetailDisplay {
 		this.trailList = trailList;
 	}
 
+	public String getItemPic() {
+		return itemPic;
+	}
+
+	public void setItemPic(String itemPic) {
+		this.itemPic = itemPic;
+	}
+
 	@Override
 	public String toString() {
 		return "GetOrderDetailDisplay [orderDetailId=" + orderDetailId + ", orderId=" + orderId + ", itemId=" + itemId
@@ -357,8 +366,8 @@ public class GetOrderDetailDisplay {
 				+ exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exInt4=" + exInt4 + ", exVar1=" + exVar1
 				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + ", exFloat1=" + exFloat1
 				+ ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", exFloat4=" + exFloat4 + ", itemName="
-				+ itemName + ", catId=" + catId + ", catName=" + catName + ", itemUom=" + itemUom + ", uomId=" + uomId
-				+ ", trailList=" + trailList + "]";
+				+ itemName + ", itemPic=" + itemPic + ", catId=" + catId + ", catName=" + catName + ", itemUom="
+				+ itemUom + ", uomId=" + uomId + ", trailList=" + trailList + "]";
 	}
 
 	

@@ -15,6 +15,8 @@ import com.ats.ecomapi.master.model.GetOrderHeaderDisplay;
 import com.ats.ecomapi.master.model.GetOrderTrailDisplay;
 import com.ats.ecomapi.master.repo.GetDashStatusCntRepo;
 import com.ats.ecomapi.master.repo.GetOrderHeaderRepo;
+import com.ats.ecomapi.master.repo.GetOrderTrailDisplayRepo;
+import com.ats.ecomapi.master.repo.OrderDetailListRepo;
 import com.ats.ecomapi.report.model.GetDashPieStatusCnt;
 
 @RestController
@@ -24,6 +26,10 @@ public class DashApiController {
 
 	@Autowired
 	GetOrderHeaderRepo orderHeaderRepo;
+	
+	@Autowired GetOrderTrailDisplayRepo getOrderTrailDisplayRepo;
+	
+	@Autowired OrderDetailListRepo orderDtlRepo;
 
 	@RequestMapping(value = { "/getAllStatusCount" }, method = RequestMethod.POST)
 	@ResponseBody
@@ -49,6 +55,33 @@ public class DashApiController {
 
 		try {
 			orderList = orderHeaderRepo.getOrderHeaderByDeliveryDate(fromDate, toDate, status, compId);
+			
+			List<GetOrderDetailDisplay> detailList = orderDtlRepo.getOrderDetailsyBillNo(compId);
+			List<GetOrderTrailDisplay> trailList = getOrderTrailDisplayRepo.getOrderTrailListByCompId(compId);
+			
+			for (int i = 0; i < orderList.size(); i++) {
+				List<GetOrderDetailDisplay> detailHeadList = new ArrayList<GetOrderDetailDisplay>();
+				
+				for (int j = 0; j < detailList.size(); j++) {
+					if(orderList.get(i).getOrderId()==detailList.get(j).getOrderId()) {
+						detailHeadList.add(detailList.get(j));
+					}
+				}
+				
+				orderList.get(i).setOrderDetailList(detailHeadList);
+				
+				List<GetOrderTrailDisplay> trailHeadList = new ArrayList<GetOrderTrailDisplay>();
+				
+				for (int k = 0; k < trailList.size(); k++) {
+					
+					if(orderList.get(i).getOrderId()==trailList.get(k).getOrderId()) {
+						trailHeadList.add(trailList.get(k));
+					}					
+				}
+				
+				orderList.get(i).setOrderTrailList(trailHeadList);
+				
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,9 +1,7 @@
 package com.ats.ecomapi.controller;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.ecomapi.master.model.GetOrderDetailDisplay;
-import com.ats.ecomapi.master.model.GetOrderDisplay;
 import com.ats.ecomapi.master.model.GetOrderHeaderDisplay;
 import com.ats.ecomapi.master.model.GetOrderTrailDisplay;
 import com.ats.ecomapi.master.model.Status;
@@ -53,9 +50,7 @@ public class OrderApiController {
 		List<GetOrderHeaderDisplay> orderList = new ArrayList<>();
 
 		try {
-
-			//List<GetOrderDisplay> res = getOrderDisplayRepo.getAllOrdersByDeliveryDateAndStatus(fromDate, toDate, status);
-			//List<GetOrderTrailDisplay> allTrailList = getOrderTrailDisplayRepo .getOrderTrailDataByDateAndStatus(fromDate, toDate, status);
+			
 			if(dateType==1) {
 				orderList = orderHeaderRepo.getOrderHeaderByDeliveryDate(fromDate, toDate, status, compId);
 			}else {
@@ -87,8 +82,7 @@ public class OrderApiController {
 				
 				orderList.get(i).setOrderTrailList(trailHeadList);
 				
-			}
-			
+			}			
 			
 
 		} catch (Exception e) {

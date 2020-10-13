@@ -33,7 +33,7 @@ public class DashApiController {
 
 	@RequestMapping(value = { "/getAllStatusCount" }, method = RequestMethod.POST)
 	@ResponseBody
-	public List<GetDashPieStatusCnt> getGrievanceHeader(@RequestParam("fromDate") String fromDate,
+	public List<GetDashPieStatusCnt> getAllStatusCount(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate, @RequestParam("compId") int compId) {
 		List<GetDashPieStatusCnt> res = new ArrayList<GetDashPieStatusCnt>();
 		try {
@@ -45,8 +45,24 @@ public class DashApiController {
 		}
 		return res;
 	}
+	
+	
+	@RequestMapping(value = { "/getAllStatusCountByFrId" }, method = RequestMethod.POST)
+	@ResponseBody
+	public List<GetDashPieStatusCnt> getAllStatusCountByFrId(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("compId") int compId, @RequestParam("frId") int frId) {
+		List<GetDashPieStatusCnt> res = new ArrayList<GetDashPieStatusCnt>();
+		try {
 
-	@RequestMapping(value = { "/getOrderHeaderListBy" }, method = RequestMethod.POST)
+			res = dashRepo.getDashStatusCntByFrId(fromDate, toDate, compId, frId);
+
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return res;
+	}
+
+	@RequestMapping(value = { "/getOrderHeaderListByCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetOrderHeaderDisplay> getOrderReportBetweenDateAndStatus(
 			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate,
 			@RequestParam("status") List<Integer> status, @RequestParam("compId") int compId) {

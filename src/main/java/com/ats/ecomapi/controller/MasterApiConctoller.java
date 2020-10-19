@@ -430,6 +430,36 @@ public class MasterApiConctoller {
 		}
 		return User;
 	}
+	
+		// Created By :- Mahendra Singh
+		// Created On :- 19-10-2020
+		// Modified By :- NA
+		// Modified On :- NA
+		// Description :- Update User Password
+		@RequestMapping(value = { "/updateUserPassword" }, method = RequestMethod.POST)
+		public @ResponseBody Info updateUserPassword(@RequestParam int userId, @RequestParam int isEnroll, @RequestParam String newPassword) {
+
+			Info info = new Info();
+			int res = 0;
+			try {
+				if(isEnroll>0) {
+					res = userRepo.updateEnrolUserPass(userId, isEnroll, newPassword);
+				}else {
+					res = userRepo.updateUserPass(userId, newPassword);
+				}
+				
+				if (res > 0) {
+					info.setError(false);
+					info.setMessage("Password changed successfully");
+				} else {
+					info.setError(true);
+					info.setMessage("Failed to change password");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return info;
+		}
 
 	/*-------------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh

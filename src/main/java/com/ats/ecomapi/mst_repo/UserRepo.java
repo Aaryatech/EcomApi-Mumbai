@@ -107,6 +107,15 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	List<User> getAllUserList(@Param("compId") int compId);
 	
 	User findByUserIdAndDelStatusAndCompanyId(int userId, int del, int compId);
-	
+
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE m_user SET password=:newPassword WHERE user_id=:userId",nativeQuery=true)
+	int updateUserPass(@Param("userId") int userId, @Param("newPassword") String newPassword);
+
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE m_user SET password=:newPassword, is_enrolled=:isEnroll WHERE user_id=:userId",nativeQuery=true)
+	int updateEnrolUserPass(@Param("userId")  int userId, @Param("isEnroll") int isEnroll, @Param("newPassword") String newPassword);
 	
 }

@@ -9,6 +9,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "m_filter")
+//Modified By-Sachin
+//Modification Date-20-10-2020
+//Desc-Added new fields 
 public class MFilter {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -69,6 +72,24 @@ public class MFilter {
 	
 	@Column(name = "ex_var3")
 	private String exVar3;
+	
+	
+	//Sachin 20-10-2020 new fields total 5
+	@Column(name = "add_on_type")
+	private int addOnType;
+	
+	@Column(name = "add_on_rs")
+	private float addOnRs;
+	
+	@Column(name = "is_tag_add")
+	private int isTagAdd;
+	
+	@Column(name = "tag_id")
+	private int tagId;
+	
+	@Column(name = "admin_name")
+	private String adminName;
+	//Sachin 20-10-2020 new fields total 5
 
 	public int getFilterId() {
 		return filterId;
@@ -222,6 +243,49 @@ public class MFilter {
 		this.exVar3 = exVar3;
 	}
 
+	
+	
+	
+	public int getAddOnType() {
+		return addOnType;
+	}
+
+	public void setAddOnType(int addOnType) {
+		this.addOnType = addOnType;
+	}
+
+	public float getAddOnRs() {
+		return addOnRs;
+	}
+
+	public void setAddOnRs(float addOnRs) {
+		this.addOnRs = addOnRs;
+	}
+
+	public int getIsTagAdd() {
+		return isTagAdd;
+	}
+
+	public void setIsTagAdd(int isTagAdd) {
+		this.isTagAdd = isTagAdd;
+	}
+
+	public int getTagId() {
+		return tagId;
+	}
+
+	public void setTagId(int tagId) {
+		this.tagId = tagId;
+	}
+
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
+
 	@Override
 	public String toString() {
 		return "MFilter [filterId=" + filterId + ", filterName=" + filterName + ", filterDesc=" + filterDesc
@@ -229,7 +293,8 @@ public class MFilter {
 				+ ", usedForDescription=" + usedForDescription + ", companyId=" + companyId + ", isParent=" + isParent
 				+ ", allowToCopy=" + allowToCopy + ", sortNo=" + sortNo + ", isActive=" + isActive + ", delStatus="
 				+ delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1
-				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + "]";
+				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", addOnType=" + addOnType + ", addOnRs=" + addOnRs
+				+ ", isTagAdd=" + isTagAdd + ", tagId=" + tagId + ", adminName=" + adminName + "]";
 	}
 
 }

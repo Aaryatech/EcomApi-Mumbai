@@ -9,6 +9,8 @@ import javax.persistence.Transient;
 //Author -Sachin
 //Created on -01-10-2020
 //Desc - to show product master data to front end pages.
+//Modified on -06-10-2020
+//Modified By -Sachin
 
 @Entity
 public class FEProductHeader {
@@ -83,6 +85,51 @@ public class FEProductHeader {
 
 	private int configHeaderId; // Primary Key tn_item_config_header
 
+	
+	
+	//New fields on  06-10-2020
+	
+	private String taxName;
+	private String hsnCode;
+	
+	private float cgstPer;
+	private float sgstPer;
+	private float igstPer;
+	private float cessPer;
+	private float totalTaxPer;
+	
+	private String subCatName;
+	
+	private int sortId;
+	private int shelfLife;
+	
+	private int isReturnAllow;
+	private float retPer;
+	
+	private int isSlotUsed;
+	
+	private int toppingCream;
+	private int layeringCream;
+
+	private int typeOfBread;
+	private int typeOfCream;
+	
+	private String uomShowName;
+	
+	private String sameDayTimeSlotNames;
+	
+	private String eventNames;
+	private String flavorNames;
+	private String appliTagNames;
+	private String shapeNames;
+	private String prodTypeName;
+	private String prodStatusName;
+	private String toppingCreamNames;
+	private String layeringCreamNames;
+	
+	private String creamTypeName;
+	private String breadTypeName;
+	
 	
 	
 	@Transient
@@ -444,6 +491,242 @@ public class FEProductHeader {
 		this.prodDetailList = prodDetailList;
 	}
 	
+	
+	
+	
+	
+	public String getTaxName() {
+		return taxName;
+	}
+
+	public void setTaxName(String taxName) {
+		this.taxName = taxName;
+	}
+
+	public String getHsnCode() {
+		return hsnCode;
+	}
+
+	public void setHsnCode(String hsnCode) {
+		this.hsnCode = hsnCode;
+	}
+
+	public float getCgstPer() {
+		return cgstPer;
+	}
+
+	public void setCgstPer(float cgstPer) {
+		this.cgstPer = cgstPer;
+	}
+
+	public float getSgstPer() {
+		return sgstPer;
+	}
+
+	public void setSgstPer(float sgstPer) {
+		this.sgstPer = sgstPer;
+	}
+
+	public float getIgstPer() {
+		return igstPer;
+	}
+
+	public void setIgstPer(float igstPer) {
+		this.igstPer = igstPer;
+	}
+
+	public float getCessPer() {
+		return cessPer;
+	}
+
+	public void setCessPer(float cessPer) {
+		this.cessPer = cessPer;
+	}
+
+	public float getTotalTaxPer() {
+		return totalTaxPer;
+	}
+
+	public void setTotalTaxPer(float totalTaxPer) {
+		this.totalTaxPer = totalTaxPer;
+	}
+
+	public String getSubCatName() {
+		return subCatName;
+	}
+
+	public void setSubCatName(String subCatName) {
+		this.subCatName = subCatName;
+	}
+
+	public int getSortId() {
+		return sortId;
+	}
+
+	public void setSortId(int sortId) {
+		this.sortId = sortId;
+	}
+
+	public int getShelfLife() {
+		return shelfLife;
+	}
+
+	public void setShelfLife(int shelfLife) {
+		this.shelfLife = shelfLife;
+	}
+
+	public int getIsReturnAllow() {
+		return isReturnAllow;
+	}
+
+	public void setIsReturnAllow(int isReturnAllow) {
+		this.isReturnAllow = isReturnAllow;
+	}
+
+	public float getRetPer() {
+		return retPer;
+	}
+
+	public void setRetPer(float retPer) {
+		this.retPer = retPer;
+	}
+
+	public int getIsSlotUsed() {
+		return isSlotUsed;
+	}
+
+	public void setIsSlotUsed(int isSlotUsed) {
+		this.isSlotUsed = isSlotUsed;
+	}
+
+	public int getToppingCream() {
+		return toppingCream;
+	}
+
+	public void setToppingCream(int toppingCream) {
+		this.toppingCream = toppingCream;
+	}
+
+	public int getLayeringCream() {
+		return layeringCream;
+	}
+
+	public void setLayeringCream(int layeringCream) {
+		this.layeringCream = layeringCream;
+	}
+
+	public int getTypeOfBread() {
+		return typeOfBread;
+	}
+
+	public void setTypeOfBread(int typeOfBread) {
+		this.typeOfBread = typeOfBread;
+	}
+
+	public int getTypeOfCream() {
+		return typeOfCream;
+	}
+
+	public void setTypeOfCream(int typeOfCream) {
+		this.typeOfCream = typeOfCream;
+	}
+
+	public String getUomShowName() {
+		return uomShowName;
+	}
+
+	public void setUomShowName(String uomShowName) {
+		this.uomShowName = uomShowName;
+	}
+
+	public String getSameDayTimeSlotNames() {
+		return sameDayTimeSlotNames;
+	}
+
+	public void setSameDayTimeSlotNames(String sameDayTimeSlotNames) {
+		this.sameDayTimeSlotNames = sameDayTimeSlotNames;
+	}
+
+	public String getEventNames() {
+		return eventNames;
+	}
+
+	public void setEventNames(String eventNames) {
+		this.eventNames = eventNames;
+	}
+
+	public String getFlavorNames() {
+		return flavorNames;
+	}
+
+	public void setFlavorNames(String flavorNames) {
+		this.flavorNames = flavorNames;
+	}
+
+	public String getAppliTagNames() {
+		return appliTagNames;
+	}
+
+	public void setAppliTagNames(String appliTagNames) {
+		this.appliTagNames = appliTagNames;
+	}
+
+	public String getShapeNames() {
+		return shapeNames;
+	}
+
+	public void setShapeNames(String shapeNames) {
+		this.shapeNames = shapeNames;
+	}
+
+	public String getProdTypeName() {
+		return prodTypeName;
+	}
+
+	public void setProdTypeName(String prodTypeName) {
+		this.prodTypeName = prodTypeName;
+	}
+
+	public String getProdStatusName() {
+		return prodStatusName;
+	}
+
+	public void setProdStatusName(String prodStatusName) {
+		this.prodStatusName = prodStatusName;
+	}
+
+	public String getToppingCreamNames() {
+		return toppingCreamNames;
+	}
+
+	public void setToppingCreamNames(String toppingCreamNames) {
+		this.toppingCreamNames = toppingCreamNames;
+	}
+
+	public String getLayeringCreamNames() {
+		return layeringCreamNames;
+	}
+
+	public void setLayeringCreamNames(String layeringCreamNames) {
+		this.layeringCreamNames = layeringCreamNames;
+	}
+
+	public String getCreamTypeName() {
+		return creamTypeName;
+	}
+
+	public void setCreamTypeName(String creamTypeName) {
+		this.creamTypeName = creamTypeName;
+	}
+
+	public String getBreadTypeName() {
+		return breadTypeName;
+	}
+
+	public void setBreadTypeName(String breadTypeName) {
+		this.breadTypeName = breadTypeName;
+	}
+
 	@Override
 	public String toString() {
 		return "FEProductHeader [prodUuid=" + prodUuid + ", productId=" + productId + ", productCode=" + productCode
@@ -462,7 +745,17 @@ public class FEProductHeader {
 				+ ", prepTime=" + prepTime + ", rateSettingType=" + rateSettingType + ", maxWt=" + maxWt + ", exVar1="
 				+ exVar1 + ", exVar2=" + exVar2 + ", displayRate=" + displayRate + ", actualRate=" + actualRate
 				+ ", frachaseConfigId=" + frachaseConfigId + ", isHomePageProd=" + isHomePageProd + ", configHeaderId="
-				+ configHeaderId + ", prodDetailList=" + prodDetailList + "]";
+				+ configHeaderId + ", taxName=" + taxName + ", hsnCode=" + hsnCode + ", cgstPer=" + cgstPer
+				+ ", sgstPer=" + sgstPer + ", igstPer=" + igstPer + ", cessPer=" + cessPer + ", totalTaxPer="
+				+ totalTaxPer + ", subCatName=" + subCatName + ", sortId=" + sortId + ", shelfLife=" + shelfLife
+				+ ", isReturnAllow=" + isReturnAllow + ", retPer=" + retPer + ", isSlotUsed=" + isSlotUsed
+				+ ", toppingCream=" + toppingCream + ", layeringCream=" + layeringCream + ", typeOfBread=" + typeOfBread
+				+ ", typeOfCream=" + typeOfCream + ", uomShowName=" + uomShowName + ", sameDayTimeSlotNames="
+				+ sameDayTimeSlotNames + ", eventNames=" + eventNames + ", flavorNames=" + flavorNames
+				+ ", appliTagNames=" + appliTagNames + ", shapeNames=" + shapeNames + ", prodTypeName=" + prodTypeName
+				+ ", prodStatusName=" + prodStatusName + ", toppingCreamNames=" + toppingCreamNames
+				+ ", layeringCreamNames=" + layeringCreamNames + ", creamTypeName=" + creamTypeName + ", breadTypeName="
+				+ breadTypeName + ", prodDetailList=" + prodDetailList + "]";
 	}
 
 	

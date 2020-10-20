@@ -32,7 +32,8 @@ public interface MFilterRepo extends JpaRepository<MFilter, Integer> {
 			"        f.ex_int3,\n" + 
 			"        f.ex_var1,\n" + 
 			"        f.ex_var2,\n" + 
-			"        t.filter_type_name AS ex_var3 \n" + 
+			"        t.filter_type_name AS ex_var3, "
+			+ " f.add_on_type, f.add_on_rs, f.is_tag_add, f.tag_id, f.admin_name " + 
 			"    FROM\n" + 
 			"        m_filter f,\n" + 
 			"        m_filter_type t \n" + 
@@ -65,7 +66,9 @@ public interface MFilterRepo extends JpaRepository<MFilter, Integer> {
 			"        f.ex_int3,\n" + 
 			"        f.ex_var1,\n" + 
 			"        f.ex_var2,\n" + 
-			"        t.filter_type_name AS ex_var3 \n" + 
+			"        t.filter_type_name AS ex_var3, \n"
+			+ " f.add_on_type, f.add_on_rs, f.is_tag_add, f.tag_id, f.admin_name " + 
+
 			"    FROM\n" + 
 			"        m_filter f,\n" + 
 			"        m_filter_type t \n" + 

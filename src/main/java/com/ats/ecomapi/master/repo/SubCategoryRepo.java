@@ -100,4 +100,7 @@ public interface SubCategoryRepo extends JpaRepository<SubCategory, Integer> {
 	@Modifying
 	@Query(value="UPDATE `m_sub_category` SET del_status=0 WHERE sub_cat_id=:subCatId",nativeQuery=true)
 	public int deleteSubCat(@Param("subCatId") int subCatId);
+	
+	@Query(value="SELECT COUNT(sub_cat_id) FROM m_sub_category WHERE del_status=1 AND cat_id=:catId",nativeQuery=true)
+	public int getCatIdCntByCatId(@Param("catId") int catId);
 }

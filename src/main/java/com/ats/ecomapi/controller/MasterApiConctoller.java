@@ -131,6 +131,11 @@ public class MasterApiConctoller {
 
 	@Autowired
 	DesignationRepo desigRepo;
+	
+	@Autowired
+	ProductMasterRepo productMasterRepo;
+
+	
 
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
@@ -507,7 +512,7 @@ public class MasterApiConctoller {
 
 		List<Category> catList = new ArrayList<Category>();
 		try {
-			catList = catRepo.findByDelStatusAndCompanyIdOrderByCatId(1, compId);
+			catList = catRepo.findByDelStatusAndCompanyIdOrderByCatIdDesc(1, compId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -579,15 +584,15 @@ public class MasterApiConctoller {
 	// Description :- Get Prefix for unique validation
 	@RequestMapping(value = { "/getCatByPrefix" }, method = RequestMethod.POST)
 	public @ResponseBody Info getSubCatByPrefix(@RequestParam("prefix") String prefix,
-			@RequestParam("catId") int catId) {
+			@RequestParam("catId") int catId, @RequestParam("compId") int compId) {
 
 		Info res = new Info();
 		try {
 			Category value = new Category();
 			if (catId == 0) {
-				value = catRepo.findByCatPrefixIgnoreCase(prefix);
+				value = catRepo.findByCatPrefixIgnoreCaseAndCompanyId(prefix, compId);
 			} else {
-				value = catRepo.findByCatPrefixIgnoreCaseAndCatIdNot(prefix, catId);
+				value = catRepo.findByCatPrefixIgnoreCaseAndCompanyIdAndCatIdNot(prefix, catId, compId);
 			}
 			if (value != null) {
 				res.setError(false);
@@ -882,6 +887,23 @@ public class MasterApiConctoller {
 			e.printStackTrace();
 		}
 		return subCatList;
+	}
+	
+	// Created By :- Mahendra Singh
+	// Created On :- 20-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Sub Category Count
+	@RequestMapping(value = { "/getCatIdCount" }, method = RequestMethod.POST)
+	public @ResponseBody int getCatIdCount(@RequestParam int catId) {
+
+		int catIdCnt = 0;
+		try {
+			catIdCnt = subCatRepo.getCatIdCntByCatId(catId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return catIdCnt;
 	}
 
 	/*------------------------------------------------------------------------------------------------------*/
@@ -2278,4 +2300,18 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
+	
+	@RequestMapping(value = { "/getProdIdCntByCatId" }, method = RequestMethod.POST)
+	public @ResponseBody int getProdIdCntByCatId(@RequestParam int catId) {
+
+		int pordCnt = 0;
+		try {
+			pordCnt = productMasterRepo.getProdCntByCatId(catId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pordCnt;
+	}
+	
+	
 }

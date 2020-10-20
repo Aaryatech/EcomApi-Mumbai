@@ -15,7 +15,7 @@ import com.ats.ecomapi.master.model.Uom;
 
 public interface CategoryRepo extends JpaRepository<Category, Integer>{
 	
-	public List<Category> findByDelStatusAndCompanyIdOrderByCatId(int del, int compId);
+	public List<Category> findByDelStatusAndCompanyIdOrderByCatIdDesc(int del, int compId);
 
 	Category findByCatId(int catId);
 	
@@ -24,9 +24,9 @@ public interface CategoryRepo extends JpaRepository<Category, Integer>{
 	@Query(value="UPDATE `m_category` SET del_status=0 WHERE cat_id=:catId",nativeQuery=true)
 	public int deleteCatId(@Param("catId") int catId);
 
-	public Category findByCatPrefixIgnoreCase(String catId);
+	public Category findByCatPrefixIgnoreCaseAndCompanyId(String catId, int compId);
 
-	public Category findByCatPrefixIgnoreCaseAndCatIdNot(String prefix, int catId);
+	public Category findByCatPrefixIgnoreCaseAndCompanyIdAndCatIdNot(String prefix, int catId, int compId);
 
 	 
 

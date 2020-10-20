@@ -227,4 +227,6 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 	@Query(value="UPDATE m_product SET product_images = TRIM(BOTH ',' FROM REPLACE(REPLACE(product_images,:imageName, ''), ',,', ',')) WHERE product_id=:productId",nativeQuery=true)
 	public int removeImageFromProduct(@Param("imageName") String imageName,@Param("productId") int productId);
 	
+	@Query(value="SELECT COUNT(product_id) FROM `m_product` WHERE del_status=1 AND prod_cat_id=:catId",nativeQuery=true)
+	int getProdCntByCatId(@Param("catId") int catId);
 }

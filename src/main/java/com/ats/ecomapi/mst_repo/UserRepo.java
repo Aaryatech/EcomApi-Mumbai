@@ -118,4 +118,6 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	@Query(value="UPDATE m_user SET password=:newPassword, is_enrolled=:isEnroll WHERE user_id=:userId",nativeQuery=true)
 	int updateEnrolUserPass(@Param("userId")  int userId, @Param("isEnroll") int isEnroll, @Param("newPassword") String newPassword);
 	
+	@Query(value="SELECT COUNT(user_id) FROM m_user WHERE role_id=:roleId AND del_status=1", nativeQuery=true)
+	int getUserCntByRoleId(@Param("roleId")  int roleId);
 }

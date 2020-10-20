@@ -461,6 +461,22 @@ public class MasterApiConctoller {
 			return info;
 		}
 
+		// Created By :- Mahendra Singh
+		// Created On :- 20-10-2020
+		// Modified By :- NA
+		// Modified On :- NA
+		// Description :- Get No. of users by role id.
+		@RequestMapping(value = { "/getUserCntByRoleId" }, method = RequestMethod.POST)
+		public @ResponseBody int getUserByEmail(@RequestParam int roleId) {
+
+			int userCnt = 0;
+			try {
+				userCnt = userRepo.getUserCntByRoleId(roleId);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return userCnt;
+		}
 	/*-------------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
 	// Created On :- 12-09-2020

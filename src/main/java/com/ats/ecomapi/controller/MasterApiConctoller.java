@@ -753,21 +753,76 @@ public class MasterApiConctoller {
 
 	// Created By :- Mahendra Singh
 	// Created On :- 14-09-2020
-	// Modified By :- NA
-	// Modified On :- NA
+	// Modified By :- Sachin
+	// Modified On :- 20-10-2020
 	// Description :- Save Category
 	@RequestMapping(value = { "/saveFilter" }, method = RequestMethod.POST)
 	public @ResponseBody MFilter saveFilter(@RequestBody MFilter filter) {
-
+		//System.err.println("Initial filter " +filter.toString());
 		MFilter saveFilter = new MFilter();
 		try {
+		if(filter.getFilterId()==0) {
+			//ie new record
+			//System.err.println("In else" +filter.toString());
+			if(filter.getIsTagAdd()==1) {
+				//System.err.println("In Add tag ");
+				saveTag(filter);
+			}else {
+				//System.err.println("In No Add tag ");
+			}
+			
+		}else {
+			//System.err.println("In else getFilterId() !=0" +filter.toString());
+		}
+		try {
 			saveFilter = filterRepo.save(filter);
+			//System.err.println("Main Save " +saveFilter);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return saveFilter;
 	}
 
+	// Created By :- Sachin
+		// Created On :- 20-10-2020
+	private String saveTag(MFilter filter) {
+		MFilter tagFilter = new MFilter();
+
+		tagFilter.setAddOnRs(0);
+		tagFilter.setAddOnType(0);
+		tagFilter.setCostAffect(0);
+		tagFilter.setTagId(0);
+		tagFilter.setFilterTypeId(7);
+		
+		tagFilter.setAllowToCopy(filter.getAllowToCopy());
+		tagFilter.setCompanyId(filter.getCompanyId());
+		tagFilter.setDelStatus(filter.getDelStatus());
+		tagFilter.setExInt1(filter.getExInt1());
+		tagFilter.setExInt2(filter.getExInt2());
+		tagFilter.setExInt3(filter.getExInt3());
+		tagFilter.setExVar1(filter.getExVar1());
+		tagFilter.setExVar2(filter.getExVar2());
+		tagFilter.setExVar3(filter.getExVar3());
+		tagFilter.setFilterDesc(filter.getFilterDesc());
+		tagFilter.setFilterId(0);
+		tagFilter.setFilterName(filter.getFilterName());
+		tagFilter.setFilterTypeId(7);
+		tagFilter.setIsActive(filter.getIsActive());
+		tagFilter.setIsParent(filter.getIsParent());
+		tagFilter.setIsTagAdd(0);
+		tagFilter.setSortNo(filter.getSortNo());
+		
+		tagFilter.setUsedForDescription(filter.getUsedForDescription());
+		tagFilter.setUsedForFilter(filter.getUsedForFilter());
+		
+		tagFilter.setAdminName(filter.getFilterName());
+		tagFilter = filterRepo.save(tagFilter);
+		return null;
+		
+	}
 	// Created By :- Mahendra Singh
 	// Created On :- 14-09-2020
 	// Modified By :- NA

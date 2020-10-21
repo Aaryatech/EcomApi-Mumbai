@@ -205,10 +205,10 @@ public class MasterApiConctoller {
 			int res = uomRepo.deleteUom(uomId);
 			if (res > 0) {
 				info.setError(false);
-				info.setMessage("Uom Deleted Successfully");
+				info.setMessage("UOM Deleted Successfully");
 			} else {
 				info.setError(true);
-				info.setMessage("Failed to Delete Uom");
+				info.setMessage("Failed to Delete UOM");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2342,5 +2342,15 @@ public class MasterApiConctoller {
 		return pordCnt;
 	}
 	
-	
+	@RequestMapping(value = { "/getProdIdCntByUomId" }, method = RequestMethod.POST)
+	public @ResponseBody int getProdIdCntByUomId(@RequestParam int uomId) {
+
+		int pordCnt = 0;
+		try {
+			pordCnt = productMasterRepo.getProdCntByUomId(uomId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pordCnt;
+	}
 }

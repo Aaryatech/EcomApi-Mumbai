@@ -234,4 +234,7 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 	@Query(value="SELECT COUNT(product_id) FROM `m_product` WHERE prod_sub_cat_id=:subCatId",nativeQuery=true)
 	int getProdCntBySubCatId(@Param("subCatId") int subCatId);
 	
+	@Query(value="SELECT COUNT(product_id) FROM `m_product` WHERE tax_id=:taxId",nativeQuery=true)
+	int getProdCntByTaxId(@Param("taxId") int taxId);
+	
 }

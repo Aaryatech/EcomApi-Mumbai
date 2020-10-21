@@ -2330,5 +2330,17 @@ public class MasterApiConctoller {
 		return pordCnt;
 	}
 	
+	@RequestMapping(value = { "/getProdIdCntByTax" }, method = RequestMethod.POST)
+	public @ResponseBody int getProdIdCntByTax(@RequestParam int taxId) {
+
+		int pordCnt = 0;
+		try {
+			pordCnt = productMasterRepo.getProdCntByTaxId(taxId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pordCnt;
+	}
+	
 	
 }

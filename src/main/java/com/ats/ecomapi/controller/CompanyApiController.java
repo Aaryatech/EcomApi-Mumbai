@@ -33,6 +33,7 @@ import com.ats.ecomapi.mst_model.User;
 import com.ats.ecomapi.mst_repo.CompMasterRepo;
 import com.ats.ecomapi.mst_repo.CustomerAddDetailRepo;
 import com.ats.ecomapi.mst_repo.CustomerRepo;
+import com.ats.ecomapi.mst_repo.ProductMasterRepo;
 
 @RestController
 public class CompanyApiController {
@@ -40,6 +41,8 @@ public class CompanyApiController {
 	@Autowired
 	CompMasterRepo compMasterRepo;
 
+	@Autowired
+	ProductMasterRepo productMasterRepo;
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 14-09-2020
@@ -416,6 +419,49 @@ public class CompanyApiController {
 
 	}
 
+	// Created By :- Mahendra Singh
+	// Created On :- 21-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Check Unique Sub Category Prefix
+	@RequestMapping(value = { "/unqSubCatePrefix" }, method = RequestMethod.POST)
+	public @ResponseBody Info unqSubCatePrefix(@RequestParam String prefix, @RequestParam int compId, @RequestParam int subCateId) {
+
+		Info info = new Info();
+		try {
+			SubCategory res = new SubCategory();
+			if(subCateId>0) {
+				res = subCatRepo.findBySubCatPrefixIgnoreCaseAndCompanyIdAndSubCatIdNot(prefix, compId, subCateId);
+			}else {
+				res = subCatRepo.findBySubCatPrefixIgnoreCaseAndCompanyId(prefix, compId);
+			}
+			
+			if (res!=null) {
+				info.setError(true);
+				info.setMessage("Prefix Found");
+			} else {
+				info.setError(false);
+				info.setMessage("Prefix Not Found");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+
+	}
+	
+	@RequestMapping(value = { "/getProdIdCntBySubCatId" }, method = RequestMethod.POST)
+	public @ResponseBody int getProdIdCntBySubCatId(@RequestParam int subCatId) {
+
+		int pordCnt = 0;
+		try {
+			pordCnt = productMasterRepo.getProdCntBySubCatId(subCatId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pordCnt;
+	}
+	
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 15-09-2020

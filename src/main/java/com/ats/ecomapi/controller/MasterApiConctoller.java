@@ -442,16 +442,12 @@ public class MasterApiConctoller {
 		// Modified On :- NA
 		// Description :- Update User Password
 		@RequestMapping(value = { "/updateUserPassword" }, method = RequestMethod.POST)
-		public @ResponseBody Info updateUserPassword(@RequestParam int userId, @RequestParam int isEnroll, @RequestParam String newPassword) {
+		public @ResponseBody Info updateUserPassword(@RequestParam int userId, @RequestParam String newPassword) {
 
 			Info info = new Info();
 			int res = 0;
 			try {
-				if(isEnroll>0) {
-					res = userRepo.updateEnrolUserPass(userId, isEnroll, newPassword);
-				}else {
 					res = userRepo.updateUserPass(userId, newPassword);
-				}
 				
 				if (res > 0) {
 					info.setError(false);

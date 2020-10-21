@@ -16,7 +16,7 @@ import com.ats.ecomapi.mst_model.User;
 public interface UserRepo extends JpaRepository<User, Integer>{
 	
 	//@Query(value = " SELECT * FROM m_user WHERE user_id=:userId ", nativeQuery = true)
-	User findByUserId( int userId);
+	User findByUserId(int userId);
 	
 	
 	List<User> findByDelStatusAndIsActive(int delStatus, int isActive);

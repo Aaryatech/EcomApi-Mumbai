@@ -385,7 +385,6 @@ public class CompanyApiController {
 	// Modified By :- NA
 	// Modified On :- NA
 	// Descriprion :- Get SubCategory Customer
-
 	@RequestMapping(value = { "/getSubCatById" }, method = RequestMethod.POST)
 	public @ResponseBody SubCategory getSubCatById(@RequestParam int subCatId) {
 
@@ -396,6 +395,24 @@ public class CompanyApiController {
 			e.printStackTrace();
 		}
 		return subCat;
+
+	}
+	
+	// Created By :- Mahendra Singh
+	// Created On :- 21-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get SubCategory Count Id
+	@RequestMapping(value = { "/getSubCateIdCnt" }, method = RequestMethod.POST)
+	public @ResponseBody int getSubCateIdCnt(@RequestParam int compId, @RequestParam int cateId) {
+
+		int subCateCnt = 0;
+		try {
+			subCateCnt = subCatRepo.getSubCateCnt(compId, cateId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return subCateCnt;
 
 	}
 

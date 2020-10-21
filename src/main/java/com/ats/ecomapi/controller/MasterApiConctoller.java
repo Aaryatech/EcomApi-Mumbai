@@ -523,7 +523,7 @@ public class MasterApiConctoller {
 	// Created On :- 12-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Description :- Get All Category By Id
+	// Description :- Get Category By Id
 	@RequestMapping(value = { "/getCatById" }, method = RequestMethod.POST)
 	public @ResponseBody Category getCatById(@RequestParam int catId) {
 
@@ -607,6 +607,23 @@ public class MasterApiConctoller {
 		}
 		return res;
 
+	}
+	
+	// Created By :- Mahendra Singh
+	// Created On :- 21-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Category Prefix
+	@RequestMapping(value = { "/getCatePrefixByCateId" }, method = RequestMethod.POST)
+	public @ResponseBody String getCatPrefixByCatId(@RequestParam int cateId) {
+
+		String cateCode = new String();
+		try {
+			cateCode = catRepo.getCatePrefix(cateId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cateCode;
 	}
 
 	/*------------------------------------------------------------------------------------------------------*/

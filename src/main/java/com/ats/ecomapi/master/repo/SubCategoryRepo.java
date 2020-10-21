@@ -103,4 +103,8 @@ public interface SubCategoryRepo extends JpaRepository<SubCategory, Integer> {
 	
 	@Query(value="SELECT COUNT(sub_cat_id) FROM m_sub_category WHERE del_status=1 AND cat_id=:catId",nativeQuery=true)
 	public int getCatIdCntByCatId(@Param("catId") int catId);
+
+
+	@Query(value="SELECT COUNT(sub_cat_id) FROM `m_sub_category` WHERE company_id=:compId AND cat_id=:cateId",nativeQuery=true)
+	public int getSubCateCnt(@Param("compId") int compId, @Param("cateId") int cateId);
 }

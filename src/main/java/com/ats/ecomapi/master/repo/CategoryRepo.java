@@ -27,13 +27,11 @@ public interface CategoryRepo extends JpaRepository<Category, Integer>{
 	public Category findByCatPrefixIgnoreCaseAndCompanyId(String catId, int compId);
 
 	public Category findByCatPrefixIgnoreCaseAndCompanyIdAndCatIdNot(String prefix, int catId, int compId);
-
-	 
-
  
 	public List<Category> findByDelStatusAndCatIdIn(int i, List<Integer> primaryIds);
 
-	
+	@Query(value="SELECT cat_prefix FROM m_category WHERE cat_id=:cateId",nativeQuery=true)
+	public String getCatePrefix(@Param("cateId") int cateId);
 	
  
 

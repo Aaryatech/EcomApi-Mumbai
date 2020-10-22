@@ -642,6 +642,29 @@ public class CompanyApiController {
 		return comp;
 
 	}
+	
+	// Created By :- Mahendra Singh
+	// Created On :- 22-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Descriprion :- Get Single Route Detail by Route Code
+	@RequestMapping(value = { "/getRouteDtlByCode" }, method = RequestMethod.POST)
+	public @ResponseBody Route getRouteDtlByCode(@RequestParam int routeId, @RequestParam String code) {
+
+		Route comp = new Route();
+		try {
+			if(routeId>0) {
+				comp = routeRepo.findByRouteCodeAndRouteIdNot(code, routeId);
+			}else {
+				comp = routeRepo.findByRouteCode(code);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comp;
+
+	}
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil

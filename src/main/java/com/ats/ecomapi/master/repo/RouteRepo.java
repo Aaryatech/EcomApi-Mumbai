@@ -24,4 +24,7 @@ public interface RouteRepo extends JpaRepository<Route, Integer>{
 	@Query(value="UPDATE m_route SET del_status=0 WHERE route_id=:routeId",nativeQuery=true)
 	int deleteRoute(@Param("routeId") int routeId);
 
+	Route findByRouteCode(@Param("code") String code);
+	
+	Route findByRouteCodeAndRouteIdNot(@Param("code") String code ,@Param("routeId") int routeId);
 }

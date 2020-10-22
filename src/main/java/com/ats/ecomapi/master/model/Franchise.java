@@ -73,10 +73,10 @@ public class Franchise {
 	private Date fdaLicenseDateExp;
 	
 	@Column(name = "shops_latitude")
-	private float shopsLatitude;
+	private String shopsLatitude;
 	
 	@Column(name = "shops_logitude")
-	private float shopsLogitude;
+	private String shopsLogitude;
 	
 	@Column(name = "is_active")
 	private int isActive;
@@ -320,19 +320,19 @@ public class Franchise {
 		this.fdaLicenseDateExp = fdaLicenseDateExp;
 	}
 
-	public float getShopsLatitude() {
+	public String getShopsLatitude() {
 		return shopsLatitude;
 	}
 
-	public void setShopsLatitude(float shopsLatitude) {
+	public void setShopsLatitude(String shopsLatitude) {
 		this.shopsLatitude = shopsLatitude;
 	}
 
-	public float getShopsLogitude() {
+	public String getShopsLogitude() {
 		return shopsLogitude;
 	}
 
-	public void setShopsLogitude(float shopsLogitude) {
+	public void setShopsLogitude(String shopsLogitude) {
 		this.shopsLogitude = shopsLogitude;
 	}
 

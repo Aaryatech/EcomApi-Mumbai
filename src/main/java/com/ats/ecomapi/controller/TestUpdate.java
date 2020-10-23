@@ -696,7 +696,7 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 				// End of flavor logic -sachin 23-10-2020
 			traveller.setTempProdConfList(tempProdConfList);
 		}catch(
-
+ 
 	Exception e)
 	{
 			prodConfDetailList = new ArrayList<>();

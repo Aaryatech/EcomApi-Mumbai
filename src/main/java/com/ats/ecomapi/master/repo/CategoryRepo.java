@@ -32,6 +32,8 @@ public interface CategoryRepo extends JpaRepository<Category, Integer>{
 
 	@Query(value="SELECT cat_prefix FROM m_category WHERE cat_id=:cateId",nativeQuery=true)
 	public String getCatePrefix(@Param("cateId") int cateId);
+
+	public List<Category> findByDelStatusAndCompanyIdOrderByCatId(int i, int compId);
 	
  
 

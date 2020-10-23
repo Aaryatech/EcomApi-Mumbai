@@ -45,7 +45,7 @@ public class ProductMaster {
 	private int uomId;  //FK Of UOM 
 	
 	private String shortName;
-	private int shapeId; //FK Of Shape
+	private String shapeId; //FK Of Shape
 	
 	private int allowSameDayDelivery;
 	
@@ -98,7 +98,7 @@ public class ProductMaster {
 	
 	private String productImages; //comma sep image names
 	
-	private int isVeg; //0 Veg 1 non Veg 2 Both 14-09-2020
+	private String isVeg; //0 Veg 1 non Veg 2 Both 14-09-2020
 	private int prepTime; //Cake Preparation time in minutes 14-09-2020
 	private int rateSettingType; //0apply_rate_per_UOM/1apply_rate_per_KG/2apply_rate_as_per _filter		
 	
@@ -128,6 +128,9 @@ public class ProductMaster {
 	
 private int maxWt;
 
+private float basicMrp;
+
+
 @Transient 
 List<TempProdConfig> tempProdConfList;
 
@@ -147,10 +150,10 @@ public void setTempProdConfList(List<TempProdConfig> tempProdConfList) {
 	}
 	
 	
-	public int getIsVeg() {
+	public String getIsVeg() {
 		return isVeg;
 	}
-	public void setIsVeg(int isVeg) {
+	public void setIsVeg(String isVeg) {
 		this.isVeg = isVeg;
 	}
 	public int getPrepTime() {
@@ -255,10 +258,10 @@ public void setTempProdConfList(List<TempProdConfig> tempProdConfList) {
 	public void setShortName(String shortName) {
 		this.shortName = shortName;
 	}
-	public int getShapeId() {
+	public String getShapeId() {
 		return shapeId;
 	}
-	public void setShapeId(int shapeId) {
+	public void setShapeId(String shapeId) {
 		this.shapeId = shapeId;
 	}
 	public int getAllowSameDayDelivery() {
@@ -527,6 +530,14 @@ public void setTempProdConfList(List<TempProdConfig> tempProdConfList) {
 		this.copyItemId = copyItemId;
 	}
 	
+	
+	public float getBasicMrp() {
+		return basicMrp;
+	}
+	public void setBasicMrp(float basicMrp) {
+		this.basicMrp = basicMrp;
+	}
+	
 	@Override
 	public String toString() {
 		return "ProductMaster [productId=" + productId + ", productCode=" + productCode + ", productName=" + productName
@@ -549,7 +560,8 @@ public void setTempProdConfList(List<TempProdConfig> tempProdConfList) {
 				+ exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4
 				+ ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", exDate1="
 				+ exDate1 + ", exDate2=" + exDate2 + ", makerUserId=" + makerUserId + ", updtDttime=" + updtDttime
-				+ ", insertDttime=" + insertDttime + ", copyItemId=" + copyItemId + ", maxWt=" + maxWt + "]";
+				+ ", insertDttime=" + insertDttime + ", copyItemId=" + copyItemId + ", maxWt=" + maxWt + ", basicMrp="
+				+ basicMrp + ", tempProdConfList=" + tempProdConfList + "]";
 	}
 	
 }

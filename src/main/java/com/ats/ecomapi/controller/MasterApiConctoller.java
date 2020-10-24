@@ -1075,7 +1075,7 @@ public class MasterApiConctoller {
 
 		List<Language> langList = new ArrayList<Language>();
 		try {
-			langList = langRepo.findByDelStatusAndCompanyId(1, compId);
+			langList = langRepo.findByDelStatusAndCompanyIdOrderByLangIdDesc(1, compId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

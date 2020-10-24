@@ -96,7 +96,7 @@ public class CompanyApiController {
 
 		List<CompMaster> list = new ArrayList<CompMaster>();
 		try {
-			list = compMasterRepo.findByDelStatusOrderByCompanyIdDesc(1);
+			list = compMasterRepo.getAllCompany();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -129,6 +129,28 @@ public class CompanyApiController {
 		}
 		return info;
 	}
+	
+		// Created By :- Harsha Patil
+		// Created On :- 14-09-2020
+		// Modified By :- NA
+		// Modified On :- NA
+		// Description :- Get company by prefix.
+		@RequestMapping(value = { "/getCompByPrefix" }, method = RequestMethod.POST)
+		public @ResponseBody CompMaster getCompByPrefix(@RequestParam int compId, @RequestParam String prefix) {
+
+			CompMaster comp = new CompMaster();
+			try {
+				if(compId>0) {
+					comp = compMasterRepo.findByCompanyPrefixIgnoreCaseAndAndDelStatusAndCompanyIdNot(prefix, 1, compId);
+				}else {
+					comp = compMasterRepo.findByCompanyPrefixIgnoreCaseAndDelStatus(prefix, 1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return comp;
+		}
+
 
 	@Autowired
 	CustomerRepo customerRepo;

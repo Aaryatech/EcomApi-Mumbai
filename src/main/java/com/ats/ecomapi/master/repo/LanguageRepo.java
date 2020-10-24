@@ -14,7 +14,7 @@ import com.ats.ecomapi.master.model.Language;
 
 public interface LanguageRepo extends JpaRepository<Language, Integer> {
 
-	List<Language> findByDelStatusAndCompanyId(int del, int compId);
+	List<Language> findByDelStatusAndCompanyIdOrderByLangIdDesc(int del, int compId);
 
 	Language findByLangCodeIgnoreCaseAndCompanyId(String langCode, int compId);
 	

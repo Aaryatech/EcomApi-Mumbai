@@ -274,7 +274,7 @@ public class CompanyApiController {
 
 		List<CustomerAddDetail> list = new ArrayList<CustomerAddDetail>();
 		try {
-			list = customerAddDetailRepo.findByDelStatusAndCustIdOrderByCustDetailIdDesc(1, custId);
+			list = customerAddDetailRepo.findByCustAddresDtl(custId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

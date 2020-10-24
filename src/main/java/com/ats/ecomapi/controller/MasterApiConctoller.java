@@ -1537,10 +1537,10 @@ public class MasterApiConctoller {
 			int res = grievTypeInstructRepo.deleteGrievancTypeInst(grievTypeId);
 			if (res > 0) {
 				info.setError(false);
-				info.setMessage("Delivery Type Instruction Deleted Successfully");
+				info.setMessage("Grievance Type Instruction Deleted Successfully");
 			} else {
 				info.setError(true);
-				info.setMessage("Failed to Delete Delivery Type Instruction");
+				info.setMessage("Failed to Delete Grievance Type Instruction");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

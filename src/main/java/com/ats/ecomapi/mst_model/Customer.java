@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 //Harsha 15-09-2020 
 
 @Entity
@@ -95,6 +97,7 @@ public class Customer {
 	public void setCompanyId(int companyId) {
 		this.companyId = companyId;
 	}
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}

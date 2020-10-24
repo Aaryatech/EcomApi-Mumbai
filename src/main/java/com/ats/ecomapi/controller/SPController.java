@@ -518,8 +518,8 @@ public class SPController {
 	@Autowired
 	TempProdConfigRepo getProdConfDetail;
 
-	@RequestMapping(value = { "/getProdConfDetailByConfHeader" }, method = RequestMethod.POST)
-	public @ResponseBody TempConfTraveller getProdConfDetailByConfHeader(@RequestParam int configHeaderId,
+	@RequestMapping(value = { "/getProdConfDetailByConfHeader1" }, method = RequestMethod.POST)
+	public @ResponseBody TempConfTraveller getProdConfDetailByConfHeader1(@RequestParam int configHeaderId,
 			@RequestParam int companyId) {
 
 		TempConfTraveller traveller = new TempConfTraveller();

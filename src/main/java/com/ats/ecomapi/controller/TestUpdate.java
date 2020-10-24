@@ -210,6 +210,10 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 
 							if (isFlavMatch.equals(0)) {
 								flag = 1;
+								basicMrp=0;
+								flavorPrice=0;
+								shapePrice=0;
+								vegPrice=0;
 								break;
 							} // end of if (isFlavMatch.equals(0))
 
@@ -218,19 +222,35 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 					
 					if (flag == 0) {
 						// Flavor Id not found in Product Detail
-						/*List<MFilter> shapeList = getShapeIdList(shapeIds);
-						List<MFilter> flavList = getFlavList(prodFlavIds);
-						List<MFilter> vnVegList = getVegNonVegList(vegNonVegIds);
-						
-						List<String> prodWtList =new ArrayList<String>();*/
 						
 						for(int w=0;w<prodWtList.size();w++) {
+							basicMrp=pm.getBasicMrp();
+							
+							if(pm.getRateSettingType()==2) {
+								basicMrp=pm.getBasicMrp()*Float.parseFloat(prodWtList.get(w));
+							}
+							
+							if(flavor.getAddOnType()==2) {
+								flavorPrice=flavor.getAddOnRs()*Float.parseFloat(prodWtList.get(w));
+							}else {
+								flavorPrice=flavor.getAddOnRs();
+							}
 							
 							for(int v=0;v<vnVegList.size();v++) {
 								
+								if(vnVegList.get(v).getAddOnType()==2) {
+									vegPrice=vnVegList.get(v).getAddOnRs()*Float.parseFloat(prodWtList.get(w));
+								}else {
+									vegPrice=vnVegList.get(v).getAddOnRs();
+								}
+								
 								if(!shapeList.isEmpty()) {
 									for(int s=0;s<shapeList.size();s++) {
-										
+										if(shapeList.get(s).getAddOnType()==2) {
+										shapePrice=	shapeList.get(s).getAddOnRs()*Float.parseFloat(prodWtList.get(w));
+										}else {
+											shapePrice=	shapeList.get(s).getAddOnRs();
+										}
 										TempProdConfig config = new TempProdConfig();
 										UUID uuid = UUID.randomUUID();
 										config.setUuid(uuid.toString());
@@ -252,7 +272,6 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 										config.setMrpAmt(roundUp(basicMrp+vegPrice+shapePrice+flavorPrice));
 
 										tempProdConfList.add(config);
-										
 										
 									}//end of shapeList For s
 									
@@ -290,7 +309,6 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
                     }//end of flag==0
               }//end of flavlist loop
 				
-				
 				//For ShapeList Logic
 				
 				for(int s=0;s<shapeList.size();s++) {
@@ -310,6 +328,10 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 
 							if (isShapeMatch.equals(0)) {
 								flag = 1;
+								basicMrp=0;
+								flavorPrice=0;
+								shapePrice=0;
+								vegPrice=0;
 								break;
 							} // end of if (isShapeMatch.equals(0))
 
@@ -318,18 +340,37 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 					
 					if (flag == 0) {
 						// Shape Id not found in Product Detail
-						/*List<MFilter> shapeList = getShapeIdList(shapeIds);
-						List<MFilter> flavList = getFlavList(prodFlavIds);
-						List<MFilter> vnVegList = getVegNonVegList(vegNonVegIds);
-						
-						List<String> prodWtList =new ArrayList<String>();*/
-						
+												
 						for(int w=0;w<prodWtList.size();w++) {
+							
+							if(pm.getRateSettingType()==2) {
+								basicMrp=pm.getBasicMrp()*Float.parseFloat(prodWtList.get(w));
+							}else {
+								basicMrp=pm.getBasicMrp();
+							}
+							
+							if(shapeList.get(s).getAddOnType()==2) {
+								shapePrice=shapeList.get(s).getAddOnRs()*Float.parseFloat(prodWtList.get(w));
+							}else {
+								shapePrice=shapeList.get(s).getAddOnRs();
+							}
 							
 							for(int v=0;v<vnVegList.size();v++) {
 								
+								if(vnVegList.get(v).getAddOnType()==2) {
+									vegPrice=vnVegList.get(v).getAddOnRs()*Float.parseFloat(prodWtList.get(w));
+								}else {
+									vegPrice=vnVegList.get(v).getAddOnRs();
+								}
+								
 								if(!flavList.isEmpty()) {
 									for(int f=0;f<flavList.size();f++) {
+										
+										if(flavList.get(f).getAddOnType()==2) {
+											flavorPrice=flavList.get(f).getAddOnRs()*Float.parseFloat(prodWtList.get(w));
+										}else {
+											flavorPrice=flavList.get(f).getAddOnRs();
+										}
 										
 										TempProdConfig config = new TempProdConfig();
 										UUID uuid = UUID.randomUUID();
@@ -410,6 +451,10 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 
 							if (isVegNonVegMatch.equals(0)) {
 								flag = 1;
+								basicMrp=0;
+								flavorPrice=0;
+								shapePrice=0;
+								vegPrice=0;
 								break;
 							} // end of if (isVegNonVegMatch.equals(0))
 
@@ -421,10 +466,35 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 				
 						for(int w=0;w<prodWtList.size();w++) {
 							
+							if(pm.getRateSettingType()==2) {
+								basicMrp=pm.getBasicMrp()*Float.parseFloat(prodWtList.get(w));
+							}else {
+								basicMrp=pm.getBasicMrp();
+							}
+							
+							if(vnVegList.get(v).getAddOnType()==2) {
+								vegPrice=vnVegList.get(v).getAddOnRs()*Float.parseFloat(prodWtList.get(w));
+							}else {
+								vegPrice=vnVegList.get(v).getAddOnRs();
+							}
+							
 							if(!flavList.isEmpty()) {
 								for(int f=0;f<flavList.size();f++) {
+									
+									if(flavList.get(f).getAddOnType()==2) {
+										flavorPrice=flavList.get(f).getAddOnRs()*Float.parseFloat(prodWtList.get(w));
+									}else {
+										flavorPrice=flavList.get(f).getAddOnRs();
+									}
+									
 									if(!shapeList.isEmpty()) {
 										for(int s=0;s<shapeList.size();s++) {
+											
+											if(shapeList.get(s).getAddOnType()==2) {
+												shapePrice=shapeList.get(s).getAddOnRs()*Float.parseFloat(prodWtList.get(w));
+											}else {
+												shapePrice=shapeList.get(s).getAddOnRs();
+											}
 											
 											TempProdConfig config = new TempProdConfig();
 											UUID uuid = UUID.randomUUID();
@@ -481,7 +551,11 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 							else {
 								if(!shapeList.isEmpty()) {
 									for(int s=0;s<shapeList.size();s++) {
-										
+										if(shapeList.get(s).getAddOnType()==2) {
+											shapePrice=shapeList.get(s).getAddOnRs()*Float.parseFloat(prodWtList.get(w));
+										}else {
+											shapePrice=shapeList.get(s).getAddOnRs();
+										}
 										TempProdConfig config = new TempProdConfig();
 										UUID uuid = UUID.randomUUID();
 										config.setUuid(uuid.toString());
@@ -561,6 +635,10 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 
 							if (isWtMatch.equals(0)) {
 								flag = 1;
+								basicMrp=0;
+								flavorPrice=0;
+								shapePrice=0;
+								vegPrice=0;
 								break;
 							} // end of if (isVegNonVegMatch.equals(0))
 
@@ -569,12 +647,35 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 					
 					if (flag == 0) {
 						// Weight not found in Product Detail
-				
+						basicMrp=pm.getBasicMrp();
+						if(pm.getRateSettingType()==2) {
+							basicMrp=pm.getBasicMrp()*wt;
+						}
 						for(int v=0;v<vnVegList.size();v++) {
+							
+							if(vnVegList.get(v).getAddOnType()==2) {
+								vegPrice=vnVegList.get(v).getAddOnRs()*wt;
+							}else {
+								vegPrice=vnVegList.get(v).getAddOnRs();
+							}
+							
 							if(!flavList.isEmpty()) {
 								for(int f=0;f<flavList.size();f++) {
+									
+									if(flavList.get(f).getAddOnType()==2) {
+										flavorPrice=flavList.get(f).getAddOnRs()*wt;
+									}else {
+										flavorPrice=flavList.get(f).getAddOnRs();
+									}
+									
 									if(!shapeList.isEmpty()) {
 										for(int s=0;s<shapeList.size();s++) {
+											
+											if(shapeList.get(s).getAddOnType()==2) {
+												shapePrice=shapeList.get(s).getAddOnRs()*wt;
+											}else {
+												shapePrice=shapeList.get(s).getAddOnRs();
+											}
 											
 											TempProdConfig config = new TempProdConfig();
 											UUID uuid = UUID.randomUUID();
@@ -632,6 +733,13 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 								if(!shapeList.isEmpty()) {
 									for(int s=0;s<shapeList.size();s++) {
 										
+										if(shapeList.get(s).getAddOnType()==2) {
+											shapePrice=shapeList.get(s).getAddOnRs()*wt;
+										}else {
+											shapePrice=shapeList.get(s).getAddOnRs();
+										}
+										
+										
 										TempProdConfig config = new TempProdConfig();
 										UUID uuid = UUID.randomUUID();
 										config.setUuid(uuid.toString());
@@ -680,16 +788,10 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 									
 									tempProdConfList.add(config);
 								}//else shapeList.isEmpty()
-								
 							}//else flavList.isEmpty()
-							
 						}//end of for prodWtList For w
-						
 					}//end of flag==0
-                     
 				}//end of Weight List logic Loop
-				
-				
           }//end of prodList loop
 			System.err.println("tempProdConfList " +tempProdConfList.toString());
 			//Sachin new end

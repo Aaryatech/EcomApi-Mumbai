@@ -585,7 +585,7 @@ public class CompanyApiController {
 
 		List<BannerPage> list = new ArrayList<BannerPage>();
 		try {
-			list = bannerPageRepo.findByCompIdAndDelStatus(compId,1);
+			list = bannerPageRepo.findByCompIdAndDelStatusOrderByBannerIdDesc(compId,1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -608,10 +608,10 @@ public class CompanyApiController {
 			int res = bannerPageRepo.deleteBanner(bannerId,userId,dateTime);
 			if (res > 0) {
 				info.setError(false);
-				info.setMessage("BannerPage Deleted Successfully");
+				info.setMessage("Banner Deleted Successfully");
 			} else {
 				info.setError(true);
-				info.setMessage("Failed to Delete BannerPage");
+				info.setMessage("Failed to Delete Banner");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

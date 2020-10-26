@@ -150,6 +150,48 @@ public class CompanyApiController {
 			}
 			return comp;
 		}
+		
+				// Created By :- Mahendra Singh
+				// Created On :- 26-10-2020
+				// Modified By :- NA
+				// Modified On :- NA
+				// Description :- Get Company by Contact No.
+				@RequestMapping(value = { "/getCompByMobileNo" }, method = RequestMethod.POST)
+				public @ResponseBody CompMaster getCompByMobileNo(@RequestParam int compId, @RequestParam String mobNo) {
+
+					CompMaster comp = new CompMaster();
+					try {
+						if(compId>0) {
+							comp = compMasterRepo.findByCompContactNoAndDelStatusAndCompanyIdNot(mobNo, 1, compId);
+						}else {
+							comp = compMasterRepo.findByCompContactNoAndDelStatus(mobNo, 1);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return comp;
+				}
+				
+				// Created By :- Mahendra Singh
+				// Created On :- 26-10-2020
+				// Modified By :- NA
+				// Modified On :- NA
+				// Description :- Get Company by Email Id
+				@RequestMapping(value = { "/getCompByEmailId" }, method = RequestMethod.POST)
+				public @ResponseBody CompMaster getCompByEmailId(@RequestParam int compId, @RequestParam String email) {
+
+					CompMaster comp = new CompMaster();
+					try {
+						if(compId>0) {
+							comp = compMasterRepo.findByCompEmailAddressIgnoreCaseAndDelStatusAndCompanyIdNot(email, 1, compId);
+						}else {
+							comp = compMasterRepo.findByCompEmailAddressIgnoreCaseAndDelStatus(email, 1);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return comp;
+				}
 
 
 	@Autowired
@@ -378,6 +420,31 @@ public class CompanyApiController {
 		}
 		return user;
 	}
+	
+	// Created By :- Mahendra Singh
+		// Created On :- 26-10-2020
+		// Modified By :- NA
+		// Modified On :- NA
+		// Descriprion :- Check unique Cust Email
+
+		@RequestMapping(value = { "/getCustByEmailId" }, method = RequestMethod.POST)
+		public @ResponseBody Customer getCustByEmailId(@RequestParam String email, @RequestParam int custId) {
+
+			Customer user = new Customer();
+			try {
+				if (custId == 0) {
+
+					user = customerRepo.findByEmailIgnoreCaseIdAndDelStatus(email, 1);
+				} else {
+
+					user = customerRepo.findByEmailIdIgnoreCaseAndDelStatusAndCustIdNot(email, 1, custId);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return user;
+		}
 
 	// *********************subCat*******************
 

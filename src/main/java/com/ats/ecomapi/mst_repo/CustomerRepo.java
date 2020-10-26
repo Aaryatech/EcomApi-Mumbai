@@ -28,6 +28,8 @@ public interface CustomerRepo  extends JpaRepository<Customer, Integer>{
 
 	public Customer findByCustMobileNoAndDelStatusAndCustIdNot(String mobNo, int i, int userId);
 
-
+	public Customer findByEmailIgnoreCaseIdAndDelStatus(String email, int del);
+	
+	public Customer findByEmailIdIgnoreCaseAndDelStatusAndCustIdNot(String email, int del, int custId);
 
 }

@@ -88,4 +88,13 @@ public interface CompMasterRepo extends JpaRepository<CompMaster, Integer> {
 			"    order by\n" + 
 			"         compmaster.company_id desc",nativeQuery=true)
 	List<CompMaster> getAllCompany();
+	
+	CompMaster findByCompContactNoAndDelStatus(String mobNo, int del);
+	
+	CompMaster findByCompContactNoAndDelStatusAndCompanyIdNot(String mobNo, int del, int compId);
+	
+	CompMaster findByCompEmailAddressIgnoreCaseAndDelStatus(String email, int del);
+	
+	CompMaster findByCompEmailAddressIgnoreCaseAndDelStatusAndCompanyIdNot(String email, int del, int compId);	
+	
 }

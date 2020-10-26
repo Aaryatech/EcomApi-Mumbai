@@ -868,6 +868,7 @@ public class SPController {
 					confHead.getCatName(), confHead.getConfigHeaderId());
 
 			if (headerUpdateRes > 0) {
+				confHeader.setConfigHeaderId(confHead.getConfigHeaderId());
 				List<ItemConfDetail> confDetList = traveller.getConfDetailList();
 				List<ItemConfDetail> detailSaveRes = itemConfDetailRepo.saveAll(confDetList);
 

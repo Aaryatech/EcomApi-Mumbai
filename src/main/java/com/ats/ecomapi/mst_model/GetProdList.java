@@ -23,7 +23,7 @@ public class GetProdList {
 
 	private String prodStatus;
 	private int bookBefore; //No of days 
-	private int isVeg;
+	private String isVeg;
 	
 	public int getProductId() {
 		return productId;
@@ -85,10 +85,10 @@ public class GetProdList {
 	public void setBookBefore(int bookBefore) {
 		this.bookBefore = bookBefore;
 	}
-	public int getIsVeg() {
+	public String getIsVeg() {
 		return isVeg;
 	}
-	public void setIsVeg(int isVeg) {
+	public void setIsVeg(String isVeg) {
 		this.isVeg = isVeg;
 	}
 	

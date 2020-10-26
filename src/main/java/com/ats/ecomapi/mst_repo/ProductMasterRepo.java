@@ -204,7 +204,7 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 			+ "    prod.insert_dttime, " + "    prod.copy_item_id, " + "    prod.is_veg, " + "    prod.prep_time, "
 			+ "    prod.rate_setting_type, " + "    prod.ex_int1, " + "    prod.ex_int2, " + "    prod.ex_int3, "
 			+ "    prod.ex_var1, " + "    prod.ex_var2, " + "    prod.ex_var3, " + "    prod.ex_var4, "
-			+ "    prod.ex_float1, " + "    prod.ex_float2, " + "    prod.ex_float3, " + "    prod.ex_date1, "
+			+ "    prod.ex_float1, prod.basic_mrp," + "    prod.ex_float2, " + "    prod.ex_float3, " + "    prod.ex_date1, "
 			+ "    prod.ex_date2, " + "    prod.max_wt " + " FROM " + "    m_product prod " + "      " + " WHERE "
 			+ "    prod.del_status = 1 AND prod.product_id NOT IN "
 			+ " (SELECT tn_item_config_detail.product_id FROM  tn_item_config_detail "

@@ -210,10 +210,7 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 
 							if (isFlavMatch.equals(0)) {
 								flag = 1;
-								basicMrp=0;
-								flavorPrice=0;
-								shapePrice=0;
-								vegPrice=0;
+							
 								break;
 							} // end of if (isFlavMatch.equals(0))
 
@@ -328,10 +325,7 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 
 							if (isShapeMatch.equals(0)) {
 								flag = 1;
-								basicMrp=0;
-								flavorPrice=0;
-								shapePrice=0;
-								vegPrice=0;
+								
 								break;
 							} // end of if (isShapeMatch.equals(0))
 
@@ -451,10 +445,7 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 
 							if (isVegNonVegMatch.equals(0)) {
 								flag = 1;
-								basicMrp=0;
-								flavorPrice=0;
-								shapePrice=0;
-								vegPrice=0;
+								
 								break;
 							} // end of if (isVegNonVegMatch.equals(0))
 
@@ -635,10 +626,7 @@ System.err.println("prodConfDetailList size " +prodConfDetailList.toString());
 
 							if (isWtMatch.equals(0)) {
 								flag = 1;
-								basicMrp=0;
-								flavorPrice=0;
-								shapePrice=0;
-								vegPrice=0;
+								
 								break;
 							} // end of if (isVegNonVegMatch.equals(0))
 

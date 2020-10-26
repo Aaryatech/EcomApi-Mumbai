@@ -40,4 +40,11 @@ public interface FranchiseRepo extends JpaRepository<Franchise, Integer> {
 	@Query(value="SELECT * FROM m_franchise f WHERE fr_code = :frCode AND del_status = 1",nativeQuery=true)
 	Franchise findByFrCodeAndDelStatus(String frCode);
 
+	
+		//Sachin 26-10-2020
+		List<Franchise> findByDelStatusAndIsActiveOrderByFrIdDesc(int delStatus,int isActive);
+		
+		//Sachin 26-10-2020 to get All Franchise of given cityIdList
+		List<Franchise> findByDelStatusAndIsActiveAndFrCityInOrderByFrIdDesc(int delStatus,int isActive,List<Integer> cityIdList);
+				
 }

@@ -2105,7 +2105,7 @@ public class MasterApiConctoller {
 	public @ResponseBody List<ConfigHomePageProduct> getProductStatusConfigList(@RequestParam int statusType,
 			@RequestParam int compId) {
 		List<ConfigHomePageProduct> list = new ArrayList<ConfigHomePageProduct>();
-		try {
+		try {			
 			list = configPrdctHomRepo.getConfigHomePagePrdctList(statusType, compId);
 		} catch (Exception e) {
 			System.err.println("dfdf" + e.getMessage());

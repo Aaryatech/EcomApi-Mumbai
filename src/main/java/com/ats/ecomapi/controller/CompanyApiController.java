@@ -519,10 +519,10 @@ public class CompanyApiController {
 			int res = subCatRepo.deleteSubCat(subCatId);
 			if (res > 0) {
 				info.setError(false);
-				info.setMessage("SubCategory Deleted Successfully");
+				info.setMessage("Sub Category Deleted Successfully");
 			} else {
 				info.setError(true);
-				info.setMessage("Failed to Delete SubCategory");
+				info.setMessage("Failed to Delete Sub Category");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -32,11 +32,11 @@ public interface GetFrForConfigRepo extends JpaRepository<GetFrForConfig, Intege
 			"                tn_item_config_header                  \n" + 
 			"            WHERE\n" + 
 			"                m_fr_configration.config_header_id = tn_item_config_header.config_header_id                  \n" + 
-			"                AND tn_item_config_header.cat_id =1                 \n" + 
+			"                AND tn_item_config_header.cat_id =:catId                 \n" + 
 			"                AND m_franchise.fr_id = m_franchise.fr_id          \n" + 
 			"        )          \n" + 
 			"        AND m_franchise.company_id =:compId         \n" + 
-			"        AND m_franchise.del_status =:catId \n" + 
+			"        AND m_franchise.del_status =1 \n" + 
 			"        AND m_franchise.fr_city=mn_city.city_id AND  find_in_set(m_franchise.fr_id,m_route.fr_ids)",nativeQuery=true)
 	public List<GetFrForConfig> getFranchiseToConfig(@Param("compId") int compId, @Param("catId") int catId);
 

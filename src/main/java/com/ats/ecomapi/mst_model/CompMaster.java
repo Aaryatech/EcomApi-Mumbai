@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 //Sachin 10-09-2020
 
 //Harsha 14-09-2020 Modified
@@ -205,6 +207,7 @@ public class CompMaster {
 	public void setCompPanNo(String compPanNo) {
 		this.compPanNo = compPanNo;
 	}
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getCompOpeningDate() {
 		return compOpeningDate;
 	}

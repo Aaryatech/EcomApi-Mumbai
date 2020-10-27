@@ -173,7 +173,7 @@ public interface GetFrConfigListRepo extends JpaRepository<GetFrConfigList, Inte
 			"    m_fr_configration,\n" + 
 			"    m_franchise,mn_city,m_route \n" + 
 			"WHERE\n" + 
-			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.fr_id IN(:frIds) m_fr_configration.config_header_id IN(:configIds)  AND find_in_set(m_franchise.fr_id,m_route.fr_ids) ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
+			"    m_franchise.fr_id = m_fr_configration.fr_id AND m_fr_configration.config_header_id = tn_item_config_header.config_header_id AND mn_city.city_id=m_franchise.fr_city  AND m_fr_configration.fr_id IN(:frIds) and  m_fr_configration.config_header_id IN(:configIds)  AND find_in_set(m_franchise.fr_id,m_route.fr_ids) ORDER BY m_fr_configration.fr_id  DESC ",nativeQuery=true)
 	public List<GetFrConfigList> getAllFranchiseToConfigAllConfigOrFr(@Param("frIds") List<String> frIds,@Param("configIds") List<String> configIds);
 
 

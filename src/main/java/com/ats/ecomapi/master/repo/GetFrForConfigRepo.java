@@ -13,7 +13,7 @@ public interface GetFrForConfigRepo extends JpaRepository<GetFrForConfig, Intege
 	
 	
 	
-	@Query(value="SELECT\n" + 
+	@Query(value="SELECT UUID() as unique_id, \n" + 
 			"        m_franchise.fr_id,\n" + 
 			"        m_franchise.fr_code,\n" + 
 			"        m_franchise.fr_name,\n" + 
@@ -33,7 +33,7 @@ public interface GetFrForConfigRepo extends JpaRepository<GetFrForConfig, Intege
 			"            WHERE\n" + 
 			"                m_fr_configration.config_header_id = tn_item_config_header.config_header_id                  \n" + 
 			"                AND tn_item_config_header.cat_id =:catId                 \n" + 
-			"                AND m_franchise.fr_id = m_franchise.fr_id          \n" + 
+			"                AND m_franchise.fr_id = m_fr_configration.fr_id          \n" + 
 			"        )          \n" + 
 			"        AND m_franchise.company_id =:compId         \n" + 
 			"        AND m_franchise.del_status =1 \n" + 

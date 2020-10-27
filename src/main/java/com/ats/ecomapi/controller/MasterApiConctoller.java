@@ -938,6 +938,23 @@ public class MasterApiConctoller {
 		return frList;
 	}
 
+	//Sachin 27-10-2020
+	@RequestMapping(value = { "/getFrListToAddInRoute" }, method = RequestMethod.POST)
+	public @ResponseBody List<Franchise> getFrListToAddInRoute(@RequestParam int compId,
+			@RequestParam List<Integer> frIds) {
+
+		List<Franchise> frList = new ArrayList<Franchise>();
+		try {
+			if(frIds.get(0)<1)
+			frList = frRepo.getFrListToAddInRoute(compId);
+			else
+				frList = frRepo.getFrListToAddInRouteForEdit(compId,frIds);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return frList;
+	}
+	
 	// Created By :- Mahendra Singh
 	// Created On :- 15-09-2020
 	// Modified By :- NA

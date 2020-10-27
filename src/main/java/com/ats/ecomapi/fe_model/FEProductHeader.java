@@ -29,7 +29,7 @@ public class FEProductHeader {
 
 	private int uomId;
 	private String shortName;
-	private int shapeId;
+	private String shapeId; //changed to String from int on 27-10-2020
 
 	private int allowSameDayDelivery;
 	private String sameDayTimeAllowedSlot;
@@ -68,7 +68,7 @@ public class FEProductHeader {
 
 	private String productImages; // comma sep image names
 
-	private int isVeg; // 0 Veg 1 non Veg 2 Both
+	private String isVeg; // 0 Veg 1 non Veg 2 Both changed to String from int on 27-10-2020
 	private int prepTime; // Cake Preparation time in minutes
 	private int rateSettingType; // 0apply_rate_per_UOM/1apply_rate_per_KG/2apply_rate_as_per _filter
 
@@ -129,6 +129,9 @@ public class FEProductHeader {
 	
 	private String creamTypeName;
 	private String breadTypeName;
+	
+	private String vegNonvegName; //Sachin 27-10-2020
+	
 	
 	
 	
@@ -216,11 +219,11 @@ public class FEProductHeader {
 		this.shortName = shortName;
 	}
 
-	public int getShapeId() {
+	public String getShapeId() {
 		return shapeId;
 	}
 
-	public void setShapeId(int shapeId) {
+	public void setShapeId(String shapeId) {
 		this.shapeId = shapeId;
 	}
 
@@ -392,11 +395,11 @@ public class FEProductHeader {
 		this.productImages = productImages;
 	}
 
-	public int getIsVeg() {
+	public String getIsVeg() {
 		return isVeg;
 	}
 
-	public void setIsVeg(int isVeg) {
+	public void setIsVeg(String isVeg) {
 		this.isVeg = isVeg;
 	}
 
@@ -727,6 +730,17 @@ public class FEProductHeader {
 		this.breadTypeName = breadTypeName;
 	}
 
+	
+	
+	
+	public String getVegNonvegName() {
+		return vegNonvegName;
+	}
+
+	public void setVegNonvegName(String vegNonvegName) {
+		this.vegNonvegName = vegNonvegName;
+	}
+
 	@Override
 	public String toString() {
 		return "FEProductHeader [prodUuid=" + prodUuid + ", productId=" + productId + ", productCode=" + productCode
@@ -755,7 +769,7 @@ public class FEProductHeader {
 				+ ", appliTagNames=" + appliTagNames + ", shapeNames=" + shapeNames + ", prodTypeName=" + prodTypeName
 				+ ", prodStatusName=" + prodStatusName + ", toppingCreamNames=" + toppingCreamNames
 				+ ", layeringCreamNames=" + layeringCreamNames + ", creamTypeName=" + creamTypeName + ", breadTypeName="
-				+ breadTypeName + ", prodDetailList=" + prodDetailList + "]";
+				+ breadTypeName + ", vegNonvegName=" + vegNonvegName + ", prodDetailList=" + prodDetailList + "]";
 	}
 
 	

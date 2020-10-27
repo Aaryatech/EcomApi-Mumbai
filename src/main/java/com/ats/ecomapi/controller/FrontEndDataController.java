@@ -261,40 +261,15 @@ public class FrontEndDataController {
 	//Sachin 26-10-2020
 	@Autowired RelatedProductConfigRepo relatedProdConfRepo;
 		@RequestMapping(value = { "/getRelateProductByProductIds" }, method = RequestMethod.POST)
-		public @ResponseBody List<FEProductHeader> getRelateProductByProductIds(@RequestParam("productIds") List<Integer> productIds) {
-			String prodIdStr=relatedProdConfRepo.getProdIdsbyPrimaryProdIdsIn(productIds);
-
+		public @ResponseBody List<Integer> getRelateProductByProductIds(@RequestParam("prodId") int prodId) {
+			List<Integer> relatedProdIdList=new ArrayList<Integer>();
 			
-			List<FEProductHeader> prodHeaderList = new ArrayList<FEProductHeader>();
-			List<FEProdDetail> prodDetailList = null;
-try {
-	
-	prodHeaderList = feProdHeadRepo.getFEProductHeaderByFrId(0);
-	if(!prodHeaderList.isEmpty()) {
-		
-	for (int i = 0; i < prodHeaderList.size(); i++) {
-
-					/*
-					 * prodDetailList = new ArrayList<FEProdDetail>(); try { prodDetailList =
-					 * feProdDetailRepo.getFEProdDetailByConfHeadProdIdFrId(
-					 * prodHeaderList.get(i).getConfigHeaderId(),
-					 * prodHeaderList.get(i).getProductId(), frId); } catch (Exception e) {
-					 * 
-					 * }
-					 * 
-					 * if (prodDetailList != null) {
-					 * prodHeaderList.get(i).setProdDetailList(prodDetailList); }
-					 */
-
-		} // End of For Loop prodHeaderList I.
-		
-	}
-}catch (Exception e) {
-	// TODO: handle exception
-}
-
-			return prodHeaderList;
-
+			try {
+				relatedProdIdList=feProdHeadRepo.getRelatedProdIds(prodId);
+			}catch (Exception e) {
+				relatedProdIdList=new ArrayList<Integer>();
+			}
+			return relatedProdIdList;
 		}
 		
 

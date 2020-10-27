@@ -33,26 +33,28 @@ public interface FEProductHeaderRepo extends JpaRepository<FEProductHeader, Inte
 	
 	@Query(value = " SELECT b.*,  " + 
 			" " + 
-			"	CASE WHEN b.allow_same_day_delivery=1 THEN COALESCE((SELECT GROUP_CONCAT(m_filter.filter_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.same_day_time_allowed_slot) and m_filter.filter_type_id=2),0) else 'NA' end  AS same_day_time_slot_names,\n" + 
+			"	CASE WHEN b.allow_same_day_delivery=1 THEN COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.same_day_time_allowed_slot) and m_filter.filter_type_id=2),0) else 'NA' end  AS same_day_time_slot_names,\n" + 
 			" " + 
-			"	COALESCE((SELECT GROUP_CONCAT(m_filter.filter_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.events_ids) and m_filter.filter_type_id=6),'NA')  AS event_names,\n" + 
-			"	COALESCE((SELECT GROUP_CONCAT(m_filter.filter_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.flavour_ids) and m_filter.filter_type_id=4),'NA')  AS flavor_names,\n" + 
-			"	COALESCE((SELECT GROUP_CONCAT(m_filter.filter_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.applicable_tags) and m_filter.filter_type_id=7),'NA')  AS appli_tag_names,\n" + 
+			"	COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.events_ids) and m_filter.filter_type_id=6),'NA')  AS event_names,\n" + 
+			"	COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.flavour_ids) and m_filter.filter_type_id=4),'NA')  AS flavor_names,\n" + 
+			"	COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.applicable_tags) and m_filter.filter_type_id=7),'NA')  AS appli_tag_names,\n" + 
 			" " + 
-			"	COALESCE((SELECT GROUP_CONCAT(m_filter.filter_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.shape_id) and m_filter.filter_type_id=1),'NA')  AS shape_names,\n" + 
-			"	COALESCE((SELECT GROUP_CONCAT(m_filter.filter_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.prod_type_id) and m_filter.filter_type_id=3),'NA')  AS prod_type_name,\n" + 
+			"	COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.shape_id) and m_filter.filter_type_id=1),'NA')  AS shape_names,\n" + 
+			"	COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.prod_type_id) and m_filter.filter_type_id=3),'NA')  AS prod_type_name,\n" + 
 			" " + 
-			"	COALESCE((SELECT GROUP_CONCAT(m_filter.filter_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.prod_status_id) and m_filter.filter_type_id=5),'NA')  AS prod_status_name,\n" + 
+			"	COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.prod_status_id) and m_filter.filter_type_id=5),'NA')  AS prod_status_name,\n" + 
 			" " + 
 			" " + 
-			"	COALESCE((SELECT GROUP_CONCAT(m_filter.filter_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.topping_cream) and m_filter.filter_type_id=11),'NA')  AS topping_cream_names,\n" + 
+			"	COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.topping_cream) and m_filter.filter_type_id=11),'NA')  AS topping_cream_names,\n" + 
 			" " + 
-			"	COALESCE((SELECT GROUP_CONCAT(m_filter.filter_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.layering_cream) and m_filter.filter_type_id=10),'NA')  AS layering_cream_names,\n" + 
+			"	COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.layering_cream) and m_filter.filter_type_id=10),'NA')  AS layering_cream_names,\n" + 
 			"	         \n" + 
-			"	         COALESCE((SELECT GROUP_CONCAT(m_filter.filter_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.type_of_cream) and m_filter.filter_type_id=9),'NA')  AS cream_type_name,\n" + 
+			"	         COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.type_of_cream) and m_filter.filter_type_id=9),'NA')  AS cream_type_name,\n" + 
 			" " + 
-			"	COALESCE((SELECT GROUP_CONCAT(m_filter.filter_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.type_of_bread) and m_filter.filter_type_id=8),'NA')  AS bread_type_name\n" + 
-			"	     " + 
+			"	COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.type_of_bread) and m_filter.filter_type_id=8),'NA')  AS bread_type_name,\n" +
+			
+			" COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.is_veg) and m_filter.filter_type_id=12),'NA')  AS veg_nonveg_name"
+			+"	     " + 
 			"	          " + 
 			"	FROM " + 
 			"	  " + 
@@ -132,6 +134,16 @@ public interface FEProductHeaderRepo extends JpaRepository<FEProductHeader, Inte
 	List<FEProductHeader> getFEProductHeaderByFrId(@Param("frId") int frId);
 	
 	
+	
+	
+	@Query(value = " SELECT  DISTINCT primary_item_id FROM m_product_configuration WHERE "
+			+ " FIND_IN_SET "
+			+ " (:prodId,secondary_item_id) and del_status=1 AND is_active=1 " +  
+			" ", nativeQuery = true)
+
+	List<Integer> getRelatedProdIds(@Param("prodId") int prodId);
+	
+			
 	
 	
 }

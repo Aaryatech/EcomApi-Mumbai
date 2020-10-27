@@ -6,6 +6,7 @@ import javax.persistence.Id;
 //Author -Sachin
 //Created on -02-10-2020
 //Desc - to show Product's Flavor, Tag, Status List data to front end pages.
+//Added Desc - with above it also get Veg nonveg data ie filter type 12.
 @Entity
 public class GetFlavorTagStatusList {
 
@@ -19,6 +20,9 @@ public class GetFlavorTagStatusList {
 	
 	private int companyId;
 	private int sortNo;
+	
+	private String adminName; //Sachin 27-10-2020
+	
 	public int getFilterId() {
 		return filterId;
 	}
@@ -67,13 +71,25 @@ public class GetFlavorTagStatusList {
 	public void setSortNo(int sortNo) {
 		this.sortNo = sortNo;
 	}
+	
+	
+	
 
+	public String getAdminName() {
+		return adminName;
+	}
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
 	@Override
 	public String toString() {
 		return "GetFlavorTagStatusList [filterId=" + filterId + ", filterName=" + filterName + ", filterTypeId="
 				+ filterTypeId + ", usedForFilter=" + usedForFilter + ", costAffect=" + costAffect
 				+ ", usedForDescription=" + usedForDescription + ", companyId=" + companyId + ", sortNo=" + sortNo
-				+ "]";
+				+ ", adminName=" + adminName + "]";
 	}
+	
+	
+	
 	
 }

@@ -778,13 +778,14 @@ public class MasterApiConctoller {
 	public @ResponseBody MFilter saveFilter(@RequestBody MFilter filter) {
 		//System.err.println("Initial filter " +filter.toString());
 		MFilter saveFilter = new MFilter();
+		int tagId=0;
 		try {
 		if(filter.getFilterId()==0) {
 			//ie new record
 			//System.err.println("In else" +filter.toString());
 			if(filter.getIsTagAdd()==1) {
 				//System.err.println("In Add tag ");
-				saveTag(filter);
+				tagId=saveTag(filter);
 			}else {
 				//System.err.println("In No Add tag ");
 			}
@@ -793,6 +794,7 @@ public class MasterApiConctoller {
 			//System.err.println("In else getFilterId() !=0" +filter.toString());
 		}
 		try {
+			filter.setTagId(tagId);
 			saveFilter = filterRepo.save(filter);
 			//System.err.println("Main Save " +saveFilter);
 		} catch (Exception e) {
@@ -806,7 +808,7 @@ public class MasterApiConctoller {
 
 	// Created By :- Sachin
 		// Created On :- 20-10-2020
-	private String saveTag(MFilter filter) {
+	private int saveTag(MFilter filter) {
 		MFilter tagFilter = new MFilter();
 
 		tagFilter.setAddOnRs(0);
@@ -838,7 +840,7 @@ public class MasterApiConctoller {
 		
 		tagFilter.setAdminName(filter.getFilterName());
 		tagFilter = filterRepo.save(tagFilter);
-		return null;
+		return tagFilter.getFilterId();
 		
 	}
 	// Created By :- Mahendra Singh

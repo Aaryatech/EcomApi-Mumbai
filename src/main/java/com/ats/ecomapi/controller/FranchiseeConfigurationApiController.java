@@ -12,11 +12,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.fe_model.DeliveryBoy;
+import com.ats.ecomapi.fe_model.FrDelvrBoyConfig;
 import com.ats.ecomapi.master.model.CopyTable;
 import com.ats.ecomapi.master.model.FrConfiguration;
 import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.model.GetTableFields;
+import com.ats.ecomapi.master.model.HomePageTestimonial;
+import com.ats.ecomapi.master.repo.DeliveryBoyRepo;
 import com.ats.ecomapi.master.repo.FrConfigurationRepo;
+import com.ats.ecomapi.master.repo.FrDelvrBoyConfigRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.GetFrConfigListRepo;
 import com.ats.ecomapi.master.repo.GetFrForConfigRepo;
@@ -43,16 +48,19 @@ public class FranchiseeConfigurationApiController {
 
 	@Autowired
 	GetFrConfigListRepo getFrConfigListRepo;
+
+	@Autowired
+	DeliveryBoyRepo delvrBoyRepo;
 	
-	
-	
+	@Autowired
+	FrDelvrBoyConfigRepo frDelvrBoyRepo;
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 24-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- get all configs
+	// Description :- get all configs
 
 	@RequestMapping(value = { "/getConfigurationByCatId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemConfHeader> getConfigurationByCatId(@RequestParam int catId) {
@@ -68,17 +76,13 @@ public class FranchiseeConfigurationApiController {
 		return list;
 
 	}
-	
-	
-	
-	
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 24-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- get all configs by company
+	// Description :- get all configs by company
 
 	@RequestMapping(value = { "/getConfigurationByCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemConfHeader> getConfigurationByCompId(@RequestParam int compId) {
@@ -94,20 +98,17 @@ public class FranchiseeConfigurationApiController {
 		return list;
 
 	}
-	
-	
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 24-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- get all fr configs
-
- 
+	// Description :- get all fr configs
 
 	@RequestMapping(value = { "/getFranchiseForConfig" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetFrForConfig> getFranchiseForConfig(@RequestParam int catId, @RequestParam int companyId) {
+	public @ResponseBody List<GetFrForConfig> getFranchiseForConfig(@RequestParam int catId,
+			@RequestParam int companyId) {
 
 		List<GetFrForConfig> list = new ArrayList<GetFrForConfig>();
 
@@ -130,15 +131,12 @@ public class FranchiseeConfigurationApiController {
 
 	}
 
-	
-	
-
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 24-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- insert all configs
+	// Description :- insert all configs
 
 	@RequestMapping(value = { "/insertFrConfig" }, method = RequestMethod.POST)
 	public @ResponseBody Info insertFrConfig(@RequestParam int actualRate, @RequestParam int displayRate,
@@ -187,16 +185,12 @@ public class FranchiseeConfigurationApiController {
 		return res;
 	}
 
-	
-	
-	
-
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- get all configs list by filter
+	// Description :- get all configs list by filter
 
 	@RequestMapping(value = { "/getFranchiseConfigList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetFrConfigList> getFranchiseConfigList(@RequestParam List<String> frIds,
@@ -242,15 +236,12 @@ public class FranchiseeConfigurationApiController {
 
 	}
 
-	
-	
-
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- delete configs  
+	// Description :- delete configs
 	@RequestMapping(value = { "/deleteFrConfig" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteFrConfig(@RequestParam List<Integer> configIds) {
 
@@ -275,4 +266,120 @@ public class FranchiseeConfigurationApiController {
 		return res;
 	}
 
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singh
+	// Created On :- 29-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Save Delivery Boy
+	@RequestMapping(value = { "/saveDeliveryBoy" }, method = RequestMethod.POST)
+	public @ResponseBody DeliveryBoy saveDeliveryBoy(@RequestBody DeliveryBoy delBoy) {
+
+		DeliveryBoy newDelBoy = new DeliveryBoy();
+		try {
+			newDelBoy = delvrBoyRepo.save(delBoy);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newDelBoy;
+
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 29-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Single Delivery Boy By Id
+	@RequestMapping(value = { "/getDeliveryBoyById" }, method = RequestMethod.POST)
+	public @ResponseBody DeliveryBoy getDeliveryBoyById(@RequestParam int delBoyId) {
+
+		DeliveryBoy delBoy = new DeliveryBoy();
+		try {
+			delBoy = delvrBoyRepo.findByDelBoyId(delBoyId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return delBoy;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 29-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Delete Delivery Boy
+	@RequestMapping(value = { "/deleteDeliveryBoyById" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteDeliveryBoyById(@RequestParam int delBoyId) {
+
+		Info res = new Info();
+		try {
+			int delBoy = delvrBoyRepo.deleteDelveryBoyById(delBoyId);
+			if (delBoy > 0) {
+				res.setError(false);
+				res.setMessage("Delivery Boy Deleted Successfully");
+			} else {
+				res.setError(true);
+				res.setMessage("Failed to Deleted Delivery Boy");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 29-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get all delivery boy by company Id.
+	@RequestMapping(value = { "/getDeliveryBoysList" }, method = RequestMethod.POST)
+	public @ResponseBody List<DeliveryBoy> getDeliveryBoysList(@RequestParam int compId) {
+
+		List<DeliveryBoy> list = new ArrayList<DeliveryBoy>();
+		try {
+			list = delvrBoyRepo.findByCompIdAndDelStatusOrderByDelBoyIdDesc(compId, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	// Created By :- Mahendra Singh
+	// Created On :- 29-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Check unique delivery boy mobile no.
+	@RequestMapping(value = { "/getDeliveryBoyByMobNo" }, method = RequestMethod.POST)
+	public @ResponseBody DeliveryBoy getDeliveryBoyByMobNo(@RequestParam int delBoyId, @RequestParam String mobNo) {
+
+		DeliveryBoy res = new DeliveryBoy();
+		try {
+			if(delBoyId>0) {
+				res = delvrBoyRepo.findByMobileNoAndDelStatusAndDelBoyIdNot(mobNo, 1, delBoyId);
+			}else {
+				res = delvrBoyRepo.findByMobileNoAndDelStatus(mobNo, 1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singh
+	// Created On :- 29-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Save Delivery Boy
+	@RequestMapping(value = { "/configFrDeliveryBoy" }, method = RequestMethod.POST)
+	public @ResponseBody FrDelvrBoyConfig configFrDeliveryBoy(@RequestBody FrDelvrBoyConfig config) {
+
+		FrDelvrBoyConfig newConfig = new FrDelvrBoyConfig();
+		try {
+			newConfig = frDelvrBoyRepo.save(config);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newConfig;
+
+	}
 }

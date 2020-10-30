@@ -382,4 +382,65 @@ public class FranchiseeConfigurationApiController {
 		return newConfig;
 
 	}
+	
+		// Created By :- Mahendra Singh
+		// Created On :- 29-10-2020
+		// Modified By :- NA
+		// Modified On :- NA
+		// Description :- Get Franchise Configured Delivery Boy Ids
+		@RequestMapping(value = { "/getFrDelBoyIds" }, method = RequestMethod.POST)
+		public @ResponseBody String getFrDelBoyIds(@RequestParam int compId, @RequestParam int delBoyId) {
+
+			String delBoyIds = new String();
+			try {
+				delBoyIds = frDelvrBoyRepo.getFrDelBoyIds(compId, delBoyId);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return delBoyIds;
+
+		}
+		
+			// Created By :- Mahendra Singh
+				// Created On :- 29-10-2020
+				// Modified By :- NA
+				// Modified On :- NA
+				// Description :- Get Franchise Configured Delivery 
+				@RequestMapping(value = { "/getFrDelvryConfig" }, method = RequestMethod.POST)
+				public @ResponseBody FrDelvrBoyConfig getFrDelvroyConfig(@RequestParam int compId, @RequestParam int delBoyId) {
+
+					FrDelvrBoyConfig res = new FrDelvrBoyConfig();
+					try {
+						res = frDelvrBoyRepo.findBydelBoyIdAndCompanyId(delBoyId, compId);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return res;
+
+				}
+				
+				// Created By :- Mahendra Singh
+				// Created On :- 29-10-2020
+				// Modified By :- NA
+				// Modified On :- NA
+				// Description :- Get Franchise Configured Delivery 
+				@RequestMapping(value = { "/editConfigFranchises" }, method = RequestMethod.POST)
+				public @ResponseBody Info editConfigFranchises(@RequestParam String frIdsStr, @RequestParam int delBoyId) {
+
+					Info res = new Info();
+					try {
+						int val = frDelvrBoyRepo.updateFrConfig(delBoyId, frIdsStr);
+						if(val>0) {
+							res.setError(false);
+							res.setMsg("Franchise And Delivery Boy Configure Successfully");
+						}else {
+							res.setError(true);
+							res.setMsg("Failed to Configure Franchise And Delivery Boy");
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return res;
+
+				}
 }

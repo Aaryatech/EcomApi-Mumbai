@@ -102,9 +102,10 @@ public class ProductMaster {
 	private int prepTime; //Cake Preparation time in minutes 14-09-2020
 	private int rateSettingType; //0apply_rate_per_UOM/1apply_rate_per_KG/2apply_rate_as_per _filter		
 	
-	private int exInt1;
-	private int exInt2;
-	private int exInt3;
+	private int exInt1;//used for default shape -30-10-2020
+	private int exInt2;//used for default vegNonVeg -30-10-2020
+	private int exInt3;//used for default Flavor -30-10-2020
+	
 	
 	private String exVar1;
 	private String exVar2;

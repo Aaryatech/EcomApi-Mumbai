@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 //Author -Sachin
 //Created on -01-10-2020
 //Desc - to show product master data to front end pages.
-//Modified on -06-10-2020
+//Modified on -30-10-2020
 //Modified By -Sachin
 
 @Entity
@@ -132,6 +132,9 @@ public class FEProductHeader {
 	
 	private String vegNonvegName; //Sachin 27-10-2020
 	
+	private int defaultFlavorId;//Sachin 30-10-2020 new Add
+	private int defaultVegnonvegId;//Sachin 30-10-2020 new Add
+	private int defaultShapeId;//Sachin 30-10-2020 new Add
 	
 	
 	
@@ -741,6 +744,34 @@ public class FEProductHeader {
 		this.vegNonvegName = vegNonvegName;
 	}
 
+	
+	
+	
+	
+	public int getDefaultFlavorId() {
+		return defaultFlavorId;
+	}
+
+	public void setDefaultFlavorId(int defaultFlavorId) {
+		this.defaultFlavorId = defaultFlavorId;
+	}
+
+	public int getDefaultVegnonvegId() {
+		return defaultVegnonvegId;
+	}
+
+	public void setDefaultVegnonvegId(int defaultVegnonvegId) {
+		this.defaultVegnonvegId = defaultVegnonvegId;
+	}
+
+	public int getDefaultShapeId() {
+		return defaultShapeId;
+	}
+
+	public void setDefaultShapeId(int defaultShapeId) {
+		this.defaultShapeId = defaultShapeId;
+	}
+
 	@Override
 	public String toString() {
 		return "FEProductHeader [prodUuid=" + prodUuid + ", productId=" + productId + ", productCode=" + productCode
@@ -769,7 +800,9 @@ public class FEProductHeader {
 				+ ", appliTagNames=" + appliTagNames + ", shapeNames=" + shapeNames + ", prodTypeName=" + prodTypeName
 				+ ", prodStatusName=" + prodStatusName + ", toppingCreamNames=" + toppingCreamNames
 				+ ", layeringCreamNames=" + layeringCreamNames + ", creamTypeName=" + creamTypeName + ", breadTypeName="
-				+ breadTypeName + ", vegNonvegName=" + vegNonvegName + ", prodDetailList=" + prodDetailList + "]";
+				+ breadTypeName + ", vegNonvegName=" + vegNonvegName + ", defaultFlavorId=" + defaultFlavorId
+				+ ", defaultVegnonvegId=" + defaultVegnonvegId + ", defaultShapeId=" + defaultShapeId
+				+ ", prodDetailList=" + prodDetailList + "]";
 	}
 
 	

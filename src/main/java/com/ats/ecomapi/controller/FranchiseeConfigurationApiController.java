@@ -330,13 +330,13 @@ public class FranchiseeConfigurationApiController {
 	// Created On :- 29-10-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Description :- Get all delivery boy by company Id.
+	// Description :- Get all delivery boy and configure franchise count by company Id.
 	@RequestMapping(value = { "/getDeliveryBoysList" }, method = RequestMethod.POST)
 	public @ResponseBody List<DeliveryBoy> getDeliveryBoysList(@RequestParam int compId) {
 
 		List<DeliveryBoy> list = new ArrayList<DeliveryBoy>();
 		try {
-			list = delvrBoyRepo.findByCompIdAndDelStatusOrderByDelBoyIdDesc(compId, 1);
+			list = delvrBoyRepo.getDelvrBoyAndFrCount(compId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

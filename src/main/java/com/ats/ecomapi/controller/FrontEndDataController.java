@@ -160,7 +160,7 @@ public class FrontEndDataController {
 				if (prodHeaderList == null) {
 
 				}
-				if (prodHeaderList.isEmpty()) {
+				else if (prodHeaderList.isEmpty()) {
 
 				} else {
 
@@ -185,7 +185,7 @@ public class FrontEndDataController {
 					} // End of For Loop homePageProdIdsList A.
 
 					for (int i = 0; i < prodHeaderList.size(); i++) {
-
+						float defaultPrice=0;
 						prodDetailList = new ArrayList<FEProdDetail>();
 						try {
 							prodDetailList = feProdDetailRepo.getFEProdDetailByConfHeadProdIdFrId(
@@ -197,8 +197,20 @@ public class FrontEndDataController {
 
 						if (prodDetailList != null) {
 							prodHeaderList.get(i).setProdDetailList(prodDetailList);
+							Integer isVegNonVMatch=0;
+							
+							for(int d=0;d<prodDetailList.size();d++) {
+								
+								isVegNonVMatch=Integer.compare(prodHeaderList.get(i).getDefaultVegnonvegId(), prodDetailList.get(d).getIsVeg());
+							
+								if(isVegNonVMatch.equals(0) && prodDetailList.get(d).getQty()<=1) {
+									defaultPrice=prodDetailList.get(d).getActualRate();
+									break;
+								}
+								
+							}//End of For D prodDetailList Loop
 						}
-
+						prodHeaderList.get(i).setDefaultPrice(defaultPrice);
 					} // End of For Loop prodHeaderList I.
 
 				} // End of else.

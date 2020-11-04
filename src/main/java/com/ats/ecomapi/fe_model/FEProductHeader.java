@@ -136,8 +136,18 @@ public class FEProductHeader {
 	private int defaultVegnonvegId;//Sachin 30-10-2020 new Add
 	private int defaultShapeId;//Sachin 30-10-2020 new Add
 	
+	private float defaultPrice;//Sachin 04-11-2020 new Add
 	
 	
+	
+	public float getDefaultPrice() {
+		return defaultPrice;
+	}
+
+	public void setDefaultPrice(float defaultPrice) {
+		this.defaultPrice = defaultPrice;
+	}
+
 	@Transient
 	List<FEProdDetail> prodDetailList;
 	
@@ -802,7 +812,7 @@ public class FEProductHeader {
 				+ ", layeringCreamNames=" + layeringCreamNames + ", creamTypeName=" + creamTypeName + ", breadTypeName="
 				+ breadTypeName + ", vegNonvegName=" + vegNonvegName + ", defaultFlavorId=" + defaultFlavorId
 				+ ", defaultVegnonvegId=" + defaultVegnonvegId + ", defaultShapeId=" + defaultShapeId
-				+ ", prodDetailList=" + prodDetailList + "]";
+				+ ", defaultPrice=" + defaultPrice + ", prodDetailList=" + prodDetailList + "]";
 	}
 
 	

@@ -11,7 +11,7 @@ import com.ats.ecomapi.fe_model.FEProdDetail;
 public interface FEProdDetailRepo extends JpaRepository<FEProdDetail, Integer> {
 
 	@Query(value = " SELECT UUID() as conf_detail_uuid, tn_item_config_detail.config_detail_id,tn_item_config_detail.product_id,\n"
-			+ " tn_item_config_detail.flavor_id,tn_item_config_detail.is_veg,tn_item_config_detail.rate_setting_type,tn_item_config_detail.qty,\n"
+			+ " tn_item_config_detail.flavor_id,tn_item_config_detail.is_veg,tn_item_config_detail.rate_setting_type,tn_item_config_detail.qty,tn_item_config_detail.ex_int1 as shape_id, \n"
 			+ " CASE m_fr_configration.display_rate\n" + "WHEN 1 THEN tn_item_config_detail.rate_amt\n"
 			+ " WHEN 2 THEN tn_item_config_detail.mrp_amt\n" + "WHEN 3 THEN tn_item_config_detail.sp_rate_amt1\n"
 			+ " WHEN 4 THEN tn_item_config_detail.sp_rate_amt2\n" + "WHEN 5 THEN tn_item_config_detail.sp_rate_amt3\n"

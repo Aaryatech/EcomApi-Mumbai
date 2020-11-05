@@ -191,6 +191,8 @@ public class FrontEndDataController {
 							prodDetailList = feProdDetailRepo.getFEProdDetailByConfHeadProdIdFrId(
 									prodHeaderList.get(i).getConfigHeaderId(), prodHeaderList.get(i).getProductId(),
 									frId);
+							if(prodHeaderList.get(i).getProductId()==49)
+							System.err.println("prodDetailList " +prodDetailList.toString());
 						} catch (Exception e) {
 
 						}

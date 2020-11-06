@@ -221,6 +221,9 @@ public class FrontEndDataController {
 
 			Exception e) {
 				System.err.println("in main Exception");
+				
+				e.printStackTrace();
+				
 				prodHeaderList = new ArrayList<FEProductHeader>();
 			}
 			System.err.println("runtime fm " + runtime.getRuntime().freeMemory() / MB);

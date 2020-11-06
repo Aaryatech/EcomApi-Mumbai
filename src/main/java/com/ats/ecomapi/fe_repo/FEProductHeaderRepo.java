@@ -53,7 +53,9 @@ public interface FEProductHeaderRepo extends JpaRepository<FEProductHeader, Inte
 			" " + 
 			"	COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.type_of_bread) and m_filter.filter_type_id=8),'NA')  AS bread_type_name,\n" +
 			
-			" COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.is_veg) and m_filter.filter_type_id=12),'NA')  AS veg_nonveg_name"
+			" COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.is_veg) and m_filter.filter_type_id=12),'NA')  AS veg_nonveg_name,"
+			+" COALESCE((SELECT m_filter.admin_name FROM m_filter WHERE m_filter.filter_id=b.ex_int2 and m_filter.filter_type_id=12),'NA')  AS default_veg_nonveg_name "
+
 			+"	     " + 
 			"	          " + 
 			"	FROM " + 
@@ -96,7 +98,7 @@ public interface FEProductHeaderRepo extends JpaRepository<FEProductHeader, Inte
 			"	        m_product.rate_setting_type, " + 
 			"	        m_product.max_wt, " + 
 			"	        m_product.ex_var1, " + 
-			"	        m_product.ex_var2, "
+			"	        m_product.ex_var2, m_product.ex_int2,"
 			+ " m_product.ex_int3 as default_flavor_id," + 
 			 " m_product.ex_int2 as default_vegnonveg_id," + 
 			 " m_product.ex_int1 as default_shape_id," + 

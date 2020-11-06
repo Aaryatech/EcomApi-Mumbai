@@ -28,6 +28,16 @@ public class FEProdDetail {
 	
 	private int shapeId;  //Sachin 05-11-2020
 	
+	
+	private String vegNonvegName; // Sachin 06-11-2020
+
+	public String getVegNonvegName() {
+		return vegNonvegName;
+	}
+
+	public void setVegNonvegName(String vegNonvegName) {
+		this.vegNonvegName = vegNonvegName;
+	}
 	public int getShapeId() {
 		return shapeId;
 	}
@@ -99,7 +109,7 @@ public class FEProdDetail {
 		return "FEProdDetail [confDetailUuid=" + confDetailUuid + ", configDetailId=" + configDetailId + ", productId="
 				+ productId + ", flavorId=" + flavorId + ", isVeg=" + isVeg + ", rateSettingType=" + rateSettingType
 				+ ", qty=" + qty + ", displayRate=" + displayRate + ", actualRate=" + actualRate + ", shapeId="
-				+ shapeId + "]";
+				+ shapeId + ", vegNonvegName=" + vegNonvegName + "]";
 	}
 	
 }

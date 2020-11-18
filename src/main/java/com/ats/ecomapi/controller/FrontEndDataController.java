@@ -292,9 +292,9 @@ public class FrontEndDataController {
 
 	public void publishData(String json, int frId, int fileType) {
 
-		 final String JSON_SAVE_URL =
-		 "/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
-		//final String JSON_SAVE_URL = "/opt/apache-tomcat-8.5.37/webapps/PROD_IMG_UP/";
+		// final String JSON_SAVE_URL =
+		 //"/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
+		final String JSON_SAVE_URL = "/opt/apache-tomcat-8.5.39/webapps/PROD_IMG_UP/";
 
 		if (json != null) {
 

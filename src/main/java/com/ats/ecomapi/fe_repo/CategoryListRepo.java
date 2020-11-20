@@ -26,4 +26,14 @@ public interface CategoryListRepo extends JpaRepository<CategoryList, Integer> {
 			" ORDER BY m_category.sort_no DESC ", nativeQuery = true)
 	List<CategoryList> getFrCatListByFrId(@Param("frId") int frId);
 	
+	
+	//Sachin 19-11-2020
+	@Query(value = " SELECT  UUID() as cat_uuid, m_category.cat_id,m_category.cat_name,m_category.cat_prefix,m_category.cat_desc,m_category.company_id, " + 
+			" m_category.image_name,m_category.sort_no " + 
+			" FROM m_category " + 
+			" WHERE  " + 
+			" m_category.del_status=1 and m_category.is_active=1 and m_category.is_parent=1 " + 
+			" ORDER BY m_category.sort_no DESC ", nativeQuery = true)
+	List<CategoryList> getMasterCompCatList();
+
 }

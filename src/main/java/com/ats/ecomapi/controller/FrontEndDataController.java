@@ -72,8 +72,8 @@ public class FrontEndDataController {
 		int MB = 1024 * 1024;
 		List<FEDataTraveller> dataTravellerList = new ArrayList<>();
 
-		//for (int w = 0; w < 300; w++) {
-		for (Integer frId:frIdList) {
+		// for (int w = 0; w < 300; w++) {
+		for (Integer frId : frIdList) {
 			FEDataTraveller dataTraveller = new FEDataTraveller();
 			// 1
 			List<FEBannerList> companyBannerList = new ArrayList<FEBannerList>();
@@ -159,8 +159,7 @@ public class FrontEndDataController {
 				prodHeaderList = feProdHeadRepo.getFEProductHeaderByFrId(frId);
 				if (prodHeaderList == null) {
 
-				}
-				else if (prodHeaderList.isEmpty()) {
+				} else if (prodHeaderList.isEmpty()) {
 
 				} else {
 
@@ -185,32 +184,33 @@ public class FrontEndDataController {
 					} // End of For Loop homePageProdIdsList A.
 
 					for (int i = 0; i < prodHeaderList.size(); i++) {
-						float defaultPrice=0;
+						float defaultPrice = 0;
 						prodDetailList = new ArrayList<FEProdDetail>();
 						try {
 							prodDetailList = feProdDetailRepo.getFEProdDetailByConfHeadProdIdFrId(
 									prodHeaderList.get(i).getConfigHeaderId(), prodHeaderList.get(i).getProductId(),
 									frId);
-							if(prodHeaderList.get(i).getProductId()==49)
-							System.err.println("prodDetailList " +prodDetailList.toString());
+							if (prodHeaderList.get(i).getProductId() == 49)
+								System.err.println("prodDetailList " + prodDetailList.toString());
 						} catch (Exception e) {
 
 						}
 
 						if (prodDetailList != null) {
 							prodHeaderList.get(i).setProdDetailList(prodDetailList);
-							Integer isVegNonVMatch=0;
-							
-							for(int d=0;d<prodDetailList.size();d++) {
-								
-								isVegNonVMatch=Integer.compare(prodHeaderList.get(i).getDefaultVegnonvegId(), prodDetailList.get(d).getIsVeg());
-							
-								if(isVegNonVMatch.equals(0) && prodDetailList.get(d).getQty()<=1) {
-									defaultPrice=prodDetailList.get(d).getActualRate();
+							Integer isVegNonVMatch = 0;
+
+							for (int d = 0; d < prodDetailList.size(); d++) {
+
+								isVegNonVMatch = Integer.compare(prodHeaderList.get(i).getDefaultVegnonvegId(),
+										prodDetailList.get(d).getIsVeg());
+
+								if (isVegNonVMatch.equals(0) && prodDetailList.get(d).getQty() <= 1) {
+									defaultPrice = prodDetailList.get(d).getActualRate();
 									break;
 								}
-								
-							}//End of For D prodDetailList Loop
+
+							} // End of For D prodDetailList Loop
 						}
 						prodHeaderList.get(i).setDefaultPrice(defaultPrice);
 					} // End of For Loop prodHeaderList I.
@@ -221,9 +221,9 @@ public class FrontEndDataController {
 
 			Exception e) {
 				System.err.println("in main Exception");
-				
+
 				e.printStackTrace();
-				
+
 				prodHeaderList = new ArrayList<FEProductHeader>();
 			}
 			System.err.println("runtime fm " + runtime.getRuntime().freeMemory() / MB);
@@ -248,6 +248,17 @@ public class FrontEndDataController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			List<CategoryList> masterCompanyCatList = new ArrayList<>();
+			try {
+				masterCompanyCatList = feCategoryListRepo.getMasterCompCatList();
+			} catch (Exception e) {
+				masterCompanyCatList = new ArrayList<>();
+			}
+			try {
+				publishData(obj.writeValueAsString(masterCompanyCatList), 0, 4);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -265,36 +276,36 @@ public class FrontEndDataController {
 
 		List<Franchise> frList = new ArrayList<Franchise>();
 		try {
-			frList=frRepo.findByDelStatusAndIsActiveAndFrCityInOrderByFrIdDesc(1, 1,cityIdList);
-		}catch (Exception e) {
-			frList=new ArrayList<Franchise>();
+			frList = frRepo.findByDelStatusAndIsActiveAndFrCityInOrderByFrIdDesc(1, 1, cityIdList);
+		} catch (Exception e) {
+			frList = new ArrayList<Franchise>();
 		}
-		
+
 		return frList;
 
 	}
-	
-	
-	//Sachin 26-10-2020
-	@Autowired RelatedProductConfigRepo relatedProdConfRepo;
-		@RequestMapping(value = { "/getRelateProductByProductIds" }, method = RequestMethod.POST)
-		public @ResponseBody List<Integer> getRelateProductByProductIds(@RequestParam("prodId") int prodId) {
-			List<Integer> relatedProdIdList=new ArrayList<Integer>();
-			
-			try {
-				relatedProdIdList=feProdHeadRepo.getRelatedProdIds(prodId);
-			}catch (Exception e) {
-				relatedProdIdList=new ArrayList<Integer>();
-			}
-			return relatedProdIdList;
+
+	// Sachin 26-10-2020
+	@Autowired
+	RelatedProductConfigRepo relatedProdConfRepo;
+
+	@RequestMapping(value = { "/getRelateProductByProductIds" }, method = RequestMethod.POST)
+	public @ResponseBody List<Integer> getRelateProductByProductIds(@RequestParam("prodId") int prodId) {
+		List<Integer> relatedProdIdList = new ArrayList<Integer>();
+
+		try {
+			relatedProdIdList = feProdHeadRepo.getRelatedProdIds(prodId);
+		} catch (Exception e) {
+			relatedProdIdList = new ArrayList<Integer>();
 		}
-		
+		return relatedProdIdList;
+	}
 
 	public void publishData(String json, int frId, int fileType) {
 
+		final String JSON_SAVE_URL = "/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
 		// final String JSON_SAVE_URL =
-		 //"/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
-		final String JSON_SAVE_URL = "/opt/apache-tomcat-8.5.39/webapps/PROD_IMG_UP/";
+		// "/opt/apache-tomcat-8.5.39/webapps/PROD_IMG_UP/";
 
 		if (json != null) {
 
@@ -306,9 +317,12 @@ public class FrontEndDataController {
 				} else if (fileType == 2) {
 					// Save All Fr JSON
 					file = new File(JSON_SAVE_URL + "AllFrData" + "_" + ".json");
-				} else {
+				} else if (fileType == 3) {
 					// Save All City JSON
 					file = new File(JSON_SAVE_URL + "AllCityData" + "_" + ".json");
+				} else if (fileType == 4) {
+					// Save All City JSON
+					file = new File(JSON_SAVE_URL + "MasterCategoryData" + "_" + ".json");
 				}
 				output = new BufferedWriter(new FileWriter(file));
 				output.write(json.toString());

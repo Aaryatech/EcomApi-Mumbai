@@ -259,6 +259,20 @@ public class FrontEndDataController {
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			List<FETestimonial> masterTestimonialList = new ArrayList<FETestimonial>();
+			try {
+				masterTestimonialList = feTestimonialRepo.getFETestimonialListByCompId(1);//for default company Id 1 for master company.
+			} catch (Exception e) {
+				masterTestimonialList = new ArrayList<FETestimonial>();
+			}
+			
+			try {
+				publishData(obj.writeValueAsString(masterTestimonialList), 0,5);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -323,7 +337,12 @@ public class FrontEndDataController {
 				} else if (fileType == 4) {
 					// Save All City JSON
 					file = new File(JSON_SAVE_URL + "MasterCategoryData" + "_" + ".json");
+				} 
+				else if (fileType == 5) {
+				// Save All City JSON
+				file = new File(JSON_SAVE_URL + "MasterTestimonialData" + "_" + ".json");
 				}
+			
 				output = new BufferedWriter(new FileWriter(file));
 				output.write(json.toString());
 				output.close();

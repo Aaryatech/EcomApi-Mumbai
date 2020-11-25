@@ -3,6 +3,7 @@ package com.ats.ecomapi.fe_model;
 import java.util.List;
 
 import com.ats.ecomapi.master.model.Franchise;
+import com.ats.ecomapi.mst_model.FestiveEvent;
 
 public class FEDataTraveller {
 
@@ -22,6 +23,9 @@ public class FEDataTraveller {
 	
 	 List<Franchise> frList;   //All Active Franchise List by Master company Id
 
+	 
+	 List<FestiveEvent> festEventList;  //All Festive Events List and comma separated productIds 24-11-2020
+	 
 	public List<FEProductHeader> getFeProductHeadList() {
 		return feProductHeadList;
 	}
@@ -86,12 +90,21 @@ public class FEDataTraveller {
 		this.frList = frList;
 	}
 	 
+	public List<FestiveEvent> getFestEventList() {
+		return festEventList;
+	}
+
+	public void setFestEventList(List<FestiveEvent> festEventList) {
+		this.festEventList = festEventList;
+	}
+
 	@Override
 	public String toString() {
 		return "FEDataTraveller [feProductHeadList=" + feProductHeadList + ", companyCatList=" + companyCatList
 				+ ", franchiseCatList=" + franchiseCatList + ", flavorTagStatusList=" + flavorTagStatusList
 				+ ", testimonialList=" + testimonialList + ", companyBannerList=" + companyBannerList
-				+ ", franchiseBannerList=" + franchiseBannerList + ", frList=" + frList + "]";
+				+ ", franchiseBannerList=" + franchiseBannerList + ", frList=" + frList + ", festEventList="
+				+ festEventList + "]";
 	}
 	 
 }

@@ -38,6 +38,8 @@ import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.repo.CityRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.RelatedProductConfigRepo;
+import com.ats.ecomapi.mst_model.FestiveEvent;
+import com.ats.ecomapi.mst_repo.FestiveEventRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -226,7 +228,14 @@ public class FrontEndDataController {
 
 				prodHeaderList = new ArrayList<FEProductHeader>();
 			}
-			System.err.println("runtime fm " + runtime.getRuntime().freeMemory() / MB);
+			//System.err.println("runtime fm " + runtime.getRuntime().freeMemory() / MB);
+			List<FestiveEvent> festEventList=new ArrayList<>();
+			try {
+				festEventList=festEventRepo.findByCompIdAndDelStatusAndIsActiveOrderByEventIdDesc(companyId, 1, 1);
+			}catch (Exception e) {
+				festEventList=new ArrayList<>();
+			}
+			dataTraveller.setFestEventList(festEventList);
 			ObjectMapper Obj = new ObjectMapper();
 			String json = "";
 			try {
@@ -283,6 +292,7 @@ public class FrontEndDataController {
 
 	@Autowired
 	CityRepo cityRepo;
+@Autowired FestiveEventRepo festEventRepo;
 
 //Sachin 26-10-2020
 	@RequestMapping(value = { "/getFrListByCityIds" }, method = RequestMethod.POST)
@@ -335,11 +345,11 @@ public class FrontEndDataController {
 					// Save All City JSON
 					file = new File(JSON_SAVE_URL + "AllCityData" + "_" + ".json");
 				} else if (fileType == 4) {
-					// Save All City JSON
+					// Save All Category JSON
 					file = new File(JSON_SAVE_URL + "MasterCategoryData" + "_" + ".json");
 				} 
 				else if (fileType == 5) {
-				// Save All City JSON
+				// Save All Testimonial JSON
 				file = new File(JSON_SAVE_URL + "MasterTestimonialData" + "_" + ".json");
 				}
 			

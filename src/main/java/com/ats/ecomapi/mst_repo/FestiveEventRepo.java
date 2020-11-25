@@ -21,5 +21,9 @@ public interface FestiveEventRepo extends JpaRepository<FestiveEvent, Integer> {
 	@Modifying
 	@Query(value = "UPDATE `m_festive_events` SET del_status=0 WHERE event_id=:eventId",nativeQuery=true)
 	int deleteFestiveEventById(@Param("eventId") int eventId);
-		
+	
+	
+	List<FestiveEvent> findByCompIdAndDelStatusAndIsActiveOrderByEventIdDesc(int compId, int delStatus,int isActive);
+
+	
 }

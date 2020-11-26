@@ -14,15 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.ecomapi.master.model.GetOrderDetailDisplay;
 import com.ats.ecomapi.master.model.GetOrderHeaderDisplay;
 import com.ats.ecomapi.master.model.GetOrderTrailDisplay;
+import com.ats.ecomapi.master.model.Setting;
 import com.ats.ecomapi.master.model.Status;
 import com.ats.ecomapi.master.repo.GetOrderDisplayRepo;
 import com.ats.ecomapi.master.repo.GetOrderHeaderRepo;
 import com.ats.ecomapi.master.repo.GetOrderTrailDisplayRepo;
 import com.ats.ecomapi.master.repo.OrderDetailListRepo;
+import com.ats.ecomapi.master.repo.OrderTrailRepository;
+import com.ats.ecomapi.master.repo.SettingRepo;
+import com.ats.ecomapi.master.repo.SettingRepository;
 import com.ats.ecomapi.master.repo.StatusRepo;
+import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.OrderDetail;
 import com.ats.ecomapi.mst_model.OrderHeader;
 import com.ats.ecomapi.mst_model.OrderHeaderRepo;
+import com.ats.ecomapi.mst_model.OrderSaveData;
+import com.ats.ecomapi.mst_model.OrderTrail;
 import com.ats.ecomapi.mst_repo.OrderDetailRepository;
 
 @RestController
@@ -48,6 +55,15 @@ public class OrderApiController {
 
 	@Autowired
 	OrderDetailRepository orderDetailRepository;
+	
+	@Autowired
+	SettingRepo settingRepo;
+	
+	@Autowired
+	SettingRepository settingRepository;
+	
+	@Autowired
+	OrderTrailRepository orderTrailRepository;
 
 	@RequestMapping(value = { "/getAllStatus" }, method = RequestMethod.GET)
 	public @ResponseBody List<Status> getAllStatus() {
@@ -179,6 +195,43 @@ public class OrderApiController {
 			e.printStackTrace();
 		}
 		return res;
+	}
+	
+//	Mahendra - 25-11-2020 
+	//Description - Save Order Header, Order Detail and Order Trail
+	@RequestMapping(value = { "/saveCloudOrder" }, method = RequestMethod.POST)
+	public @ResponseBody Info saveCloudOrder(@RequestBody OrderSaveData orderSaveData) {
+		Info info = new Info();
+		try {
+			Setting setting = new Setting();
+			setting = settingRepo.findBySettingKey("ORDER_NO");
+
+			int no = Integer.parseInt(setting.getSettingValue());
+			String orderNo = String.format("%0" + 5 + "d", no);
+
+			orderSaveData.getOrderHeader().setOrderNo(orderNo);
+
+			OrderHeader res = orderHeadRepo.save(orderSaveData.getOrderHeader());
+			orderSaveData.getOrderTrail().setOrderId(res.getOrderId());
+
+			no = no + 1;
+
+			int updateOrderNo = settingRepo.udateKeyAndValue("ORDER_NO", no);
+
+			OrderTrail orderRes = orderTrailRepository.save(orderSaveData.getOrderTrail());
+
+			for (int i = 0; i < orderSaveData.getOrderDetailList().size(); i++) {
+				orderSaveData.getOrderDetailList().get(i).setOrderId(res.getOrderId());
+			}
+			List<OrderDetail> orderDetailList = orderDetailRepository.saveAll(orderSaveData.getOrderDetailList());
+
+			info.setError(false);
+			info.setMessage(String.valueOf(res.getOrderId()));
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
 	}
 
 }

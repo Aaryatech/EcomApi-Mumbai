@@ -661,6 +661,22 @@ public class OrderHeader {
 		this.uuidNo = uuidNo;
 	}
 
+	public Date getProductionDate() {
+		return productionDate;
+	}
+
+	public void setProductionDate(Date productionDate) {
+		this.productionDate = productionDate;
+	}
+
+	public String getProductionTime() {
+		return productionTime;
+	}
+
+	public void setProductionTime(String productionTime) {
+		this.productionTime = productionTime;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderHeader [orderId=" + orderId + ", orderNo=" + orderNo + ", orderDate=" + orderDate + ", frId="
@@ -677,10 +693,13 @@ public class OrderHeader {
 				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + ", exFloat1=" + exFloat1
 				+ ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", exFloat4=" + exFloat4 + ", exDate1="
 				+ exDate1 + ", exDate2=" + exDate2 + ", billingName=" + billingName + ", billingAddress="
-				+ billingAddress + ", customerGstnNo=" + customerGstnNo + ", deliveryInstText=" + deliveryInstText
-				+ ", deliveryType=" + deliveryType + ", deliveryInstId=" + deliveryInstId + ", deliveryKm=" + deliveryKm
+				+ billingAddress + ", customerGstnNo=" + customerGstnNo + ", productionDate=" + productionDate
+				+ ", productionTime=" + productionTime + ", deliveryInstText=" + deliveryInstText + ", deliveryType="
+				+ deliveryType + ", deliveryInstId=" + deliveryInstId + ", deliveryKm=" + deliveryKm
 				+ ", deliveryCharges=" + deliveryCharges + ", paymentSubMode=" + paymentSubMode + ", isAgent=" + isAgent
 				+ ", uuidNo=" + uuidNo + "]";
 	}
+
+	
 
 }

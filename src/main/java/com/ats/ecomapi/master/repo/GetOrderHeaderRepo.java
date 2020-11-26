@@ -364,4 +364,6 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"",nativeQuery=true)
 	List<GetOrderHeaderDisplay> getOrderHeaderByDeliveryDateCustId(@Param("fromDate") String fromDate, 
 			@Param("toDate") String toDate, @Param("compId") int compId, @Param("custId") int custId);
+	
+	
 }

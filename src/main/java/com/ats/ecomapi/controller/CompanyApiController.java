@@ -27,12 +27,14 @@ import com.ats.ecomapi.master.repo.SubCategoryRepo;
 import com.ats.ecomapi.mst_model.CompMaster;
 import com.ats.ecomapi.mst_model.Customer;
 import com.ats.ecomapi.mst_model.CustomerAddDetail;
+import com.ats.ecomapi.mst_model.GetAllCustomerAddress;
 import com.ats.ecomapi.mst_model.GetCustomerInfo;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.User;
 import com.ats.ecomapi.mst_repo.CompMasterRepo;
 import com.ats.ecomapi.mst_repo.CustomerAddDetailRepo;
 import com.ats.ecomapi.mst_repo.CustomerRepo;
+import com.ats.ecomapi.mst_repo.GetAllCustomerAddressRepo;
 import com.ats.ecomapi.mst_repo.ProductMasterRepo;
 
 @RestController
@@ -48,11 +50,11 @@ public class CompanyApiController {
 	// Created On :- 14-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Save Company
+	// Description :- Save Company
 
 	@RequestMapping(value = { "/saveCompany" }, method = RequestMethod.POST)
 	public @ResponseBody CompMaster saveCompany(@RequestBody CompMaster comp) {
-		//System.err.println("CompMaster***" + comp.toString());
+		// System.err.println("CompMaster***" + comp.toString());
 
 		CompMaster save = new CompMaster();
 		try {
@@ -69,7 +71,7 @@ public class CompanyApiController {
 	// Created On :- 14-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Specific Company
+	// Description :- Get Specific Company
 
 	@RequestMapping(value = { "/getCompanyByCompanyId" }, method = RequestMethod.POST)
 	public @ResponseBody CompMaster getCompanyByCompanyId(@RequestParam int compId) {
@@ -89,7 +91,7 @@ public class CompanyApiController {
 	// Created On :- 14-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get All Comapny List
+	// Description :- Get All Comapny List
 
 	@RequestMapping(value = { "/getAllCompany" }, method = RequestMethod.GET)
 	public @ResponseBody List<CompMaster> getAllCompany() {
@@ -109,14 +111,15 @@ public class CompanyApiController {
 	// Created On :- 14-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete Company
+	// Description :- Delete Company
 
 	@RequestMapping(value = { "/deleteCompById" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteCompById(@RequestParam int compId,@RequestParam int userId,@RequestParam String dateTime) {
+	public @ResponseBody Info deleteCompById(@RequestParam int compId, @RequestParam int userId,
+			@RequestParam String dateTime) {
 
 		Info info = new Info();
 		try {
-			int res = compMasterRepo.deleteCompany(compId,userId,dateTime);
+			int res = compMasterRepo.deleteCompany(compId, userId, dateTime);
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage("Company Deleted Successfully");
@@ -129,70 +132,69 @@ public class CompanyApiController {
 		}
 		return info;
 	}
-	
-		// Created By :- Harsha Patil
-		// Created On :- 14-09-2020
-		// Modified By :- NA
-		// Modified On :- NA
-		// Description :- Get company by prefix.
-		@RequestMapping(value = { "/getCompByPrefix" }, method = RequestMethod.POST)
-		public @ResponseBody CompMaster getCompByPrefix(@RequestParam int compId, @RequestParam String prefix) {
 
-			CompMaster comp = new CompMaster();
-			try {
-				if(compId>0) {
-					comp = compMasterRepo.findByCompanyPrefixIgnoreCaseAndAndDelStatusAndCompanyIdNot(prefix, 1, compId);
-				}else {
-					comp = compMasterRepo.findByCompanyPrefixIgnoreCaseAndDelStatus(prefix, 1);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+	// Created By :- Harsha Patil
+	// Created On :- 14-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get company by prefix.
+	@RequestMapping(value = { "/getCompByPrefix" }, method = RequestMethod.POST)
+	public @ResponseBody CompMaster getCompByPrefix(@RequestParam int compId, @RequestParam String prefix) {
+
+		CompMaster comp = new CompMaster();
+		try {
+			if (compId > 0) {
+				comp = compMasterRepo.findByCompanyPrefixIgnoreCaseAndAndDelStatusAndCompanyIdNot(prefix, 1, compId);
+			} else {
+				comp = compMasterRepo.findByCompanyPrefixIgnoreCaseAndDelStatus(prefix, 1);
 			}
-			return comp;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-				// Created By :- Mahendra Singh
-				// Created On :- 26-10-2020
-				// Modified By :- NA
-				// Modified On :- NA
-				// Description :- Get Company by Contact No.
-				@RequestMapping(value = { "/getCompByMobileNo" }, method = RequestMethod.POST)
-				public @ResponseBody CompMaster getCompByMobileNo(@RequestParam int compId, @RequestParam String mobNo) {
+		return comp;
+	}
 
-					CompMaster comp = new CompMaster();
-					try {
-						if(compId>0) {
-							comp = compMasterRepo.findByCompContactNoAndDelStatusAndCompanyIdNot(mobNo, 1, compId);
-						}else {
-							comp = compMasterRepo.findByCompContactNoAndDelStatus(mobNo, 1);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					return comp;
-				}
-				
-				// Created By :- Mahendra Singh
-				// Created On :- 26-10-2020
-				// Modified By :- NA
-				// Modified On :- NA
-				// Description :- Get Company by Email Id
-				@RequestMapping(value = { "/getCompByEmailId" }, method = RequestMethod.POST)
-				public @ResponseBody CompMaster getCompByEmailId(@RequestParam int compId, @RequestParam String email) {
+	// Created By :- Mahendra Singh
+	// Created On :- 26-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Company by Contact No.
+	@RequestMapping(value = { "/getCompByMobileNo" }, method = RequestMethod.POST)
+	public @ResponseBody CompMaster getCompByMobileNo(@RequestParam int compId, @RequestParam String mobNo) {
 
-					CompMaster comp = new CompMaster();
-					try {
-						if(compId>0) {
-							comp = compMasterRepo.findByCompEmailAddressIgnoreCaseAndDelStatusAndCompanyIdNot(email, 1, compId);
-						}else {
-							comp = compMasterRepo.findByCompEmailAddressIgnoreCaseAndDelStatus(email, 1);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					return comp;
-				}
+		CompMaster comp = new CompMaster();
+		try {
+			if (compId > 0) {
+				comp = compMasterRepo.findByCompContactNoAndDelStatusAndCompanyIdNot(mobNo, 1, compId);
+			} else {
+				comp = compMasterRepo.findByCompContactNoAndDelStatus(mobNo, 1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comp;
+	}
 
+	// Created By :- Mahendra Singh
+	// Created On :- 26-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Company by Email Id
+	@RequestMapping(value = { "/getCompByEmailId" }, method = RequestMethod.POST)
+	public @ResponseBody CompMaster getCompByEmailId(@RequestParam int compId, @RequestParam String email) {
+
+		CompMaster comp = new CompMaster();
+		try {
+			if (compId > 0) {
+				comp = compMasterRepo.findByCompEmailAddressIgnoreCaseAndDelStatusAndCompanyIdNot(email, 1, compId);
+			} else {
+				comp = compMasterRepo.findByCompEmailAddressIgnoreCaseAndDelStatus(email, 1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comp;
+	}
 
 	@Autowired
 	CustomerRepo customerRepo;
@@ -202,7 +204,7 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Save Customer
+	// Description :- Save Customer
 
 	@RequestMapping(value = { "/saveCustomer" }, method = RequestMethod.POST)
 	public @ResponseBody Customer saveCustomer(@RequestBody Customer cust) {
@@ -222,7 +224,7 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Specific Customer
+	// Description :- Get Specific Customer
 
 	@RequestMapping(value = { "/getCustById" }, method = RequestMethod.POST)
 	public @ResponseBody Customer getCustById(@RequestParam int custId) {
@@ -242,7 +244,7 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get All Customer List
+	// Description :- Get All Customer List
 
 	@RequestMapping(value = { "/getAllCustomer" }, method = RequestMethod.GET)
 	public @ResponseBody List<Customer> getAllCustomer() {
@@ -262,14 +264,15 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete Customer
+	// Description :- Delete Customer
 
 	@RequestMapping(value = { "/deleteCustById" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteCustById(@RequestParam int custId,@RequestParam int userId,@RequestParam String dateTime) {
+	public @ResponseBody Info deleteCustById(@RequestParam int custId, @RequestParam int userId,
+			@RequestParam String dateTime) {
 
 		Info info = new Info();
 		try {
-			int res = customerRepo.deleteCustomer(custId,userId,dateTime);
+			int res = customerRepo.deleteCustomer(custId, userId, dateTime);
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage("Customer Deleted Successfully");
@@ -291,7 +294,7 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Save Customer Address Detail
+	// Description :- Save Customer Address Detail
 
 	@RequestMapping(value = { "/saveCustomerDet" }, method = RequestMethod.POST)
 	public @ResponseBody CustomerAddDetail saveCustomerDet(@RequestBody CustomerAddDetail custDet) {
@@ -311,7 +314,7 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Specific Customer Address Detail
+	// Description :- Get Specific Customer Address Detail
 
 	@RequestMapping(value = { "/getCustDetById" }, method = RequestMethod.POST)
 	public @ResponseBody CustomerAddDetail getCustDetById(@RequestParam int custDetId) {
@@ -331,7 +334,7 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get All Customer Address Detail List
+	// Description :- Get All Customer Address Detail List
 
 	@RequestMapping(value = { "/getAllCustomerDetailByCustId" }, method = RequestMethod.POST)
 	public @ResponseBody List<CustomerAddDetail> getAllCustomerDetail(@RequestParam int custId) {
@@ -351,14 +354,15 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete Customer Address Detail
+	// Description :- Delete Customer Address Detail
 
 	@RequestMapping(value = { "/deleteCustDetById" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteCustDetById(@RequestParam int custDetId,@RequestParam int userId,@RequestParam String dateTime) {
+	public @ResponseBody Info deleteCustDetById(@RequestParam int custDetId, @RequestParam int userId,
+			@RequestParam String dateTime) {
 
 		Info info = new Info();
 		try {
-			int res = customerAddDetailRepo.deleteCustDet(custDetId,userId,dateTime);
+			int res = customerAddDetailRepo.deleteCustDet(custDetId, userId, dateTime);
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage("Customer Address Detail Deleted Successfully");
@@ -380,7 +384,7 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get All Customer Address Detail List
+	// Description :- Get All Customer Address Detail List
 
 	@RequestMapping(value = { "/getAllCustomerDetailInfo" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetCustomerInfo> getAllCustomerDetailInfo() {
@@ -400,7 +404,7 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Check unique Cust mobile
+	// Description :- Check unique Cust mobile
 
 	@RequestMapping(value = { "/getCustByMobNo" }, method = RequestMethod.POST)
 	public @ResponseBody Customer getUserByMobNo(@RequestParam String mobNo, @RequestParam int userId) {
@@ -420,31 +424,31 @@ public class CompanyApiController {
 		}
 		return user;
 	}
-	
+
 	// Created By :- Mahendra Singh
-		// Created On :- 26-10-2020
-		// Modified By :- NA
-		// Modified On :- NA
-		// Descriprion :- Check unique Cust Email
+	// Created On :- 26-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Check unique Cust Email
 
-		@RequestMapping(value = { "/getCustByEmailId" }, method = RequestMethod.POST)
-		public @ResponseBody Customer getCustByEmailId(@RequestParam String email, @RequestParam int custId) {
+	@RequestMapping(value = { "/getCustByEmailId" }, method = RequestMethod.POST)
+	public @ResponseBody Customer getCustByEmailId(@RequestParam String email, @RequestParam int custId) {
 
-			Customer user = new Customer();
-			try {
-				if (custId == 0) {
+		Customer user = new Customer();
+		try {
+			if (custId == 0) {
 
-					user = customerRepo.findByEmailIgnoreCaseIdAndDelStatus(email, 1);
-				} else {
+				user = customerRepo.findByEmailIgnoreCaseIdAndDelStatus(email, 1);
+			} else {
 
-					user = customerRepo.findByEmailIdIgnoreCaseAndDelStatusAndCustIdNot(email, 1, custId);
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
+				user = customerRepo.findByEmailIdIgnoreCaseAndDelStatusAndCustIdNot(email, 1, custId);
 			}
-			return user;
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return user;
+	}
 
 	// *********************subCat*******************
 
@@ -453,7 +457,7 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Save SubCategory
+	// Description :- Save SubCategory
 
 	@Autowired
 	SubCategoryRepo subCatRepo;
@@ -476,7 +480,7 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get SubCategory Customer
+	// Description :- Get SubCategory Customer
 	@RequestMapping(value = { "/getSubCatById" }, method = RequestMethod.POST)
 	public @ResponseBody SubCategory getSubCatById(@RequestParam int subCatId) {
 
@@ -489,12 +493,12 @@ public class CompanyApiController {
 		return subCat;
 
 	}
-	
+
 	// Created By :- Mahendra Singh
 	// Created On :- 21-10-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get SubCategory Count Id
+	// Description :- Get SubCategory Count Id
 	@RequestMapping(value = { "/getSubCateIdCnt" }, method = RequestMethod.POST)
 	public @ResponseBody int getSubCateIdCnt(@RequestParam int compId, @RequestParam int cateId) {
 
@@ -512,20 +516,21 @@ public class CompanyApiController {
 	// Created On :- 21-10-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Check Unique Sub Category Prefix
+	// Description :- Check Unique Sub Category Prefix
 	@RequestMapping(value = { "/unqSubCatePrefix" }, method = RequestMethod.POST)
-	public @ResponseBody Info unqSubCatePrefix(@RequestParam String prefix, @RequestParam int compId, @RequestParam int subCateId) {
+	public @ResponseBody Info unqSubCatePrefix(@RequestParam String prefix, @RequestParam int compId,
+			@RequestParam int subCateId) {
 
 		Info info = new Info();
 		try {
 			SubCategory res = new SubCategory();
-			if(subCateId>0) {
+			if (subCateId > 0) {
 				res = subCatRepo.findBySubCatPrefixIgnoreCaseAndCompanyIdAndSubCatIdNot(prefix, compId, subCateId);
-			}else {
+			} else {
 				res = subCatRepo.findBySubCatPrefixIgnoreCaseAndCompanyId(prefix, compId);
 			}
-			
-			if (res!=null) {
+
+			if (res != null) {
 				info.setError(true);
 				info.setMessage("Prefix Found");
 			} else {
@@ -538,7 +543,7 @@ public class CompanyApiController {
 		return info;
 
 	}
-	
+
 	@RequestMapping(value = { "/getProdIdCntBySubCatId" }, method = RequestMethod.POST)
 	public @ResponseBody int getProdIdCntBySubCatId(@RequestParam int subCatId) {
 
@@ -550,13 +555,13 @@ public class CompanyApiController {
 		}
 		return pordCnt;
 	}
-	
+
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get AllSubCategoryList
+	// Description :- Get AllSubCategoryList
 
 	@RequestMapping(value = { "/getAllSubCat" }, method = RequestMethod.GET)
 	public @ResponseBody List<SubCategory> getAllSubCat() {
@@ -576,7 +581,7 @@ public class CompanyApiController {
 	// Created On :- 15-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete SubCategory
+	// Description :- Delete SubCategory
 
 	@RequestMapping(value = { "/deleteSubCatById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteSubCatById(@RequestParam int subCatId) {
@@ -600,14 +605,12 @@ public class CompanyApiController {
 	@Autowired
 	BannerPageRepo bannerPageRepo;
 
-	
-	
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 21-09-2020
 	// Modified By :- NAfgfdfg
 	// Modified On :- NA
-	// Descriprion :- saveBanner
+	// Description :- saveBanner
 	@RequestMapping(value = { "/saveBanner" }, method = RequestMethod.POST)
 	public @ResponseBody BannerPage saveBanner(@RequestBody BannerPage subCat) {
 
@@ -626,7 +629,7 @@ public class CompanyApiController {
 	// Created On :- 21-09-2020
 	// Modified By :- NAfgfdfg
 	// Modified On :- NA
-	// Descriprion :- Get Banner
+	// Description :- Get Banner
 
 	@RequestMapping(value = { "/getBannerById" }, method = RequestMethod.POST)
 	public @ResponseBody BannerPage getBannerById(@RequestParam int bannerId) {
@@ -646,13 +649,13 @@ public class CompanyApiController {
 	// Created On :- 21-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- getAllBannerByCompId
+	// Description :- getAllBannerByCompId
 	@RequestMapping(value = { "/getAllBannerByCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<BannerPage> getAllBannerByCompId(@RequestParam int compId) {
 
 		List<BannerPage> list = new ArrayList<BannerPage>();
 		try {
-			list = bannerPageRepo.findByCompIdAndDelStatusOrderByBannerIdDesc(compId,1);
+			list = bannerPageRepo.findByCompIdAndDelStatusOrderByBannerIdDesc(compId, 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -665,14 +668,15 @@ public class CompanyApiController {
 	// Created On :- 21-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete Banner
+	// Description :- Delete Banner
 
 	@RequestMapping(value = { "/deleteBannerById" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteBannerById(@RequestParam int bannerId,@RequestParam int userId,@RequestParam String dateTime) {
+	public @ResponseBody Info deleteBannerById(@RequestParam int bannerId, @RequestParam int userId,
+			@RequestParam String dateTime) {
 
 		Info info = new Info();
 		try {
-			int res = bannerPageRepo.deleteBanner(bannerId,userId,dateTime);
+			int res = bannerPageRepo.deleteBanner(bannerId, userId, dateTime);
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage("Banner Deleted Successfully");
@@ -686,22 +690,20 @@ public class CompanyApiController {
 		return info;
 	}
 	/* route master */
-	
+
 	@Autowired
 	RouteRepo routeRepo;
-	
-	
+
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Add Route
-
+	// Description :- Add Route
 
 	@RequestMapping(value = { "/saveRoute" }, method = RequestMethod.POST)
 	public @ResponseBody Route saveRoute(@RequestBody Route route) {
- 
+
 		Route addComp = new Route();
 		try {
 			addComp = routeRepo.save(route);
@@ -717,7 +719,7 @@ public class CompanyApiController {
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Single Route
+	// Description :- Get Single Route
 
 	@RequestMapping(value = { "/getRouteById" }, method = RequestMethod.POST)
 	public @ResponseBody Route getRouteById(@RequestParam int routeId) {
@@ -731,23 +733,23 @@ public class CompanyApiController {
 		return comp;
 
 	}
-	
+
 	// Created By :- Mahendra Singh
 	// Created On :- 22-10-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Single Route Detail by Route Code
+	// Description :- Get Single Route Detail by Route Code
 	@RequestMapping(value = { "/getRouteDtlByCode" }, method = RequestMethod.POST)
 	public @ResponseBody Route getRouteDtlByCode(@RequestParam int routeId, @RequestParam String code) {
 
 		Route comp = new Route();
 		try {
-			if(routeId>0) {
+			if (routeId > 0) {
 				comp = routeRepo.findByRouteCodeAndRouteIdNot(code, routeId);
-			}else {
+			} else {
 				comp = routeRepo.findByRouteCode(code);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -760,8 +762,7 @@ public class CompanyApiController {
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get All Route
-
+	// Description :- Get All Route
 
 	@RequestMapping(value = { "/getAllRoute" }, method = RequestMethod.GET)
 	public @ResponseBody List<Route> getAllRoute() {
@@ -781,8 +782,7 @@ public class CompanyApiController {
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete Route
-
+	// Description :- Delete Route
 
 	@RequestMapping(value = { "/deleteRouteById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteRouteById(@RequestParam int routeId) {
@@ -802,18 +802,17 @@ public class CompanyApiController {
 		}
 		return info;
 	}
+
 	@Autowired
 	GetRouteListRepo getRouteListRepo;
-	
-	
+
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Route Company Wise
+	// Description :- Get Route Company Wise
 
-	
 	@RequestMapping(value = { "/getAllRouteByCompId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetRouteList> getAllRouteByCompId(@RequestParam int compId) {
 
@@ -826,21 +825,20 @@ public class CompanyApiController {
 		return list;
 
 	}
-	
+
 	@Autowired
 	RouteTypeRepo routeTypeRepo;
-	
-	
+
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Save Route 
-	
+	// Description :- Save Route
+
 	@RequestMapping(value = { "/saveRouteType" }, method = RequestMethod.POST)
 	public @ResponseBody RouteType saveRoute(@RequestBody RouteType route) {
- 
+
 		RouteType addComp = new RouteType();
 		try {
 			addComp = routeTypeRepo.save(route);
@@ -856,7 +854,7 @@ public class CompanyApiController {
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Specific Route
+	// Description :- Get Specific Route
 
 	@RequestMapping(value = { "/getRouteTypeById" }, method = RequestMethod.POST)
 	public @ResponseBody RouteType getRouteTypeById(@RequestParam int routeId) {
@@ -876,7 +874,7 @@ public class CompanyApiController {
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get All Route
+	// Description :- Get All Route
 
 	@RequestMapping(value = { "/getAllRouteType" }, method = RequestMethod.GET)
 	public @ResponseBody List<RouteType> getAllRouteType() {
@@ -896,7 +894,7 @@ public class CompanyApiController {
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete Rote
+	// Description :- Delete Rote
 
 	@RequestMapping(value = { "/deleteRouteTypeById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteRouteTypeById(@RequestParam int routeId) {
@@ -916,22 +914,20 @@ public class CompanyApiController {
 		}
 		return info;
 	}
-	 
-	
+
 	@Autowired
 	RouteDeliveryRepo routeDeliveryRepo;
-	
+
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :-Save Route Delivery
+	// Description :-Save Route Delivery
 
-	
 	@RequestMapping(value = { "/saveRouteDelivery" }, method = RequestMethod.POST)
 	public @ResponseBody RouteDelivery saveRouteDelivery(@RequestBody RouteDelivery route) {
- 
+
 		RouteDelivery addComp = new RouteDelivery();
 		try {
 			addComp = routeDeliveryRepo.save(route);
@@ -947,7 +943,7 @@ public class CompanyApiController {
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get Specific Route Delivery
+	// Description :- Get Specific Route Delivery
 
 	@RequestMapping(value = { "/getRouteDeliveryById" }, method = RequestMethod.POST)
 	public @ResponseBody RouteDelivery getRouteDeliveryById(@RequestParam int routeId) {
@@ -967,7 +963,7 @@ public class CompanyApiController {
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Get All Comapny Route Delivery
+	// Description :- Get All Comapny Route Delivery
 
 	@RequestMapping(value = { "/getAllRouteDelivery" }, method = RequestMethod.GET)
 	public @ResponseBody List<RouteDelivery> getAllRouteDelivery() {
@@ -987,7 +983,7 @@ public class CompanyApiController {
 	// Created On :- 25-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
-	// Descriprion :- Delete Route Delivery
+	// Description :- Delete Route Delivery
 
 	@RequestMapping(value = { "/deleteRouteDeliveryById" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteRouteDeliveryById(@RequestParam int delvId) {
@@ -1007,8 +1003,28 @@ public class CompanyApiController {
 		}
 		return info;
 	}
-	 
 
+	/*-----------------------------------------------------------------------------------------------*/
+	@Autowired
+	GetAllCustomerAddressRepo allAddresRepo;
+	// Created By :- Mahendra Singh
+	// Created On :- 15-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Customer Address Detail List
 
+	@RequestMapping(value = { "/getAllCustAdresListCustId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetAllCustomerAddress> getAllCustAdresListCustId(@RequestParam int compId, 
+			@RequestParam int custId) {
+
+		List<GetAllCustomerAddress> list = new ArrayList<GetAllCustomerAddress>();
+		try {
+			list = allAddresRepo.getAllCustAddress(compId, custId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
 
 }

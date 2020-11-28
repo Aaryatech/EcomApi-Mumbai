@@ -31,7 +31,7 @@ public interface FEProductHeaderRepo extends JpaRepository<FEProductHeader, Inte
 	List<Integer> getHomePageConfiguredProdIdsList(@Param("companyId") int companyId);
 
 	
-	@Query(value = " SELECT b.*,  " + 
+	@Query(value = " SELECT b.*,'' as all_filter_names,  " + 
 			" " + 
 			"	CASE WHEN b.allow_same_day_delivery=1 THEN COALESCE((SELECT GROUP_CONCAT(m_filter.admin_name) FROM m_filter WHERE FIND_IN_SET(m_filter.filter_id,b.same_day_time_allowed_slot) and m_filter.filter_type_id=2),0) else 'NA' end  AS same_day_time_slot_names,\n" + 
 			" " + 

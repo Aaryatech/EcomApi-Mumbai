@@ -3,6 +3,7 @@ package com.ats.ecomapi.fe_model;
 import java.util.List;
 
 import com.ats.ecomapi.master.model.Franchise;
+import com.ats.ecomapi.mst_model.CateFilterConfig;
 import com.ats.ecomapi.mst_model.FestiveEvent;
 
 public class FEDataTraveller {
@@ -26,6 +27,18 @@ public class FEDataTraveller {
 	 
 	 List<FestiveEvent> festEventList;  //All Festive Events List and comma separated productIds 24-11-2020
 	 
+	 List<CateFilterConfig> catFilterConfig;//Filter configured to Category 26-11-2020
+	 
+	 
+	 
+	public List<CateFilterConfig> getCatFilterConfig() {
+		return catFilterConfig;
+	}
+
+	public void setCatFilterConfig(List<CateFilterConfig> catFilterConfig) {
+		this.catFilterConfig = catFilterConfig;
+	}
+
 	public List<FEProductHeader> getFeProductHeadList() {
 		return feProductHeadList;
 	}
@@ -104,7 +117,7 @@ public class FEDataTraveller {
 				+ ", franchiseCatList=" + franchiseCatList + ", flavorTagStatusList=" + flavorTagStatusList
 				+ ", testimonialList=" + testimonialList + ", companyBannerList=" + companyBannerList
 				+ ", franchiseBannerList=" + franchiseBannerList + ", frList=" + frList + ", festEventList="
-				+ festEventList + "]";
+				+ festEventList + ", catFilterConfig=" + catFilterConfig + "]";
 	}
 	 
 }

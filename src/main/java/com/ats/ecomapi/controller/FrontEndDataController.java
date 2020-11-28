@@ -38,7 +38,9 @@ import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.repo.CityRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.RelatedProductConfigRepo;
+import com.ats.ecomapi.mst_model.CateFilterConfig;
 import com.ats.ecomapi.mst_model.FestiveEvent;
+import com.ats.ecomapi.mst_repo.CateFilterConfigRepo;
 import com.ats.ecomapi.mst_repo.FestiveEventRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,6 +68,10 @@ public class FrontEndDataController {
 	@Autowired
 	GetFlavorTagStatusListRepo feFlavTagStatusRepo;
 
+	//Sachin 26-11-2020
+	@Autowired CateFilterConfigRepo catFilterConfRepo;
+	
+	
 	@RequestMapping(value = { "/generateFrDataJSON" }, method = RequestMethod.POST)
 	public @ResponseBody Object getProdDataForFranchise(@RequestParam("frIdList") List<Integer> frIdList,
 			@RequestParam("companyId") int companyId) {
@@ -166,7 +172,7 @@ public class FrontEndDataController {
 				} else {
 
 					// System.err.println(prodHeaderList.toString());
-					dataTraveller.setFeProductHeadList(prodHeaderList);
+					//dataTraveller.setFeProductHeadList(prodHeaderList);
 
 					List<Integer> homePageProdIdsList = feProdHeadRepo.getHomePageConfiguredProdIdsList(companyId);
 
@@ -175,6 +181,9 @@ public class FrontEndDataController {
 					for (int a = 0; a < homePageProdIdsList.size(); a++) {
 
 						for (int i = 0; i < prodHeaderList.size(); i++) {
+						
+							
+							
 							Integer isSame = Integer.compare((int) homePageProdIdsList.get(a),
 									prodHeaderList.get(i).getProductId());
 							if (isSame.equals(0)) {
@@ -215,6 +224,16 @@ public class FrontEndDataController {
 							} // End of For D prodDetailList Loop
 						}
 						prodHeaderList.get(i).setDefaultPrice(defaultPrice);
+
+						//Sachin 28-11-2020
+						FEProductHeader prodH=prodHeaderList.get(i);
+						prodHeaderList.get(i).setAllFilterNames(prodH.getSameDayTimeSlotNames()+","+prodH.getEventNames()+","+
+								prodH.getFlavorNames()+","+prodH.getAppliTagNames()+","+prodH.getShapeNames()+","+
+								prodH.getProdTypeName()+","+prodH.getProdStatusName()+","+prodH.getToppingCreamNames()
+								+","+prodH.getLayeringCreamNames()+","+prodH.getCreamTypeName()+","+prodH.getBreadTypeName()+","+
+								prodH.getVegNonvegName());
+						//Close Sachin 28-11-2020
+						
 					} // End of For Loop prodHeaderList I.
 
 				} // End of else.
@@ -228,6 +247,8 @@ public class FrontEndDataController {
 
 				prodHeaderList = new ArrayList<FEProductHeader>();
 			}
+			dataTraveller.setFeProductHeadList(prodHeaderList);
+
 			//System.err.println("runtime fm " + runtime.getRuntime().freeMemory() / MB);
 			List<FestiveEvent> festEventList=new ArrayList<>();
 			try {
@@ -236,6 +257,16 @@ public class FrontEndDataController {
 				festEventList=new ArrayList<>();
 			}
 			dataTraveller.setFestEventList(festEventList);
+			
+			//Sachin 26-11-2020
+			List<CateFilterConfig> catFilterConfig=new ArrayList<>();
+			try {
+				catFilterConfig=catFilterConfRepo.getCompanyCateFilterConf(companyId);
+			}catch (Exception e) {
+				catFilterConfig=new ArrayList<>();
+			}
+			dataTraveller.setCatFilterConfig(catFilterConfig);
+			//end
 			ObjectMapper Obj = new ObjectMapper();
 			String json = "";
 			try {

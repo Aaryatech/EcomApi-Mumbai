@@ -233,5 +233,50 @@ public class OrderApiController {
 		}
 		return info;
 	}
+	
+	@RequestMapping(value = { "/getOrderHistoryListByCustId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetOrderHeaderDisplay> getOrderHistoryListByCustId(
+			@RequestParam("compId") int compId, @RequestParam("custId") int custId) {
+
+		List<GetOrderHeaderDisplay> orderList = new ArrayList<>();
+
+		try {
+
+			orderList = orderHeaderRepo.getOrderHIstoryList(compId, custId);
+
+			List<GetOrderDetailDisplay> detailList = orderDtlRepo.getOrderDetailsyBillNo(compId);
+			List<GetOrderTrailDisplay> trailList = getOrderTrailDisplayRepo.getOrderTrailListByCompId(compId);
+
+			for (int i = 0; i < orderList.size(); i++) {
+				List<GetOrderDetailDisplay> detailHeadList = new ArrayList<GetOrderDetailDisplay>();
+
+				for (int j = 0; j < detailList.size(); j++) {
+					if (orderList.get(i).getOrderId() == detailList.get(j).getOrderId()) {
+						detailHeadList.add(detailList.get(j));
+					}
+				}
+
+				orderList.get(i).setOrderDetailList(detailHeadList);
+
+				List<GetOrderTrailDisplay> trailHeadList = new ArrayList<GetOrderTrailDisplay>();
+
+				for (int k = 0; k < trailList.size(); k++) {
+
+					if (orderList.get(i).getOrderId() == trailList.get(k).getOrderId()) {
+						trailHeadList.add(trailList.get(k));
+					}
+				}
+
+				orderList.get(i).setOrderTrailList(trailHeadList);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return orderList;
+
+	}
 
 }

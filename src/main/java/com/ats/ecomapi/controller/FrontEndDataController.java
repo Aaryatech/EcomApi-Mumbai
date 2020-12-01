@@ -8,7 +8,11 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -40,8 +44,10 @@ import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.RelatedProductConfigRepo;
 import com.ats.ecomapi.mst_model.CateFilterConfig;
 import com.ats.ecomapi.mst_model.FestiveEvent;
+import com.ats.ecomapi.mst_model.GetRelatedProductConfig;
 import com.ats.ecomapi.mst_repo.CateFilterConfigRepo;
 import com.ats.ecomapi.mst_repo.FestiveEventRepo;
+import com.ats.ecomapi.mst_repo.GetRelatedProductConfigRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -68,10 +74,13 @@ public class FrontEndDataController {
 	@Autowired
 	GetFlavorTagStatusListRepo feFlavTagStatusRepo;
 
-	//Sachin 26-11-2020
-	@Autowired CateFilterConfigRepo catFilterConfRepo;
-	
-	
+	// Sachin 26-11-2020
+	@Autowired
+	CateFilterConfigRepo catFilterConfRepo;
+
+	@Autowired
+	GetRelatedProductConfigRepo getRelatedProductConfigRepo;
+
 	@RequestMapping(value = { "/generateFrDataJSON" }, method = RequestMethod.POST)
 	public @ResponseBody Object getProdDataForFranchise(@RequestParam("frIdList") List<Integer> frIdList,
 			@RequestParam("companyId") int companyId) {
@@ -172,7 +181,7 @@ public class FrontEndDataController {
 				} else {
 
 					// System.err.println(prodHeaderList.toString());
-					//dataTraveller.setFeProductHeadList(prodHeaderList);
+					// dataTraveller.setFeProductHeadList(prodHeaderList);
 
 					List<Integer> homePageProdIdsList = feProdHeadRepo.getHomePageConfiguredProdIdsList(companyId);
 
@@ -181,9 +190,7 @@ public class FrontEndDataController {
 					for (int a = 0; a < homePageProdIdsList.size(); a++) {
 
 						for (int i = 0; i < prodHeaderList.size(); i++) {
-						
-							
-							
+
 							Integer isSame = Integer.compare((int) homePageProdIdsList.get(a),
 									prodHeaderList.get(i).getProductId());
 							if (isSame.equals(0)) {
@@ -225,15 +232,17 @@ public class FrontEndDataController {
 						}
 						prodHeaderList.get(i).setDefaultPrice(defaultPrice);
 
-						//Sachin 28-11-2020
-						FEProductHeader prodH=prodHeaderList.get(i);
-						prodHeaderList.get(i).setAllFilterNames(prodH.getSameDayTimeSlotNames()+","+prodH.getEventNames()+","+
-								prodH.getFlavorNames()+","+prodH.getAppliTagNames()+","+prodH.getShapeNames()+","+
-								prodH.getProdTypeName()+","+prodH.getProdStatusName()+","+prodH.getToppingCreamNames()
-								+","+prodH.getLayeringCreamNames()+","+prodH.getCreamTypeName()+","+prodH.getBreadTypeName()+","+
-								prodH.getVegNonvegName());
-						//Close Sachin 28-11-2020
-						
+						// Sachin 28-11-2020
+						FEProductHeader prodH = prodHeaderList.get(i);
+						prodHeaderList.get(i)
+								.setAllFilterNames(prodH.getSameDayTimeSlotNames() + "," + prodH.getEventNames() + ","
+										+ prodH.getFlavorNames() + "," + prodH.getAppliTagNames() + ","
+										+ prodH.getShapeNames() + "," + prodH.getProdTypeName() + ","
+										+ prodH.getProdStatusName() + "," + prodH.getToppingCreamNames() + ","
+										+ prodH.getLayeringCreamNames() + "," + prodH.getCreamTypeName() + ","
+										+ prodH.getBreadTypeName() + "," + prodH.getVegNonvegName());
+						// Close Sachin 28-11-2020
+
 					} // End of For Loop prodHeaderList I.
 
 				} // End of else.
@@ -249,24 +258,24 @@ public class FrontEndDataController {
 			}
 			dataTraveller.setFeProductHeadList(prodHeaderList);
 
-			//System.err.println("runtime fm " + runtime.getRuntime().freeMemory() / MB);
-			List<FestiveEvent> festEventList=new ArrayList<>();
+			// System.err.println("runtime fm " + runtime.getRuntime().freeMemory() / MB);
+			List<FestiveEvent> festEventList = new ArrayList<>();
 			try {
-				festEventList=festEventRepo.findByCompIdAndDelStatusAndIsActiveOrderByEventIdDesc(companyId, 1, 1);
-			}catch (Exception e) {
-				festEventList=new ArrayList<>();
+				festEventList = festEventRepo.findByCompIdAndDelStatusAndIsActiveOrderByEventIdDesc(companyId, 1, 1);
+			} catch (Exception e) {
+				festEventList = new ArrayList<>();
 			}
 			dataTraveller.setFestEventList(festEventList);
-			
-			//Sachin 26-11-2020
-			List<CateFilterConfig> catFilterConfig=new ArrayList<>();
+
+			// Sachin 26-11-2020
+			List<CateFilterConfig> catFilterConfig = new ArrayList<>();
 			try {
-				catFilterConfig=catFilterConfRepo.getCompanyCateFilterConf(companyId);
-			}catch (Exception e) {
-				catFilterConfig=new ArrayList<>();
+				catFilterConfig = catFilterConfRepo.getCompanyCateFilterConf(companyId);
+			} catch (Exception e) {
+				catFilterConfig = new ArrayList<>();
 			}
 			dataTraveller.setCatFilterConfig(catFilterConfig);
-			//end
+			// end
 			ObjectMapper Obj = new ObjectMapper();
 			String json = "";
 			try {
@@ -296,23 +305,23 @@ public class FrontEndDataController {
 			}
 			try {
 				publishData(obj.writeValueAsString(masterCompanyCatList), 0, 4);
-			}catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			List<FETestimonial> masterTestimonialList = new ArrayList<FETestimonial>();
 			try {
-				masterTestimonialList = feTestimonialRepo.getFETestimonialListByCompId(1);//for default company Id 1 for master company.
+				masterTestimonialList = feTestimonialRepo.getFETestimonialListByCompId(1);// for default company Id 1
+																							// for master company.
 			} catch (Exception e) {
 				masterTestimonialList = new ArrayList<FETestimonial>();
 			}
-			
+
 			try {
-				publishData(obj.writeValueAsString(masterTestimonialList), 0,5);
-			}catch (Exception e) {
+				publishData(obj.writeValueAsString(masterTestimonialList), 0, 5);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -323,7 +332,8 @@ public class FrontEndDataController {
 
 	@Autowired
 	CityRepo cityRepo;
-@Autowired FestiveEventRepo festEventRepo;
+	@Autowired
+	FestiveEventRepo festEventRepo;
 
 //Sachin 26-10-2020
 	@RequestMapping(value = { "/getFrListByCityIds" }, method = RequestMethod.POST)
@@ -345,11 +355,42 @@ public class FrontEndDataController {
 	RelatedProductConfigRepo relatedProdConfRepo;
 
 	@RequestMapping(value = { "/getRelateProductByProductIds" }, method = RequestMethod.POST)
-	public @ResponseBody List<Integer> getRelateProductByProductIds(@RequestParam("prodId") int prodId) {
+	public @ResponseBody List<Integer> getRelateProductByProductIds(@RequestParam("compId") int compId,
+			@RequestParam("frId") int frId, @RequestParam("itemIds") List<Integer> itemIds) {
 		List<Integer> relatedProdIdList = new ArrayList<Integer>();
 
 		try {
-			relatedProdIdList = feProdHeadRepo.getRelatedProdIds(prodId);
+
+			List<GetRelatedProductConfig> proList = new ArrayList<GetRelatedProductConfig>();
+
+			try {
+				proList = getRelatedProductConfigRepo.getCRelatedProductConfig(compId);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			Set<Integer> idSet = new HashSet<Integer>();
+
+			if (proList != null) {
+
+				if (itemIds != null) {
+
+					for (int i : itemIds) {
+
+						for (GetRelatedProductConfig item : proList) {
+							if (item.getSecondaryItemId().contains(String.valueOf(i))) {
+								idSet.add(item.getPrimaryItemId());
+							}
+						}
+
+					}
+
+				}
+
+			}
+
+			relatedProdIdList.addAll(idSet);
+			// relatedProdIdList = feProdHeadRepo.getRelatedProdIds(prodId);
 		} catch (Exception e) {
 			relatedProdIdList = new ArrayList<Integer>();
 		}
@@ -378,12 +419,11 @@ public class FrontEndDataController {
 				} else if (fileType == 4) {
 					// Save All Category JSON
 					file = new File(JSON_SAVE_URL + "MasterCategoryData" + "_" + ".json");
-				} 
-				else if (fileType == 5) {
-				// Save All Testimonial JSON
-				file = new File(JSON_SAVE_URL + "MasterTestimonialData" + "_" + ".json");
+				} else if (fileType == 5) {
+					// Save All Testimonial JSON
+					file = new File(JSON_SAVE_URL + "MasterTestimonialData" + "_" + ".json");
 				}
-			
+
 				output = new BufferedWriter(new FileWriter(file));
 				output.write(json.toString());
 				output.close();

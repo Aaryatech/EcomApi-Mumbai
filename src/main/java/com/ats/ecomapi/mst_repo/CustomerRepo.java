@@ -17,7 +17,7 @@ public interface CustomerRepo  extends JpaRepository<Customer, Integer>{
 
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE `m_customer` SET del_status=0 WHERE cust_id=:custId AND   maker_user_id=:userId AND updt_dttime=:dateTime  ",nativeQuery=true)
+	@Query(value="UPDATE `m_customer` SET del_status=1 WHERE cust_id=:custId AND   maker_user_id=:userId AND updt_dttime=:dateTime  ",nativeQuery=true)
 	public int deleteCustomer(@Param("custId") int custId,@Param("userId") int userId,@Param("dateTime") String dateTime);
 
 	public Customer findByCustId(int custId);
@@ -31,5 +31,8 @@ public interface CustomerRepo  extends JpaRepository<Customer, Integer>{
 	public Customer findByEmailIgnoreCaseIdAndDelStatus(String email, int del);
 	
 	public Customer findByEmailIdIgnoreCaseAndDelStatusAndCustIdNot(String email, int del, int custId);
+
+	@Query(value="select c.* from m_customer c, tn_order_header h where h.del_status=1 AND h.cust_id=c.cust_id AND h.order_id=:orderId",nativeQuery=true)
+	Customer getCustomerByOrderId(@Param("orderId") int orderId);
 
 }

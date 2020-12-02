@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.fe_model.FrSetting;
+import com.ats.ecomapi.fe_repo.FrSettingRepo;
 import com.ats.ecomapi.master.model.Area;
 import com.ats.ecomapi.master.model.AreaCityList;
 import com.ats.ecomapi.master.model.Category;
@@ -135,7 +137,8 @@ public class MasterApiConctoller {
 	@Autowired
 	ProductMasterRepo productMasterRepo;
 
-	
+	@Autowired
+	FrSettingRepo frSettingRepo;
 
 	/*----------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
@@ -985,6 +988,24 @@ public class MasterApiConctoller {
 		Franchise saveFranshise = new Franchise();
 		try {
 			saveFranshise = frRepo.save(franchise);
+			if(saveFranshise.getFrId()>0) {
+				FrSetting frSetting = new FrSetting();
+
+				frSetting = frSettingRepo.findByFrId(saveFranshise.getFrId());
+
+				if (frSetting == null) {
+					FrSetting frSettingSave = new FrSetting();
+					frSettingSave.setFrCode(saveFranshise.getFrCode());
+					frSettingSave.setFrId(saveFranshise.getFrId());
+					frSettingSave.setGrnGvnNo(1);
+					frSettingSave.setSellBillNo(1);
+					frSettingSave.setSpNo(1);
+
+					System.out.println("***************" + frSettingSave.toString());
+					FrSetting frSettingSaveResponse = frSettingRepo.save(frSettingSave);
+					System.out.println(frSettingSaveResponse.toString());
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

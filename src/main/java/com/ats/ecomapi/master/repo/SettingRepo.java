@@ -18,5 +18,4 @@ public interface SettingRepo extends JpaRepository<Setting, Integer> {
 	@Query(" UPDATE Setting SET setting_value=:value WHERE setting_key=:key")
 	int udateKeyAndValue(@Param("key") String key, @Param("value") int value);
 
-
 }

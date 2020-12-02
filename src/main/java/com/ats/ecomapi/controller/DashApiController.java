@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.fe_model.CategorywiseSell;
 import com.ats.ecomapi.master.model.GetOrderDetailDisplay;
 import com.ats.ecomapi.master.model.GetOrderHeaderDisplay;
 import com.ats.ecomapi.master.model.GetOrderTrailDisplay;
@@ -17,6 +18,7 @@ import com.ats.ecomapi.master.repo.GetDashStatusCntRepo;
 import com.ats.ecomapi.master.repo.GetOrderHeaderRepo;
 import com.ats.ecomapi.master.repo.GetOrderTrailDisplayRepo;
 import com.ats.ecomapi.master.repo.OrderDetailListRepo;
+import com.ats.ecomapi.mst_repo.CategorywiseSellRepo;
 import com.ats.ecomapi.report.model.GetDashPieStatusCnt;
 
 @RestController
@@ -30,6 +32,9 @@ public class DashApiController {
 	@Autowired GetOrderTrailDisplayRepo getOrderTrailDisplayRepo;
 	
 	@Autowired OrderDetailListRepo orderDtlRepo;
+	
+	@Autowired
+	CategorywiseSellRepo categorywiseSellRepo;
 
 	@RequestMapping(value = { "/getAllStatusCount" }, method = RequestMethod.POST)
 	@ResponseBody
@@ -105,5 +110,24 @@ public class DashApiController {
 
 		return orderList;
 
+	}
+	
+	@RequestMapping(value = { "/getCatwiseSell" }, method = RequestMethod.POST)
+	public @ResponseBody List<CategorywiseSell> getCatwiseSell(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("frId") int frId) {
+
+		List<CategorywiseSell> crnReport = new ArrayList<CategorywiseSell>();
+
+		try {
+
+			crnReport = categorywiseSellRepo.getCategorywiseSell(fromDate, toDate, frId);
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in DashBoardReporApi /getCredNoteReport" + e.getMessage());
+
+			e.printStackTrace();
+		}
+		return crnReport;
 	}
 }

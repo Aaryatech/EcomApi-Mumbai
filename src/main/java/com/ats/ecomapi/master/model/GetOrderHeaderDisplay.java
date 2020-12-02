@@ -67,6 +67,7 @@ public class GetOrderHeaderDisplay {
 	private float deliveryCharges;
 	private int paymentSubMode;
 	private int isAgent;
+	private String uuidNo;
 
 	//private String orderDeliveredByName;
 	private String custName;
@@ -667,6 +668,14 @@ public class GetOrderHeaderDisplay {
 		this.orderDateDisplay = orderDateDisplay;
 	}
 
+	public String getUuidNo() {
+		return uuidNo;
+	}
+
+	public void setUuidNo(String uuidNo) {
+		this.uuidNo = uuidNo;
+	}
+
 	@Override
 	public String toString() {
 		return "GetOrderHeaderDisplay [id=" + id + ", orderId=" + orderId + ", orderNo=" + orderNo + ", orderDate="
@@ -686,13 +695,13 @@ public class GetOrderHeaderDisplay {
 				+ ", billingAddress=" + billingAddress + ", customerGstnNo=" + customerGstnNo + ", deliveryType="
 				+ deliveryType + ", deliveryInstId=" + deliveryInstId + ", deliveryInstText=" + deliveryInstText
 				+ ", deliveryKm=" + deliveryKm + ", deliveryCharges=" + deliveryCharges + ", paymentSubMode="
-				+ paymentSubMode + ", isAgent=" + isAgent + ", custName=" + custName + ", custMobile=" + custMobile
-				+ ", emailId=" + emailId + ", frName=" + frName + ", cityName=" + cityName + ", areaName=" + areaName
-				+ ", deliveryMonth=" + deliveryMonth + ", deliveryYear=" + deliveryYear + ", orderDateDisplay="
-				+ orderDateDisplay + ", deliveryDateDisplay=" + deliveryDateDisplay + ", deliveryTimeDisplay="
-				+ deliveryTimeDisplay + ", monthName=" + monthName + ", orderDetailList=" + orderDetailList
-				+ ", orderTrailList=" + orderTrailList + "]";
+				+ paymentSubMode + ", isAgent=" + isAgent + ", uuidNo=" + uuidNo + ", custName=" + custName
+				+ ", custMobile=" + custMobile + ", emailId=" + emailId + ", frName=" + frName + ", cityName="
+				+ cityName + ", areaName=" + areaName + ", deliveryMonth=" + deliveryMonth + ", deliveryYear="
+				+ deliveryYear + ", orderDateDisplay=" + orderDateDisplay + ", deliveryDateDisplay="
+				+ deliveryDateDisplay + ", deliveryTimeDisplay=" + deliveryTimeDisplay + ", monthName=" + monthName
+				+ ", orderDetailList=" + orderDetailList + ", orderTrailList=" + orderTrailList + "]";
 	}
 
-		
+	
 }

@@ -226,9 +226,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"            AND h.ex_int1= :compId\n" + 
 			"            AND h.fr_id=:frId\n" + 
 			"            AND h.delivery_date BETWEEN :fromDate AND :toDate             \n" + 
-			"            AND h.order_status IN(:status)                \n" + 
-			"        ORDER BY\n" + 
-			"            h.order_id  ) t1       \n" + 
+			"            AND h.order_status IN(:status)) t1       \n" + 
 			"    LEFT JOIN\n" + 
 			"        (\n" + 
 			"            SELECT\n" + 
@@ -281,7 +279,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"                a.del_status = 1              \n" + 
 			"                AND a.company_id=:compId         \n" + 
 			"        ) t6               \n" + 
-			"            ON      t1.area_id = t6.area_id", nativeQuery=true)
+			"            ON      t1.area_id = t6.area_id  ORDER BY t1.order_id DESC", nativeQuery=true)
 	List<GetOrderHeaderDisplay> getOrderHeaderByDeliveryDateFrId(@Param("fromDate") String fromDate, 
 			@Param("toDate") String toDate, @Param("status") List<Integer> status, @Param("compId") int compId, @Param("frId") int frId);
 	

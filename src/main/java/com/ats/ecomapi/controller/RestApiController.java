@@ -27,6 +27,8 @@ import com.ats.ecomapi.master.repo.OrderDetailListRepo;
 import com.ats.ecomapi.mst_model.FrEmpMaster;
 import com.ats.ecomapi.mst_model.FrLoginResponse;
 import com.ats.ecomapi.mst_model.LoginInfo;
+import com.ats.ecomapi.report.model.GetCustomerWisReport;
+import com.ats.ecomapi.report.repo.GetCustomerWisReportRepo;
 
 @RestController
 public class RestApiController {
@@ -314,6 +316,7 @@ public class RestApiController {
 		return orderList;
 
 	}
+	
 	
 	
 }

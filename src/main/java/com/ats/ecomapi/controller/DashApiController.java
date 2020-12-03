@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.ecomapi.fe_model.CategorywiseSell;
+import com.ats.ecomapi.fe_repo.CategorywiseItemSellRepo;
 import com.ats.ecomapi.master.model.GetOrderDetailDisplay;
 import com.ats.ecomapi.master.model.GetOrderHeaderDisplay;
 import com.ats.ecomapi.master.model.GetOrderTrailDisplay;
@@ -18,6 +19,7 @@ import com.ats.ecomapi.master.repo.GetDashStatusCntRepo;
 import com.ats.ecomapi.master.repo.GetOrderHeaderRepo;
 import com.ats.ecomapi.master.repo.GetOrderTrailDisplayRepo;
 import com.ats.ecomapi.master.repo.OrderDetailListRepo;
+import com.ats.ecomapi.mst_model.CategorywiseItemSell;
 import com.ats.ecomapi.mst_repo.CategorywiseSellRepo;
 import com.ats.ecomapi.report.model.GetDashPieStatusCnt;
 
@@ -35,6 +37,11 @@ public class DashApiController {
 	
 	@Autowired
 	CategorywiseSellRepo categorywiseSellRepo;
+	
+	@Autowired
+	CategorywiseItemSellRepo categorywiseItemSellRepo;
+	
+	
 
 	@RequestMapping(value = { "/getAllStatusCount" }, method = RequestMethod.POST)
 	@ResponseBody
@@ -130,4 +137,31 @@ public class DashApiController {
 		}
 		return crnReport;
 	}
+	
+	@RequestMapping(value = { "/getCatwiseItemSell" }, method = RequestMethod.POST)
+	public @ResponseBody List<CategorywiseItemSell> getCatwiseItemSell(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("frId") int frId, @RequestParam("catId") int catId,
+			@RequestParam("flag") int flag) {
+
+		List<CategorywiseItemSell> crnReport = new ArrayList<CategorywiseItemSell>();
+
+		try {
+			if (flag == 1) {
+				crnReport = categorywiseItemSellRepo.getCategorywiseItemSellDesc(fromDate, toDate, frId, catId);
+			} else if (flag == 2) {
+				crnReport = categorywiseItemSellRepo.getCategorywiseItemSellAsc(fromDate, toDate, frId, catId);
+			} else {
+				crnReport = categorywiseItemSellRepo.getCategorywiseItemSellAll(fromDate, toDate, frId, catId);
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in DashBoardReporApi /getCredNoteReport" + e.getMessage());
+
+			e.printStackTrace();
+		}
+
+		return crnReport;
+	}
+
 }

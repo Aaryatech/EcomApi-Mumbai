@@ -1,4 +1,4 @@
-package com.ats.ecomapi.fe_model;
+package com.ats.ecomapi.report.model;
 
 import java.util.Date;
 import java.util.List;
@@ -11,118 +11,59 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.ats.ecomapi.fe_model.SellBillDetail;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "t_sell_bill_header")
-public class SellBillHeader {
+public class GetSellBillHeader {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "sell_bill_no")
+	
 	private int sellBillNo;
-
-	@Column(name = "invoice_no")
 	private String invoiceNo;
-
-	@Column(name = "bill_date")
 	private Date billDate;
-
-	@Column(name = "fr_id")
 	private int frId;
-
-	@Column(name = "fr_code")
 	private String frCode;
-
-	@Column(name = "taxable_amt")
 	private float taxableAmt;
-
-	@Column(name = "disc_type")
-	private int discType; // new
-
-	@Column(name = "discount_per")
+	private int discType;
 	private float discountPer;
-
-	@Column(name = "discount_amt")
 	private float discountAmt;
-
-	@Column(name = "payable_amt")
 	private float payableAmt;
-
-	@Column(name = "total_tax")
 	private float totalTax;
-
-	@Column(name = "grand_total")
 	private float grandTotal;
-
-	@Column(name = "paid_amt")
 	private float paidAmt;
-
-	@Column(name = "remaining_amt")
 	private float remainingAmt;
-
-	@Column(name = "disc_amt_item")
-	private float discAmtItem; // new
-
-	@Column(name = "advance_amt")
-	private float advanceAmt; // new
-
-	@Column(name = "payment_mode")
+	private float discAmtItem;
+	private float advanceAmt;
 	private int paymentMode;
-
-	@Column(name = "cust_id")
 	private int custId;
-
-	@Column(name = "user_name")
 	private String userName;
-
-	@Column(name = "user_gst_no")
 	private String userGstNo;
-
-	@Column(name = "user_phone")
 	private String userPhone;
-
-	@Column(name = "status")
 	private int status;
-
-	@Column(name = "is_dairy_mart_bill")
 	private int isDairyMartBill;// Company Id
-
-	@Column(name = "coupon_no")
-	private String couponNo;// new
-
-	@Column(name = "cust_loyalty_pt_rate")
-	private float custLoyaltyPtRate;// new
-
-	@Column(name = "cust_loyalty_pt")
-	private float custLoyaltyPt;// new
-
-	@Column(name = "del_status")
+	private String couponNo;
+	private float custLoyaltyPtRate;
+	private float custLoyaltyPt;
 	private int delStatus;
-
-	@Column(name = "bill_type")
 	private char billType;
-
-	@Column(name = "ext_int1")
 	private int extInt1;
-
-	@Column(name = "ext_int2")
 	private int extInt2;
-
-	@Column(name = "ext_float1")
+	private int extInt3;
+	private int extInt4;
 	private int extFloat1;
-
-	@Column(name = "ext_float2")
 	private int extFloat2;
-
-	@Column(name = "ext_float3")
 	private int extFloat3;
-
-	@Column(name = "ext_var1")
+	private int extFloat4;
 	private String extVar1;
-
-	@Column(name = "ext_var2")
 	private String extVar2;
-
+	private String extVar3;
+	private String extVar4;
+	
+	private  int delBoyId;
+	private  String delvrBoyName;
+	private  String delvrBoyMobNo;
+	
 	public String getExtVar1() {
 		return extVar1;
 	}
@@ -247,12 +188,10 @@ public class SellBillHeader {
 	}
 
 	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-
 	public Date getBillDate() {
 		return billDate;
 	}
-
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "yyyy-MM-dd")
+	
 	public void setBillDate(Date billDate) {
 		this.billDate = billDate;
 	}
@@ -417,9 +356,73 @@ public class SellBillHeader {
 		this.extFloat3 = extFloat3;
 	}
 
+	public int getExtInt3() {
+		return extInt3;
+	}
+
+	public void setExtInt3(int extInt3) {
+		this.extInt3 = extInt3;
+	}
+
+	public int getExtInt4() {
+		return extInt4;
+	}
+
+	public void setExtInt4(int extInt4) {
+		this.extInt4 = extInt4;
+	}
+
+	public int getExtFloat4() {
+		return extFloat4;
+	}
+
+	public void setExtFloat4(int extFloat4) {
+		this.extFloat4 = extFloat4;
+	}
+
+	public String getExtVar3() {
+		return extVar3;
+	}
+
+	public void setExtVar3(String extVar3) {
+		this.extVar3 = extVar3;
+	}
+
+	public String getExtVar4() {
+		return extVar4;
+	}
+
+	public void setExtVar4(String extVar4) {
+		this.extVar4 = extVar4;
+	}
+
+	public int getDelBoyId() {
+		return delBoyId;
+	}
+
+	public void setDelBoyId(int delBoyId) {
+		this.delBoyId = delBoyId;
+	}
+
+	public String getDelvrBoyName() {
+		return delvrBoyName;
+	}
+
+	public void setDelvrBoyName(String delvrBoyName) {
+		this.delvrBoyName = delvrBoyName;
+	}
+
+	public String getDelvrBoyMobNo() {
+		return delvrBoyMobNo;
+	}
+
+	public void setDelvrBoyMobNo(String delvrBoyMobNo) {
+		this.delvrBoyMobNo = delvrBoyMobNo;
+	}
+
 	@Override
 	public String toString() {
-		return "SellBillHeader [sellBillNo=" + sellBillNo + ", invoiceNo=" + invoiceNo + ", billDate=" + billDate
+		return "GetSellBillHeader [sellBillNo=" + sellBillNo + ", invoiceNo=" + invoiceNo + ", billDate=" + billDate
 				+ ", frId=" + frId + ", frCode=" + frCode + ", taxableAmt=" + taxableAmt + ", discType=" + discType
 				+ ", discountPer=" + discountPer + ", discountAmt=" + discountAmt + ", payableAmt=" + payableAmt
 				+ ", totalTax=" + totalTax + ", grandTotal=" + grandTotal + ", paidAmt=" + paidAmt + ", remainingAmt="
@@ -428,9 +431,11 @@ public class SellBillHeader {
 				+ ", userPhone=" + userPhone + ", status=" + status + ", isDairyMartBill=" + isDairyMartBill
 				+ ", couponNo=" + couponNo + ", custLoyaltyPtRate=" + custLoyaltyPtRate + ", custLoyaltyPt="
 				+ custLoyaltyPt + ", delStatus=" + delStatus + ", billType=" + billType + ", extInt1=" + extInt1
-				+ ", extInt2=" + extInt2 + ", extFloat1=" + extFloat1 + ", extFloat2=" + extFloat2 + ", extFloat3="
-				+ extFloat3 + ", extVar1=" + extVar1 + ", extVar2=" + extVar2 + ", sellBillDetailsList="
-				+ sellBillDetailsList + "]";
+				+ ", extInt2=" + extInt2 + ", extInt3=" + extInt3 + ", extInt4=" + extInt4 + ", extFloat1=" + extFloat1
+				+ ", extFloat2=" + extFloat2 + ", extFloat3=" + extFloat3 + ", extFloat4=" + extFloat4 + ", extVar1="
+				+ extVar1 + ", extVar2=" + extVar2 + ", extVar3=" + extVar3 + ", extVar4=" + extVar4 + ", delBoyId="
+				+ delBoyId + ", delvrBoyName=" + delvrBoyName + ", delvrBoyMobNo=" + delvrBoyMobNo
+				+ ", sellBillDetailsList=" + sellBillDetailsList + "]";
 	}
 
 }

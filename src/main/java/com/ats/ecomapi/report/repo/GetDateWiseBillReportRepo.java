@@ -21,7 +21,9 @@ public interface GetDateWiseBillReportRepo extends JpaRepository<GetDateWiseBill
 			"    h.bill_date,\n" + 
 			"    SUM(h.grand_total) as total_amt,\n" + 
 			"    COUNT(h.sell_bill_no) as total_bills,\n" + 
-			" 	h.fr_id\n" + 
+			" 	h.fr_id, \n" +
+			"   MONTHNAME(h.bill_date) as month_name,\n" + 
+			"   YEAR(h.bill_date) as order_year\n" + 
 			"FROM\n" + 
 			"    t_sell_bill_header h\n" + 
 			"WHERE\n" + 

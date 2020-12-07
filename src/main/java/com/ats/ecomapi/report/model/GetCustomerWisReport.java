@@ -16,6 +16,7 @@ public class GetCustomerWisReport {
 	private String custMobileNo;
 	private float grandTotal;
 	private Date dateOfBirth;
+	private String frName;
 	
 	public String getId() {
 		return id;
@@ -56,10 +57,17 @@ public class GetCustomerWisReport {
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+	public String getFrName() {
+		return frName;
+	}
+	public void setFrName(String frName) {
+		this.frName = frName;
+	}
 	@Override
 	public String toString() {
-		return "GetCustomerWisReport [id=" + id + ", custName=" + custName + ", custMobileNo=" + custMobileNo
-				+ ", grandTotal=" + grandTotal + ", dateOfBirth=" + dateOfBirth + "]";
+		return "GetCustomerWisReport [id=" + id + ", custId=" + custId + ", custName=" + custName + ", custMobileNo="
+				+ custMobileNo + ", grandTotal=" + grandTotal + ", dateOfBirth=" + dateOfBirth + ", frName=" + frName
+				+ "]";
 	}
-		
+	
 }

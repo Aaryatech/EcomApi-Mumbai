@@ -25,7 +25,7 @@ public class ReportApiController {
 	
 	@RequestMapping(value = { "/getCustPurchaseRepByFrId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetCustomerWisReport> getCustPurchaseRepByFrId(
-			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate, @RequestParam("frId") int frId) {
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate, @RequestParam("frId") List<Integer> frId) {
 
 		List<GetCustomerWisReport> repList = new ArrayList<GetCustomerWisReport>();
 

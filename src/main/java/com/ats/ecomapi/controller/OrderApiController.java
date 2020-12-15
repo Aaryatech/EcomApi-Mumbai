@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -254,10 +256,12 @@ public class OrderApiController {
 
 //	Mahendra - 25-11-2020 
 	// Description - Save Order Header, Order Detail and Order Trail
+	@Transactional
 	@RequestMapping(value = { "/saveCloudOrder" }, method = RequestMethod.POST)
 	public @ResponseBody Info saveCloudOrder(@RequestBody OrderSaveData orderSaveData) {
+		
 		Info info = new Info();
-		try {
+		
 			Setting setting = new Setting();
 			setting = settingRepo.findBySettingKey("ORDER_NO");
 
@@ -282,11 +286,9 @@ public class OrderApiController {
 
 			info.setError(false);
 			info.setMessage(String.valueOf(res.getOrderId()));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 		return info;
+		
 	}
 
 	@RequestMapping(value = { "/getOrderHistoryListByCustId" }, method = RequestMethod.POST)
@@ -697,4 +699,30 @@ public class OrderApiController {
 
 				return transactionDetailRes;
 			}
+			
+			//Sachin 14-12-2020
+			//Update order on digital Payment Success/Fail
+			@RequestMapping(value = { "/updateOrderFrontEnd" }, method = RequestMethod.POST)
+			public @ResponseBody Info updateOrderFrontEnd(@RequestParam("orderId") int orderId,
+					@RequestParam("uniqNo") String uniqNo, @RequestParam("paidStatus") int paidStatus,
+					@RequestParam("payRemark") String payRemark, @RequestParam("orderStatus") int orderStatus) {
+
+				Info info = new Info();
+int update=0;
+				try {
+					if(orderStatus>0) {
+					 update = orderHeadRepo.updateOrderFrontEndFailedPay(uniqNo, paidStatus, payRemark, orderStatus, orderId);
+					}else {
+						 update = orderHeadRepo.updateOrderFrontEndSuccessPay(uniqNo, paidStatus, payRemark, orderId);
+					}
+					if(update>0) {
+						info.setError(false);
+						info.setMsg("epay");
+					}
+			
+				}catch (Exception e) {
+					info = new Info();
+				}
+				return info;
+			}			 
 }

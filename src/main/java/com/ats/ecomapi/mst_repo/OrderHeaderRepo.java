@@ -26,4 +26,25 @@ public interface OrderHeaderRepo extends JpaRepository<OrderHeader, Integer> {
 	@Query(" UPDATE OrderHeader SET order_delivered_by=:delBoyId WHERE order_id=:orderId")
 	int updateDeliveryBoy(@Param("orderId") int orderId, @Param("delBoyId") int delBoyId);
 
+	//Sachin 14-12-2020
+	@Transactional
+	@Modifying
+	@Query("update OrderHeader SET uuid_no=:uniqNo,paid_status=:paidStatus,"
+			+ "payment_remark=:payRemark, order_status=:orderStatus WHERE order_id=:orderId")
+	int updateOrderFrontEndFailedPay(@Param("uniqNo") String uniqNo,
+			@Param("paidStatus") int paidStatus,
+			@Param("payRemark") String payRemark,
+			@Param("orderStatus") int orderStatus,
+			@Param("orderId") int orderId);
+
+	//Sachin 14-12-2020
+		@Transactional
+		@Modifying
+		@Query("update OrderHeader SET uuid_no=:uniqNo,paid_status=:paidStatus,"
+				+ "payment_remark=:payRemark WHERE order_id=:orderId")
+		int updateOrderFrontEndSuccessPay(@Param("uniqNo") String uniqNo,
+				@Param("paidStatus") int paidStatus,
+				@Param("payRemark") String payRemark,
+				@Param("orderId") int orderId);
+
 }

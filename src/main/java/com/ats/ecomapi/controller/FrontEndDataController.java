@@ -38,13 +38,16 @@ import com.ats.ecomapi.fe_repo.FEProductHeaderRepo;
 import com.ats.ecomapi.fe_repo.FETestimonialRepo;
 import com.ats.ecomapi.fe_repo.GetFlavorTagStatusListRepo;
 import com.ats.ecomapi.master.model.City;
+import com.ats.ecomapi.master.model.CompanyTestomonials;
 import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.repo.CityRepo;
+import com.ats.ecomapi.master.repo.CompanyTestomonialsRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.RelatedProductConfigRepo;
 import com.ats.ecomapi.mst_model.CateFilterConfig;
 import com.ats.ecomapi.mst_model.FestiveEvent;
 import com.ats.ecomapi.mst_model.GetRelatedProductConfig;
+import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_repo.CateFilterConfigRepo;
 import com.ats.ecomapi.mst_repo.FestiveEventRepo;
 import com.ats.ecomapi.mst_repo.GetRelatedProductConfigRepo;
@@ -81,6 +84,9 @@ public class FrontEndDataController {
 	@Autowired
 	GetRelatedProductConfigRepo getRelatedProductConfigRepo;
 
+	@Autowired
+	CompanyTestomonialsRepo companyTestomonialsRepo;
+	
 	@RequestMapping(value = { "/generateFrDataJSON" }, method = RequestMethod.POST)
 	public @ResponseBody Object getProdDataForFranchise(@RequestParam("frIdList") List<Integer> frIdList,
 			@RequestParam("companyId") int companyId) {
@@ -321,7 +327,9 @@ public class FrontEndDataController {
 				publishData(obj.writeValueAsString(masterTestimonialList), 0, 5);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
+			}			
+		
+			
 
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -396,12 +404,38 @@ public class FrontEndDataController {
 		}
 		return relatedProdIdList;
 	}
+	
+	@RequestMapping(value = { "/generateCompTestimonialJson" }, method = RequestMethod.GET)	
+	public @ResponseBody Info generateCompTestimonialJson() {
+		Info info = new Info();
+		List<CompanyTestomonials> masterCompTestimonialList = new ArrayList<CompanyTestomonials>();
+		try {
+			masterCompTestimonialList = companyTestomonialsRepo.getCompanyTestomonialsList();
+			if(masterCompTestimonialList!=null) {
+				info.setError(false);
+				info.setMessage("Company Testimonial Json Generated");
+			}else {
+				info.setError(true);
+				info.setMessage("Unable To Company Generated Testimonial Json");
+			}
+		} catch (Exception e) {
+			masterCompTestimonialList = new ArrayList<CompanyTestomonials>();
+		}			
+		try {
+			ObjectMapper obj = new ObjectMapper();
+			publishData(obj.writeValueAsString(masterCompTestimonialList), 0, 6);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return info;
+	}
 
 	public void publishData(String json, int frId, int fileType) {
 
 		//final String JSON_SAVE_URL = "/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
-		 final String JSON_SAVE_URL =
-		 "/opt/apache-tomcat-8.5.39/webapps/IMG_UP/";
+		 final String JSON_SAVE_URL = "/home/maddy/ats-11/";
+		 //"/opt/apache-tomcat-8.5.39/webapps/IMG_UP/";
 
 		if (json != null) {
 
@@ -422,6 +456,9 @@ public class FrontEndDataController {
 				} else if (fileType == 5) {
 					// Save All Testimonial JSON
 					file = new File(JSON_SAVE_URL + "MasterTestimonialData" + "_" + ".json");
+				} else if (fileType == 6) {
+					// Save All Company Testimonial JSON
+					file = new File(JSON_SAVE_URL + "MasterCompanyTestimonialData" + "_" + ".json");
 				}
 
 				output = new BufferedWriter(new FileWriter(file));

@@ -70,15 +70,15 @@ public class CompanyTestimonialsApiController {
 			flag=companyTestomonialsRepo.deleteCompanyTestimonial(id);
 			if(flag>0) {
 				info.setError(false);
-				info.setMessage("Testimonial Successfully Deleted!!!");
+				info.setMessage("Company Testimonial Successfully Deleted!!!");
 			}else {
 				info.setError(true);
-				info.setMessage(" Unable To Delete Testimonial!!!");
+				info.setMessage(" Unable To Delete Company Testimonial!!!");
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			info.setError(true);
-			info.setMessage(" Unable To Delete Testimonial Exception Occured!!!");
+			info.setMessage(" Unable To Delete Company Testimonial Exception Occured!!!");
 			System.err.println("Exception Occured In /deleteCompanyTestimonial");
 			e.printStackTrace();
 		}
@@ -87,7 +87,22 @@ public class CompanyTestimonialsApiController {
 		return info;
 	}
 	
-	
+	@RequestMapping(value="/getCompanyTestomonialsyId",method=RequestMethod.POST)
+	public CompanyTestomonials getCompanyTestomonialsyId(@RequestParam int testimonialId){
+		
+		CompanyTestomonials getCompTest=new CompanyTestomonials();		
+		
+		try {
+			getCompTest=companyTestomonialsRepo.findById(testimonialId);
+		} catch (Exception e) {
+		
+			System.err.println("Exception Occurerd In /getCompanyTestomonialsyId");
+			e.printStackTrace();
+		}
+		
+			return getCompTest;
+		
+	}
 	
 	
 	

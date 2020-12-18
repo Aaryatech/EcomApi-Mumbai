@@ -19,6 +19,7 @@ public interface CompanyTestomonialsRepo extends JpaRepository<CompanyTestomonia
 	@Query(value="SELECT * FROM company_testimonials WHERE is_active=1 AND del_status=1 ",nativeQuery=true)
 	List<CompanyTestomonials> getCompanyTestomonialsList();
 	
+	CompanyTestomonials findById(int testimonialId);
 	
 	@Transactional
 	@Modifying

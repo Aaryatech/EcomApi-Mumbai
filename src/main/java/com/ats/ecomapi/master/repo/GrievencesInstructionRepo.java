@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import com.ats.ecomapi.master.model.GrievencesInstruction;
 
 
+
 public interface GrievencesInstructionRepo extends JpaRepository<GrievencesInstruction, Integer> {
 
 	@Query(value="SELECT\n" + 
@@ -49,4 +50,14 @@ public interface GrievencesInstructionRepo extends JpaRepository<GrievencesInstr
 	@Modifying
 	@Query(value="UPDATE `mn_grievences_instruction` SET del_status=0 WHERE grievance_id=:grievanceId",nativeQuery=true)
 	public int deleteGrievancesInstructn(@Param("grievanceId") int grievanceId);
+	
+	
+	
+	//Akhilesh 2020-12-17 For Get Grievance List By Company Id
+	@Query(value="SELECT * FROM mn_grievences_instruction WHERE del_status=1 AND is_active=1 AND company_id=:compId ",nativeQuery=true)
+	List<GrievencesInstruction> getGrievnceListByCompId(@Param("compId") int compId);
+	
+	
+	
+	
 }

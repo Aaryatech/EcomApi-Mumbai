@@ -91,4 +91,14 @@ public interface DeliveryBoyRepo extends JpaRepository<DeliveryBoy, Integer> {
 			"ON\n" + 
 			"    t1.del_boy_id = t2.del_boy_id", nativeQuery=true)
 			List<DeliveryBoy> getDelvrBoyAndFrCount(@Param("compId") int compId);
+	
+	
+	
+		@Query(value=" SELECT * FROM m_delivery_boy WHERE mobile_no=:mobNo AND emp_code=:empCode AND del_status=1",nativeQuery=true)
+		DeliveryBoy GetDelBoyByMobAndEmpCode(@Param("mobNo") String mobNo,@Param("empCode") int empCode);
+	
+	
+	
+	
+	
 }

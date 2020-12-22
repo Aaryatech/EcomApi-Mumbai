@@ -195,11 +195,31 @@ public class CompanyApiController {
 		}
 		return comp;
 	}
+	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singh
+	// Created On :- 22-12-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Company List By Parent Company Id
+	@RequestMapping(value = { "/getCompanyListByParentCoId" }, method = RequestMethod.POST)
+	public @ResponseBody List<CompMaster> getCompanyListByParentCoId(@RequestParam int compId) {
 
-	@Autowired
-	CustomerRepo customerRepo;
+		List<CompMaster> coList = new ArrayList<CompMaster>();
+		try {
+			coList = compMasterRepo.findByDelStatusAndParentCompIdOrderByCompanyIdDesc(1, compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return coList;
+
+	}
+
+	
 
 	/*--------------------------------------------------------------------------------*/
+	@Autowired
+	CustomerRepo customerRepo;
 	// Created By :- Harsha Patil
 	// Created On :- 15-09-2020
 	// Modified By :- NA

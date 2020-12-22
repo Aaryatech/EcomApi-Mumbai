@@ -97,4 +97,6 @@ public interface CompMasterRepo extends JpaRepository<CompMaster, Integer> {
 	
 	CompMaster findByCompEmailAddressIgnoreCaseAndDelStatusAndCompanyIdNot(String email, int del, int compId);	
 	
+	List<CompMaster> findByDelStatusAndParentCompIdOrderByCompanyIdDesc(int i, int parentCompanyId);
+	
 }

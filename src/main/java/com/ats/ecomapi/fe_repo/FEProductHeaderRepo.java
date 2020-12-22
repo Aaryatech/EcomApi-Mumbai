@@ -121,7 +121,7 @@ public interface FEProductHeaderRepo extends JpaRepository<FEProductHeader, Inte
 			"	        tn_item_config_header, " + 
 			"	        m_fr_configration ,  " + 
 			"	 m_tax,m_sub_category,m_uom " + 
-			"	    WHERE m_uom.uom_id=m_product.uom_id AND " + 
+			"	    WHERE m_product.is_active=1 and m_product.del_status=1 and  m_uom.uom_id=m_product.uom_id AND " + 
 			"	 m_tax.tax_id=m_product.tax_id AND m_sub_category.sub_cat_id=m_product.prod_sub_cat_id AND \n" + 
 			"	        m_product.product_id = tn_item_config_detail.product_id \n" + 
 			"	        AND tn_item_config_detail.del_status = 1  " + 

@@ -126,12 +126,12 @@ public class AccessRightApiController {
 	}
 	@Autowired GetUserRepo getUserRepo;
 	
-	@RequestMapping(value = {"/getUserListForAssignRole"}, method = RequestMethod.GET)
-	public @ResponseBody List<GetUser> getAllEmployees(){
+	@RequestMapping(value = {"/getUserListForAssignRole"}, method = RequestMethod.POST)
+	public @ResponseBody List<GetUser> getAllEmployees(@RequestParam("compId") int compId){
 		
 		List<GetUser> empList = new ArrayList<GetUser>();
 		try {
-			empList = getUserRepo.getUserListForAssignRole();
+			empList = getUserRepo.getUserListForAssignRole(compId);
 		}catch (Exception e) {
 			System.err.println("Exce in getUserListForAssignRole  " + e.getMessage());
 		}

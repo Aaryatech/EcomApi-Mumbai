@@ -30,7 +30,8 @@ public class FEDataTraveller {
 	 
 	 List<CateFilterConfig> catFilterConfig;//Filter configured to Category 26-11-2020
 	 
-	 List<CompanyTestomonials> compTestimonial;//Filter configured to Category 26-11-2020
+	 //Sachin 22-12-2020
+	 List<FrSubCatList> frSubCatList; //category list For Franchise 
 	 
 	 
 	 
@@ -114,12 +115,13 @@ public class FEDataTraveller {
 		this.festEventList = festEventList;
 	}
 
-	public List<CompanyTestomonials> getCompTestimonial() {
-		return compTestimonial;
+
+	public List<FrSubCatList> getFrSubCatList() {
+		return frSubCatList;
 	}
 
-	public void setCompTestimonial(List<CompanyTestomonials> compTestimonial) {
-		this.compTestimonial = compTestimonial;
+	public void setFrSubCatList(List<FrSubCatList> frSubCatList) {
+		this.frSubCatList = frSubCatList;
 	}
 
 	@Override
@@ -128,7 +130,7 @@ public class FEDataTraveller {
 				+ ", franchiseCatList=" + franchiseCatList + ", flavorTagStatusList=" + flavorTagStatusList
 				+ ", testimonialList=" + testimonialList + ", companyBannerList=" + companyBannerList
 				+ ", franchiseBannerList=" + franchiseBannerList + ", frList=" + frList + ", festEventList="
-				+ festEventList + ", catFilterConfig=" + catFilterConfig + ", compTestimonial=" + compTestimonial + "]";
+				+ festEventList + ", catFilterConfig=" + catFilterConfig + ", frSubCatList=" + frSubCatList + "]";
 	}
 
 }

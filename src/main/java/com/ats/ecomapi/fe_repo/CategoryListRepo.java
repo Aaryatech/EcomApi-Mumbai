@@ -10,6 +10,7 @@ import com.ats.ecomapi.fe_model.CategoryList;
 
 public interface CategoryListRepo extends JpaRepository<CategoryList, Integer> {
 	
+	//Hard code 1 passed as companyId for /generateFrDataJSON Mapping 21-12-2020 
 	@Query(value = " SELECT  UUID() as cat_uuid, m_category.cat_id,m_category.cat_name,m_category.cat_prefix,m_category.cat_desc,m_category.company_id, " + 
 			" m_category.image_name,m_category.sort_no " + 
 			" FROM m_category " + 

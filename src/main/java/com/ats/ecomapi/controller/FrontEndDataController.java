@@ -30,12 +30,14 @@ import com.ats.ecomapi.fe_model.FEDataTraveller;
 import com.ats.ecomapi.fe_model.FEProdDetail;
 import com.ats.ecomapi.fe_model.FEProductHeader;
 import com.ats.ecomapi.fe_model.FETestimonial;
+import com.ats.ecomapi.fe_model.FrSubCatList;
 import com.ats.ecomapi.fe_model.GetFlavorTagStatusList;
 import com.ats.ecomapi.fe_repo.CategoryListRepo;
 import com.ats.ecomapi.fe_repo.FEBannerListRepo;
 import com.ats.ecomapi.fe_repo.FEProdDetailRepo;
 import com.ats.ecomapi.fe_repo.FEProductHeaderRepo;
 import com.ats.ecomapi.fe_repo.FETestimonialRepo;
+import com.ats.ecomapi.fe_repo.FrSubCatListRepo;
 import com.ats.ecomapi.fe_repo.GetFlavorTagStatusListRepo;
 import com.ats.ecomapi.master.model.City;
 import com.ats.ecomapi.master.model.CompanyTestomonials;
@@ -86,6 +88,8 @@ public class FrontEndDataController {
 
 	@Autowired
 	CompanyTestomonialsRepo companyTestomonialsRepo;
+	//Sachin 22-12-2020
+	@Autowired FrSubCatListRepo frSubcatListRepo;
 	
 	@RequestMapping(value = { "/generateFrDataJSON" }, method = RequestMethod.POST)
 	public @ResponseBody Object getProdDataForFranchise(@RequestParam("frIdList") List<Integer> frIdList,
@@ -110,7 +114,7 @@ public class FrontEndDataController {
 			// 2
 			List<CategoryList> companyCatList = new ArrayList<>();
 			try {
-				companyCatList = feCategoryListRepo.getCompanyCatListByCompId(companyId);
+				companyCatList = feCategoryListRepo.getCompanyCatListByCompId(1);
 			} catch (Exception e) {
 				companyCatList = new ArrayList<>();
 			}
@@ -264,6 +268,9 @@ public class FrontEndDataController {
 			}
 			dataTraveller.setFeProductHeadList(prodHeaderList);
 
+			
+			
+			
 			// System.err.println("runtime fm " + runtime.getRuntime().freeMemory() / MB);
 			List<FestiveEvent> festEventList = new ArrayList<>();
 			try {
@@ -282,6 +289,18 @@ public class FrontEndDataController {
 			}
 			dataTraveller.setCatFilterConfig(catFilterConfig);
 			// end
+			
+			// 5.5 Sachin 22-12-2020
+			List<FrSubCatList> frSubCatList = new ArrayList<>();
+			try {
+				frSubCatList = frSubcatListRepo.getFrSubCatList(frId);
+			} catch (Exception e) {
+				frSubCatList = new ArrayList<>();
+			}
+			dataTraveller.setFrSubCatList(frSubCatList);
+
+			
+			
 			ObjectMapper Obj = new ObjectMapper();
 			String json = "";
 			try {
@@ -290,8 +309,15 @@ public class FrontEndDataController {
 				e.printStackTrace();
 			}
 			publishData(json, frId, 1);
+			
+			
+			
 			dataTravellerList.add(dataTraveller);
-		}
+		
+		} //End of FrId For Loop
+		
+	
+					
 		ObjectMapper obj = new ObjectMapper();
 		try {
 			List<City> cityList = cityRepo.findByDelStatusAndIsActiveOrderByCityIdDesc(1, 1);
@@ -433,9 +459,9 @@ public class FrontEndDataController {
 
 	public void publishData(String json, int frId, int fileType) {
 
-		//final String JSON_SAVE_URL = "/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
-		 final String JSON_SAVE_URL = 
-		 "/opt/apache-tomcat-8.5.39/webapps/IMG_UP/";
+		final String JSON_SAVE_URL = "/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
+//		 final String JSON_SAVE_URL = 
+//		 "/opt/apache-tomcat-8.5.39/webapps/IMG_UP/";
 
 		if (json != null) {
 
@@ -458,7 +484,8 @@ public class FrontEndDataController {
 					file = new File(JSON_SAVE_URL + "MasterTestimonialData" + "_" + ".json");
 				} else if (fileType == 6) {
 					// Save All Company Testimonial JSON
-					file = new File(JSON_SAVE_URL + "MasterCompanyTestimonialData" + "_" + ".json");
+					//file = new File(JSON_SAVE_URL + "MasterCompanyTestimonialData" + "_" + ".json");
+					file = new File(JSON_SAVE_URL + "MasterTestimonialData" + "_" + ".json");
 				}
 
 				output = new BufferedWriter(new FileWriter(file));

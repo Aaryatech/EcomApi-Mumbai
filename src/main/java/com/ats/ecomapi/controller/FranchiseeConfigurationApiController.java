@@ -30,6 +30,8 @@ import com.ats.ecomapi.mst_model.GetFrForConfig;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.ItemConfHeader;
 import com.ats.ecomapi.mst_repo.ItemConfHeaderRepo;
+import com.ats.ecomapi.offer.repo.FrChargesRepo;
+import com.ats.ecomapi.offer_model.FrCharges;
 
 @RestController
 public class FranchiseeConfigurationApiController {
@@ -54,6 +56,10 @@ public class FranchiseeConfigurationApiController {
 	
 	@Autowired
 	FrDelvrBoyConfigRepo frDelvrBoyRepo;
+	
+	@Autowired
+	FrChargesRepo frChargRepo;
+	
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
@@ -442,5 +448,39 @@ public class FranchiseeConfigurationApiController {
 					}
 					return res;
 
+				}
+	/*------------------------------------------------------------------------------------*/
+				// Created By :- Mahendra Singh
+				// Created On :- 22-10-2020
+				// Modified By :- NA
+				// Modified On :- NA
+				// Description :- Save Franchise Charges
+				@RequestMapping(value = { "/saveFrCharges" }, method = RequestMethod.POST)
+				public @ResponseBody FrCharges saveFrCharges(@RequestBody FrCharges charges){
+					
+				 FrCharges saveCharges = new FrCharges();
+					try {
+						saveCharges = frChargRepo.save(charges);
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+					return saveCharges;
+				}
+			 
+				// Created By :- Mahendra Singh
+				// Created On :- 22-10-2020
+				// Modified By :- NA
+				// Modified On :- NA
+				// Description :- Ger Franchise Charges By Id
+			 @RequestMapping(value = { "/getFrChargesByFrId" }, method = RequestMethod.POST)
+				public @ResponseBody FrCharges getFrChargesByFrId(@RequestParam int frId){
+					
+				 FrCharges charges = new FrCharges();
+					try {
+						charges = frChargRepo.findByfrId(frId);
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+					return charges;
 				}
 }

@@ -1,7 +1,10 @@
 package com.ats.ecomapi.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -59,6 +62,9 @@ public class FranchiseeConfigurationApiController {
 	
 	@Autowired
 	FrChargesRepo frChargRepo;
+	
+	@Autowired
+	FranchiseRepo frRepo;
 	
 
 	/*--------------------------------------------------------------------------------*/
@@ -461,6 +467,37 @@ public class FranchiseeConfigurationApiController {
 				 FrCharges saveCharges = new FrCharges();
 					try {
 						saveCharges = frChargRepo.save(charges);
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+					return saveCharges;
+				}
+				
+				// Created By :- Mahendra Singh
+				// Created On :- 22-10-2020
+				// Modified By :- NA
+				// Modified On :- NA
+				// Description :- Save Franchise Charges
+				@RequestMapping(value = { "/saveMultiFrCharges" }, method = RequestMethod.POST)
+				public @ResponseBody FrCharges saveMultiFrCharges(@RequestBody FrCharges charges){
+					
+				 FrCharges saveCharges = new FrCharges();
+				 List<Franchise> frList = new ArrayList<Franchise>();
+					try {
+						List<String> selFrIdList = Arrays.asList(charges.getExVar1());
+						System.err.println("selFrIdList------"+selFrIdList);
+						//frList = frRepo.findByCompanyIdAndDelStatusOrderByFrIdDesc(charges.getExInt1(), 1);
+					
+						System.err.println("selFrId------"+selFrIdList.size());
+					
+						List<Integer> frids = Stream.of(charges.getExVar1().split(",")).map(Integer::parseInt)
+								.collect(Collectors.toList());
+						
+						for (int i = 0; i < frids.size(); i++) {
+							System.err.println("selFrId------"+frids.get(i));
+						}
+						System.err.println("Data---------------"+charges);
+						//saveCharges = frChargRepo.save(charges);
 					}catch (Exception e) {
 						e.printStackTrace();
 					}

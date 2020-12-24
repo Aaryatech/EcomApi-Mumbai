@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+
 @Entity
 @Table(name = "mn_offer_header")
 public class OfferHeader {
@@ -114,6 +115,9 @@ public class OfferHeader {
 	@Transient
 	List<Images> imageList;
 	
+	@Transient
+	List<OfferDetail> offerDetailList;
+
 	
 
 	public String getOfferImages() {
@@ -372,6 +376,14 @@ public class OfferHeader {
 		this.imageList = imageList;
 	}
 
+	public List<OfferDetail> getOfferDetailList() {
+		return offerDetailList;
+	}
+
+	public void setOfferDetailList(List<OfferDetail> offerDetailList) {
+		this.offerDetailList = offerDetailList;
+	}
+
 	@Override
 	public String toString() {
 		return "OfferHeader [offerId=" + offerId + ", offerName=" + offerName + ", offerDesc=" + offerDesc + ", type="
@@ -383,9 +395,7 @@ public class OfferHeader {
 				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exInt4=" + exInt4 + ", exVar1=" + exVar1
 				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", exVar4=" + exVar4 + ", exFloat1=" + exFloat1
 				+ ", exFloat2=" + exFloat2 + ", exFloat3=" + exFloat3 + ", exFloat4=" + exFloat4 + ", imageList="
-				+ imageList + "]";
+				+ imageList + ", offerDetailList=" + offerDetailList + "]";
 	}
-
-	 
 
 }

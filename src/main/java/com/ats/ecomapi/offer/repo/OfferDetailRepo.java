@@ -25,4 +25,19 @@ public interface OfferDetailRepo extends JpaRepository<OfferDetail, Integer> {
 	public int deleteOfferDetails(@Param("offerDetailIds") List<Integer> offerDetailIds);
 
 
+	@Query(value = "SELECT\r\n" + 
+			"    d.*\r\n" + 
+			"FROM\r\n" + 
+			"    mn_offer_detail d\r\n" + 
+			"WHERE\r\n" + 
+			"    d.del_status = 1 AND d.offer_id IN(\r\n" + 
+			"    SELECT\r\n" + 
+			"        offer_id\r\n" + 
+			"    FROM\r\n" + 
+			"        mn_offer_config\r\n" + 
+			"    WHERE\r\n" + 
+			"        FIND_IN_SET(:frId, fr_id) AND del_status = 1\r\n" + 
+			")", nativeQuery = true)
+	List<OfferDetail> getOfferDetailByFr(@Param("frId") int frId);
+
 }

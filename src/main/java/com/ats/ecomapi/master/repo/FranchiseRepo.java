@@ -16,6 +16,101 @@ public interface FranchiseRepo extends JpaRepository<Franchise, Integer> {
 
 	List<Franchise> findByCompanyIdAndDelStatusOrderByFrIdDesc(int compId, int del);
 	
+	
+	//Akhilesh 2020-12-23 Get All Franchise With Fr Charges By CompanyId
+	@Query(value="SELECT\n" + 
+			"    franchise0_.fr_id,\n" + 
+			"    franchise0_.fr_code,\n" + 
+			"    franchise0_.fr_name,\n" + 
+			"    franchise0_.fr_address,\n" + 
+			"    franchise0_.opening_date,\n" + 
+			"    franchise0_.fr_image,\n" + 
+			"    franchise0_.fr_rating,\n" + 
+			"    franchise0_.fr_city,\n" + 
+			"    franchise0_.fr_email_id,\n" + 
+			"    franchise0_.fr_contact_no,\n" + 
+			"    franchise0_.fr_password,\n" + 
+			"    franchise0_.fda_number,\n" + 
+			"    franchise0_.gst_type,\n" + 
+			"    franchise0_.gst_number,\n" + 
+			"    franchise0_.pincode,\n" + 
+			"    franchise0_.owners_birth_day,\n" + 
+			"    franchise0_.fda_license_date_exp,\n" + 
+			"    franchise0_.shops_latitude,\n" + 
+			"    franchise0_.shops_logitude,\n" + 
+			"    franchise0_.is_active,\n" + 
+			"    franchise0_.del_status,\n" + 
+			"    franchise0_.company_id,\n" + 
+			"    franchise0_.pan_no,\n" + 
+			"    franchise0_.city,\n" + 
+			"    franchise0_.state,\n" + 
+			"    franchise0_.co_bank_name,\n" + 
+			"    franchise0_.co_bank_branch_name,\n" + 
+			"    franchise0_.co_bank_ifsc_code,\n" + 
+			"    franchise0_.co_bank_acc_no,\n" + 
+			"    franchise0_.payment_getway_link_same_as_parent,\n" + 
+			"    franchise0_.payment_getway_link,\n" + 
+			"    franchise0_.no_of_km_area_cover,\n" + 
+			"    franchise0_.user_id,\n" + 
+			"    franchise0_.add_date_time,\n" + 
+			"    franchise0_.edit_date_time,\n" + 
+			"    franchise0_.pincode_we_served,\n" + 
+			"    franchise0_.ex_float1,\n" + 
+			"    franchise0_.ex_float2,\n" + 
+			"    franchise0_.ex_float3,\n" + 
+			"    franchise0_.ex_float4,\n" + 
+			"    franchise0_.ex_float5,\n" + 
+			"    franchise0_.ex_var1,\n" + 
+			
+			"  COALESCE(ch.charge_id, 0) AS ex_var2,\n" + 
+			"  COALESCE(ch.surcharge_fee, 0) AS ex_var3,\n" + 
+			" COALESCE(ch.packing_chg, 0) AS ex_var4,\n" + 
+			"  COALESCE(ch.handling_chg, 0) AS ex_var5,\n" + 
+			"    COALESCE(ch.extra_chg, 0) AS ex_var6,\n" + 
+			"    COALESCE(ch.round_off_amt, 0) AS ex_var7,\n" + 
+			"    franchise0_.ex_date1,\n" + 
+			"    franchise0_.ex_date2,\n" + 
+			"    franchise0_.ex_int1,\n" + 
+			"    franchise0_.ex_int2,\n" + 
+			"    franchise0_.ex_int3\n" + 
+			"FROM\n" + 
+			"    (\n" + 
+			"    SELECT\n" + 
+			"        *\n" + 
+			"    FROM\n" + 
+			"        m_franchise\n" + 
+			"    WHERE\n" + 
+			"        m_franchise.company_id =:compId AND m_franchise.del_status = 1\n" + 
+			") franchise0_\n" + 
+			"LEFT JOIN(\n" + 
+			"    SELECT\n" + 
+			"        fr_id,\n" + 
+			"     \n" + 
+			"            mn_fr_charges.charge_id,\n" + 
+			"            mn_fr_charges.surcharge_fee,\n" + 
+			"     \n" + 
+			"            mn_fr_charges.packing_chg,\n" + 
+			"     \n" + 
+			"            mn_fr_charges.handling_chg,\n" + 
+			"\n" + 
+			"            mn_fr_charges.extra_chg,\n" + 
+			"      \n" + 
+			"            mn_fr_charges.round_off_amt\n" + 
+			"     \n" + 
+			"    FROM\n" + 
+			"        mn_fr_charges\n" + 
+			"    WHERE\n" + 
+			"        1\n" + 
+			") ch\n" + 
+			"ON\n" + 
+			"    franchise0_.fr_id = ch.fr_id\n" + 
+			"ORDER BY\n" + 
+			"    franchise0_.fr_id\n" + 
+			"DESC",nativeQuery=true)
+	List<Franchise> getAllFranchiseByCompIdWithCharges(int compId);
+	
+	
+	
 	Franchise findByFrId(int frId);
 	
 	@Transactional

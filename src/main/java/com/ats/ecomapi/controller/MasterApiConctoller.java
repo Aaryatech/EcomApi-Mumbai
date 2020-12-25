@@ -942,6 +942,26 @@ public class MasterApiConctoller {
 		}
 		return frList;
 	}
+	
+	
+	// Created By :-Akhilesh
+		// Created On :- 23-12-2020
+		// Modified By :- NA
+		// Modified On :- NA
+		// Description :- Get All Franchises By Company Id With Charges
+	@RequestMapping(value="/getAllFranchiseByCompIdWithCharges",method=RequestMethod.POST)
+	public @ResponseBody List<Franchise> getAllFranchiseByCompIdWithCharges(@RequestParam int compId) {
+
+		List<Franchise> frList = new ArrayList<Franchise>();
+		try {
+			frList = frRepo.getAllFranchiseByCompIdWithCharges(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return frList;
+	}
+	
+	
 
 	//Sachin 27-10-2020
 	@RequestMapping(value = { "/getFrListToAddInRoute" }, method = RequestMethod.POST)

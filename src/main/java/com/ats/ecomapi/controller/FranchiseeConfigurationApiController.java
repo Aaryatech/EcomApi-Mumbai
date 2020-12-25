@@ -1,5 +1,6 @@
 package com.ats.ecomapi.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.common.CommonUtility;
 import com.ats.ecomapi.fe_model.DeliveryBoy;
 import com.ats.ecomapi.fe_model.FrDelvrBoyConfig;
 import com.ats.ecomapi.master.model.CopyTable;
@@ -503,6 +505,62 @@ public class FranchiseeConfigurationApiController {
 					}
 					return saveCharges;
 				}
+				
+				
+				
+				// Created By :- Akhilesh
+				// Created On :- 22-10-2020
+				// Modified By :- NA
+				// Modified On :- NA
+				// Description :- Save Multiple Franchise Charges
+				@RequestMapping(value="/saveMultipleFrCharges",method=RequestMethod.POST)
+				public @ResponseBody List<FrCharges> saveMultiFrCharges(@RequestBody List<FrCharges> frClist){
+					/*List<FrCharges> frChargesList=new ArrayList<>();*/
+					List<FrCharges> frResp=new ArrayList<>();
+					FrCharges frCharge=new FrCharges();
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					int flag=0;
+					try {
+						/*frChargesList=	frChargRepo.getAllFrChargesByCompId(frClist.get(0).getExInt1());*/
+						for(FrCharges charges :frClist) {
+							
+								String fromDt=dateFormat.format(charges.getFromDate());
+								String toDt=dateFormat.format(charges.getToDate());
+								int surcharge=(int)charges.getSurchargeFee();
+								int pack=(int)charges.getPackingChg();
+								int hand=(int)charges.getHandlingChg();
+								int extra=(int)charges.getExtraChg();
+								int round=(int)charges.getRoundOffAmt();
+								if(charges.getChargeId()>0) {
+									//System.err.println("In If");
+								flag=frChargRepo.updateFrCharges(fromDt, toDt, surcharge,pack, hand, extra, round,charges.getFrId());
+								if(flag==0) {
+									System.err.println("Unable To Update Frcharges!! Of "+charges.getFrId());
+								}else {
+									System.err.println("Frcharges Updated !! Of "+charges.getFrId());
+								}
+								
+								}else {
+									frCharge =frChargRepo.save(charges);
+									frResp.add(frCharge);
+									//System.err.println("In Else");
+								}
+								
+						
+							
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						System.err.println("Exception Occur In /saveMultipleFrCharges");
+						e.printStackTrace();
+					}
+					
+					
+					return frResp;
+				}
+				
+				
+				
 			 
 				// Created By :- Mahendra Singh
 				// Created On :- 22-10-2020

@@ -1310,6 +1310,30 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
+	
+	
+	//Akhilesh 2020-12-28 Delete Multiple Cities
+	@RequestMapping(value = { "/deleteMultipleCity" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteMultipleCity(@RequestBody List<Integer> cityIds) {
+
+		Info info = new Info();
+		try {
+			int res = cityRepo.deleteMultipleCity(cityIds);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Cites Deleted Successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to Delete Cities");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+	
+	
+	
 
 	@RequestMapping(value = { "/addCity" }, method = RequestMethod.POST)
 	public @ResponseBody City addCity(@RequestBody City city) {

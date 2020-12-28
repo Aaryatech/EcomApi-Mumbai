@@ -33,4 +33,13 @@ public interface CityRepo extends JpaRepository<City, Integer> {
 	@Modifying
 	@Query(value="UPDATE mn_city SET del_status=0 WHERE city_id=:cityId",nativeQuery=true)
 	public int deleteCity(@Param("cityId") int cityId);
+	
+	
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE mn_city SET del_status=0 WHERE city_id In :cityIds",nativeQuery=true)
+	public int deleteMultipleCity(@Param("cityIds") List<Integer> cityIds);
+	
+	
+	
 }

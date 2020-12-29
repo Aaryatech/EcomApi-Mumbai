@@ -14,7 +14,7 @@ import com.ats.ecomapi.mst_model.Info;
 
 
 
-
+//Akhilesh 2020-12-28  
 @RestController
 public class MultiPurposeQueriesApiController {
 	
@@ -32,9 +32,9 @@ public class MultiPurposeQueriesApiController {
 										@RequestParam String columnName,
 										@RequestParam int value,
 										@RequestParam String id,
-										@RequestParam String comparisionId) {
+										@RequestParam String cityIdArr) {
 	Info info=new Info();
-		queryString="UPDATE"+" "+tableName+" "+"SET"+" "+columnName+"="+value+" "+"WHERE"+" "+id+" "+"IN"+" "+"("+comparisionId+")";
+		queryString="UPDATE"+" "+tableName+" "+"SET"+" "+columnName+"="+value+" "+"WHERE"+" "+id+" "+"IN"+" "+"("+cityIdArr+")";
 		System.err.println(queryString);
 		int[]  a = jdbcTemp.batchUpdate(queryString);
 		System.err.println(a.length);
@@ -47,6 +47,32 @@ public class MultiPurposeQueriesApiController {
 		}
 		return info;
 	}
+	
+	
+	@RequestMapping(value="/multiDeleteForFilter",method=RequestMethod.POST)
+	public @ResponseBody Info multiDeleteForFilter(@RequestParam String tableName,
+										@RequestParam String columnName,
+										@RequestParam int value,
+										@RequestParam String id,
+										@RequestParam String cityIdArr,
+										@RequestParam int  filterTypeId) {
+	Info info=new Info();
+		queryString="UPDATE"+" "+tableName+" "+"SET"+" "+columnName+"="+value+" "+"WHERE"+" "+id+" "+"IN"+" "+"("+cityIdArr+")"+" "+"AND"+" "+"filter_type_id="+filterTypeId;
+		System.err.println(queryString);
+		int[]  a = jdbcTemp.batchUpdate(queryString);
+		System.err.println(a.length);
+		if(a.length>0) {
+			info.setError(false);
+			info.setMsg("Deleted");
+		}else {
+			info.setError(true);
+			info.setMsg("Unable To Delete");
+		}
+		return info;
+	}
+	
+	
+	
 	
 	
  

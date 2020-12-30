@@ -1124,6 +1124,22 @@ public class MasterApiConctoller {
 		return franchise;
 	}
 
+	// Created By :- Mahendra Singh
+	// Created On :- 30-12-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Franchises For Excel And Pdf
+	@RequestMapping(value = { "/getAllFranchisesExlPdf" }, method = RequestMethod.POST)
+	public @ResponseBody List<Franchise> getAllFranchisesExlPdf(@RequestParam int compId) {
+
+		List<Franchise> frList = new ArrayList<Franchise>();
+		try {
+			frList = frRepo.getAllFranchiseByCompIdForExlPdf(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return frList;
+	}
 	/*------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
 	// Created On :- 15-09-2020

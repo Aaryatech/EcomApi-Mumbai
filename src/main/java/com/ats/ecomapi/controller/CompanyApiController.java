@@ -418,6 +418,19 @@ public class CompanyApiController {
 		return list;
 
 	}
+	
+	@RequestMapping(value = { "/getCustomerListyCompId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetCustomerInfo> getAllCustomerDetailInfo(@RequestParam int compId) {
+
+		List<GetCustomerInfo> list = new ArrayList<GetCustomerInfo>();
+		try {
+			list = getCustomerInfoRepo.getCustListyCompId(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil

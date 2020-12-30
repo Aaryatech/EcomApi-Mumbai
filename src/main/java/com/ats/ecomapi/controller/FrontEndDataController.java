@@ -42,10 +42,12 @@ import com.ats.ecomapi.fe_repo.GetFlavorTagStatusListRepo;
 import com.ats.ecomapi.master.model.City;
 import com.ats.ecomapi.master.model.CompanyTestomonials;
 import com.ats.ecomapi.master.model.Franchise;
+import com.ats.ecomapi.master.model.Setting;
 import com.ats.ecomapi.master.repo.CityRepo;
 import com.ats.ecomapi.master.repo.CompanyTestomonialsRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.RelatedProductConfigRepo;
+import com.ats.ecomapi.master.repo.SettingRepo;
 import com.ats.ecomapi.mst_model.CateFilterConfig;
 import com.ats.ecomapi.mst_model.FestiveEvent;
 import com.ats.ecomapi.mst_model.GetRelatedProductConfig;
@@ -350,7 +352,7 @@ public class FrontEndDataController {
 			}
 
 			try {
-				publishData(obj.writeValueAsString(masterTestimonialList), 0, 5);
+				//publishData(obj.writeValueAsString(masterTestimonialList), 0, 5);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}			
@@ -456,13 +458,14 @@ public class FrontEndDataController {
 		
 		return info;
 	}
+	@Autowired SettingRepo settingRepo;
 
 	public void publishData(String json, int frId, int fileType) {
-
-		final String JSON_SAVE_URL = "/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
+		Setting setting=settingRepo.findBySettingKey("JSON_SAVE_PATH");
+		final String JSON_SAVE_URL = setting.getSettingValue();//"/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
 //		 final String JSON_SAVE_URL = 
 //		 "/opt/apache-tomcat-8.5.39/webapps/IMG_UP/";
-
+System.err.println("current path from setting is " + setting.getSettingValue());
 		if (json != null) {
 
 			try {

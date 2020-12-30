@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ats.ecomapi.offer_model.FrCharges;
+import com.ats.ecomapi.offer_model.OfferDetail;
 
 
 public interface FrChargesRepo extends JpaRepository<FrCharges, Integer> {
@@ -29,6 +30,14 @@ public interface FrChargesRepo extends JpaRepository<FrCharges, Integer> {
 						@Param("surCharge") int surCharge ,@Param("packing") int packing ,
 						@Param("handLing") int handLing , @Param("exTra") int exTra,
 						@Param("roundOff") int roundOff,@Param("frId") int frId );
+	
+	
+	//Get frCharges Sachin 25-12-2020
+	@Query(value = " SELECT COALESCE((SUM(surcharge_fee+packing_chg+handling_chg+extra_chg+round_off_amt) ),0 ) as ex_charge FROM mn_fr_charges WHERE fr_id=:frId " + 
+			" AND CURRENT_DATE BETWEEN from_date AND to_date ORDER BY charge_id DESC LIMIT 1 ", nativeQuery = true)
+	Float   getFrExChargesSumForFrId(@Param("frId") int frId);
+
+	
 	
 	
 	

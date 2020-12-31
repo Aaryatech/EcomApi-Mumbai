@@ -22,6 +22,7 @@ import com.ats.ecomapi.master.model.DeliveryInstruction;
 import com.ats.ecomapi.master.model.Designation;
 import com.ats.ecomapi.master.model.FilterTypes;
 import com.ats.ecomapi.master.model.Franchise;
+import com.ats.ecomapi.master.model.GetHomePageTestimonial;
 import com.ats.ecomapi.master.model.GrievencesInstruction;
 import com.ats.ecomapi.master.model.GrievencesTypeInstructn;
 import com.ats.ecomapi.master.model.HomePageTestimonial;
@@ -30,6 +31,7 @@ import com.ats.ecomapi.master.model.MFilter;
 import com.ats.ecomapi.master.model.ProductHomPage;
 import com.ats.ecomapi.master.model.ProductHomePageDetail;
 import com.ats.ecomapi.master.model.SpDayHomePage;
+import com.ats.ecomapi.master.model.SpDayHomePageExlPdf;
 import com.ats.ecomapi.master.model.SubCategory;
 import com.ats.ecomapi.master.model.Tax;
 import com.ats.ecomapi.master.model.Uom;
@@ -40,6 +42,7 @@ import com.ats.ecomapi.master.repo.CityRepo;
 import com.ats.ecomapi.master.repo.ConfigHomePageProductRepo;
 import com.ats.ecomapi.master.repo.DeliveryInstructionRepo;
 import com.ats.ecomapi.master.repo.DesignationRepo;
+import com.ats.ecomapi.master.repo.ExcelHomePageTestimonialRepo;
 import com.ats.ecomapi.master.repo.FilterTypesRepo;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.GrievencesInstructionRepo;
@@ -49,6 +52,7 @@ import com.ats.ecomapi.master.repo.LanguageRepo;
 import com.ats.ecomapi.master.repo.MFilterRepo;
 import com.ats.ecomapi.master.repo.ProductHomPageRepo;
 import com.ats.ecomapi.master.repo.ProductHomePageDetailRepo;
+import com.ats.ecomapi.master.repo.SpDayHomePageExlPdfRepo;
 import com.ats.ecomapi.master.repo.SpDayHomePageRepo;
 import com.ats.ecomapi.master.repo.SubCategoryRepo;
 import com.ats.ecomapi.master.repo.TaxRepo;
@@ -133,7 +137,7 @@ public class MasterApiConctoller {
 
 	@Autowired
 	DesignationRepo desigRepo;
-	
+
 	@Autowired
 	ProductMasterRepo productMasterRepo;
 
@@ -438,49 +442,50 @@ public class MasterApiConctoller {
 		}
 		return User;
 	}
-	
-		// Created By :- Mahendra Singh
-		// Created On :- 19-10-2020
-		// Modified By :- NA
-		// Modified On :- NA
-		// Description :- Update User Password
-		@RequestMapping(value = { "/updateUserPassword" }, method = RequestMethod.POST)
-		public @ResponseBody Info updateUserPassword(@RequestParam int userId, @RequestParam String newPassword) {
 
-			Info info = new Info();
-			int res = 0;
-			try {
-					res = userRepo.updateUserPass(userId, newPassword);
-				
-				if (res > 0) {
-					info.setError(false);
-					info.setMessage("Password changed successfully");
-				} else {
-					info.setError(true);
-					info.setMessage("Failed to change password");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+	// Created By :- Mahendra Singh
+	// Created On :- 19-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Update User Password
+	@RequestMapping(value = { "/updateUserPassword" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateUserPassword(@RequestParam int userId, @RequestParam String newPassword) {
+
+		Info info = new Info();
+		int res = 0;
+		try {
+			res = userRepo.updateUserPass(userId, newPassword);
+
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Password changed successfully");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed to change password");
 			}
-			return info;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return info;
+	}
 
-		// Created By :- Mahendra Singh
-		// Created On :- 20-10-2020
-		// Modified By :- NA
-		// Modified On :- NA
-		// Description :- Get No. of users by role id.
-		@RequestMapping(value = { "/getUserCntByRoleId" }, method = RequestMethod.POST)
-		public @ResponseBody int getUserByEmail(@RequestParam int roleId) {
+	// Created By :- Mahendra Singh
+	// Created On :- 20-10-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get No. of users by role id.
+	@RequestMapping(value = { "/getUserCntByRoleId" }, method = RequestMethod.POST)
+	public @ResponseBody int getUserByEmail(@RequestParam int roleId) {
 
-			int userCnt = 0;
-			try {
-				userCnt = userRepo.getUserCntByRoleId(roleId);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return userCnt;
+		int userCnt = 0;
+		try {
+			userCnt = userRepo.getUserCntByRoleId(roleId);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return userCnt;
+	}
+
 	/*-------------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
 	// Created On :- 12-09-2020
@@ -582,8 +587,8 @@ public class MasterApiConctoller {
 	// Modified On :- NA
 	// Description :- Get Prefix for unique validation
 	@RequestMapping(value = { "/getCatByPrefix" }, method = RequestMethod.POST)
-	public @ResponseBody Info getSubCatByPrefix(@RequestParam("prefix") String prefix,
-			@RequestParam("catId") int catId, @RequestParam("compId") int compId) {
+	public @ResponseBody Info getSubCatByPrefix(@RequestParam("prefix") String prefix, @RequestParam("catId") int catId,
+			@RequestParam("compId") int compId) {
 
 		Info res = new Info();
 		try {
@@ -607,7 +612,7 @@ public class MasterApiConctoller {
 		return res;
 
 	}
-	
+
 	// Created By :- Mahendra Singh
 	// Created On :- 21-10-2020
 	// Modified By :- NA
@@ -779,38 +784,38 @@ public class MasterApiConctoller {
 	// Description :- Save Category
 	@RequestMapping(value = { "/saveFilter" }, method = RequestMethod.POST)
 	public @ResponseBody MFilter saveFilter(@RequestBody MFilter filter) {
-		//System.err.println("Initial filter " +filter.toString());
+		// System.err.println("Initial filter " +filter.toString());
 		MFilter saveFilter = new MFilter();
-		int tagId=0;
+		int tagId = 0;
 		try {
-		if(filter.getFilterId()==0) {
-			//ie new record
-			//System.err.println("In else" +filter.toString());
-			if(filter.getIsTagAdd()==1) {
-				//System.err.println("In Add tag ");
-				tagId=saveTag(filter);
-			}else {
-				//System.err.println("In No Add tag ");
+			if (filter.getFilterId() == 0) {
+				// ie new record
+				// System.err.println("In else" +filter.toString());
+				if (filter.getIsTagAdd() == 1) {
+					// System.err.println("In Add tag ");
+					tagId = saveTag(filter);
+				} else {
+					// System.err.println("In No Add tag ");
+				}
+
+			} else {
+				// System.err.println("In else getFilterId() !=0" +filter.toString());
 			}
-			
-		}else {
-			//System.err.println("In else getFilterId() !=0" +filter.toString());
-		}
-		try {
-			filter.setTagId(tagId);
-			saveFilter = filterRepo.save(filter);
-			//System.err.println("Main Save " +saveFilter);
+			try {
+				filter.setTagId(tagId);
+				saveFilter = filterRepo.save(filter);
+				// System.err.println("Main Save " +saveFilter);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return saveFilter;
 	}
 
 	// Created By :- Sachin
-		// Created On :- 20-10-2020
+	// Created On :- 20-10-2020
 	private int saveTag(MFilter filter) {
 		MFilter tagFilter = new MFilter();
 
@@ -819,7 +824,7 @@ public class MasterApiConctoller {
 		tagFilter.setCostAffect(0);
 		tagFilter.setTagId(0);
 		tagFilter.setFilterTypeId(7);
-		
+
 		tagFilter.setAllowToCopy(filter.getAllowToCopy());
 		tagFilter.setCompanyId(filter.getCompanyId());
 		tagFilter.setDelStatus(filter.getDelStatus());
@@ -837,15 +842,16 @@ public class MasterApiConctoller {
 		tagFilter.setIsParent(filter.getIsParent());
 		tagFilter.setIsTagAdd(0);
 		tagFilter.setSortNo(filter.getSortNo());
-		
+
 		tagFilter.setUsedForDescription(filter.getUsedForDescription());
 		tagFilter.setUsedForFilter(filter.getUsedForFilter());
-		
+
 		tagFilter.setAdminName(filter.getFilterName());
 		tagFilter = filterRepo.save(tagFilter);
 		return tagFilter.getFilterId();
-		
+
 	}
+
 	// Created By :- Mahendra Singh
 	// Created On :- 14-09-2020
 	// Modified By :- NA
@@ -906,7 +912,7 @@ public class MasterApiConctoller {
 		}
 		return subCatList;
 	}
-	
+
 	// Created By :- Mahendra Singh
 	// Created On :- 20-10-2020
 	// Modified By :- NA
@@ -942,14 +948,13 @@ public class MasterApiConctoller {
 		}
 		return frList;
 	}
-	
-	
+
 	// Created By :-Akhilesh
-		// Created On :- 23-12-2020
-		// Modified By :- NA
-		// Modified On :- NA
-		// Description :- Get All Franchises By Company Id With Charges
-	@RequestMapping(value="/getAllFranchiseByCompIdWithCharges",method=RequestMethod.POST)
+	// Created On :- 23-12-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Franchises By Company Id With Charges
+	@RequestMapping(value = "/getAllFranchiseByCompIdWithCharges", method = RequestMethod.POST)
 	public @ResponseBody List<Franchise> getAllFranchiseByCompIdWithCharges(@RequestParam int compId) {
 
 		List<Franchise> frList = new ArrayList<Franchise>();
@@ -960,26 +965,24 @@ public class MasterApiConctoller {
 		}
 		return frList;
 	}
-	
-	
 
-	//Sachin 27-10-2020
+	// Sachin 27-10-2020
 	@RequestMapping(value = { "/getFrListToAddInRoute" }, method = RequestMethod.POST)
 	public @ResponseBody List<Franchise> getFrListToAddInRoute(@RequestParam int compId,
 			@RequestParam List<Integer> frIds) {
 
 		List<Franchise> frList = new ArrayList<Franchise>();
 		try {
-			if(frIds.get(0)<1)
-			frList = frRepo.getFrListToAddInRoute(compId);
+			if (frIds.get(0) < 1)
+				frList = frRepo.getFrListToAddInRoute(compId);
 			else
-				frList = frRepo.getFrListToAddInRouteForEdit(compId,frIds);
+				frList = frRepo.getFrListToAddInRouteForEdit(compId, frIds);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return frList;
 	}
-	
+
 	// Created By :- Mahendra Singh
 	// Created On :- 15-09-2020
 	// Modified By :- NA
@@ -1008,7 +1011,7 @@ public class MasterApiConctoller {
 		Franchise saveFranshise = new Franchise();
 		try {
 			saveFranshise = frRepo.save(franchise);
-			if(saveFranshise.getFrId()>0) {
+			if (saveFranshise.getFrId() > 0) {
 				FrSetting frSetting = new FrSetting();
 
 				frSetting = frSettingRepo.findByFrId(saveFranshise.getFrId());
@@ -1140,6 +1143,7 @@ public class MasterApiConctoller {
 		}
 		return frList;
 	}
+
 	/*------------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh
 	// Created On :- 15-09-2020
@@ -1326,9 +1330,8 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
-	
-	
-	//Akhilesh 2020-12-28 Delete Multiple Cities
+
+	// Akhilesh 2020-12-28 Delete Multiple Cities
 	@RequestMapping(value = { "/deleteMultipleCity" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteMultipleCity(@RequestBody List<Integer> cityIds) {
 
@@ -1347,9 +1350,6 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
-	
-	
-	
 
 	@RequestMapping(value = { "/addCity" }, method = RequestMethod.POST)
 	public @ResponseBody City addCity(@RequestBody City city) {
@@ -2014,6 +2014,27 @@ public class MasterApiConctoller {
 	}
 
 	// Created By :- Mahendra Singh
+	// Created On :- 31-12-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Special Day Home Page List Excel Pdf
+	@Autowired
+	SpDayHomePageExlPdfRepo spExlRepo;
+
+	@RequestMapping(value = { "/getAllSpDayHomePagesExl" }, method = RequestMethod.POST)
+	public @ResponseBody List<SpDayHomePageExlPdf> getAllSpDayHomePagesExl(@RequestParam int compId) {
+
+		List<SpDayHomePageExlPdf> list = new ArrayList<SpDayHomePageExlPdf>();
+		try {
+			list = spExlRepo.getAllSpDayPageForExlPdf(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
+	// Created By :- Mahendra Singh
 	// Created On :- 21-09-2020
 	// Modified By :- NA
 	// Modified On :- NA
@@ -2205,7 +2226,7 @@ public class MasterApiConctoller {
 	public @ResponseBody List<ConfigHomePageProduct> getProductStatusConfigList(@RequestParam int statusType,
 			@RequestParam int compId) {
 		List<ConfigHomePageProduct> list = new ArrayList<ConfigHomePageProduct>();
-		try {			
+		try {
 			list = configPrdctHomRepo.getConfigHomePagePrdctList(statusType, compId);
 		} catch (Exception e) {
 			System.err.println("dfdf" + e.getMessage());
@@ -2282,6 +2303,25 @@ public class MasterApiConctoller {
 		return list;
 
 	}
+
+	// Created By :- Mahendra Singh
+	// Created On :- 31-12-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get Home Page Testimonials List For Excel Pdf
+	@Autowired ExcelHomePageTestimonialRepo exlHmPgTestmnlRepo;
+	@RequestMapping(value = { "/getHomePgTestmnlExlPdf" }, method = RequestMethod.POST)
+		public @ResponseBody List<GetHomePageTestimonial> getHomePgTestmnlExlPdf(@RequestParam int compId) {
+
+			List<GetHomePageTestimonial> list = new ArrayList<GetHomePageTestimonial>();
+			try {
+				list = exlHmPgTestmnlRepo.getHomePgTestimnlExlPdf(compId);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return list;
+
+		}
 
 	// Created By :- Mahendra Singh
 	// Created On :- 22-09-2020
@@ -2413,7 +2453,7 @@ public class MasterApiConctoller {
 		}
 		return info;
 	}
-	
+
 	@RequestMapping(value = { "/getProdIdCntByCatId" }, method = RequestMethod.POST)
 	public @ResponseBody int getProdIdCntByCatId(@RequestParam int catId) {
 
@@ -2425,7 +2465,7 @@ public class MasterApiConctoller {
 		}
 		return pordCnt;
 	}
-	
+
 	@RequestMapping(value = { "/getProdIdCntByTax" }, method = RequestMethod.POST)
 	public @ResponseBody int getProdIdCntByTax(@RequestParam int taxId) {
 
@@ -2437,7 +2477,7 @@ public class MasterApiConctoller {
 		}
 		return pordCnt;
 	}
-	
+
 	@RequestMapping(value = { "/getProdIdCntByUomId" }, method = RequestMethod.POST)
 	public @ResponseBody int getProdIdCntByUomId(@RequestParam int uomId) {
 

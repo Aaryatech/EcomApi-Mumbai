@@ -695,6 +695,24 @@ public class CompanyApiController {
 		return list;
 
 	}
+	
+	// Created By :- Mahendra Singh
+	// Created On :- 21-09-2020
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Banners Detail
+	@RequestMapping(value = { "/getAllBannerDtl" }, method = RequestMethod.POST)
+	public @ResponseBody List<BannerPage> getAllBannerDtl(@RequestParam int compId) {
+
+		List<BannerPage> list = new ArrayList<BannerPage>();
+		try {
+			list = bannerPageRepo.getBannerDetail(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil

@@ -35,9 +35,13 @@ public interface FrChargesRepo extends JpaRepository<FrCharges, Integer> {
 	//Get frCharges Sachin 25-12-2020
 	@Query(value = " SELECT COALESCE((SUM(surcharge_fee+packing_chg+handling_chg+extra_chg+round_off_amt) ),0 ) as ex_charge FROM mn_fr_charges WHERE fr_id=:frId " + 
 			" AND CURRENT_DATE BETWEEN from_date AND to_date ORDER BY charge_id DESC LIMIT 1 ", nativeQuery = true)
-	Float   getFrExChargesSumForFrId(@Param("frId") int frId);
+	Float   getFrExChargesSumForFrId1(@Param("frId") int frId);
 
-	
+	//Get frCharges Sachin 30-12-2020
+		@Query(value = " SELECT *  FROM mn_fr_charges WHERE fr_id=:frId " + 
+				" AND CURRENT_DATE BETWEEN from_date AND to_date ORDER BY charge_id DESC LIMIT 1 ", nativeQuery = true)
+		FrCharges   getFrExChargesSumForFrId(@Param("frId") int frId);
+
 	
 	
 	

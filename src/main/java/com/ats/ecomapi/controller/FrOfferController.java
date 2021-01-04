@@ -194,14 +194,14 @@ public class FrOfferController {
 		}
 		
 		@RequestMapping(value = { "/getFrExCharges" }, method = RequestMethod.POST)
-		public @ResponseBody Float getFrExCharges(@RequestParam("frId") int frId) {
+		public @ResponseBody FrCharges getFrExCharges(@RequestParam("frId") int frId) {
 			System.err.println(" Inside getFrExCharges frId= " +frId);
-			Float frExCharge=0.0f;
+			FrCharges frExCharge=new FrCharges();
 
 			try {
 				// Delivery Charges
 				frExCharge = frChargesRepo.getFrExChargesSumForFrId(frId);
-
+				System.err.println("frExCharge " +frExCharge);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

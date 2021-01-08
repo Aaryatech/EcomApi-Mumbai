@@ -17,6 +17,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +33,7 @@ import com.ats.ecomapi.fe_model.FEProductHeader;
 import com.ats.ecomapi.fe_model.FETestimonial;
 import com.ats.ecomapi.fe_model.FrSubCatList;
 import com.ats.ecomapi.fe_model.GetFlavorTagStatusList;
+import com.ats.ecomapi.fe_model.SiteVisitor;
 import com.ats.ecomapi.fe_repo.CategoryListRepo;
 import com.ats.ecomapi.fe_repo.FEBannerListRepo;
 import com.ats.ecomapi.fe_repo.FEProdDetailRepo;
@@ -39,6 +41,7 @@ import com.ats.ecomapi.fe_repo.FEProductHeaderRepo;
 import com.ats.ecomapi.fe_repo.FETestimonialRepo;
 import com.ats.ecomapi.fe_repo.FrSubCatListRepo;
 import com.ats.ecomapi.fe_repo.GetFlavorTagStatusListRepo;
+import com.ats.ecomapi.fe_repo.SiteVisitorRepo;
 import com.ats.ecomapi.master.model.City;
 import com.ats.ecomapi.master.model.CompanyTestomonials;
 import com.ats.ecomapi.master.model.Franchise;
@@ -49,10 +52,14 @@ import com.ats.ecomapi.master.repo.FranchiseRepo;
 import com.ats.ecomapi.master.repo.RelatedProductConfigRepo;
 import com.ats.ecomapi.master.repo.SettingRepo;
 import com.ats.ecomapi.mst_model.CateFilterConfig;
+import com.ats.ecomapi.mst_model.Customer;
+import com.ats.ecomapi.mst_model.CustomerAddDetail;
 import com.ats.ecomapi.mst_model.FestiveEvent;
 import com.ats.ecomapi.mst_model.GetRelatedProductConfig;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_repo.CateFilterConfigRepo;
+import com.ats.ecomapi.mst_repo.CustomerAddDetailRepo;
+import com.ats.ecomapi.mst_repo.CustomerRepo;
 import com.ats.ecomapi.mst_repo.FestiveEventRepo;
 import com.ats.ecomapi.mst_repo.GetRelatedProductConfigRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -93,6 +100,35 @@ public class FrontEndDataController {
 	//Sachin 22-12-2020
 	@Autowired FrSubCatListRepo frSubcatListRepo;
 	
+	//Sachin 06-01-2021
+	@Autowired CustomerRepo custRepo;
+	@Autowired CustomerAddDetailRepo custAddDetailRepo;
+	//Sachin 06-01-2021
+	@RequestMapping(value = { "/getCustomerByMobNo" }, method = RequestMethod.POST)
+	public @ResponseBody Object getCustomerByMobNo(@RequestParam("mobNo") String mobNo) {
+		
+		Customer cust=new  Customer();
+		try {
+			cust=custRepo.findByCustMobileNoAndDelStatusAndIsActive(mobNo, 1, 1);
+			if(cust==null) {
+				System.err.println("Its null ");
+			}else {
+				System.err.println("Its cust "+cust);
+				CustomerAddDetail addDetail=custAddDetailRepo.getAddDetailByCustId(cust.getCustId());
+				return addDetail;
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cust;
+		
+	}
+	@Autowired SiteVisitorRepo siteVistRepo;
+	@RequestMapping(value = { "/saveSiteVisitor" }, method = RequestMethod.POST)
+	public @ResponseBody Object saveSiteVisitor(@RequestBody SiteVisitor inputVisitor) {
+		SiteVisitor visitor=siteVistRepo.save(inputVisitor);
+		return visitor;
+	}
 	@RequestMapping(value = { "/generateFrDataJSON" }, method = RequestMethod.POST)
 	public @ResponseBody Object getProdDataForFranchise(@RequestParam("frIdList") List<Integer> frIdList,
 			@RequestParam("companyId") int companyId) {

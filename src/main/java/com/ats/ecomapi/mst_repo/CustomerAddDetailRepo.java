@@ -64,5 +64,36 @@ public interface CustomerAddDetailRepo extends JpaRepository<CustomerAddDetail, 
 			"         customer.cust_detail_id desc",nativeQuery=true)
 	public List<CustomerAddDetail> findByCustAddresDtl(@Param ("custId") int custId);
 
+	//Sachin 06-01-2021
+	@Query(value="select\n" + 
+			"         customer.cust_detail_id,\n" + 
+			"         customer.address,\n" + 
+			"         customer.area_id,\n" + 
+			"         customer.caption,\n" + 
+			"         customer.city_id,\n" + 
+			"         customer.cust_id,\n" + 
+			"         customer.del_status,\n" + 
+			"         customer.ex_int1,\n" + 
+			"         customer.ex_int2,\n" + 
+			"         customer.ex_int3,\n" + 
+			"         customer.ex_var1,\n" + 
+			"         customer.ex_var2 ,\n" + 
+			"        customer.ex_var3,\n" + 
+			"         customer.insert_dttime,\n" + 
+			"         customer.is_active,\n" + 
+			"         customer.landmark,\n" + 
+			"         customer.latitude,\n" + 
+			"         customer.longitude,\n" + 
+			"         customer.maker_user_id,\n" + 
+			"         customer.updt_dttime \n" + 
+			"    from\n" + 
+			"        m_customer_address_detail customer \n" + 
+			"        " + 
+			"    where\n" + 
+			"         customer.del_status=1 and customer.cust_id=:custId " + 
+			"    order by\n" + 
+			"         customer.cust_detail_id desc LIMIT 1",nativeQuery=true)
+	public CustomerAddDetail getAddDetailByCustId(@Param ("custId") int custId);
+
 
 }

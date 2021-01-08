@@ -1070,7 +1070,7 @@ public class CompanyApiController {
 
 		List<GetAllCustomerAddress> list = new ArrayList<GetAllCustomerAddress>();
 		try {
-			list = allAddresRepo.getAllCustAddress(compId, custId);
+			list = allAddresRepo.getAllCustAddress(custId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

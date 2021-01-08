@@ -106,14 +106,14 @@ public interface GetAllCustomerAddressRepo extends JpaRepository<GetAllCustomerA
 			"    FROM\n" + 
 			"        m_customer\n" + 
 			"    WHERE\n" + 
-			"        m_customer.company_id = :compId AND m_customer.del_status = 1\n" + 
+			"        m_customer.del_status = 1\n" + 
 			" ) t4\n" + 
 			" ON\n" + 
 			"    t1.cust_id = t4.cust_id"
 			+ "  LEFT JOIN (SELECT m_franchise.fr_id,m_franchise.fr_name FROM\n" + 
 			"                        m_franchise WHERE m_franchise.del_status=1 and m_franchise.is_active=1\n" + 
 			"                       ) t5 ON t1.ex_int3=t5.fr_id", nativeQuery=true)
-	public List<GetAllCustomerAddress> getAllCustAddress(@Param("compId") int compId, @Param("custId") int custId);
+	public List<GetAllCustomerAddress> getAllCustAddress(@Param("custId") int custId);
 
 	
 }

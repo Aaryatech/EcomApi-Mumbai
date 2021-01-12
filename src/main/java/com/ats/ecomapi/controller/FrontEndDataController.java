@@ -109,7 +109,7 @@ public class FrontEndDataController {
 		
 		Customer cust=new  Customer();
 		try {
-			cust=custRepo.findByCustMobileNoAndDelStatusAndIsActive(mobNo, 1, 1);
+			cust=custRepo.findLastByCustIdCustMobileNoAndDelStatusAndIsActive(mobNo.trim());
 			if(cust==null) {
 				System.err.println("Its null ");
 			}else {

@@ -102,26 +102,25 @@ public class OrderApiController {
 
 	@Autowired
 	SellBillHeaderRepository sellBillHeaderRepository;
-	
+
 	@Autowired
 	SellBillDetailRepository sellBillDetailRepository;
-	
+
 	@Autowired
 	TransactionDetailRepository transactionDetailRepository;
-	
+
 	@Autowired
 	OrderHeaderRepo orderHeaderRepository;
-	
+
 	@Autowired
 	SellBillDataForPrintRepo sellBillDataForPrintRepo;
-	
+
 	@Autowired
 	SellBillDetailForPosRepository sellBillDetailForPosRepository;
 
 	@Autowired
 	TaxLabListForPosPosRepository taxLabListForPosPosRepository;
 
-	
 	@RequestMapping(value = { "/getAllStatus" }, method = RequestMethod.GET)
 	public @ResponseBody List<Status> getAllStatus() {
 
@@ -259,36 +258,36 @@ public class OrderApiController {
 	@Transactional
 	@RequestMapping(value = { "/saveCloudOrder" }, method = RequestMethod.POST)
 	public @ResponseBody Info saveCloudOrder(@RequestBody OrderSaveData orderSaveData) {
-		
+
 		Info info = new Info();
-		
-			Setting setting = new Setting();
-			setting = settingRepo.findBySettingKey("ORDER_NO");
 
-			int no = Integer.parseInt(setting.getSettingValue());
-			String orderNo = String.format("%0" + 5 + "d", no);
+		Setting setting = new Setting();
+		setting = settingRepo.findBySettingKey("ORDER_NO");
 
-			orderSaveData.getOrderHeader().setOrderNo(orderNo);
+		int no = Integer.parseInt(setting.getSettingValue());
+		String orderNo = String.format("%0" + 5 + "d", no);
 
-			OrderHeader res = orderHeadRepo.save(orderSaveData.getOrderHeader());
-			orderSaveData.getOrderTrail().setOrderId(res.getOrderId());
+		orderSaveData.getOrderHeader().setOrderNo(orderNo);
 
-			no = no + 1;
+		OrderHeader res = orderHeadRepo.save(orderSaveData.getOrderHeader());
+		orderSaveData.getOrderTrail().setOrderId(res.getOrderId());
 
-			int updateOrderNo = settingRepo.udateKeyAndValue("ORDER_NO", no);
+		no = no + 1;
 
-			OrderTrail orderRes = orderTrailRepository.save(orderSaveData.getOrderTrail());
+		int updateOrderNo = settingRepo.udateKeyAndValue("ORDER_NO", no);
 
-			for (int i = 0; i < orderSaveData.getOrderDetailList().size(); i++) {
-				orderSaveData.getOrderDetailList().get(i).setOrderId(res.getOrderId());
-			}
-			List<OrderDetail> orderDetailList = orderDetailRepository.saveAll(orderSaveData.getOrderDetailList());
+		OrderTrail orderRes = orderTrailRepository.save(orderSaveData.getOrderTrail());
 
-			info.setError(false);
-			info.setMessage(String.valueOf(res.getOrderId()));
-		
+		for (int i = 0; i < orderSaveData.getOrderDetailList().size(); i++) {
+			orderSaveData.getOrderDetailList().get(i).setOrderId(res.getOrderId());
+		}
+		List<OrderDetail> orderDetailList = orderDetailRepository.saveAll(orderSaveData.getOrderDetailList());
+
+		info.setError(false);
+		info.setMessage(String.valueOf(res.getOrderId()));
+
 		return info;
-		
+
 	}
 
 	@RequestMapping(value = { "/getOrderHistoryListByCustId" }, method = RequestMethod.POST)
@@ -593,7 +592,7 @@ public class OrderApiController {
 	}
 
 	@RequestMapping(value = { "/insertSellBillData" }, method = RequestMethod.POST)
-	public @ResponseBody SellBillHeader sellBillData(@RequestBody SellBillHeader sellBillHeader){
+	public @ResponseBody SellBillHeader sellBillData(@RequestBody SellBillHeader sellBillHeader) {
 		SellBillHeader sellBillHeaderRes = new SellBillHeader();
 		try {
 
@@ -603,7 +602,7 @@ public class OrderApiController {
 			}
 
 			int sellBillNo = sellBillHeaderRes.getSellBillNo();
-			System.err.println("Details-----"+sellBillHeader.getSellBillDetailsList());
+			System.err.println("Details-----" + sellBillHeader.getSellBillDetailsList());
 			List<SellBillDetail> sellBillDetailList = sellBillHeader.getSellBillDetailsList();
 			List<SellBillDetail> sellBillDetailRes = new ArrayList<SellBillDetail>();
 			if (sellBillDetailList != null) {
@@ -626,8 +625,7 @@ public class OrderApiController {
 		return sellBillHeaderRes;
 
 	}
-		
-	
+
 	@RequestMapping(value = { "/saveTransactionDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<TransactionDetail> saveTransactionDetail(
 			@RequestBody List<TransactionDetail> transactionDetail) {
@@ -636,93 +634,104 @@ public class OrderApiController {
 
 		return transactionDetailRes;
 	}
-	
+
 	// -----------UPDATE DELIVERY BOY----------------
-			@RequestMapping(value = { "/updateDeliveryBoy" }, method = RequestMethod.POST)
-			public @ResponseBody Info updateDeliveryBoy(@RequestParam("orderId") int orderId,
-					@RequestParam("delBoyId") int delBoyId) {
+	@RequestMapping(value = { "/updateDeliveryBoy" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateDeliveryBoy(@RequestParam("orderId") int orderId,
+			@RequestParam("delBoyId") int delBoyId) {
 
-				Info info = new Info();
-				try {
+		Info info = new Info();
+		try {
 
-					int res = orderHeaderRepository.updateDeliveryBoy(orderId, delBoyId);
-					if (res > 0) {
-						info.setError(false);
-						info.setMessage("Success");
-					} else {
-						info.setError(true);
-						info.setMessage("Failed");
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-					info.setError(true);
-					info.setMessage("Failed");
-				}
-				return info;
+			int res = orderHeaderRepository.updateDeliveryBoy(orderId, delBoyId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Success");
+			} else {
+				info.setError(true);
+				info.setMessage("Failed");
 			}
-			
-			@RequestMapping(value = { "/getSellBillForPrintByOrderId" }, method = RequestMethod.POST)
-			public @ResponseBody SellBillDataForPrint getSellBillForPrintByOrderId(@RequestParam("orderId") int orderId)
-					throws ParseException {
-				SellBillDataForPrint res = null;
-				System.err.println("sellBillNo-------- is ---------" + orderId);
-				try {
-					res = sellBillDataForPrintRepo.getBillHeaderByOrderId(orderId);
-					if (res == null) {
-						res = new SellBillDataForPrint();
-					}
 
-					List<SellBillDetailForPos> list = sellBillDetailForPosRepository
-							.getSellBillDetailForPos(res.getSellBillNo());
-					System.err.println("DETAIL = " + list);
-					res.setList(list);
-					// System.out.println(flag);
-					List<TaxLabListForPos> taxLabListForPosList = taxLabListForPosPosRepository.taxLabListForPosList(res.getSellBillNo());
-					res.setTaxlabList(taxLabListForPosList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			info.setError(true);
+			info.setMessage("Failed");
+		}
+		return info;
+	}
 
-					System.err.println("data is" + res.toString());
-
-				} catch (Exception e) {
-					System.out.println("Exc in getSellBillForPrintByOrderId" + e.getMessage());
-					// e.printStackTrace();
-				}
-
-				return res;
-
+	@RequestMapping(value = { "/getSellBillForPrintByOrderId" }, method = RequestMethod.POST)
+	public @ResponseBody SellBillDataForPrint getSellBillForPrintByOrderId(@RequestParam("orderId") int orderId)
+			throws ParseException {
+		SellBillDataForPrint res = null;
+		System.err.println("sellBillNo-------- is ---------" + orderId);
+		try {
+			res = sellBillDataForPrintRepo.getBillHeaderByOrderId(orderId);
+			if (res == null) {
+				res = new SellBillDataForPrint();
 			}
-			
-			@RequestMapping(value = { "/getTransactionByBillId" }, method = RequestMethod.POST)
-			public @ResponseBody TransactionDetail getTransactionByBillId(@RequestParam("sellBillNo") int sellBillNo) {
 
-				TransactionDetail transactionDetailRes = transactionDetailRepository.getTransactionByBillId(sellBillNo);
+			List<SellBillDetailForPos> list = sellBillDetailForPosRepository
+					.getSellBillDetailForPos(res.getSellBillNo());
+			System.err.println("DETAIL = " + list);
+			res.setList(list);
+			// System.out.println(flag);
+			List<TaxLabListForPos> taxLabListForPosList = taxLabListForPosPosRepository
+					.taxLabListForPosList(res.getSellBillNo());
+			res.setTaxlabList(taxLabListForPosList);
 
-				return transactionDetailRes;
+			System.err.println("data is" + res.toString());
+
+		} catch (Exception e) {
+			System.out.println("Exc in getSellBillForPrintByOrderId" + e.getMessage());
+			// e.printStackTrace();
+		}
+
+		return res;
+
+	}
+
+	@RequestMapping(value = { "/getTransactionByBillId" }, method = RequestMethod.POST)
+	public @ResponseBody TransactionDetail getTransactionByBillId(@RequestParam("sellBillNo") int sellBillNo) {
+
+		TransactionDetail transactionDetailRes = transactionDetailRepository.getTransactionByBillId(sellBillNo);
+
+		return transactionDetailRes;
+	}
+
+	// Sachin 14-12-2020
+	// Update order on digital Payment Success/Fail
+	@RequestMapping(value = { "/updateOrderFrontEnd" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateOrderFrontEnd(@RequestParam("orderId") int orderId,
+			@RequestParam("uniqNo") String uniqNo, @RequestParam("paidStatus") int paidStatus,
+			@RequestParam("payRemark") String payRemark, @RequestParam("orderStatus") int orderStatus) {
+
+		Info info = new Info();
+		int update = 0;
+		try {
+			if (orderStatus > 0) {
+				update = orderHeadRepo.updateOrderFrontEndFailedPay(uniqNo, paidStatus, payRemark, orderStatus,
+						orderId);
+			} else {
+				update = orderHeadRepo.updateOrderFrontEndSuccessPay(uniqNo, paidStatus, payRemark, orderId);
 			}
-			
-			//Sachin 14-12-2020
-			//Update order on digital Payment Success/Fail
-			@RequestMapping(value = { "/updateOrderFrontEnd" }, method = RequestMethod.POST)
-			public @ResponseBody Info updateOrderFrontEnd(@RequestParam("orderId") int orderId,
-					@RequestParam("uniqNo") String uniqNo, @RequestParam("paidStatus") int paidStatus,
-					@RequestParam("payRemark") String payRemark, @RequestParam("orderStatus") int orderStatus) {
+			if (update > 0) {
+				info.setError(false);
+				info.setMsg("epay");
+			}
 
-				Info info = new Info();
-int update=0;
-				try {
-					if(orderStatus>0) {
-					 update = orderHeadRepo.updateOrderFrontEndFailedPay(uniqNo, paidStatus, payRemark, orderStatus, orderId);
-					}else {
-						 update = orderHeadRepo.updateOrderFrontEndSuccessPay(uniqNo, paidStatus, payRemark, orderId);
-					}
-					if(update>0) {
-						info.setError(false);
-						info.setMsg("epay");
-					}
-			
-				}catch (Exception e) {
-					info = new Info();
-				}
-				return info;
-			}			 
+		} catch (Exception e) {
+			info = new Info();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = { "/getJsonPath" }, method = RequestMethod.GET)
+	public @ResponseBody String getJsonPath() {
+		String val = new String();
+		Setting setting = new Setting();
+		setting = settingRepo.findBySettingKey("JSON_SAVE_PATH");
+		return val;
+	}
+
 }

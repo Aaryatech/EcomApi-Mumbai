@@ -165,6 +165,26 @@ public class FrontEndDataController {
 			} catch (Exception e) {
 				flavorTagStatusList = new ArrayList<>();
 			}
+			try {
+				List<Integer> homePageStatusIdList=new ArrayList<Integer>();
+				homePageStatusIdList=feFlavTagStatusRepo.getHomePageStatusIds(companyId);
+				if(homePageStatusIdList!=null) {
+					for(int k=0;k<homePageStatusIdList.size();k++) {
+						for(int i=0;i<flavorTagStatusList.size();i++) {
+							if(flavorTagStatusList.get(i).getFilterTypeId()==5) {
+								if(flavorTagStatusList.get(i).getFilterId()==homePageStatusIdList.get(k)) {
+								flavorTagStatusList.get(i).setCostAffect(1);
+								break;
+							}
+						}else {
+							continue;
+						}
+					}
+					}
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 			dataTraveller.setFlavorTagStatusList(flavorTagStatusList);
 
 			// 4
@@ -498,6 +518,8 @@ public class FrontEndDataController {
 
 	public void publishData(String json, int frId, int fileType) {
 		Setting setting=settingRepo.findBySettingKey("JSON_SAVE_PATH");
+		
+		//Setting setting=settingRepo.findBySettingKey("SACHIN_LOCAL_JSON");
 		final String JSON_SAVE_URL = setting.getSettingValue();//"/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
 //		 final String JSON_SAVE_URL = 
 //		 "/opt/apache-tomcat-8.5.39/webapps/IMG_UP/";

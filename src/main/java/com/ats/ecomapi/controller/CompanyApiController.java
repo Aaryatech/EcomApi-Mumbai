@@ -85,6 +85,20 @@ public class CompanyApiController {
 		return comp;
 
 	}
+	
+	
+	@RequestMapping(value = { "/getCompanyNameyId" }, method = RequestMethod.POST)
+	public @ResponseBody String getCompanyNameyId(@RequestParam int compId) {
+
+		String comp = new String();
+		try {
+			comp = compMasterRepo.getCompanyNameByCompanyId(compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comp;
+
+	}
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil

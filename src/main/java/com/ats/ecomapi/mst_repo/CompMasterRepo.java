@@ -16,6 +16,9 @@ public interface CompMasterRepo extends JpaRepository<CompMaster, Integer> {
 
 	CompMaster findByCompanyId(int compId);	
 	
+	@Query(value="select company_name from m_company where company_id=:compId",nativeQuery=true)
+	String getCompanyNameByCompanyId(@Param("compId") int compId);
+	
 	@Transactional
 	@Modifying
 	@Query(value="UPDATE\n" + 

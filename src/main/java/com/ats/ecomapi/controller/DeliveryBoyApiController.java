@@ -103,7 +103,7 @@ public class DeliveryBoyApiController {
 		{
 	//		DeliveryBoy boy=new DeliveryBoy();
 			DeliveryBoy	boy=updateRepo.save(Dboy);
-
+                System.out.println(Dboy);
 			//Integer count=dboyRepo.CheckMobileNo(Dboy.getDelBoyId());
 			Integer c=Dboy.getDelBoyId();
 			System.out.println(c);

@@ -288,9 +288,9 @@ public class FranchiseeConfigurationApiController {
 	// Description :- Save Delivery Boy
 	@RequestMapping(value = { "/saveDeliveryBoy" }, method = RequestMethod.POST)
 	public @ResponseBody DeliveryBoy saveDeliveryBoy(@RequestBody DeliveryBoy delBoy) {
-
+System.err.println(delBoy);
 		DeliveryBoy newDelBoy = new DeliveryBoy();
-		try {
+		try {  
 			newDelBoy = delvrBoyRepo.save(delBoy);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -377,6 +377,27 @@ public class FranchiseeConfigurationApiController {
 		}
 		return res;
 	}
+	
+	
+	@RequestMapping(value = { "/getDeliveryBoyBydeliveryBoyLicenseNo" }, method = RequestMethod.POST)
+	public @ResponseBody DeliveryBoy getDeliveryBoyBydeliveryBoyLicenseNo(@RequestParam int delBoyId, @RequestParam String deliveryBoyLicenseNo) {
+
+		DeliveryBoy res = new DeliveryBoy();
+		try {
+			if(delBoyId>0) {
+				res = delvrBoyRepo.findBydeliveryBoyLicenseNoAndDelStatusAndDelBoyIdNot(deliveryBoyLicenseNo, 1, delBoyId);
+			}else {
+				res = delvrBoyRepo.findBydeliveryBoyLicenseNoAndDelStatus(deliveryBoyLicenseNo, 1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	
+	
+	
 	
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Mahendra Singh

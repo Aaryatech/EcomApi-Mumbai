@@ -27,6 +27,11 @@ public interface DeliveryBoyRepo extends JpaRepository<DeliveryBoy, Integer> {
 
 	DeliveryBoy findByMobileNoAndDelStatusAndDelBoyIdNot(String mobNo, int Del, int delBoyId);
 	
+	DeliveryBoy findBydeliveryBoyLicenseNoAndDelStatus(String deliveryBoyLicenseNo, int Del);
+
+	DeliveryBoy findBydeliveryBoyLicenseNoAndDelStatusAndDelBoyIdNot(String deliveryBoyLicenseNo, int Del, int delBoyId);
+	
+	
 	@Query(value="SELECT\n" + 
 			"    t1.del_boy_id,\n" + 
 			"    t1.address,\n" + 
@@ -44,7 +49,13 @@ public interface DeliveryBoyRepo extends JpaRepository<DeliveryBoy, Integer> {
 			"    t1.last_name,\n" + 
 			"    t1.mobile_no,\n" + 
 			"    t1.vehicle_no,\n" + 
-			"    COALESCE(t2.fr_count,0) AS ex_int2\n" + 
+			"    t1.delivery_boy_license_no ,\n" + 
+			"    t1.own_vehicle,\n" + 
+			"    t1.license_expiry_date,\n" + 
+			"    t1.insurance_expiry_date,\n" + 
+			"    t1.owner_of_vehicle,\n" + 
+			"    t1.puc_expiry_date,\n" + 
+			"    COALESCE(t2.fr_count, 0) AS ex_int2\n" + 
 			"FROM\n" + 
 			"    (\n" + 
 			"    SELECT\n" + 
@@ -64,29 +75,33 @@ public interface DeliveryBoyRepo extends JpaRepository<DeliveryBoy, Integer> {
 			"        joining_date,\n" + 
 			"        last_name,\n" + 
 			"        mobile_no,\n" + 
-			"        vehicle_no\n" + 
+			"        vehicle_no ,\n" + 
+			"        delivery_boy_license_no,\n" + 
+			"        own_vehicle,\n" + 
+			"        license_expiry_date,\n" + 
+			"        insurance_expiry_date,\n" + 
+			"        owner_of_vehicle,\n" + 
+			"        puc_expiry_date\n" + 
 			"    FROM\n" + 
 			"        m_delivery_boy\n" + 
 			"    WHERE\n" + 
-			"        comp_id = :compId AND del_status = 1\n" + 
+			"        comp_id =:compId  AND del_status = 1\n" + 
 			"    ORDER BY\n" + 
 			"        del_boy_id\n" + 
 			"    DESC\n" + 
 			") t1\n" + 
 			"LEFT JOIN(\n" + 
-			"    SELECT\n" + 
-			"        del_boy_id,\n" + 
-			"       \n" + 
-			"            (\n" + 
-			"                CHAR_LENGTH(fr_ids) - CHAR_LENGTH(\n" + 
-			"            REPLACE\n" + 
-			"                (fr_ids, ',', '')\n" + 
-			"            ) + 1\n" + 
-			"            ) AS fr_count\n" + 
+			"    SELECT del_boy_id,\n" + 
+			"        (\n" + 
+			"            CHAR_LENGTH(fr_ids) - CHAR_LENGTH(\n" + 
+			"        REPLACE\n" + 
+			"            (fr_ids, ',', '')\n" + 
+			"        ) + 1\n" + 
+			"        ) AS fr_count\n" + 
 			"    FROM\n" + 
 			"        `t_fr_delivery_boy_assign`\n" + 
 			"    WHERE\n" + 
-			"        company_id = :compId AND del_status = 1\n" + 
+			"        company_id =:compId  AND del_status = 1\n" + 
 			") t2\n" + 
 			"ON\n" + 
 			"    t1.del_boy_id = t2.del_boy_id", nativeQuery=true)

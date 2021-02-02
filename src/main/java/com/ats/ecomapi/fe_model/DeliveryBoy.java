@@ -67,6 +67,87 @@ public class DeliveryBoy {
 	
 	@Column(name = "is_active")
 	private int isActive;
+	
+	@Column(name = "delivery_boy_license_no")
+	private String deliveryBoyLicenseNo;
+	
+	@Column(name = "own_vehicle")
+	private int ownVehicle;
+	
+	@Column(name = "license_expiry_date")
+	private Date licenseExpiryDate;
+	
+
+	@Column(name = "insurance_expiry_date")
+	private Date insuranceExpiryDate;
+	
+
+	@Column(name = "owner_of_vehicle")
+	private String ownerOfVehicle;
+	
+
+	@Column(name = "puc_expiry_date")
+	private Date pucExpiryDate;
+
+
+	
+	public String getDeliveryBoyLicenseNo() {
+		return deliveryBoyLicenseNo;
+	}
+
+	public void setDeliveryBoyLicenseNo(String deliveryBoyLicenseNo) {
+		this.deliveryBoyLicenseNo = deliveryBoyLicenseNo;
+	}
+
+	public int getOwnVehicle() {
+		return ownVehicle;
+	}
+
+	
+
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public void setOwnVehicle(int ownVehicle) {
+		this.ownVehicle = ownVehicle;
+	}
+    
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getLicenseExpiryDate() {
+		return licenseExpiryDate;
+	}
+
+	public void setLicenseExpiryDate(Date licenseExpiryDate) {
+		this.licenseExpiryDate = licenseExpiryDate;
+	}
+    
+
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getInsuranceExpiryDate() {
+		return insuranceExpiryDate;
+	}
+    
+	public void setInsuranceExpiryDate(Date insuranceExpiryDate) {
+		this.insuranceExpiryDate = insuranceExpiryDate;
+	}
+
+	public String getOwnerOfVehicle() {
+		return ownerOfVehicle;
+	}
+
+	public void setOwnerOfVehicle(String ownerOfVehicle) {
+		this.ownerOfVehicle = ownerOfVehicle;
+	}
+	
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getPucExpiryDate() {
+		return pucExpiryDate;
+	}
+	
+	public void setPucExpiryDate(Date pucExpiryDate) {
+		this.pucExpiryDate = pucExpiryDate;
+	}
+
+
+
 
 	public int getDelBoyId() {
 		return delBoyId;

@@ -28,7 +28,7 @@ public interface GetRouteListRepo  extends JpaRepository<GetRouteList, Integer>{
 			"    m_route_type,\n" + 
 			"    m_route_delivery\n" + 
 			"WHERE\n" + 
-			"   m_route_type.route_type_id=m_route.type_of_route AND m_route.is_delivery_no=m_route_delivery.rouid_delvery_id AND m_route.del_status=1 AND m_route.company_id=:compId",nativeQuery=true)
+			"   m_route_type.route_type_id=m_route.type_of_route AND m_route.is_delivery_no=m_route_delivery.rouid_delvery_id AND m_route.del_status=1 AND m_route.company_id=:compId ORDER BY m_route.route_id DESC",nativeQuery=true)
 	List<GetRouteList> getAllRoutes(@Param("compId") int compId);
 
 

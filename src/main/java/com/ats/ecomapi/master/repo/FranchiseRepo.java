@@ -173,7 +173,7 @@ public interface FranchiseRepo extends JpaRepository<Franchise, Integer> {
 				"    franchise0_.fr_contact_no,\n" + 
 				"    franchise0_.fr_password,\n" + 
 				"    franchise0_.fda_number,\n" + 
-				"    franchise0_.gst_type,\n" + 
+				"    COALESCE(franchise0_.gst_type,0) AS gst_type,\n" + 
 				"    franchise0_.gst_number,\n" + 
 				"    franchise0_.pincode,\n" + 
 				"    franchise0_.owners_birth_day,\n" + 

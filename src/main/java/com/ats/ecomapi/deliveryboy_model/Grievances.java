@@ -1,4 +1,4 @@
-package com.ats.ecomapi.fe_model;
+package com.ats.ecomapi.deliveryboy_model;
 
 import java.util.Date;
 

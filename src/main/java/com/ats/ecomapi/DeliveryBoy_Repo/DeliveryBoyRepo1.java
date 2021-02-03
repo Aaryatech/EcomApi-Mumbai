@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ats.ecomapi.fe_model.DBoyLoginResponse;
+import com.ats.ecomapi.deliveryboy_model.DBoyLoginResponse;
 import com.ats.ecomapi.fe_model.DeliveryBoy;
 
 

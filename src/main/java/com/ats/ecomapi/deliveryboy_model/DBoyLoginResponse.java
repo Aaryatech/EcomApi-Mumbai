@@ -1,4 +1,4 @@
-package com.ats.ecomapi.fe_model;
+package com.ats.ecomapi.deliveryboy_model;
 
 import java.util.Date;
 
@@ -12,7 +12,6 @@ import javax.persistence.Transient;
 public class DBoyLoginResponse {
 
 	@Id
-	
 	private int delBoyId;
 	private String firstName;
 	private String lastName;

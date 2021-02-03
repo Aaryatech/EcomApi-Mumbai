@@ -15,26 +15,20 @@ import com.ats.ecomapi.DeliveryBoy_Repo.DeliveryBoyProfileUpdate;
 import com.ats.ecomapi.DeliveryBoy_Repo.DeliveryBoyRepo1;
 import com.ats.ecomapi.DeliveryBoy_Repo.GrievencesRepo;
 import com.ats.ecomapi.DeliveryBoy_Repo.OrderDetailRepo1;
-import com.ats.ecomapi.DeliveryBoy_Repo.OrderHeaderRepo1;
 import com.ats.ecomapi.DeliveryBoy_Repo.orheaderRepo;
 import com.ats.ecomapi.common.CommonUtility;
-//import com.ats.ecomapi.common.OrHeader;
-import com.ats.ecomapi.fe_model.DBoyLoginResponse;
-import com.ats.ecomapi.fe_model.OrHeader;
-import com.ats.ecomapi.fe_model.OrderDetail1;
-import com.ats.ecomapi.fe_model.OrderHeader1;
 import com.ats.ecomapi.fe_model.DeliveryBoy;
-import com.ats.ecomapi.fe_model.Grievances;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.OrderDetail;
 import com.ats.ecomapi.common.SMSUtility;
+import com.ats.ecomapi.deliveryboy_model.DBoyLoginResponse;
+import com.ats.ecomapi.deliveryboy_model.Grievances;
+import com.ats.ecomapi.deliveryboy_model.OrHeader;
+import com.ats.ecomapi.deliveryboy_model.OrderDetail1;
 @RestController
 public class DeliveryBoyApiController {
 	@Autowired
      DeliveryBoyRepo1 dboyRepo;
-	
-//	@Autowired
-//	 OrderHeaderRepo1 ohRepo;
 	
 	@Autowired
 	OrderDetailRepo1 odRepo;
@@ -108,7 +102,7 @@ public class DeliveryBoyApiController {
 			Integer c=Dboy.getDelBoyId();
 			System.out.println(c);
 //			if(c!=0) {
-//
+
 //				 boy =new DeliveryBoy();
 //				boy=updateRepo.save(Dboy);
 //			}
@@ -150,13 +144,13 @@ public class DeliveryBoyApiController {
 	
 
 
-//Get OTP API For Delivery Boy   
-@RequestMapping(value= {"/dBoyOTP"},method=RequestMethod.GET)
-public @ResponseBody Info dBoyOTP(@RequestParam String mobile_no,@RequestParam String message)
-{
-   // Info info=new Info();
-
-	Info info=SMSUtility.sendSMS(mobile_no,message);
-	return info;
-}
-}
+       //Get OTP API For Delivery Boy   
+       @RequestMapping(value= {"/dBoyOTP"},method=RequestMethod.GET)
+       public @ResponseBody Info dBoyOTP(@RequestParam String mobile_no,@RequestParam String message)
+       {
+          // Info info=new Info();
+          Info info=SMSUtility.sendSMS(mobile_no,message);
+          
+	      return info;
+       }
+       }

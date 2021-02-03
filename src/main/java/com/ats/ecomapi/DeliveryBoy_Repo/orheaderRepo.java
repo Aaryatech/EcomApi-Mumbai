@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ats.ecomapi.fe_model.OrHeader;
+import com.ats.ecomapi.deliveryboy_model.OrHeader;
 
 public interface orheaderRepo extends JpaRepository<OrHeader,Long>{
 
@@ -20,6 +20,9 @@ public interface orheaderRepo extends JpaRepository<OrHeader,Long>{
 			"        tn_order_header.total_amt,\n" + 
 			"        tn_order_header.payment_method,\n" + 
 			"        tn_order_header.fr_id,\n" + 
+			"        tn_order_header.delivery_date,\n" +
+			"        tn_order_header.delivery_time,\n" + 
+			"        tn_order_header.insert_date_time,\n" + 
 			"        tn_order_header.cust_id,fr_code,fr_name,fr_address,shops_latitude,shops_logitude,no_of_km_area_cover,\n" + 
 			"        cust_name,cust_mobile_no \n" + 
 			"from\n" + 

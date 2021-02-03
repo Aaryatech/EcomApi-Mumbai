@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ats.ecomapi.fe_model.OrderDetail1;
+import com.ats.ecomapi.deliveryboy_model.OrderDetail1;
 
 public interface OrderDetailRepo1 extends JpaRepository<OrderDetail1,Long>{
 

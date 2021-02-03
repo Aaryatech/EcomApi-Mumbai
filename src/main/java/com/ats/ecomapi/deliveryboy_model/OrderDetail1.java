@@ -1,6 +1,4 @@
-package com.ats.ecomapi.fe_model;
-
-//import java.awt.Image;
+package com.ats.ecomapi.deliveryboy_model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,26 +7,29 @@ import javax.persistence.Id;
 public class OrderDetail1 {
 	@Id
 	private Integer orderDetailId;
+	private Integer orderId;
+    private Integer productId;
+	private String productName;
+	private String prodImagePrimary;
+	private Integer minQty;
+    private String productDesc;
+    
  	public Integer getOrderDetailId() {
 		return orderDetailId;
 	}
 	public void setOrderDetailId(Integer orderDetailId) {
 		this.orderDetailId = orderDetailId;
 	}
-private Integer orderId;
-	private Integer productId;
-    private String productName;
-    private String prodImagePrimary;
+ 
     @Override
 	public String toString() {
 		return "OrderDetail1 [orderDetailId=" + orderDetailId + ", productId=" + productId + ", productName="
 				+ productName + ", prodImagePrimary=" + prodImagePrimary + ", minQty=" + minQty + ", productDesc="
 				+ productDesc + "]";
 	}
-	private Integer minQty;
-    private String productDesc;
+	
 
- public Integer getProductId() {
+    public Integer getProductId() {
 		return productId;
 	}
 	public void setProductId(Integer productId) {
@@ -40,12 +41,7 @@ private Integer orderId;
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-//	public Image getProdImagePrimary() {
-//		return prodImagePrimary;
-//	}
-//	public void setProdImagePrimary(Image prodImagePrimary) {
-//		this.prodImagePrimary = prodImagePrimary;
-//	}
+
 	public String getProductDesc() {
 		return productDesc;
 	}

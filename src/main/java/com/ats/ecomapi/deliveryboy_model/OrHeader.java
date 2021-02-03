@@ -1,4 +1,4 @@
-package com.ats.ecomapi.fe_model;
+package com.ats.ecomapi.deliveryboy_model;
 
 import java.util.List;
 
@@ -14,6 +14,10 @@ public class OrHeader {
 	private Integer orderNo;
 	private Integer totalAmt;
 	private String orderStatus;
+	
+	private String deliveryDate;
+	private String deliveryTime;
+	private String insertDateTime;
 	
 	private Integer paymentMethod;
 	
@@ -64,14 +68,6 @@ public class OrHeader {
 		this.totalAmt = orderAmt;
 	}
 
-//	public Integer getQty() {
-//		return qty;
-//	}
-//
-//	public void setQty(Integer qty) {
-//		this.qty = qty;
-//	}
-
 	public Integer getPaymentMethod() {
 		return paymentMethod;
 	}
@@ -79,14 +75,6 @@ public class OrHeader {
 	public void setPaymentMethod(Integer paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
-
-//	public Integer getItemId() {
-//		return itemId;
-//	}
-//
-//	public void setItemId(Integer itemId) {
-//		this.itemId = itemId;
-//	}
 
 	public Integer getFrId() {
 		return frId;
@@ -174,6 +162,30 @@ public class OrHeader {
 
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
+	}
+
+	public String getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(String deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
+	public String getDeliveryTime() {
+		return deliveryTime;
+	}
+
+	public void setDeliveryTime(String deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+
+	public String getInsertDateTime() {
+		return insertDateTime;
+	}
+
+	public void setInsertDateTime(String insertDateTime) {
+		this.insertDateTime = insertDateTime;
 	}
 
 	

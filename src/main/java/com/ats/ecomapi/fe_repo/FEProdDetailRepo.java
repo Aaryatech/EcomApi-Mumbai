@@ -23,7 +23,7 @@ public interface FEProdDetailRepo extends JpaRepository<FEProdDetail, Integer> {
 			+ " WHEN 6 THEN tn_item_config_detail.sp_rate_amt4\n" + "END AS actual_rate\n" + "\n"
 			+ " FROM tn_item_config_detail,m_fr_configration,m_filter \n"
 			+ " WHERE m_filter.filter_id= tn_item_config_detail.is_veg and m_filter.filter_type_id=12  and tn_item_config_detail.config_header_id in(:configHeaderId) and tn_item_config_detail.product_id in (:prodIdList)\n"
-			+ " and m_filter.del_status=1 and m_fr_configration.config_header_id=tn_item_config_detail.config_header_id and m_fr_configration.fr_id=:frId order by product_id ASC "
+			+ " and m_filter.del_status=1 and m_fr_configration.config_header_id=tn_item_config_detail.config_header_id and m_fr_configration.fr_id=:frId order by tn_item_config_detail.actual_rate ASC "
 			+ " ", nativeQuery = true)
 	List<FEProdDetail> getFEProdDetailByConfHeadProdIdFrId(@Param("configHeaderId") int configHeaderId,@Param("prodIdList") int prodIdList, @Param("frId") int frId);
 

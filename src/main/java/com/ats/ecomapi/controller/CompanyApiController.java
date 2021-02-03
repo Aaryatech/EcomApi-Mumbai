@@ -25,6 +25,7 @@ import com.ats.ecomapi.master.repo.RouteRepo;
 import com.ats.ecomapi.master.repo.RouteTypeRepo;
 import com.ats.ecomapi.master.repo.SubCategoryRepo;
 import com.ats.ecomapi.mst_model.CompMaster;
+import com.ats.ecomapi.mst_model.CompanyContactInfo;
 import com.ats.ecomapi.mst_model.Customer;
 import com.ats.ecomapi.mst_model.CustomerAddDetail;
 import com.ats.ecomapi.mst_model.GetAllCustomerAddress;
@@ -32,6 +33,7 @@ import com.ats.ecomapi.mst_model.GetCustomerInfo;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.User;
 import com.ats.ecomapi.mst_repo.CompMasterRepo;
+import com.ats.ecomapi.mst_repo.CompanyContactInfoRepo;
 import com.ats.ecomapi.mst_repo.CustomerAddDetailRepo;
 import com.ats.ecomapi.mst_repo.CustomerRepo;
 import com.ats.ecomapi.mst_repo.GetAllCustomerAddressRepo;
@@ -86,13 +88,13 @@ public class CompanyApiController {
 
 	}
 	
-	
-	@RequestMapping(value = { "/getCompanyNameyId" }, method = RequestMethod.POST)
-	public @ResponseBody String getCompanyNameyId(@RequestParam int compId) {
+	@Autowired CompanyContactInfoRepo compInfoRepo;
+	@RequestMapping(value = { "/getCompanyInfoById" }, method = RequestMethod.POST)
+	public @ResponseBody CompanyContactInfo getCompanyNameyId(@RequestParam int compId) {
 
-		String comp = new String();
+		CompanyContactInfo comp = new CompanyContactInfo();
 		try {
-			comp = compMasterRepo.getCompanyNameByCompanyId(compId);
+			comp = compInfoRepo.getCompanyInfoByCompanyId(compId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

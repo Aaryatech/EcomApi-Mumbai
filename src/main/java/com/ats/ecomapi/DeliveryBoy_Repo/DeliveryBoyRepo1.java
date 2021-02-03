@@ -16,8 +16,8 @@ public interface DeliveryBoyRepo1 extends JpaRepository<DBoyLoginResponse,Intege
 	@Query(value=" SELECT del_boy_id,first_name,last_name,mobile_no,date_of_birth,joining_date,address,emp_code,comp_id,email_id,vehicle_no FROM m_delivery_boy WHERE mobile_no=:mobile_no ",nativeQuery=true)
 	DBoyLoginResponse toCheckMobileNo(@Param("mobile_no") String mobile_no);
 
-	@Query(value=" SELECT * FROM m_delivery_boy WHERE mobile_no=:mobile_no ",nativeQuery=true)
-	int CheckMobileNo(@Param("mobile_no") String mobile_no);
+
+	
 	
 	
 }

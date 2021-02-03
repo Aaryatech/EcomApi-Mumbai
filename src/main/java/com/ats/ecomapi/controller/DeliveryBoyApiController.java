@@ -27,13 +27,14 @@ import com.ats.ecomapi.fe_model.DeliveryBoy;
 import com.ats.ecomapi.fe_model.Grievances;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.OrderDetail;
+import com.ats.ecomapi.common.SMSUtility;
 @RestController
 public class DeliveryBoyApiController {
 	@Autowired
      DeliveryBoyRepo1 dboyRepo;
 	
-	@Autowired
-	 OrderHeaderRepo1 ohRepo;
+//	@Autowired
+//	 OrderHeaderRepo1 ohRepo;
 	
 	@Autowired
 	OrderDetailRepo1 odRepo;
@@ -52,21 +53,20 @@ public class DeliveryBoyApiController {
 	@RequestMapping(value= {"/dBoyLogin"},method=RequestMethod.POST)
 	public @ResponseBody Object dBoyLogin(@RequestParam String mobile_no){
 			Info info=new Info();
-		DBoyLoginResponse boy=dboyRepo.toCheckMobileNo(mobile_no);
-		// count=dboyRepo.CheckMobileNo(mobile_no);
-		if(boy!=null)
-		   {
-			//info.setResponseObject1(CommonUtility.toJSONString(boy));
-	        info.setError(false);
-		    info.setMsg("Data found");
+		    DBoyLoginResponse boy=dboyRepo.toCheckMobileNo(mobile_no);
+		    if(boy!=null)
+		     {
+			  //info.setResponseObject1(CommonUtility.toJSONString(boy));
+	           info.setError(false);
+		       info.setMsg("Data found");
 		    
-          	}
-		 else {
-			 boy =new DBoyLoginResponse();
-			info.setError(true);
-		    info.setMsg("No data found");
+            }
+		    else {
+			  boy =new DBoyLoginResponse();
+			  info.setError(true);
+		      info.setMsg("No data found");
                		}
-   	   return boy;
+   	      return boy;
 		    
 	 }
 		
@@ -96,12 +96,12 @@ public class DeliveryBoyApiController {
 			
 		}
 		
-		
+	
         //3)Profile Update API For Delivery Boy
 		@RequestMapping(value= {"/profileUpdate"},method=RequestMethod.PUT)
 		public @ResponseBody DeliveryBoy profileUpdate(@RequestBody DeliveryBoy Dboy )
 		{
-	//		DeliveryBoy boy=new DeliveryBoy();
+	       //DeliveryBoy boy=new DeliveryBoy();
 			DeliveryBoy	boy=updateRepo.save(Dboy);
                 System.out.println(Dboy);
 			//Integer count=dboyRepo.CheckMobileNo(Dboy.getDelBoyId());
@@ -112,7 +112,7 @@ public class DeliveryBoyApiController {
 //				 boy =new DeliveryBoy();
 //				boy=updateRepo.save(Dboy);
 //			}
-//			
+			
 			return boy;
 		}
 
@@ -148,25 +148,15 @@ public class DeliveryBoyApiController {
 		}
 		
 	
-}
 
-//Get Header and Product Detail API   
-//@RequestMapping(value= {"/dBoyOrderListDetail"},method=RequestMethod.GET)
-//public @ResponseBody OrderHeader1 dBoyOrderListDetail(@RequestParam Integer order_id)
-//{
-//		//OrHeader head=new  OrHeader();
-//			//List<OrDetail> detailList=new ArrayList<>();
-//			//detailList
-//			//head.setDetailList(detailList);
-//	
-//	OrderHeader1 head=ohRepo.toMatchOrderIdNo(order_id);
-//	//head.getParameter("detail_order_id");
-//	//Integer order_detail_id = head.getOrderDetailId();
-//	
-//	List<OrderDetail1> detailList=new ArrayList<>();
-//	detailList =odRepo.getProductDetail(order_id);
-//	head.setDetailList(detailList);
-//	
-//	//OrderDetail pro=odRepo.getProductDetail(product_id);
-//	return head;
-//}
+
+//Get OTP API For Delivery Boy   
+@RequestMapping(value= {"/dBoyOTP"},method=RequestMethod.GET)
+public @ResponseBody Info dBoyOTP(@RequestParam String mobile_no,@RequestParam String message)
+{
+   // Info info=new Info();
+
+	Info info=SMSUtility.sendSMS(mobile_no,message);
+	return info;
+}
+}

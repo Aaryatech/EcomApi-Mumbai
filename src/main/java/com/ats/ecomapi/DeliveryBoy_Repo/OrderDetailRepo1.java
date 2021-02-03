@@ -15,6 +15,6 @@ public interface OrderDetailRepo1 extends JpaRepository<OrderDetail1,Long>{
 	 		"and tn_order_header.del_status=1 and tn_order_detail.del_status=1 and tn_order_header.order_delivered_by=:order_delivered_by and tn_order_header.order_status=(:order_status)"
 			 ,nativeQuery=true)
 	               List<OrderDetail1> getProductDetail(@Param("order_delivered_by" )Integer orderDeliveredBy,@Param("order_status")String orderStatus);
-	 //tn_order_detail.item_id=m_product.product_id and
+	
 	 
 }

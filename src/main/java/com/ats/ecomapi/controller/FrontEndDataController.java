@@ -33,6 +33,7 @@ import com.ats.ecomapi.fe_model.FEProductHeader;
 import com.ats.ecomapi.fe_model.FETestimonial;
 import com.ats.ecomapi.fe_model.FrSubCatList;
 import com.ats.ecomapi.fe_model.GetFlavorTagStatusList;
+import com.ats.ecomapi.fe_model.ProdListExl;
 import com.ats.ecomapi.fe_model.SiteVisitor;
 import com.ats.ecomapi.fe_repo.CategoryListRepo;
 import com.ats.ecomapi.fe_repo.FEBannerListRepo;
@@ -41,6 +42,7 @@ import com.ats.ecomapi.fe_repo.FEProductHeaderRepo;
 import com.ats.ecomapi.fe_repo.FETestimonialRepo;
 import com.ats.ecomapi.fe_repo.FrSubCatListRepo;
 import com.ats.ecomapi.fe_repo.GetFlavorTagStatusListRepo;
+import com.ats.ecomapi.fe_repo.ProdListExlRepo;
 import com.ats.ecomapi.fe_repo.SiteVisitorRepo;
 import com.ats.ecomapi.master.model.City;
 import com.ats.ecomapi.master.model.CompanyTestomonials;
@@ -575,5 +577,17 @@ System.err.println("current path from setting is " + setting.getSettingValue());
 		}
 
 	}
-
+	
+	@Autowired ProdListExlRepo prdExlRepo; 
+	@RequestMapping(value = { "/getProductListExcl" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProdListExl> getProductListExcl(@RequestParam int compId) {
+		List<ProdListExl> list = new ArrayList<ProdListExl>();
+		try {
+			list = prdExlRepo.getProductListForPdfExcel(compId);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}		
+		
+		return list;
+	}
 }

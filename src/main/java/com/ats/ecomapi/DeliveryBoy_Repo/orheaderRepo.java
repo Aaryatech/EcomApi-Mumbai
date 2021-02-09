@@ -18,23 +18,26 @@ public interface orheaderRepo extends JpaRepository<OrHeader,Long>{
 			"        tn_order_header.order_status,\n" +
 			"        tn_order_header.order_no,\n" + 
 			"        tn_order_header.total_amt,\n" + 
+			"        tn_order_header.taxable_amt,\n" + 
+			"        tn_order_header.tax_amt,\n" + 
 			"        tn_order_header.payment_method,\n" + 
 			"        tn_order_header.fr_id,\n" + 
 			"        tn_order_header.delivery_date,\n" +
 			"        tn_order_header.delivery_time,\n" + 
 			"        tn_order_header.insert_date_time,\n" + 
 			"        tn_order_header.cust_id,fr_code,fr_name,fr_address,shops_latitude,shops_logitude,no_of_km_area_cover,\n" + 
-			"        cust_name,cust_mobile_no \n" + 
+			"        cust_name,cust_mobile_no, \n" + 
+			"m_customer_address_detail.address,m_customer_address_detail.latitude,m_customer_address_detail.longitude \n"+
 			"from\n" + 
-			"        tn_order_header,m_franchise,m_customer\n" + 
+			"        tn_order_header,m_franchise,m_customer,m_customer_address_detail\n" + 
 			"where\n" + 
 			"        tn_order_header.order_delivered_by=:order_delivered_by\n" + 
 			"        and tn_order_header.order_status IN (:order_status) "+ "and tn_order_header.del_status=1 \n" + 
 			"        and tn_order_header.fr_id=m_franchise.fr_id\n" + 
-			"        and tn_order_header.cust_id=m_customer.cust_id",nativeQuery=true)
+			"        and tn_order_header.cust_id=m_customer.cust_id" + 
+			"        and m_customer.cust_id=m_customer_address_detail.cust_id",nativeQuery=true)
 	List<OrHeader> toMatchOrderIdN(@Param("order_delivered_by" )Integer order_delivered_by,@Param("order_status")String order_status);
-	
-	
+
 	@Transactional
 	@Modifying
 	@Query(value="update tn_order_header set order_status=:order_status where order_id=:order_id",nativeQuery=true)

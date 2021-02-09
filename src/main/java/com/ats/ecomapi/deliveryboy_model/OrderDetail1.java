@@ -13,6 +13,8 @@ public class OrderDetail1 {
 	private String prodImagePrimary;
 	private Integer minQty;
     private String productDesc;
+    private Float basicMrp;
+    
     
  	public Integer getOrderDetailId() {
 		return orderDetailId;
@@ -65,6 +67,12 @@ public class OrderDetail1 {
 	}
 	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
+	}
+	public Float getBasicMrp() {
+		return basicMrp;
+	}
+	public void setBasicMrp(Float basicMrp) {
+		this.basicMrp = basicMrp;
 	}
 
 }

@@ -19,6 +19,7 @@ public class OrHeader {
 	private String deliveryTime;
 	private String insertDateTime;
 	
+	
 	private Integer paymentMethod;
 	
 	private Integer frId;
@@ -32,6 +33,13 @@ public class OrHeader {
 	private Integer custId;
 	private String custName;
 	private Long custMobileNo;
+	
+	private String address;
+	private String latitude;
+	private String longitude;
+	
+	private Integer taxableAmt;
+    private Integer taxAmt;
 	
 	@Transient
 	List<OrderDetail1> detailList;
@@ -186,6 +194,46 @@ public class OrHeader {
 
 	public void setInsertDateTime(String insertDateTime) {
 		this.insertDateTime = insertDateTime;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public Integer getTaxableAmt() {
+		return taxableAmt;
+	}
+
+	public void setTaxableAmt(Integer taxableAmt) {
+		this.taxableAmt = taxableAmt;
+	}
+
+	public Integer getTaxAmt() {
+		return taxAmt;
+	}
+
+	public void setTaxAmt(Integer taxAmt) {
+		this.taxAmt = taxAmt;
 	}
 
 	

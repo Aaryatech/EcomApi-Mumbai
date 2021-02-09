@@ -111,6 +111,10 @@ public interface DeliveryBoyRepo extends JpaRepository<DeliveryBoy, Integer> {
 	
 		@Query(value=" SELECT * FROM m_delivery_boy WHERE mobile_no=:mobNo AND emp_code=:empCode AND del_status=1",nativeQuery=true)
 		DeliveryBoy GetDelBoyByMobAndEmpCode(@Param("mobNo") String mobNo,@Param("empCode") int empCode);
+
+		DeliveryBoy findByvehicleNoAndDelStatus(String vehicleNo, int i);
+
+		DeliveryBoy findByvehicleNoAndDelStatusAndDelBoyIdNot(String vehicleNo, int i, int delBoyId);
 	
 	
 	

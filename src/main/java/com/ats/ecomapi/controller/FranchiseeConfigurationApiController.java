@@ -378,7 +378,12 @@ System.err.println(delBoy);
 		return res;
 	}
 	
-	
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- shubham vitore
+	// Created On :- 9-02-2021
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Validate licenseNo
 	@RequestMapping(value = { "/getDeliveryBoyBydeliveryBoyLicenseNo" }, method = RequestMethod.POST)
 	public @ResponseBody DeliveryBoy getDeliveryBoyBydeliveryBoyLicenseNo(@RequestParam int delBoyId, @RequestParam String deliveryBoyLicenseNo) {
 
@@ -387,6 +392,7 @@ System.err.println(delBoy);
 			if(delBoyId>0) {
 				res = delvrBoyRepo.findBydeliveryBoyLicenseNoAndDelStatusAndDelBoyIdNot(deliveryBoyLicenseNo, 1, delBoyId);
 			}else {
+			
 				res = delvrBoyRepo.findBydeliveryBoyLicenseNoAndDelStatus(deliveryBoyLicenseNo, 1);
 			}
 		} catch (Exception e) {
@@ -396,6 +402,23 @@ System.err.println(delBoy);
 	}
 	
 	
+	/*
+	@RequestMapping(value = { "/getDelvrBoyInfoByvehicleNo" }, method = RequestMethod.POST)
+	public @ResponseBody DeliveryBoy getDelvrBoyInfoByvehicleNo(@RequestParam int delBoyId, @RequestParam String vehicleNo) {
+
+		DeliveryBoy res = new DeliveryBoy();
+		try {
+			if(delBoyId>0) {
+				res = delvrBoyRepo.findByvehicleNoAndDelStatusAndDelBoyIdNot(vehicleNo, 1, delBoyId);
+			}else {
+				res = delvrBoyRepo.findByvehicleNoAndDelStatus(vehicleNo, 1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	*/
 	
 	
 	

@@ -23,6 +23,7 @@ import com.ats.ecomapi.mst_model.OrderDetail;
 import com.ats.ecomapi.common.SMSUtility;
 import com.ats.ecomapi.deliveryboy_model.DBoyLoginResponse;
 import com.ats.ecomapi.deliveryboy_model.Grievances;
+import com.ats.ecomapi.deliveryboy_model.HeadObject;
 import com.ats.ecomapi.deliveryboy_model.OrHeader;
 import com.ats.ecomapi.deliveryboy_model.OrderDetail1;
 @RestController
@@ -65,15 +66,17 @@ public class DeliveryBoyApiController {
 	 }
 		
 	  
-        //2)Get Header and Product Detail API By Order Status
+        //2)Get Header and Product Detail API By Order Status		
 		@RequestMapping(value= {"/DeliveryBoy"},method=RequestMethod.GET)
-		public @ResponseBody List<OrHeader> DeliveryBoy(@RequestParam Integer order_delivered_by,@RequestParam String order_status)
-		{
-			List<OrHeader> or1=new ArrayList<>();
-			 or1=orheadRepo.toMatchOrderIdN(order_delivered_by,order_status);
-	        // List <OrHeader> or=or1.getOrderId();
-			   List<OrderDetail1> detailList=new ArrayList<>();
-	     detailList =odRepo.getProductDetail(order_delivered_by,order_status);
+		public @ResponseBody HeadObject DeliveryBoy(@RequestParam Integer order_delivered_by,@RequestParam String order_status)
+		{//toArray()
+				HeadObject hr1=new HeadObject();
+			
+			  List<OrHeader> or1=new ArrayList<>();
+			  or1=orheadRepo.toMatchOrderIdN(order_delivered_by,order_status);
+	          List<OrderDetail1> detailList=new ArrayList<>();
+	          detailList =odRepo.getProductDetail(order_delivered_by,order_status);
+	     
          for(OrHeader o:or1)
          {
         	ArrayList<OrderDetail1> detail= new ArrayList<>();
@@ -86,7 +89,9 @@ public class DeliveryBoyApiController {
         	 }
         	 o.setDetailList(detail);
          }
-			return or1;
+            hr1.setOrHeader(or1);
+
+			return  hr1;
 			
 		}
 		

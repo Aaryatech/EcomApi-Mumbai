@@ -15,7 +15,7 @@ public interface ProductMasterRepo extends JpaRepository<ProductMaster, Integer>
 
 	List<ProductMaster> findByProdCatIdAndDelStatus(int catId, int i);
 
-	List<ProductMaster> findByProdCatIdAndDelStatusAndCompanyId(int catId, int i, int companyId);
+	List<ProductMaster> findByProdCatIdAndDelStatusAndCompanyIdAndIsActive(int catId, int i, int companyId,int isActive);
 
 	List<ProductMaster> findByDelStatus(int i);
 

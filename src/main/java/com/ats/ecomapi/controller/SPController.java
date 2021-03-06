@@ -200,7 +200,7 @@ public class SPController {
 		}
 
 		try {
-			List<ProductMaster> prodList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyId(catId, 1, compId);
+			List<ProductMaster> prodList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyIdAndIsActive(catId, 1, compId,1);
 
 			for (int i = 0; i < prodList.size(); i++) {
 				List<Integer> vegNonVegList = new ArrayList<>();
@@ -388,7 +388,7 @@ public class SPController {
 
 		try {
 			
-			proList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyId(catId, 1, compId);
+			proList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyIdAndIsActive(catId, 1, compId,1);
 			
 			if (proList == null) {
 				proList = new ArrayList<ProductMaster>();

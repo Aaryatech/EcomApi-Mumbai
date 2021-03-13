@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.cms.repo.OrderDetailForConfirmationRepository;
+import com.ats.ecomapi.cms.repo.OrderHeaderWithDetailRepository;
 import com.ats.ecomapi.fe_model.GetDeliveryBoyOrAgentData;
 import com.ats.ecomapi.fe_model.SellBillDataForPrint;
 import com.ats.ecomapi.fe_model.SellBillDetail;
@@ -33,6 +35,8 @@ import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.model.GetOrderDetailDisplay;
 import com.ats.ecomapi.master.model.GetOrderHeaderDisplay;
 import com.ats.ecomapi.master.model.GetOrderTrailDisplay;
+import com.ats.ecomapi.master.model.OrderDetailForConfirmation;
+import com.ats.ecomapi.master.model.OrderHeaderWithDetail;
 import com.ats.ecomapi.master.model.Setting;
 import com.ats.ecomapi.master.model.Status;
 import com.ats.ecomapi.master.repo.FranchiseRepo;
@@ -732,6 +736,30 @@ public class OrderApiController {
 		Setting setting = new Setting();
 		setting = settingRepo.findBySettingKey("JSON_SAVE_PATH");
 		return val;
+	}
+
+	@Autowired
+	OrderHeaderWithDetailRepository orderHeaderWithDetailRepository;
+
+	@Autowired
+	OrderDetailForConfirmationRepository orderDetailForConfirmationRepository;
+
+	@RequestMapping(value = { "/getOrderHeaderAndDetailForConfirmationPage" }, method = RequestMethod.POST)
+	public @ResponseBody OrderHeaderWithDetail getOrderHeaderAndDetailForConfirmationPage(
+			@RequestParam("orderId") int orderId) {
+
+		OrderHeaderWithDetail obj = new OrderHeaderWithDetail();
+
+		try {
+			obj = orderHeaderWithDetailRepository.getHeader(orderId);
+			List<OrderDetailForConfirmation> detailList = orderDetailForConfirmationRepository.getDetail(orderId);
+			obj.setDetailList(detailList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return obj;
 	}
 
 }

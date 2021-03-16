@@ -33,5 +33,13 @@ public interface GetProdListRepo extends JpaRepository<GetProdList, Integer> {
 			+ "  m_product.del_status=1 and m_product.company_id=:compId ORDER BY m_product.sort_id DESC  ", nativeQuery = true)
 	List<GetProdList> getProdList(@Param("compId") int compId);
 
+	@Query(value = " SELECT m_product.product_id,m_product.product_code,m_product.product_name,m_category.cat_name,m_sub_category.sub_cat_name, "
+			+ " m_product.is_active,m_uom.uom_show_name,m_product.allow_same_day_delivery,'status' as prod_status,m_product.book_before,m_product.is_veg "
+			+ " FROM m_product,m_category,m_sub_category,m_uom "
+			+ " WHERE m_product.prod_cat_id=m_category.cat_id AND m_product.prod_sub_cat_id=m_sub_category.sub_cat_id AND m_product.uom_id=m_uom.uom_id AND"
+			+ " "
+			+ "  m_product.del_status=1  and m_product.prod_cat_id=:catId ORDER BY m_product.sort_id DESC  ", nativeQuery = true)
+	List<GetProdList> getProdListByCatId(@Param("catId") int catId);
+
 
 }

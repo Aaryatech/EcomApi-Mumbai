@@ -98,7 +98,7 @@ public interface FEProductHeaderRepo extends JpaRepository<FEProductHeader, Inte
 			"	        m_product.rate_setting_type, " + 
 			"	        m_product.max_wt, " + 
 			"	        m_product.ex_var1, " + 
-			"	        m_product.ex_var2, m_product.ex_int2,"
+			"	        m_product.ex_var2,m_product.ex_var4 as similar_product_ids, m_product.ex_int2,"
 			+ " m_product.ex_int3 as default_flavor_id," + 
 			 " m_product.ex_int2 as default_vegnonveg_id," + 
 			 " m_product.ex_int1 as default_shape_id," + 

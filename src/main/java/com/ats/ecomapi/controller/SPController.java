@@ -182,6 +182,21 @@ public class SPController {
 		return prodList;
 	}
 
+	@RequestMapping(value = { "/getProdListByCatId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetProdList> getProdListByCatId(@RequestParam int catId) {
+
+		List<GetProdList> prodList = new ArrayList<GetProdList>();
+
+		try {
+			prodList = getProdListRepo.getProdListByCatId(catId);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return prodList;
+	}
+
 	// Sachin 17-09-2020
 	@Autowired
 	MFilterRepo filterRepo;
@@ -200,7 +215,8 @@ public class SPController {
 		}
 
 		try {
-			List<ProductMaster> prodList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyIdAndIsActive(catId, 1, compId,1);
+			List<ProductMaster> prodList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyIdAndIsActive(catId,
+					1, compId, 1);
 
 			for (int i = 0; i < prodList.size(); i++) {
 				List<Integer> vegNonVegList = new ArrayList<>();
@@ -387,13 +403,13 @@ public class SPController {
 		List<ProductMaster> proList = new ArrayList<ProductMaster>();
 
 		try {
-			
-			proList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyIdAndIsActive(catId, 1, compId,1);
-			
+
+			proList = productMasterRepo.findByProdCatIdAndDelStatusAndCompanyIdAndIsActive(catId, 1, compId, 1);
+
 			if (proList == null) {
 				proList = new ArrayList<ProductMaster>();
 			}
-			
+
 		} catch (Exception e) {
 			proList = new ArrayList<ProductMaster>();
 			e.printStackTrace();
@@ -410,8 +426,8 @@ public class SPController {
 
 		try {
 			prodList = productMasterRepo.getProdListForAddingNewItemInExConf(catId, compId, configId);
-			
-			if(prodList==null) {
+
+			if (prodList == null) {
 				prodList = new ArrayList<ProductMaster>();
 			}
 		} catch (Exception e) {
@@ -423,7 +439,7 @@ public class SPController {
 
 	// saveProdConfHD
 	// Sachin 21-09-2020
-	//Desc- To save Product Conf Header and details
+	// Desc- To save Product Conf Header and details
 	@Autowired
 	ItemConfHeaderRepo itemConfHeaderRepo;
 	@Autowired
@@ -462,15 +478,15 @@ public class SPController {
 
 	@RequestMapping(value = { "/saveNewItemToProdConf" }, method = RequestMethod.POST)
 	public @ResponseBody Object saveNewItemToProdConf(@RequestBody List<ItemConfDetail> confDetList) {
-		
+
 		List<ItemConfDetail> detailSaveRes = new ArrayList<ItemConfDetail>();
 		try {
 			detailSaveRes = itemConfDetailRepo.saveAll(confDetList);
-		
-			if(detailSaveRes==null) {
+
+			if (detailSaveRes == null) {
 				detailSaveRes = new ArrayList<ItemConfDetail>();
 			}
-			
+
 		} catch (Exception e) {
 			detailSaveRes = new ArrayList<ItemConfDetail>();
 			e.printStackTrace();
@@ -496,10 +512,10 @@ public class SPController {
 
 			confHeaderList = getItemConfHeadRepo.getItemConfHeadListByCatId(catIdList, companyId);
 
-			if(confHeaderList==null) {
-				confHeaderList =new ArrayList<>();
+			if (confHeaderList == null) {
+				confHeaderList = new ArrayList<>();
 			}
-			
+
 		} catch (Exception e) {
 			confHeaderList = new ArrayList<>();
 			e.printStackTrace();
@@ -857,8 +873,10 @@ public class SPController {
 		return traveller;
 
 	}
+
 //Sachin 23-09-2020
-	//Desc- to save Prod conf Header Detail Edit Call ie some items added and some existing edited
+	// Desc- to save Prod conf Header Detail Edit Call ie some items added and some
+	// existing edited
 	@RequestMapping(value = { "/saveUpdateProdConfHD" }, method = RequestMethod.POST)
 	public @ResponseBody Object saveUpdateProdConfHD(@RequestBody TempConfTraveller traveller) {
 		ItemConfHeader confHeader = new ItemConfHeader();
@@ -894,51 +912,51 @@ public class SPController {
 		return confHeader;
 	}
 
-	
-	//Sachin 25-09-2020
-	//Desc Get Product By Product Id For Edit
+	// Sachin 25-09-2020
+	// Desc Get Product By Product Id For Edit
 	@RequestMapping(value = { "/getProductByProductId" }, method = RequestMethod.POST)
 	public @ResponseBody Object getProductByProductId(@RequestParam("productId") int productId) {
 		ProductMaster prodMaster = new ProductMaster();
 		try {
-			prodMaster=productMasterRepo.findByDelStatusAndProductId(1,productId);
-			if(prodMaster==null) {
-				prodMaster=new ProductMaster();
+			prodMaster = productMasterRepo.findByDelStatusAndProductId(1, productId);
+			if (prodMaster == null) {
+				prodMaster = new ProductMaster();
 			}
-		}catch (Exception e) {
-			prodMaster=new ProductMaster();
+		} catch (Exception e) {
+			prodMaster = new ProductMaster();
 		}
 		return prodMaster;
 	}
-	
-	//Sachin 26-09-2020
-	//Desc - to get Image name array list of a product by product Id
-	
+
+	// Sachin 26-09-2020
+	// Desc - to get Image name array list of a product by product Id
+
 	@RequestMapping(value = { "/getProdImagesByProductId" }, method = RequestMethod.POST)
 	public @ResponseBody List<String> getProdImagesByProductId(@RequestParam int productId) {
-		
+
 		List<String> imageNameList = new ArrayList<String>();
 		try {
 			ProductMaster product = productMasterRepo.findByDelStatusAndProductId(1, productId);
 
-			if(product!=null) {
+			if (product != null) {
 				String[] imageNameArray = product.getProductImages().split(",");
-			
+
 				for (String imgName : imageNameArray) {
 					imageNameList.add(imgName.trim());
 				}
 			}
-			System.err.println(" imageNameList "+ imageNameList.toString());
+			System.err.println(" imageNameList " + imageNameList.toString());
 		} catch (Exception e) {
 			imageNameList = new ArrayList<String>();
 			e.printStackTrace();
 		}
-		
-		return  imageNameList;
+
+		return imageNameList;
 	}
-	
+
 	@RequestMapping(value = { "/updateProdImg" }, method = RequestMethod.POST)
-	public @ResponseBody Info updateProdImg(@RequestParam("filesList") String filesList,@RequestParam("productId") int productId) {
+	public @ResponseBody Info updateProdImg(@RequestParam("filesList") String filesList,
+			@RequestParam("productId") int productId) {
 
 		Info info = new Info();
 
@@ -953,15 +971,13 @@ public class SPController {
 
 		return info;
 	}
-	
-	
+
 	@RequestMapping(value = { "/removeImageFromProduct" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteByImageOfOffer(@RequestParam int productId,@RequestParam String imageName) {
-		
-		
+	public @ResponseBody Info deleteByImageOfOffer(@RequestParam int productId, @RequestParam String imageName) {
+
 		Info info = new Info();
-		
-		int deleteRes=productMasterRepo.removeImageFromProduct(imageName, productId);
+
+		int deleteRes = productMasterRepo.removeImageFromProduct(imageName, productId);
 		if (deleteRes > 0) {
 			info.setError(false);
 			info.setMessage("Delete Image Successfully");
@@ -969,9 +985,9 @@ public class SPController {
 			info.setError(true);
 			info.setMessage("Failed To Delete Image ");
 		}
-		
+
 		return info;
-	
+
 	}
-	
+
 }

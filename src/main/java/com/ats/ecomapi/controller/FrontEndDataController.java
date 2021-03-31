@@ -290,10 +290,12 @@ public class FrontEndDataController {
 
 							for (int d = 0; d < prodDetailList.size(); d++) {
 
-								isVegNonVMatch = Integer.compare(prodHeaderList.get(i).getDefaultVegnonvegId(),
-										prodDetailList.get(d).getIsVeg());
-
-								if (isVegNonVMatch.equals(0) && prodDetailList.get(d).getQty() <= 1) {
+								isVegNonVMatch = Integer.compare(prodHeaderList.get(i).getDefaultFlavorId(),
+										prodDetailList.get(d).getFlavorId());
+									if(prodDetailList.get(0).getQty()>1 && isVegNonVMatch.equals(0)) {
+										defaultPrice = prodDetailList.get(d).getActualRate();
+									}
+									else if (isVegNonVMatch.equals(0) && prodDetailList.get(d).getQty() <= 1) {
 									defaultPrice = prodDetailList.get(d).getActualRate();
 									break;
 								}

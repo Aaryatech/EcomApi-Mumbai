@@ -521,9 +521,9 @@ public class FrontEndDataController {
 	@Autowired SettingRepo settingRepo;
 
 	public void publishData(String json, int frId, int fileType) {
-		Setting setting=settingRepo.findBySettingKey("JSON_SAVE_PATH");
+		//Setting setting=settingRepo.findBySettingKey("JSON_SAVE_PATH");
 		
-		//Setting setting=settingRepo.findBySettingKey("SACHIN_LOCAL_JSON");
+		Setting setting=settingRepo.findBySettingKey("SACHIN_LOCAL_JSON");
 		final String JSON_SAVE_URL = setting.getSettingValue();//"/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
 //		 final String JSON_SAVE_URL = 
 //		 "/opt/apache-tomcat-8.5.39/webapps/IMG_UP/";

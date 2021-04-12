@@ -46,9 +46,10 @@ public class DeliveryBoyApiController {
 	
     // 1)Delivery Boy Login API By passing Mobile No as Parameter
 	@RequestMapping(value= {"/dBoyLogin"},method=RequestMethod.POST)
-	public @ResponseBody Object dBoyLogin(@RequestParam String mobile_no){
+	public @ResponseBody DBoyLoginResponse dBoyLogin(@RequestParam String mobile_no){
 			Info info=new Info();
-		    DBoyLoginResponse boy=dboyRepo.toCheckMobileNo(mobile_no);
+			DBoyLoginResponse boy=dboyRepo.toCheckMobileNo(mobile_no);
+			 System.out.println("msg"+boy);
 		    if(boy!=null)
 		     {
 			  //info.setResponseObject1(CommonUtility.toJSONString(boy));
@@ -61,6 +62,7 @@ public class DeliveryBoyApiController {
 			  info.setError(true);
 		      info.setMsg("No data found");
                		}
+		    System.out.println("msg"+boy);
    	      return boy;
 		    
 	 }
@@ -151,11 +153,14 @@ public class DeliveryBoyApiController {
 
        //Get OTP API For Delivery Boy   
        @RequestMapping(value= {"/dBoyOTP"},method=RequestMethod.GET)
-       public @ResponseBody Info dBoyOTP(@RequestParam String mobile_no,@RequestParam String message)
+       public @ResponseBody String dBoyOTP(@RequestParam String mobile_no,@RequestParam String message)
        {
+    	   String s="OTP is";
+    	    String msg=s+" "+message;  
+    	    System.out.println(msg);
           // Info info=new Info();
-          Info info=SMSUtility.sendSMS(mobile_no,message);
+          SMSUtility.sendSMS(mobile_no,msg);
           
-	      return info;
+	      return msg;
        }
        }

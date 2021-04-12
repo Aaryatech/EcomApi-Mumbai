@@ -221,7 +221,7 @@ public class SPController {
 			for (int i = 0; i < prodList.size(); i++) {
 				List<Integer> vegNonVegList = new ArrayList<>();
 
-				if (prodList.get(i).getIsVeg() == 2) {
+				if (prodList.get(i).getIsVeg() == "2") {
 
 					vegNonVegList.add(0);
 					vegNonVegList.add(1);
@@ -293,7 +293,7 @@ public class SPController {
 										config.setProductName(prodList.get(i).getProductName());
 										config.setRateSetingType(prodList.get(i).getRateSettingType());
 
-										config.setVegType(prodList.get(i).getIsVeg());
+										config.setVegType(Integer.parseInt(prodList.get(i).getIsVeg()));
 
 										config.setWeight(Float.parseFloat(wtList.get(x)));
 										tempProdConfList.add(config);
@@ -348,7 +348,7 @@ public class SPController {
 									config.setProductName(prodList.get(i).getProductName());
 									config.setRateSetingType(prodList.get(i).getRateSettingType());
 
-									config.setVegType(prodList.get(i).getIsVeg());
+									config.setVegType(Integer.parseInt(prodList.get(i).getIsVeg()));
 
 									config.setWeight(1);
 									tempProdConfList.add(config);
@@ -577,12 +577,12 @@ public class SPController {
 
 				List<Integer> vegNonVegList = new ArrayList<>();
 
-				if (pm.getIsVeg() == 2) {
+				if (pm.getIsVeg() == "2") {
 					vegNonVegList.add(0);
 					vegNonVegList.add(1);
 				} // end of if (pm.getIsVeg() == 2)
 				else {
-					vegNonVegList.add(pm.getIsVeg());
+					vegNonVegList.add(Integer.parseInt(pm.getIsVeg()));
 				}
 
 				List<String> prodFlavIdList = Arrays.asList(pm.getFlavourIds().split(",", -1));
@@ -658,7 +658,7 @@ public class SPController {
 									config.setProductName(pm.getProductName());
 									config.setRateSetingType(pm.getRateSettingType());
 
-									config.setVegType(pm.getIsVeg());
+									config.setVegType(Integer.parseInt(pm.getIsVeg()));
 
 									config.setWeight(Float.parseFloat(wtList.get(x)));
 									tempProdConfList.add(config);
@@ -708,7 +708,7 @@ public class SPController {
 								config.setProductName(pm.getProductName());
 								config.setRateSetingType(pm.getRateSettingType());
 
-								config.setVegType(pm.getIsVeg());
+								config.setVegType(Integer.parseInt(pm.getIsVeg()));
 
 								config.setWeight(1);
 								tempProdConfList.add(config);
@@ -794,7 +794,7 @@ public class SPController {
 								config.setProductName(pm.getProductName());
 								config.setRateSetingType(pm.getRateSettingType());
 
-								config.setVegType(pm.getIsVeg());
+								config.setVegType(Integer.parseInt(pm.getIsVeg()));
 
 								config.setWeight(wt);
 								tempProdConfList.add(config);

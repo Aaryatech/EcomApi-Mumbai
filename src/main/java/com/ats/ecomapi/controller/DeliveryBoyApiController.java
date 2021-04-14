@@ -24,6 +24,7 @@ import com.ats.ecomapi.common.SMSUtility;
 import com.ats.ecomapi.deliveryboy_model.DBoyLoginResponse;
 import com.ats.ecomapi.deliveryboy_model.Grievances;
 import com.ats.ecomapi.deliveryboy_model.HeadObject;
+import com.ats.ecomapi.deliveryboy_model.OTP;
 import com.ats.ecomapi.deliveryboy_model.OrHeader;
 import com.ats.ecomapi.deliveryboy_model.OrderDetail1;
 @RestController
@@ -153,14 +154,17 @@ public class DeliveryBoyApiController {
 
        //Get OTP API For Delivery Boy   
        @RequestMapping(value= {"/dBoyOTP"},method=RequestMethod.GET)
-       public @ResponseBody String dBoyOTP(@RequestParam String mobile_no,@RequestParam String message)
+       public @ResponseBody OTP dBoyOTP(@RequestParam String mobile_no,@RequestParam String message)
        {
+    	   OTP otp =new OTP();
+          // OTP otp1 =new OTP();
+    	  otp.setOtp(message);
     	   String s="OTP is";
     	    String msg=s+" "+message;  
     	    System.out.println(msg);
           // Info info=new Info();
           SMSUtility.sendSMS(mobile_no,msg);
           
-	      return msg;
+	      return otp;
        }
        }

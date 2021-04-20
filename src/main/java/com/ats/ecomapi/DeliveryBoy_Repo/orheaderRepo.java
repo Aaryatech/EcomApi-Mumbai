@@ -35,12 +35,38 @@ public interface orheaderRepo extends JpaRepository<OrHeader,Long>{
 			"        and tn_order_header.order_status IN (:order_status) "+ "and tn_order_header.del_status=1 \n" + 
 			"        and tn_order_header.fr_id=m_franchise.fr_id\n" + 
 			"        and tn_order_header.cust_id=m_customer.cust_id" + 
-			"        and m_customer.cust_id=m_customer_address_detail.cust_id",nativeQuery=true)
+			"        and m_customer.cust_id=m_customer_address_detail.cust_id"+
+			"        and  tn_order_header.address_id=m_customer_address_detail.cust_detail_id",nativeQuery=true)
 	List<OrHeader> toMatchOrderIdN(@Param("order_delivered_by" )Integer order_delivered_by,@Param("order_status")String order_status);
 
 	@Transactional
 	@Modifying
 	@Query(value="update tn_order_header set order_status=:order_status where order_id=:order_id",nativeQuery=true)
 	Integer toUpdateStatus(@Param("order_id" )Integer order_id,@Param("order_status")String order_status);
-	
+	/*select
+        tn_order_header.order_id,
+        tn_order_header.order_status,
+        tn_order_header.order_no,
+        tn_order_header.total_amt,
+        tn_order_header.taxable_amt,
+        tn_order_header.tax_amt,
+        tn_order_header.payment_method,
+        tn_order_header.fr_id,
+        tn_order_header.delivery_date,
+        tn_order_header.delivery_time,
+        tn_order_header.insert_date_time,
+        tn_order_header.cust_id,fr_code,fr_name,fr_address,shops_latitude,shops_logitude,no_of_km_area_cover,
+        cust_name,cust_mobile_no,  
+m_customer_address_detail.address,m_customer_address_detail.latitude,m_customer_address_detail.longitude
+from
+       tn_order_header,m_franchise,m_customer,m_customer_address_detail
+where
+        tn_order_header.order_delivered_by=4
+        and tn_order_header.order_status IN (4) and tn_order_header.del_status=1  
+        and tn_order_header.fr_id=m_franchise.fr_id
+        and tn_order_header.cust_id=m_customer.cust_id
+        and m_customer.cust_id=m_customer_address_detail.cust_id
+
+
+AND tn_order_header.address_id=m_customer_address_detail.cust_detail_id*/
 }

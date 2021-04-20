@@ -26,8 +26,8 @@ public class OrHeader {
 	private String frCode;
 	private String frName;
 	private String frAddress;
-	private Integer shopsLatitude;
-	private Integer shopsLogitude;
+	private String shopsLatitude;
+	private String shopsLogitude;
 	private Integer noOfKmAreaCover;
 	
 	private Integer custId;
@@ -43,21 +43,13 @@ public class OrHeader {
 	
 	@Transient
 	List<OrderDetail1> detailList;
-	
+
 	public Integer getOrderId() {
 		return orderId;
 	}
 
 	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
-	}
-
-	public List<OrderDetail1> getDetailList() {
-		return detailList;
-	}
-
-	public void setDetailList(List<OrderDetail1> detailList) {
-		this.detailList = detailList;
 	}
 
 	public Integer getOrderNo() {
@@ -68,12 +60,44 @@ public class OrHeader {
 		this.orderNo = orderNo;
 	}
 
-	public Integer getOrderAmt() {
+	public Integer getTotalAmt() {
 		return totalAmt;
 	}
 
-	public void setOrderAmt(Integer orderAmt) {
-		this.totalAmt = orderAmt;
+	public void setTotalAmt(Integer totalAmt) {
+		this.totalAmt = totalAmt;
+	}
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public String getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(String deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
+	public String getDeliveryTime() {
+		return deliveryTime;
+	}
+
+	public void setDeliveryTime(String deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+
+	public String getInsertDateTime() {
+		return insertDateTime;
+	}
+
+	public void setInsertDateTime(String insertDateTime) {
+		this.insertDateTime = insertDateTime;
 	}
 
 	public Integer getPaymentMethod() {
@@ -116,28 +140,28 @@ public class OrHeader {
 		this.frAddress = frAddress;
 	}
 
-	public Integer getShopsLatitude() {
+	public String getShopsLatitude() {
 		return shopsLatitude;
 	}
 
-	public void setShopsLatitude(Integer shopsLatitude) {
+	public void setShopsLatitude(String shopsLatitude) {
 		this.shopsLatitude = shopsLatitude;
 	}
 
-	public Integer getShopsLogitude() {
+	public String getShopsLogitude() {
 		return shopsLogitude;
 	}
 
-	public void setShopsLogitude(Integer shopsLogitude) {
+	public void setShopsLogitude(String shopsLogitude) {
 		this.shopsLogitude = shopsLogitude;
 	}
 
-	public Integer getNoOfAreaCover() {
+	public Integer getNoOfKmAreaCover() {
 		return noOfKmAreaCover;
 	}
 
-	public void setNoOfAreaCover(Integer noOfAreaCover) {
-		this.noOfKmAreaCover = noOfAreaCover;
+	public void setNoOfKmAreaCover(Integer noOfKmAreaCover) {
+		this.noOfKmAreaCover = noOfKmAreaCover;
 	}
 
 	public Integer getCustId() {
@@ -162,38 +186,6 @@ public class OrHeader {
 
 	public void setCustMobileNo(Long custMobileNo) {
 		this.custMobileNo = custMobileNo;
-	}
-
-	public String getOrderStatus() {
-		return orderStatus;
-	}
-
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
-	}
-
-	public String getDeliveryDate() {
-		return deliveryDate;
-	}
-
-	public void setDeliveryDate(String deliveryDate) {
-		this.deliveryDate = deliveryDate;
-	}
-
-	public String getDeliveryTime() {
-		return deliveryTime;
-	}
-
-	public void setDeliveryTime(String deliveryTime) {
-		this.deliveryTime = deliveryTime;
-	}
-
-	public String getInsertDateTime() {
-		return insertDateTime;
-	}
-
-	public void setInsertDateTime(String insertDateTime) {
-		this.insertDateTime = insertDateTime;
 	}
 
 	public String getAddress() {
@@ -236,5 +228,26 @@ public class OrHeader {
 		this.taxAmt = taxAmt;
 	}
 
+	public List<OrderDetail1> getDetailList() {
+		return detailList;
+	}
+
+	public void setDetailList(List<OrderDetail1> detailList) {
+		this.detailList = detailList;
+	}
+
+	@Override
+	public String toString() {
+		return "OrHeader [orderId=" + orderId + ", orderNo=" + orderNo + ", totalAmt=" + totalAmt + ", orderStatus="
+				+ orderStatus + ", deliveryDate=" + deliveryDate + ", deliveryTime=" + deliveryTime
+				+ ", insertDateTime=" + insertDateTime + ", paymentMethod=" + paymentMethod + ", frId=" + frId
+				+ ", frCode=" + frCode + ", frName=" + frName + ", frAddress=" + frAddress + ", shopsLatitude="
+				+ shopsLatitude + ", shopsLogitude=" + shopsLogitude + ", noOfKmAreaCover=" + noOfKmAreaCover
+				+ ", custId=" + custId + ", custName=" + custName + ", custMobileNo=" + custMobileNo + ", address="
+				+ address + ", latitude=" + latitude + ", longitude=" + longitude + ", taxableAmt=" + taxableAmt
+				+ ", taxAmt=" + taxAmt + ", detailList=" + detailList + "]";
+	}
+	
+	
 	
 }

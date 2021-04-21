@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ats.ecomapi.DeliveryBoy_Repo.D1;
+
 import com.ats.ecomapi.DeliveryBoy_Repo.DeliveryBoyProfileUpdate;
 import com.ats.ecomapi.DeliveryBoy_Repo.DeliveryBoyRepo1;
 import com.ats.ecomapi.DeliveryBoy_Repo.GrievencesRepo;
-import com.ats.ecomapi.DeliveryBoy_Repo.H1;
+
 import com.ats.ecomapi.DeliveryBoy_Repo.OrderDetailRepo1;
 import com.ats.ecomapi.DeliveryBoy_Repo.orheaderRepo;
 import com.ats.ecomapi.common.CommonUtility;
@@ -23,12 +23,11 @@ import com.ats.ecomapi.fe_model.DeliveryBoy;
 import com.ats.ecomapi.mst_model.Info;
 import com.ats.ecomapi.mst_model.OrderDetail;
 import com.ats.ecomapi.common.SMSUtility;
-import com.ats.ecomapi.deliveryboy_model.All;
+
 import com.ats.ecomapi.deliveryboy_model.DBoyLoginResponse;
-import com.ats.ecomapi.deliveryboy_model.Det;
+
 import com.ats.ecomapi.deliveryboy_model.Grievances;
 import com.ats.ecomapi.deliveryboy_model.HeadObject;
-import com.ats.ecomapi.deliveryboy_model.Imp;
 import com.ats.ecomapi.deliveryboy_model.OTP;
 import com.ats.ecomapi.deliveryboy_model.OrHeader;
 import com.ats.ecomapi.deliveryboy_model.OrderDetail1;
@@ -81,18 +80,21 @@ public class DeliveryBoyApiController {
 			
 			  List<OrHeader> or1=new ArrayList<>();
 			  or1=orheadRepo.toMatchOrderIdN(order_delivered_by,order_status);
+			  
 	          List<OrderDetail1> detailList=new ArrayList<>();
 	          detailList =odRepo.getProductDetail(order_delivered_by,order_status);
 	          System.out.println("detailList"+detailList);
          for(OrHeader o:or1)
          {
+        	 
         	 //or1.getOrHeader();
         	ArrayList<OrderDetail1> detail= new ArrayList<>();
         	 for(OrderDetail1 d:detailList)
         	 {
-        		 if(o.getOrderId()==d.getOrderId())
-        		 {
-        			 detail.add(d);
+        		// System.err.println("Oreder Id Of->Head="+o.getOrderId()+"dar-->"+d.getOrderId());
+        		// System.err.println("deatils-->"+d);
+        		 if(o.getOrderId().equals(d.getOrderId())) {
+        			 detail.add(d);	 
         		 }
         	 }
         	 o.setDetailList(detail);
@@ -100,6 +102,7 @@ public class DeliveryBoyApiController {
          }
        
             hr1.setOrHeader(or1);
+          //  System.err.println(hr1);
 			return  hr1;
 			
 		}
@@ -205,4 +208,58 @@ public class DeliveryBoyApiController {
           
 	      return otp;
        }
-       }
+       
+
+
+
+//API For getDelBoyById
+@RequestMapping(value= {"/getDelBoyById"},method=RequestMethod.POST)
+public @ResponseBody DeliveryBoy getDelBoyById(@RequestParam Integer DelBId)
+{
+	DeliveryBoy resp=new DeliveryBoy();
+	try {
+		resp=updateRepo.getDelBoyById(DelBId);
+	} catch (Exception e) {
+		// TODO: handle exception
+		e.printStackTrace();
+		System.err.println("Exception In /getDelBoyById");
+	}
+ return resp;
+	
+}
+
+
+
+//API For  Update Token
+@RequestMapping(value= {"/delBoyUpdateToken"},method=RequestMethod.POST)
+public @ResponseBody Info delBoyUpdateToken(@RequestParam Integer DelBId,@RequestParam String token)
+{
+Info info=new Info();
+//OrHeader or1;
+try {
+	int or1=updateRepo.delBoyUpdateToken(DelBId, token);
+	if(or1>0)
+	{
+		info.setMessage("Token Update Successfully");
+		info.setError(false);
+	}
+	else
+	{
+		info.setMessage("Token Not Update ");
+		info.setError(true);
+	}
+} catch (Exception e) {
+	// TODO: handle exception
+	System.err.println("Exception In /delBoyUpdateToken");
+	e.printStackTrace();
+}
+return info;
+	
+}
+
+
+
+}
+
+
+

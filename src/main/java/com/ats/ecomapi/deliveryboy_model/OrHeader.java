@@ -40,6 +40,13 @@ public class OrHeader {
 	
 	private Integer taxableAmt;
     private Integer taxAmt;
+    
+    private int  paidStatus;
+    
+  
+    
+    
+    
 	
 	@Transient
 	List<OrderDetail1> detailList;
@@ -236,6 +243,14 @@ public class OrHeader {
 		this.detailList = detailList;
 	}
 
+	public int getPaidStatus() {
+		return paidStatus;
+	}
+
+	public void setPaidStatus(int paidStatus) {
+		this.paidStatus = paidStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "OrHeader [orderId=" + orderId + ", orderNo=" + orderNo + ", totalAmt=" + totalAmt + ", orderStatus="
@@ -245,8 +260,9 @@ public class OrHeader {
 				+ shopsLatitude + ", shopsLogitude=" + shopsLogitude + ", noOfKmAreaCover=" + noOfKmAreaCover
 				+ ", custId=" + custId + ", custName=" + custName + ", custMobileNo=" + custMobileNo + ", address="
 				+ address + ", latitude=" + latitude + ", longitude=" + longitude + ", taxableAmt=" + taxableAmt
-				+ ", taxAmt=" + taxAmt + ", detailList=" + detailList + "]";
+				+ ", taxAmt=" + taxAmt + ", paidStatus=" + paidStatus + ", detailList=" + detailList + "]";
 	}
+
 	
 	
 	

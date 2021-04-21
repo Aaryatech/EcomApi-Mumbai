@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.DeliveryBoy_Repo.DeliveryBoyProfileUpdate;
 import com.ats.ecomapi.cms.repo.OrderDetailForConfirmationRepository;
 import com.ats.ecomapi.cms.repo.OrderHeaderWithDetailRepository;
+import com.ats.ecomapi.common.Firebase;
+import com.ats.ecomapi.fe_model.DeliveryBoy;
 import com.ats.ecomapi.fe_model.GetDeliveryBoyOrAgentData;
 import com.ats.ecomapi.fe_model.SellBillDataForPrint;
 import com.ats.ecomapi.fe_model.SellBillDetail;
@@ -67,6 +70,11 @@ public class OrderApiController {
 
 	@Autowired
 	StatusRepo statusRepo;
+	
+	
+	
+	@Autowired
+	DeliveryBoyProfileUpdate updateRepo;
 
 	@Autowired
 	GetOrderDisplayRepo getOrderDisplayRepo;
@@ -646,11 +654,17 @@ public class OrderApiController {
 
 		Info info = new Info();
 		try {
+			DeliveryBoy dBoy=new DeliveryBoy();
+			dBoy=updateRepo.getDelBoyById(delBoyId);
+			OrderHeader order = orderHeadRepo.getHeaderByOrderId(orderId);
+			String notificationResp=order.getOrderNo()+"~"+order.getDeliveryDate()+"~"+order.getDeliveryTime()+"~"+order.getTotalAmt()+"~"
+									+order.getStatus()+"~"+order.getDeliveryKm()+"~"+order.getExVar1();
 
 			int res = orderHeaderRepository.updateDeliveryBoy(orderId, delBoyId);
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage("Success");
+				Firebase.sendPushNotifForCommunication(dBoy.getExVar2(), "Test Notification", notificationResp, "inbox");
 			} else {
 				info.setError(true);
 				info.setMessage("Failed");

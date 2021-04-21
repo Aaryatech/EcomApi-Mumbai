@@ -13,21 +13,29 @@ import com.ats.ecomapi.deliveryboy_model.OrHeader;
 
 public interface orheaderRepo extends JpaRepository<OrHeader,Long>{
 
-	@Query(value="select \n" + 
-			"        tn_order_header.order_id,\n" + 
-			"        tn_order_header.order_status,\n" +
+	@Query(value="select  tn_order_header.order_id,\n" + 
+			"        tn_order_header.order_status,\n" + 
 			"        tn_order_header.order_no,\n" + 
 			"        tn_order_header.total_amt,\n" + 
-			"        tn_order_header.taxable_amt,\n" + 
-			"        tn_order_header.tax_amt,\n" + 
-			"        tn_order_header.payment_method,\n" + 
+			"        tn_order_header.ex_float1 AS taxable_amt,\n" + 
+			"        tn_order_header.delivery_charges AS tax_amt,\n" + 
+			"        tn_order_header.payment_method, tn_order_header.paid_status,\n" + 
 			"        tn_order_header.fr_id,\n" + 
-			"        tn_order_header.delivery_date,\n" +
+			"        tn_order_header.delivery_date,\n" + 
 			"        tn_order_header.delivery_time,\n" + 
 			"        tn_order_header.insert_date_time,\n" + 
-			"        tn_order_header.cust_id,fr_code,fr_name,fr_address,shops_latitude,shops_logitude,no_of_km_area_cover,\n" + 
-			"        cust_name,cust_mobile_no, \n" + 
-			"m_customer_address_detail.address,m_customer_address_detail.latitude,m_customer_address_detail.longitude \n"+
+			"        tn_order_header.cust_id,\n" + 
+			"        fr_code,\n" + 
+			"        fr_name,\n" + 
+			"        fr_address,\n" + 
+			"        shops_latitude,\n" + 
+			"        shops_logitude,\n" + 
+			"        no_of_km_area_cover,\n" + 
+			"        cust_name,\n" + 
+			"        cust_mobile_no,\n" + 
+			"        m_customer_address_detail.address,\n" + 
+			"        m_customer_address_detail.latitude,\n" + 
+			"        m_customer_address_detail.longitude  \n"+
 			"from\n" + 
 			"        tn_order_header,m_franchise,m_customer,m_customer_address_detail\n" + 
 			"where\n" + 
@@ -69,4 +77,12 @@ where
 
 
 AND tn_order_header.address_id=m_customer_address_detail.cust_detail_id*/
+	
+	
+	
+	
+	
+	
+	
+	
 }

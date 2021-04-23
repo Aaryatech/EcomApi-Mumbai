@@ -73,7 +73,7 @@ public class DeliveryBoyApiController {
 	 }
 		
 	    //2)Get Header and Product Detail API By Order Status		
-		@RequestMapping(value= {"/DeliveryBoy"},method=RequestMethod.GET)
+		@RequestMapping(value= {"/getDeliveryBoy"},method=RequestMethod.GET)
 		public @ResponseBody HeadObject DeliveryBoy(@RequestParam Integer order_delivered_by,@RequestParam String order_status)
 		{//toArray()
 				HeadObject hr1=new HeadObject();

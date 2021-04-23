@@ -658,7 +658,7 @@ public class OrderApiController {
 			dBoy=updateRepo.getDelBoyById(delBoyId);
 			OrderHeader order = orderHeadRepo.getHeaderByOrderId(orderId);
 			String notificationResp=order.getOrderNo()+"~"+order.getDeliveryDate()+"~"+order.getDeliveryTime()+"~"+order.getTotalAmt()+"~"
-									+order.getStatus()+"~"+order.getDeliveryKm()+"~"+order.getExVar1();
+									+order.getStatus()+"~"+order.getDeliveryKm()+"~"+order.getExVar1()+"~"+order.getExVar3();
 
 			int res = orderHeaderRepository.updateDeliveryBoy(orderId, delBoyId);
 			if (res > 0) {

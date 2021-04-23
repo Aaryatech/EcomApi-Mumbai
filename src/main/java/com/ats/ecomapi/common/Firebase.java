@@ -21,8 +21,8 @@ public class Firebase {
 	
 	// Method to send Notifications from server to client end. 
 	//Old Key
-	public final static String AUTH_KEY_FCM = " AAAAXojxcXI:APA91bH6fj8_XYh_pMgD1Q0bHUQVcwcff3u1SM6FvIxxDlU88cT5neYPHDKJKfEWwRLrxWOzE7kT_9syMixnhFPKFwKSKiciaRuO4i3eLKG6xYAVWIQAqMS51Epdcyyawj6XdCUaSDVF";
-
+	//public final static String AUTH_KEY_FCM = " AAAAXojxcXI:APA91bH6fj8_XYh_pMgD1Q0bHUQVcwcff3u1SM6FvIxxDlU88cT5neYPHDKJKfEWwRLrxWOzE7kT_9syMixnhFPKFwKSKiciaRuO4i3eLKG6xYAVWIQAqMS51Epdcyyawj6XdCUaSDVF";
+	public final static String AUTH_KEY_FCM = "AAAALoJC0AM:APA91bHkjKZa4aBHJRvw8B8S4b7Y2A5XWWLKNbfT57WKI2kveMwZfAxBcctAc9B7K374w8tQ-aL_I586lB_S5p8W1MbtJuepdZs2N4bU5fZ-RL1LFftJo0lSHJ1vOpMAuGAOP-P5sPxP";
 	//Akhilesh 2021-03-13 
 	public final static String ADMIN_AUTH_KEY_FCM = "AAAAjfdqpS4:APA91bHW0vK7WF2zIU9zg_SVKfCCGaTMcxeLQtvc3FrvhAVgGKYmtB-mQGl-TVSlVSAno84YXx16s3zvR-NShlTOyX3qQzU5BonyXFxsRgSJlTyoXL-Rb204qQNRg7N6IYAB9nM2KWPk";
 	

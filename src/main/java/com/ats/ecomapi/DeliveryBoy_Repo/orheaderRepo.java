@@ -22,10 +22,10 @@ public interface orheaderRepo extends JpaRepository<OrHeader,Long>{
 			"        tn_order_header.payment_method, tn_order_header.paid_status,\n" + 
 			"        tn_order_header.fr_id,\n" + 
 			"        tn_order_header.delivery_date,\n" + 
-			"        tn_order_header.delivery_time,\n" + 
+			"         tn_order_header.ex_var3    AS delivery_time,\n" + 
 			"        tn_order_header.insert_date_time,\n" + 
 			"        tn_order_header.cust_id,\n" + 
-			"        fr_code,\n" + 
+			"         m_franchise.fr_contact_no AS  fr_code,\n" + 
 			"        fr_name,\n" + 
 			"        fr_address,\n" + 
 			"        shops_latitude,\n" + 
@@ -33,7 +33,7 @@ public interface orheaderRepo extends JpaRepository<OrHeader,Long>{
 			"        no_of_km_area_cover,\n" + 
 			"        cust_name,\n" + 
 			"        cust_mobile_no,\n" + 
-			"        m_customer_address_detail.address,\n" + 
+			"        CONCAT(m_customer_address_detail.address,'~',m_customer_address_detail.landmark) AS address,\n" + 
 			"        m_customer_address_detail.latitude,\n" + 
 			"        m_customer_address_detail.longitude  \n"+
 			"from\n" + 

@@ -27,6 +27,9 @@ public interface DeliveryBoyProfileUpdate extends JpaRepository<DeliveryBoy, Int
 	@Query(value="SELECT * FROM m_delivery_boy WHERE del_boy_id=:dbId",nativeQuery=true)
 	DeliveryBoy getDelBoyById(@Param("dbId") int dbId);
 	
+	@Query(value="SELECT * FROM m_delivery_boy WHERE mobile_no=:monNo",nativeQuery=true)
+	DeliveryBoy getDelBoyMob(@Param("monNo") String monNo);
+	
 	
 	
 }

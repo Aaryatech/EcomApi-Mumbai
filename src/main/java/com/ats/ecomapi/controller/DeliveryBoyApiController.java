@@ -73,7 +73,7 @@ public class DeliveryBoyApiController {
 	 }
 		
 	    //2)Get Header and Product Detail API By Order Status		
-		@RequestMapping(value= {"/getDeliveryBoy"},method=RequestMethod.GET)
+		@RequestMapping(value={"/getDeliveryBoy"},method=RequestMethod.GET)
 		public @ResponseBody HeadObject DeliveryBoy(@RequestParam Integer order_delivered_by,@RequestParam String order_status)
 		{//toArray()
 				HeadObject hr1=new HeadObject();
@@ -136,7 +136,20 @@ public class DeliveryBoyApiController {
 			
 		}*/
 		
-	
+		@RequestMapping(value= {"/getDelBoyByMob"},method=RequestMethod.POST)
+		public @ResponseBody DeliveryBoy getDelBoyById(@RequestParam String mobile_no)
+		{
+			DeliveryBoy resp=new DeliveryBoy();
+			try {
+				resp=updateRepo.getDelBoyMob(mobile_no);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				System.err.println("Exception In /getDelBoyById");
+			}
+		return resp;
+			
+		}
 	
 	
 	

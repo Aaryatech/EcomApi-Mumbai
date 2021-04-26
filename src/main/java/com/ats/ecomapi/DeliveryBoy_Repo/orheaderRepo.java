@@ -31,9 +31,9 @@ public interface orheaderRepo extends JpaRepository<OrHeader,Long>{
 			"        shops_latitude,\n" + 
 			"        shops_logitude,\n" + 
 			"        no_of_km_area_cover,\n" + 
-			"        cust_name,\n" + 
+			"        tn_order_header.ex_var4 AS cust_name,\n" + 
 			"        cust_mobile_no,\n" + 
-			"        CONCAT(m_customer_address_detail.address,'~',m_customer_address_detail.landmark) AS address,\n" + 
+			"        CONCAT(tn_order_header.address,'~',tn_order_header.landmark) AS address,\n" + 
 			"        m_customer_address_detail.latitude,\n" + 
 			"        m_customer_address_detail.longitude  \n"+
 			"from\n" + 

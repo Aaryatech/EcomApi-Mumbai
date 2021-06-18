@@ -2147,11 +2147,11 @@ public class MasterApiConctoller {
 	// Description :- Update Configuration Product Home Page SortNo
 	@RequestMapping(value = { "/updatePrdctHomePageSortNo" }, method = RequestMethod.POST)
 	public @ResponseBody Info updatePrdctHomePageSortNo(@RequestParam int configStatusId, @RequestParam int sortNo,
-			@RequestParam int isActve) {
+			@RequestParam int isActve, @RequestParam String titleKey, @RequestParam String altImg) {
 
 		Info info = new Info();
 		try {
-			int res = prdctHomeRepo.updateSortNo(configStatusId, sortNo, isActve);
+			int res = prdctHomeRepo.updateSortNo(configStatusId, sortNo, isActve, titleKey, altImg);
 			if (res > 0) {
 				info.setError(false);
 				info.setMessage("Sort No Update Successfully");

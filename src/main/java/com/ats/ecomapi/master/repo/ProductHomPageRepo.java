@@ -26,7 +26,7 @@ public interface ProductHomPageRepo extends JpaRepository<ProductHomPage, Intege
 			"    head.del_status,\n" + 
 			"    head.ex_int1,\n" + 
 			"    head.ex_int2,\n" + 
-			"    head.ex_var1,\n" + 
+			"    head.ex_var1,head.ex_var3,\n" + 
 			"    head.product_id,\n" + 
 			"    f.filter_name AS ex_var2\n" + 
 			"FROM\n" + 
@@ -50,7 +50,7 @@ public interface ProductHomPageRepo extends JpaRepository<ProductHomPage, Intege
 			"    head.del_status,\n" + 
 			"    head.ex_int1,\n" + 
 			"    head.ex_int2,\n" + 
-			"    head.ex_var1,\n" + 
+			"    head.ex_var1, head.ex_var3,\n" + 
 			"    head.product_id,\n" + 
 			"    f.filter_name AS ex_var2\n" + 
 			"FROM\n" + 
@@ -67,8 +67,9 @@ public interface ProductHomPageRepo extends JpaRepository<ProductHomPage, Intege
 
 	@Transactional
 	@Modifying
-	@Query(value="UPDATE `home_page_status_header` SET sort_no=:sortNo, is_active=:isActve WHERE home_page_status_id=:configStatusId", nativeQuery=true)
-	int updateSortNo(@Param("configStatusId") int configStatusId, @Param("sortNo") int sortNo, @Param("isActve") int isActve);
+	@Query(value="UPDATE `home_page_status_header` SET sort_no=:sortNo, is_active=:isActve, ex_var1=:titleKey, ex_var3=:altImg WHERE home_page_status_id=:configStatusId", nativeQuery=true)
+	int updateSortNo(@Param("configStatusId") int configStatusId, @Param("sortNo") int sortNo, @Param("isActve") int isActve,
+			@Param("titleKey") String titleKey, @Param("altImg") String altImg);
 	
 	
 	@Transactional

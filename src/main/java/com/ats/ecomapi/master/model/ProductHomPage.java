@@ -50,7 +50,10 @@ public class ProductHomPage {
 	
 	@Column(name = "ex_var2")
 	private String exVar2;
-
+	
+	@Column(name = "ex_var3")
+	private String exVar3;
+	
 	@Transient
 	List<ProductHomePageDetail> prdctHomeList;
 	
@@ -149,14 +152,20 @@ public class ProductHomPage {
 	public void setPrdctHomeList(List<ProductHomePageDetail> prdctHomeList) {
 		this.prdctHomeList = prdctHomeList;
 	}
+	public String getExVar3() {
+		return exVar3;
+	}
+
+	public void setExVar3(String exVar3) {
+		this.exVar3 = exVar3;
+	}
 
 	@Override
 	public String toString() {
 		return "ProductHomPage [homePageStatusId=" + homePageStatusId + ", companyId=" + companyId + ", statusId="
 				+ statusId + ", productId=" + productId + ", isActive=" + isActive + ", sortNo=" + sortNo
 				+ ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1
-				+ ", exVar2=" + exVar2 + ", prdctHomeList=" + prdctHomeList + "]";
+				+ ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", prdctHomeList=" + prdctHomeList + "]";
 	}
 
-	
 }

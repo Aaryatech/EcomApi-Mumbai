@@ -71,7 +71,7 @@ public interface OrderDetailListRepo extends JpaRepository<GetOrderDetailDisplay
 			"            SELECT\n" + 
 			"                i.product_id,\n" + 
 			"                i.product_name,\n" + 
-			"                SUBSTRING_INDEX(i.product_images, ',', 1) AS item_pic,\n" + 
+			"                SUBSTRING_INDEX(i.prod_image_primary, ',', 1) AS item_pic,\n" + 
 			"                i.prod_cat_id AS cat_id,\n" + 
 			"                u.uom_name,\n" + 
 			"                u.uom_id,\n" + 

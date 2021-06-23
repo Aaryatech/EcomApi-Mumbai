@@ -23,6 +23,14 @@ public class GetFlavorTagStatusList {
 	
 	private String adminName; //Sachin 27-10-2020
 	
+	private String filterNameDisp;//SACHIN 23-06-2021
+	
+	public String getFilterNameDisp() {
+		return filterNameDisp;
+	}
+	public void setFilterNameDisp(String filterNameDisp) {
+		this.filterNameDisp = filterNameDisp;
+	}
 	public int getFilterId() {
 		return filterId;
 	}

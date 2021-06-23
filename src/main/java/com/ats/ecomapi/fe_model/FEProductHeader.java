@@ -144,6 +144,50 @@ public class FEProductHeader {
 
 	private String similarProductIds; //akshay 16-03-2021
 	
+	
+	
+	//SACHIN 21-06-2021
+		private String metaTitle;
+		private String metaDesc;
+		private String metaKey;
+		private String imageAlt;
+		
+		//SACHIN 22-06-2021
+		private String prodNameDisp;
+		
+		public String getMetaTitle() {
+			return metaTitle;
+		}
+		public void setMetaTitle(String metaTitle) {
+			this.metaTitle = metaTitle;
+		}
+		public String getMetaDesc() {
+			return metaDesc;
+		}
+		public void setMetaDesc(String metaDesc) {
+			this.metaDesc = metaDesc;
+		}
+		public String getMetaKey() {
+			return metaKey;
+		}
+		public void setMetaKey(String metaKey) {
+			this.metaKey = metaKey;
+		}
+		public String getImageAlt() {
+			return imageAlt;
+		}
+		public void setImageAlt(String imageAlt) {
+			this.imageAlt = imageAlt;
+		}
+	
+		
+		
+	public String getProdNameDisp() {
+			return prodNameDisp;
+		}
+		public void setProdNameDisp(String prodNameDisp) {
+			this.prodNameDisp = prodNameDisp;
+		}
 	public String getDefaultVegNonvegName() {
 	return defaultVegNonvegName;
 }

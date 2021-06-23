@@ -27,6 +27,37 @@ public class CategoryList {
 	
 	private int sortNo;
 	
+	//SACHIN 21-06-2021
+	private String metaTitle;
+	private String metaDesc;
+	private String metaKey;
+	private String imageAlt;
+	
+	
+	public String getMetaTitle() {
+		return metaTitle;
+	}
+	public void setMetaTitle(String metaTitle) {
+		this.metaTitle = metaTitle;
+	}
+	public String getMetaDesc() {
+		return metaDesc;
+	}
+	public void setMetaDesc(String metaDesc) {
+		this.metaDesc = metaDesc;
+	}
+	public String getMetaKey() {
+		return metaKey;
+	}
+	public void setMetaKey(String metaKey) {
+		this.metaKey = metaKey;
+	}
+	public String getImageAlt() {
+		return imageAlt;
+	}
+	public void setImageAlt(String imageAlt) {
+		this.imageAlt = imageAlt;
+	}
 	public String getCatUuid() {
 		return catUuid;
 	}
@@ -80,7 +111,8 @@ public class CategoryList {
 	public String toString() {
 		return "CategoryList [catUuid=" + catUuid + ", catId=" + catId + ", catName=" + catName + ", catPrefix="
 				+ catPrefix + ", catDesc=" + catDesc + ", companyId=" + companyId + ", imageName=" + imageName
-				+ ", sortNo=" + sortNo + "]";
+				+ ", sortNo=" + sortNo + ", metaTitle=" + metaTitle + ", metaDesc=" + metaDesc + ", metaKey=" + metaKey
+				+ ", imageAlt=" + imageAlt + "]";
 	}
 	
 	

@@ -249,6 +249,22 @@ public class OrderApiController {
 
 		return header;
 	}
+	
+	//Sachin 08-07-2021
+	@RequestMapping(value = { "/deleteOrderSoft" }, method = RequestMethod.POST)
+	public @ResponseBody Object deleteOrderSoft(@RequestParam int orderId) {
+		int isDelete =0;
+		try {
+			isDelete = orderHeadRepo.deleteOrder(0, orderId);
+			isDelete=orderDetailRepository.deleteOrder(0, orderId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return isDelete;
+			
+	}
+	
 
 	@RequestMapping(value = { "/saveOrderDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<OrderDetail> saveOrderDetail(@RequestBody List<OrderDetail> detailList) {

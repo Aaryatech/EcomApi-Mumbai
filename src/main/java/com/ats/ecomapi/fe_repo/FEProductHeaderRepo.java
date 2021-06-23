@@ -114,7 +114,11 @@ public interface FEProductHeaderRepo extends JpaRepository<FEProductHeader, Inte
 			"	 m_product.is_slot_used, " + 
 			"	 m_product.topping_cream,m_product.layering_cream," + 
 			"	 m_product.type_of_bread,m_product.type_of_cream, " + 
-			"	 m_uom.uom_show_name , 0 as default_price " + 
+			"	 m_uom.uom_show_name , 0 as default_price ,"
+			+ ""
+			+ " m_product.ex_var1 as meta_title, m_product.ex_var2 as meta_desc, "
+			+ " m_product.ex_var3 as meta_key,m_product.product_desc as image_alt,'NA' AS prod_name_disp "
+			+ "" + 
 			"	    FROM " + 
 			"	        m_product, " + 
 			"	        tn_item_config_detail, " + 

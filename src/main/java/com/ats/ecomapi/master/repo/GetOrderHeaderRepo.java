@@ -20,7 +20,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        COALESCE(t2.email_id,\n" + 
 			"        '') AS email_id,\n" + 
 			"        COALESCE(t3.fr_name,\n" + 
-			"        '') AS fr_name,\n" + 
+			"        '') AS fr_name, t3.fr_contact_no,t3.city,\n" + 
 			"        COALESCE(t5.city_name,\n" + 
 			"        '') AS city_name,\n" + 
 			"        COALESCE(t6.area_name,\n" + 
@@ -66,7 +66,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"                f.fr_id,\n" + 
 			"                CONCAT(f.fr_name,\n" + 
 			"                ' - ',\n" + 
-			"                f.fr_code) AS fr_name      \n" + 
+			"                f.fr_code) AS fr_name,f.fr_contact_no,   f.city       \n" + 
 			"            FROM\n" + 
 			"                m_franchise f      \n" + 
 			"            WHERE\n" + 
@@ -111,7 +111,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        COALESCE(t2.email_id,\n" + 
 			"        '') AS email_id,\n" + 
 			"        COALESCE(t3.fr_name,\n" + 
-			"        '') AS fr_name,\n" + 
+			"        '') AS fr_name, t3.fr_contact_no,t3.city,\n" + 
 			"        COALESCE(t5.city_name,\n" + 
 			"        '') AS city_name,\n" + 
 			"        COALESCE(t6.area_name,\n" + 
@@ -157,7 +157,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"                f.fr_id,\n" + 
 			"                CONCAT(f.fr_name,\n" + 
 			"                ' - ',\n" + 
-			"                f.fr_code) AS fr_name      \n" + 
+			"                f.fr_code) AS fr_name ,f.fr_contact_no,   f.city      \n" + 
 			"            FROM\n" + 
 			"                m_franchise f      \n" + 
 			"            WHERE\n" + 
@@ -202,7 +202,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        COALESCE(t2.email_id,\n" + 
 			"        '') AS email_id,\n" + 
 			"        COALESCE(t3.fr_name,\n" + 
-			"        '') AS fr_name,\n" + 
+			"        '') AS fr_name, t3.fr_contact_no,t3.city,\n" + 
 			"        COALESCE(t5.city_name,\n" + 
 			"        '') AS city_name,\n" + 
 			"        COALESCE(t6.area_name,\n" + 
@@ -246,7 +246,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"                f.fr_id,\n" + 
 			"                CONCAT(f.fr_name,\n" + 
 			"                ' - ',\n" + 
-			"                f.fr_code) AS fr_name                   \n" + 
+			"                f.fr_code) AS fr_name   ,f.fr_contact_no,   f.city                 \n" + 
 			"            FROM\n" + 
 			"                m_franchise f                   \n" + 
 			"            WHERE\n" + 
@@ -293,7 +293,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        COALESCE(t2.email_id,\n" + 
 			"        '') AS email_id,\n" + 
 			"        COALESCE(t3.fr_name,\n" + 
-			"        '') AS fr_name,\n" + 
+			"        '') AS fr_name, t3.fr_contact_no,t3.city,\n" + 
 			"        COALESCE(t5.city_name,\n" + 
 			"        '') AS city_name,\n" + 
 			"        MONTH(t1.delivery_date) AS delivery_month,\n" + 
@@ -338,7 +338,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"                f.fr_id,\n" + 
 			"                CONCAT(f.fr_name,\n" + 
 			"                ' - ',\n" + 
-			"                f.fr_code) AS fr_name                   \n" + 
+			"                f.fr_code) AS fr_name  ,f.fr_contact_no,   f.city                  \n" + 
 			"            FROM\n" + 
 			"                m_franchise f                   \n" + 
 			"            WHERE\n" + 
@@ -374,7 +374,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        COALESCE(t2.email_id,\n" + 
 			"        '') AS email_id,\n" + 
 			"        COALESCE(t3.fr_name,\n" + 
-			"        '') AS fr_name,\n" + 
+			"        '') AS fr_name, t3.fr_contact_no,t3.city,\n" + 
 			"        COALESCE(t5.city_name,\n" + 
 			"        '') AS city_name,\n" + 
 			"        MONTH(t1.delivery_date) AS delivery_month,\n" + 
@@ -420,7 +420,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"                f.fr_id,\n" + 
 			"                CONCAT(f.fr_name,\n" + 
 			"                ' - ',\n" + 
-			"                f.fr_code) AS fr_name                                \n" + 
+			"                f.fr_code) AS fr_name ,f.fr_contact_no,   f.city                                \n" + 
 			"            FROM\n" + 
 			"                m_franchise f                                \n" + 
 			"            WHERE\n" + 

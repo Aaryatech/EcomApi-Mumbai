@@ -33,6 +33,7 @@ import com.ats.ecomapi.fe_model.FEProductHeader;
 import com.ats.ecomapi.fe_model.FETestimonial;
 import com.ats.ecomapi.fe_model.FrSubCatList;
 import com.ats.ecomapi.fe_model.GetFlavorTagStatusList;
+import com.ats.ecomapi.fe_model.HomePageStatusHead;
 import com.ats.ecomapi.fe_model.ProdListExl;
 import com.ats.ecomapi.fe_model.SiteVisitor;
 import com.ats.ecomapi.fe_repo.CategoryListRepo;
@@ -42,6 +43,7 @@ import com.ats.ecomapi.fe_repo.FEProductHeaderRepo;
 import com.ats.ecomapi.fe_repo.FETestimonialRepo;
 import com.ats.ecomapi.fe_repo.FrSubCatListRepo;
 import com.ats.ecomapi.fe_repo.GetFlavorTagStatusListRepo;
+import com.ats.ecomapi.fe_repo.HomePageStatusHeadRepo;
 import com.ats.ecomapi.fe_repo.ProdListExlRepo;
 import com.ats.ecomapi.fe_repo.SiteVisitorRepo;
 import com.ats.ecomapi.master.model.City;
@@ -131,6 +133,7 @@ public class FrontEndDataController {
 		SiteVisitor visitor=siteVistRepo.save(inputVisitor);
 		return visitor;
 	}
+	@Autowired HomePageStatusHeadRepo feHomePageStatusHeadRepo; //SAC 23-06-2021
 	@RequestMapping(value = { "/generateFrDataJSON" }, method = RequestMethod.POST)
 	public @ResponseBody Object getProdDataForFranchise(@RequestParam("frIdList") List<Integer> frIdList,
 			@RequestParam("companyId") int companyId) {
@@ -249,7 +252,6 @@ public class FrontEndDataController {
 				} else if (prodHeaderList.isEmpty()) {
 
 				} else {
-
 					// System.err.println(prodHeaderList.toString());
 					// dataTraveller.setFeProductHeadList(prodHeaderList);
 
@@ -270,16 +272,19 @@ public class FrontEndDataController {
 						} // End of For Loop prodHeaderList I.
 
 					} // End of For Loop homePageProdIdsList A.
-
+System.err.println("prodHeaderList "+prodHeaderList.toString());
 					for (int i = 0; i < prodHeaderList.size(); i++) {
+						
+						String	pName = prodHeaderList.get(i).getProductName().replace(' ', '-');    
+						prodHeaderList.get(i).setProdNameDisp(pName);
 						float defaultPrice = 0;
 						prodDetailList = new ArrayList<FEProdDetail>();
 						try {
 							prodDetailList = feProdDetailRepo.getFEProdDetailByConfHeadProdIdFrId(
 									prodHeaderList.get(i).getConfigHeaderId(), prodHeaderList.get(i).getProductId(),
 									frId);
-							if (prodHeaderList.get(i).getProductId() == 49)
-								System.err.println("prodDetailList " + prodDetailList.toString());
+							if (prodHeaderList.get(i).getProductId() == 86)
+								System.err.println("prodDetailList 86 " + prodDetailList.toString());
 						} catch (Exception e) {
 
 						}
@@ -293,14 +298,20 @@ public class FrontEndDataController {
 								isVegNonVMatch = Integer.compare(prodHeaderList.get(i).getDefaultFlavorId(),
 										prodDetailList.get(d).getFlavorId());
 									if(prodDetailList.get(0).getQty()>1 && isVegNonVMatch.equals(0)) {
+										
 										defaultPrice = prodDetailList.get(d).getActualRate();
+										if (prodHeaderList.get(i).getProductId() == 86)
+											System.err.println("defaultPrice 86 prodId If " + defaultPrice);
 									}
 									else if (isVegNonVMatch.equals(0) && prodDetailList.get(d).getQty() <= 1) {
 									defaultPrice = prodDetailList.get(d).getActualRate();
+									if (prodHeaderList.get(i).getProductId() == 86)
+										System.err.println("defaultPrice Else" + defaultPrice);
 									
 									break;
 								}
-
+									if (prodHeaderList.get(i).getProductId() == 86)
+										System.err.println("defaultPrice " + defaultPrice);
 							} // End of For D prodDetailList Loop
 						}
 						prodHeaderList.get(i).setDefaultPrice(defaultPrice);
@@ -362,8 +373,15 @@ public class FrontEndDataController {
 			}
 			dataTraveller.setFrSubCatList(frSubCatList);
 
-			
-			
+			//SAC 23-06-2021
+			List<HomePageStatusHead> homePageStatusList=new ArrayList<HomePageStatusHead>();
+			try {
+				homePageStatusList=feHomePageStatusHeadRepo.getHomePageProductConfigList(companyId);
+			}catch (Exception e) {
+				homePageStatusList=new ArrayList<HomePageStatusHead>();
+			}
+			dataTraveller.setHomePageStatusList(homePageStatusList);
+			//SAC 23-06-2021 END
 			ObjectMapper Obj = new ObjectMapper();
 			String json = "";
 			try {
@@ -395,6 +413,8 @@ public class FrontEndDataController {
 			List<CategoryList> masterCompanyCatList = new ArrayList<>();
 			try {
 				masterCompanyCatList = feCategoryListRepo.getMasterCompCatList();
+				System.err.println("CAT " +masterCompanyCatList.toString());
+			
 			} catch (Exception e) {
 				masterCompanyCatList = new ArrayList<>();
 			}
@@ -423,7 +443,9 @@ public class FrontEndDataController {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		return dataTravellerList;
+		return dataTravellerList.get(0).getFeProductHeadList();
+		//return prodHeaderList;
+
 
 	}
 
@@ -522,14 +544,14 @@ public class FrontEndDataController {
 	@Autowired SettingRepo settingRepo;
 
 	public void publishData(String json, int frId, int fileType) {
-		//Setting setting=settingRepo.findBySettingKey("JSON_SAVE_PATH");
+		Setting setting=settingRepo.findBySettingKey("JSON_SAVE_PATH");
 		
-		Setting setting=settingRepo.findBySettingKey("SACHIN_LOCAL_JSON");
+		//Setting setting=settingRepo.findBySettingKey("	");
 		 String JSON_SAVE_URL = setting.getSettingValue();//"/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
-		 JSON_SAVE_URL="/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/JSON_FILES/";
+		 JSON_SAVE_URL="/home/ubuntu/Documents/apache-tomcat-8.51.38/";
 //		 final String JSON_SAVE_URL = 
 //		 "/opt/apache-tomcat-8.5.39/webapps/IMG_UP/";
-System.err.println("current path from setting is " + setting.getSettingValue());
+System.err.println("current path from setting is " + JSON_SAVE_URL);
 		if (json != null) {
 
 			try {

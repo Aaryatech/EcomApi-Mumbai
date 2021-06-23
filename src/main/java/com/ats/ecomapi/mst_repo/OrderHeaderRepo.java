@@ -116,5 +116,12 @@ public interface OrderHeaderRepo extends JpaRepository<OrderHeader, Integer> {
 				@Param("paidStatus") int paidStatus,
 				@Param("payRemark") String payRemark,
 				@Param("orderId") int orderId);
+		
+		
+		@Transactional
+		@Modifying
+		@Query("update OrderHeader set del_status=:status WHERE order_id=:orderId")
+		int deleteOrder(@Param("status") int status, @Param("orderId") int orderId);
+
 
 }

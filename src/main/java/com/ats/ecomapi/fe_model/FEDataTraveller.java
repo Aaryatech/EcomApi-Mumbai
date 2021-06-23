@@ -33,8 +33,19 @@ public class FEDataTraveller {
 	 //Sachin 22-12-2020
 	 List<FrSubCatList> frSubCatList; //category list For Franchise 
 	 
+	 //SACHIN 23-06-2021
+	 List<HomePageStatusHead> homePageStatusList;
 	 
 	 
+	 
+	public List<HomePageStatusHead> getHomePageStatusList() {
+		return homePageStatusList;
+	}
+
+	public void setHomePageStatusList(List<HomePageStatusHead> homePageStatusList) {
+		this.homePageStatusList = homePageStatusList;
+	}
+
 	public List<CateFilterConfig> getCatFilterConfig() {
 		return catFilterConfig;
 	}

@@ -71,7 +71,7 @@ public interface CompanyServices {
 	 * 
 	 */
 	
-	List<GetConfigureOfferList> getConfigureOfferListById(int offerId);
+	List<GetConfigureOfferList> getConfigureOfferListById(int offerId, int compId);
 	
 	
 	OfferConfig getConfigureFrOfferDetailById(int offerId);
@@ -80,7 +80,7 @@ public interface CompanyServices {
 	int udateFrOfferConfig(String frIdStr, int offerId, String updtTime, int userId);
 	int deleteFrOfferConfig(int frOfferConfigId);
 	
-	List<GetOfferFrConfiguredList> getOfferFrConfiguredList();
+	List<GetOfferFrConfiguredList> getOfferFrConfiguredList(int compId);
 
 	List<OfferHeader> getFrOfferConfigList(int compId);
 }

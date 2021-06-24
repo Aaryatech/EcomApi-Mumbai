@@ -16,8 +16,8 @@ import com.ats.ecomapi.master.model.CompanyTestomonials;
 //Akhilesh 2020-12-17 
 public interface CompanyTestomonialsRepo extends JpaRepository<CompanyTestomonials, Integer> {
 	
-	@Query(value="SELECT * FROM company_testimonials WHERE is_active=1 AND del_status=1 ",nativeQuery=true)
-	List<CompanyTestomonials> getCompanyTestomonialsList();
+	@Query(value="SELECT * FROM company_testimonials WHERE is_active=1 AND del_status=1 AND ex_int1=:compId Order By id Desc",nativeQuery=true)
+	List<CompanyTestomonials> getCompanyTestomonialsList(@Param("compId") int compId);
 	
 	CompanyTestomonials findById(int testimonialId);
 	

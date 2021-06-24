@@ -24,15 +24,14 @@ public class CompanyTestimonialsApiController {
 	CompanyTestomonialsRepo companyTestomonialsRepo;
 	
 	//Akhilesh 2020-12-17
-	@RequestMapping(value="/getCompanyTestomonialsList",method=RequestMethod.GET)
-	public List<CompanyTestomonials> getCompanyTestomonialsList(){
+	@RequestMapping(value="/getCompanyTestomonialsList",method=RequestMethod.POST)
+	public List<CompanyTestomonials> getCompanyTestomonialsList(@RequestParam int compId){
 		
 		List<CompanyTestomonials> getCompTestList=new ArrayList<>();
 		
 		
 		try {
-			getCompTestList=companyTestomonialsRepo.getCompanyTestomonialsList();
-			System.err.println("getCompTestList Size--->"+getCompTestList.size());
+			getCompTestList=companyTestomonialsRepo.getCompanyTestomonialsList(compId);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println("Exception Occurerd In /getCompanyTestomonialsList");

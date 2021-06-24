@@ -24,12 +24,12 @@ public class DeliverySlotsMasterApiController {
 	DeliverySlotsRepository  DeliSlotRepo;
 	
 	
-	@RequestMapping(value="/getAllDeliverySlots",method=RequestMethod.GET)
-	public @ResponseBody List<DeliverySlots> getAllDeliverySlots(){
+	@RequestMapping(value="/getAllDeliverySlots",method=RequestMethod.POST)
+	public @ResponseBody List<DeliverySlots> getAllDeliverySlots(@RequestParam int compId){
 		List<DeliverySlots> delSlotList=new ArrayList<>();
 		
 		try {
-			delSlotList=DeliSlotRepo.getAllDeliverySlots();
+			delSlotList=DeliSlotRepo.getAllDeliverySlots( compId);
 			System.err.println("Delivery Slot List Size==>"+delSlotList.size());
 		} catch (Exception e) {
 			// TODO: handle exception

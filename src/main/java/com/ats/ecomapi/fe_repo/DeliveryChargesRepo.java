@@ -10,10 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ats.ecomapi.fe_model.DeliveryCharges;
 
-public interface DeliveryChargesRepo extends JpaRepository<DeliveryCharges, Integer> {
+public interface DeliveryChargesRepo extends JpaRepository<DeliveryCharges, Integer> {	
 	
+	public List<DeliveryCharges> findByDelStatusOrderByChIdDesc(int del);
 	
-public List<DeliveryCharges> findByDelStatusOrderByChIdDesc(int del);
+	List<DeliveryCharges> findByExInt1AndDelStatusOrderByChIdDesc(int compId, int del);
 	
 	DeliveryCharges findByChId(int chargeId);
 	

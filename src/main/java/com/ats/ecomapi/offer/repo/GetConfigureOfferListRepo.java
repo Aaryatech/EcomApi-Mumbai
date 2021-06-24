@@ -23,7 +23,7 @@ public interface GetConfigureOfferListRepo extends JpaRepository<GetConfigureOff
 			"    FROM\n" + 
 			"        m_franchise f\n" + 
 			"    WHERE\n" + 
-			"        f.del_status =1\n" + 
+			"        f.del_status =1 AND f.company_id=:compId\n" + 
 			") t1\n" + 
 			"LEFT JOIN(\n" + 
 			"    SELECT\n" + 
@@ -42,5 +42,5 @@ public interface GetConfigureOfferListRepo extends JpaRepository<GetConfigureOff
 			"ON\n" + 
 			"    t1.fr_id = t2.fr_id  \n" + 
 			"ORDER BY `t1`.`fr_id` ASC",nativeQuery=true)
-	List<GetConfigureOfferList> getConfigureOferList(@Param("offerId") int offerId);
+	List<GetConfigureOfferList> getConfigureOferList(@Param("offerId") int offerId, @Param("compId") int compId);
 }

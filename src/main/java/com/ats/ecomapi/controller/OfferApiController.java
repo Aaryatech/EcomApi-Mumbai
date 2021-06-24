@@ -279,11 +279,11 @@ public class OfferApiController {
 	// Descriprion :- getConfigureOfferList
 	/************************** Fr Offer Config ********************************/
 	@RequestMapping(value = { "/getConfigureOfferList" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetConfigureOfferList> getConfigureOfferList(@RequestParam int offerId) {
+	public @ResponseBody List<GetConfigureOfferList> getConfigureOfferList(@RequestParam int offerId, @RequestParam int compId) {
 
 		List<GetConfigureOfferList> frOfferList = new ArrayList<GetConfigureOfferList>();
 		try {
-			frOfferList = companyService.getConfigureOfferListById(offerId);
+			frOfferList = companyService.getConfigureOfferListById(offerId, compId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -391,12 +391,12 @@ public class OfferApiController {
 	// Modified By :- NA
 	// Modified On :- NA
 	// Descriprion :- getAllOfferFrConfiguredList
-	@RequestMapping(value = { "/getAllOfferFrConfiguredList" }, method = RequestMethod.GET)
-	public @ResponseBody List<GetOfferFrConfiguredList> getAllOfferFrConfiguredList() {
+	@RequestMapping(value = { "/getAllOfferFrConfiguredList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetOfferFrConfiguredList> getAllOfferFrConfiguredList(@RequestParam int compId) {
 
 		List<GetOfferFrConfiguredList> offerList = new ArrayList<GetOfferFrConfiguredList>();
 		try {
-			offerList = companyService.getOfferFrConfiguredList();
+			offerList = companyService.getOfferFrConfiguredList(compId);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

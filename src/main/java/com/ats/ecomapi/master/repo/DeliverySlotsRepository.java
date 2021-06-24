@@ -13,8 +13,8 @@ import com.ats.ecomapi.master.model.DeliverySlots;
 
 public interface DeliverySlotsRepository extends JpaRepository<DeliverySlots, Integer>{
 	
-	@Query(value="SELECT * FROM  m_delivery_slots WHERE del_status=1",nativeQuery=true)
-	List<DeliverySlots> getAllDeliverySlots();
+	@Query(value="SELECT * FROM  m_delivery_slots WHERE del_status=1 and company_id=:compId",nativeQuery=true)
+	List<DeliverySlots> getAllDeliverySlots(@Param("compId") int compId);
 	
 	@Query(value="SELECT * FROM  m_delivery_slots WHERE del_status=1 AND deli_slot_id=:delSlotId",nativeQuery=true)
 	DeliverySlots getDeliverySlotById(@Param("delSlotId") int delSlotId);

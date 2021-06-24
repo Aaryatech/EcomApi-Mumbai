@@ -21,12 +21,12 @@ public class DeliveryChargesApiController {
 	@Autowired
 	DeliveryChargesRepo deliveryChargeRepo;
 	
-	@RequestMapping(value = { "/getAllDeliveryCharges" }, method = RequestMethod.GET)
-	public @ResponseBody List<DeliveryCharges> getAllDeliveryCharges() {
+	@RequestMapping(value = { "/getAllDeliveryCharges" }, method = RequestMethod.POST)
+	public @ResponseBody List<DeliveryCharges> getAllDeliveryCharges(@RequestParam int compId) {
 
 		List<DeliveryCharges> chagesList = new ArrayList<DeliveryCharges>();
 		try {
-			chagesList = deliveryChargeRepo.findByDelStatusOrderByChIdDesc(0);
+			chagesList = deliveryChargeRepo.findByExInt1AndDelStatusOrderByChIdDesc(compId, 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

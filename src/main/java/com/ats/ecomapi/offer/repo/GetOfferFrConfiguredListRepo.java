@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.ats.ecomapi.offer_model.GetOfferFrConfiguredList;
 
@@ -24,7 +25,7 @@ public interface GetOfferFrConfiguredListRepo extends JpaRepository<GetOfferFrCo
 			"                m_franchise f \n" + 
 			"                    ON         FIND_IN_SET(f.fr_id,\n" + 
 			"                c.fr_id) > 0 \n" + 
-			"                AND f.del_status = 1 AND c.del_status=1\n" + 
+			"                AND f.del_status = 1 AND c.del_status=1 AND c.ex_int1=:compId\n" + 
 			"                GROUP BY c.offer_id",nativeQuery=true)
-	List<GetOfferFrConfiguredList> getConfiguredOfferFrList();
+	List<GetOfferFrConfiguredList> getConfiguredOfferFrList(@Param("compId") int compId);
 }

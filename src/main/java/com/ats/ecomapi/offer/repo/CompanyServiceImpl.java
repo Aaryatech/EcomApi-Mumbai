@@ -46,8 +46,8 @@ public class CompanyServiceImpl implements CompanyServices {
 	/**********************************************************************/
 
 	@Override
-	public List<GetConfigureOfferList> getConfigureOfferListById(int offerId) {
-		List<GetConfigureOfferList> list = configureFrOfferList.getConfigureOferList(offerId);
+	public List<GetConfigureOfferList> getConfigureOfferListById(int offerId, int compId) {
+		List<GetConfigureOfferList> list = configureFrOfferList.getConfigureOferList(offerId, compId);
 		return list;
 	}
 
@@ -70,8 +70,8 @@ public class CompanyServiceImpl implements CompanyServices {
 	}
 
 	@Override
-	public List<GetOfferFrConfiguredList> getOfferFrConfiguredList() {
-		List<GetOfferFrConfiguredList> list = configFrOfferListRepo.getConfiguredOfferFrList();
+	public List<GetOfferFrConfiguredList> getOfferFrConfiguredList(int compId) {
+		List<GetOfferFrConfiguredList> list = configFrOfferListRepo.getConfiguredOfferFrList(compId);
 		return list;
 	}
 

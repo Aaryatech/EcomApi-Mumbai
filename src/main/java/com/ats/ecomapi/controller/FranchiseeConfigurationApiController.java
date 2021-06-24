@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -208,37 +209,37 @@ public class FranchiseeConfigurationApiController {
 
 	@RequestMapping(value = { "/getFranchiseConfigList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetFrConfigList> getFranchiseConfigList(@RequestParam List<String> frIds,
-			@RequestParam List<String> configIds, @RequestParam int orderBy) {
+			@RequestParam List<String> configIds, @RequestParam int orderBy, @RequestParam int compId) {
 		// 1-config 2-fr
 		List<GetFrConfigList> list = new ArrayList<GetFrConfigList>();
 
 		try {
 			if (frIds.contains("0") && !configIds.contains("0") && orderBy == 1) {
 
-				list = getFrConfigListRepo.getAllFranchiseToFrAllFrOrCon(configIds);
+				list = getFrConfigListRepo.getAllFranchiseToFrAllFrOrCon(configIds, compId);
 
 			} else if (configIds.contains("0") && !frIds.contains("0") && orderBy == 1) {
 
-				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrCon(frIds);
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrCon(frIds, compId);
 
 			} else if (!configIds.contains("0") && !frIds.contains("0") && orderBy == 1) {
-				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrCon(frIds, configIds);
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrCon(frIds, configIds, compId);
 			} else if (configIds.contains("0") && frIds.contains("0") && orderBy == 1) {
 
-				list = getFrConfigListRepo.getAllFranchiseToConfigAllOrCon();
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllOrCon(compId);
 			} else if (frIds.contains("0") && !configIds.contains("0") && orderBy == 2) {
-				list = getFrConfigListRepo.getAllFranchiseToFrAllFrOrFr(configIds);
+				list = getFrConfigListRepo.getAllFranchiseToFrAllFrOrFr(configIds, compId);
 			} else if (configIds.contains("0") && !frIds.contains("0") && orderBy == 2) {
 
-				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrFr(frIds);
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrFr(frIds, compId);
 			} else if (!configIds.contains("0") && !frIds.contains("0") && orderBy == 2) {
 
-				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrFr(frIds, configIds);
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllConfigOrFr(frIds, configIds, compId);
 
 			} else {
 				// configIds.contains("0") && frIds.contains("0") && orderBy==
 
-				list = getFrConfigListRepo.getAllFranchiseToConfigAllOrFr();
+				list = getFrConfigListRepo.getAllFranchiseToConfigAllOrFr(compId);
 
 			}
 		} catch (Exception e) {

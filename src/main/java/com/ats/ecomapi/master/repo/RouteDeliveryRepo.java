@@ -21,6 +21,8 @@ public interface RouteDeliveryRepo extends JpaRepository<RouteDelivery, Integer>
 	List<RouteDelivery> findByDelStatusOrderByRouidDelveryIdDesc(int i);
 
 	RouteDelivery findByRouidDelveryId(int routeId);
+	
+	List<RouteDelivery> findByCompanyIdAndDelStatusOrderByRouidDelveryIdDesc(int compId, int i);
 
 
 }

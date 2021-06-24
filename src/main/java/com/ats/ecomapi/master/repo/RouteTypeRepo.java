@@ -23,4 +23,6 @@ public interface RouteTypeRepo extends JpaRepository<RouteType, Integer> {
 	RouteType findByRouteTypeId(int routeId);
 
 	List<RouteType> findByDelStatusOrderByRouteTypeIdDesc(int i);
+	
+	List<RouteType> findBycompanyIdAndDelStatusOrderByRouteTypeIdDesc(int compId, int i);
 }

@@ -955,6 +955,25 @@ public class CompanyApiController {
 		return list;
 
 	}
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singhb
+	// Created On :- 24-06-2021
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Route By Company Id
+
+	@RequestMapping(value = { "/getAllRouteTypeByCompId" }, method = RequestMethod.POST)
+	public @ResponseBody List<RouteType> getAllRouteTypeByCompId(@RequestParam int compId) {
+
+		List<RouteType> list = new ArrayList<RouteType>();
+		try {
+			list = routeTypeRepo.findBycompanyIdAndDelStatusOrderByRouteTypeIdDesc(compId, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
 
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
@@ -1044,7 +1063,25 @@ public class CompanyApiController {
 		return list;
 
 	}
+	/*--------------------------------------------------------------------------------*/
+	// Created By :- Mahendra Singh
+	// Created On :- 24-06-2021
+	// Modified By :- NA
+	// Modified On :- NA
+	// Description :- Get All Comapny Route Delivery By Company Id
 
+	@RequestMapping(value = { "/getAllRouteDeliveryByCompId" }, method = RequestMethod.POST)
+	public @ResponseBody List<RouteDelivery> getAllRouteDeliveryByCompId(@RequestParam int compId) {
+
+		List<RouteDelivery> list = new ArrayList<RouteDelivery>();
+		try {
+			list = routeDeliveryRepo.findByCompanyIdAndDelStatusOrderByRouidDelveryIdDesc(compId, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
 	/*--------------------------------------------------------------------------------*/
 	// Created By :- Harsha Patil
 	// Created On :- 25-09-2020

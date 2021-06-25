@@ -157,7 +157,7 @@ public class FrontEndDataController {
 			// 2
 			List<CategoryList> companyCatList = new ArrayList<>();
 			try {
-				companyCatList = feCategoryListRepo.getCompanyCatListByCompId(1);
+				companyCatList = feCategoryListRepo.getCompanyCatListByCompId(companyId);
 			} catch (Exception e) {
 				companyCatList = new ArrayList<>();
 			}

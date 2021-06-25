@@ -517,11 +517,11 @@ System.err.println("prodHeaderList "+prodHeaderList.toString());
 	}
 	
 	@RequestMapping(value = { "/generateCompTestimonialJson" }, method = RequestMethod.GET)	
-	public @ResponseBody Info generateCompTestimonialJson() {
+	public @ResponseBody Info generateCompTestimonialJson(@RequestParam int compId) {
 		Info info = new Info();
 		List<CompanyTestomonials> masterCompTestimonialList = new ArrayList<CompanyTestomonials>();
 		try {
-			masterCompTestimonialList = companyTestomonialsRepo.getCompanyTestomonialsList();
+			masterCompTestimonialList = companyTestomonialsRepo.getCompanyTestomonialsList(compId);
 			if(masterCompTestimonialList!=null) {
 				info.setError(false);
 				info.setMessage("Company Testimonial Json Generated");

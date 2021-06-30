@@ -31,7 +31,7 @@ public interface OrderDetailListRepo extends JpaRepository<GetOrderDetailDisplay
 			"            d.order_id,\n" + 
 			"            d.item_id,\n" + 
 			"            d.hsn_code,\n" + 
-			"            d.ex_float1 AS qty,\n" + 
+			"            d.ex_float3 AS qty,\n" + 
 			"            d.mrp,\n" + 
 			"            d.rate,\n" + 
 			"            d.taxable_amt,\n" + 

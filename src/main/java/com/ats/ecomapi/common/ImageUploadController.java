@@ -54,9 +54,49 @@ public class ImageUploadController {
 		return info;
 	}
 
+	@RequestMapping(value = { "/photoUpload1" }, method = RequestMethod.POST)
+	public @ResponseBody Info getFarmerContract1(@RequestParam("file") List<MultipartFile> uploadfile,
+			@RequestParam("imageName") List<String> imageName) {
+
+		Info info = new Info();
+		/*
+		 * System.out.println("File Name " + uploadfile.getOriginalFilename()); String
+		 * a= imageName.replaceAll("^\"|\"$", "");//Akhilesh ," " In Image Name Problm
+		 * 2021-03-11 System.out.println("imageName Name1 " +a);
+		 */
+		
+		
+		try {
+			//saveUploadedFiles(Arrays.asList(uploadfile), imageName, type);//Akhilesh ," " In Image Name Problm 2021-03-11
+			//saveUploadedFiles(Arrays.asList(uploadfile), a);
+
+			//saveUploadedFiles(Arrays.asList(uploadfile), imageName, type);
+			for(int i=0;i<uploadfile.size();i++) {
+				String imageName2=imageName.get(i).replace('"', ' ');
+				saveUploadedFiles(Arrays.asList(uploadfile.get(i)),imageName2);
+				info.setError(false);
+				info.setMessage("File uploaded successfully");
+
+			}
+
+			/*
+			 * info.setError(false); info.setMessage("File uploaded successfully");
+			 */
+
+		} catch (IOException e) {
+			System.err.println("Exceptn In getFarmerContract ");
+			e.printStackTrace();
+			info.setError(true);
+			info.setMessage("File upload failed");
+		}
+
+		return info;
+	}
+
+	
 	// save file
 	private void saveUploadedFiles(List<MultipartFile> files, String imageName) throws IOException {
-
+		
 		try {
 			for (MultipartFile file : files) {
 				Path path = null;
@@ -64,7 +104,7 @@ public class ImageUploadController {
 					continue;
 				}
 			
-				path = Paths.get(ApiConstants.UPLOAD_URL+imageName);
+				path = Paths.get(ApiConstants.UPLOAD_URL+imageName.trim());
 				 System.out.println(path.toAbsolutePath());
 			
 				byte[] bytes = file.getBytes();
@@ -81,5 +121,6 @@ public class ImageUploadController {
 		}
 
 	}
+	
 
 }

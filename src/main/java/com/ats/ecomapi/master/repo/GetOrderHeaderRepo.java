@@ -31,8 +31,8 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        '%d-%m-%Y') AS order_date_display,\n" + 
 			"        DATE_FORMAT(t1.delivery_date,\n" + 
 			"        '%d-%m-%Y') AS delivery_date_display,\n" + 
-			"        TIME_FORMAT(t1.delivery_time,\n" + 
-			"        '%h:%i %p') AS delivery_time_display,\n" + 
+			"         (t1.ex_var3\n" + 
+			"         ) AS delivery_time_display,\n" + 
 			"        MONTHNAME(t1.delivery_date) AS month_name  \n" + 
 			"    FROM\n" + 
 			"        (      SELECT\n" + 
@@ -122,8 +122,8 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        '%d-%m-%Y') AS order_date_display,\n" + 
 			"        DATE_FORMAT(t1.delivery_date,\n" + 
 			"        '%d-%m-%Y') AS delivery_date_display,\n" + 
-			"        TIME_FORMAT(t1.delivery_time,\n" + 
-			"        '%h:%i %p') AS delivery_time_display,\n" + 
+			"         (t1.ex_var3 " + 
+			"        ) AS delivery_time_display,\n" + 
 			"        MONTHNAME(t1.delivery_date) AS month_name  \n" + 
 			"    FROM\n" + 
 			"        (      SELECT\n" + 
@@ -302,8 +302,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        '%d-%m-%Y') AS order_date_display,\n" + 
 			"        DATE_FORMAT(t1.delivery_date,\n" + 
 			"        '%d-%m-%Y') AS delivery_date_display,\n" + 
-			"        TIME_FORMAT(t1.delivery_time,\n" + 
-			"        '%h:%i %p') AS delivery_time_display,\n" + 
+			"         (t1.ex_var3) AS delivery_time_display,\n" + 
 			"        MONTHNAME(t1.delivery_date) AS month_name, 'NA' AS area_name       \n" + 
 			"    FROM\n" + 
 			"        (      SELECT\n" + 
@@ -383,8 +382,8 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        '%d-%m-%Y') AS order_date_display,\n" + 
 			"        DATE_FORMAT(t1.delivery_date,\n" + 
 			"        '%d-%m-%Y') AS delivery_date_display,\n" + 
-			"        TIME_FORMAT(t1.delivery_time,\n" + 
-			"        '%h:%i %p') AS delivery_time_display,\n" + 
+			"         (t1.ex_var3 " + 
+			"         ) AS delivery_time_display,\n" + 
 			"        MONTHNAME(t1.delivery_date) AS month_name,\n" + 
 			"        'NA' AS area_name            \n" + 
 			"    FROM\n" + 

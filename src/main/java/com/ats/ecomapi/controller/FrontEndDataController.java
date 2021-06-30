@@ -548,7 +548,7 @@ System.err.println("prodHeaderList "+prodHeaderList.toString());
 		
 		//Setting setting=settingRepo.findBySettingKey("	");
 		 String JSON_SAVE_URL = setting.getSettingValue();//"/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
-		 JSON_SAVE_URL="/home/ubuntu/Documents/apache-tomcat-8.51.38/";
+		// JSON_SAVE_URL="/home/ubuntu/Documents/apache-tomcat-8.51.38/";
 //		 final String JSON_SAVE_URL = 
 //		 "/opt/apache-tomcat-8.5.39/webapps/IMG_UP/";
 System.err.println("current path from setting is " + JSON_SAVE_URL);

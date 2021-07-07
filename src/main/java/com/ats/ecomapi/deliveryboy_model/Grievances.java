@@ -19,7 +19,7 @@ public class Grievances {
 	private String proImg1;
 	private String proImg2;
 	private String proImg3;
-	private Date dDate;
+	private String dDate;
 	
 	public Integer getOrderId() {
 		return orderId;
@@ -51,11 +51,17 @@ public class Grievances {
 	public void setProImg3(String proImg3) {
 		this.proImg3 = proImg3;
 	}
-	public Date getdDAte() {
+	public String getdDate() {
 		return dDate;
 	}
-	public void setdDAte(Date dDAte) {
-		this.dDate = dDAte;
+	public void setdDate(String dDate) {
+		this.dDate = dDate;
 	}
+	@Override
+	public String toString() {
+		return "Grievances [orderId=" + orderId + ", deliveryReason=" + deliveryReason + ", proImg1=" + proImg1
+				+ ", proImg2=" + proImg2 + ", proImg3=" + proImg3 + ", dDate=" + dDate + "]";
+	}
+	
 
 }

@@ -265,4 +265,74 @@ public class ReportApiController {
 		return repList;
 	}
 	
+	
+	@RequestMapping(value = { "/getCatQtyChartDataByFr" }, method = RequestMethod.POST)
+	public @ResponseBody List<ShowPieChartData> getCatQtyChartDataByFr(
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate, @RequestParam("orderStatus") List<String> orderStatus, 
+			@RequestParam("compIds") List<String> compIds, @RequestParam("paymentMethod") int paymentMethod,
+			@RequestParam("frId") int frId) {
+
+		List<ShowPieChartData> repList = new ArrayList<ShowPieChartData>();
+
+		try {
+			repList = pieChartRepo.getCatQtyChartByFr(fromDate, toDate, orderStatus, compIds, paymentMethod, frId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.err.println(repList);
+		return repList;
+	}
+
+	@RequestMapping(value = { "/getTotalSaleQtyChartDataByFr" }, method = RequestMethod.POST)
+	public @ResponseBody List<ShowPieChartData> getTotalSaleQtyChartDataByFr(
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate, @RequestParam("orderStatus") List<String> orderStatus, 
+			@RequestParam("compIds") List<String> compIds, @RequestParam("paymentMethod") int paymentMethod,
+			@RequestParam("frId") int frId) {
+
+		List<ShowPieChartData> repList = new ArrayList<ShowPieChartData>();
+
+		try {
+			repList = pieChartRepo.getCatTotalSaleChartByFr(fromDate, toDate, orderStatus, compIds, paymentMethod,frId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.err.println(repList);
+		return repList;
+	}
+	
+	@RequestMapping(value = { "/getSubCatQtyChartDataByFr" }, method = RequestMethod.POST)
+	public @ResponseBody List<ShowPieChartData> getSubCatQtyChartDataByFr(@RequestParam("catId") int catId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate, @RequestParam("orderStatus") List<String> orderStatus, 
+			@RequestParam("compIds") List<String> compIds, @RequestParam("paymentMethod") int paymentMethod,
+			@RequestParam("frId") int frId) {
+
+		List<ShowPieChartData> repList = new ArrayList<ShowPieChartData>();
+
+		try {
+			repList = pieChartRepo.getSubCatQtyChartByFr(catId, fromDate, toDate, orderStatus, compIds, paymentMethod, frId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.err.println(repList);
+		return repList;
+	}
+	
+	@RequestMapping(value = { "/getSubCatWiseItemChartDataByFr" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetItemSubCatWise> getSubCatWiseItemChartDataByFr(@RequestParam("subCatId") int subCatId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate, @RequestParam("orderStatus") List<String> orderStatus, 
+			@RequestParam("compIds") List<String> compIds, @RequestParam("paymentMethod") int paymentMethod,
+			@RequestParam("frId") int frId) {
+
+		List<GetItemSubCatWise> repList = new ArrayList<GetItemSubCatWise>();
+
+		try {
+			repList = getSubCatItemRepo.getSubCatItemsByFr(subCatId, fromDate, toDate, orderStatus, compIds, paymentMethod, frId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return repList;
+	}
+	
+	
 }

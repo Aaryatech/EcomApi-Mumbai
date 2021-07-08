@@ -197,7 +197,12 @@ public class DeliveryBoyApiController {
 		{
     	Info info=new Info();
 		//OrHeader or1;
-		 int or1=orheadRepo.toUpdateStatus(orderId,orderStatus);
+    	int or1=0;
+    	if(orderStatus.equalsIgnoreCase("5")) {
+    		or1=orheadRepo.toUpdateStatusWithPay(orderId,orderStatus);
+    	}else {
+		  or1=orheadRepo.toUpdateStatus(orderId,orderStatus);
+    	}
        if(or1>0)
 		{
 			info.setMessage("Status Update Successfully");

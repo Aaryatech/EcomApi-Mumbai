@@ -699,7 +699,7 @@ System.err.println("current path from setting is " + JSON_SAVE_URL);
 				if(retPer.equalsIgnoreCase("null")) {
 					retPer="0";
 				}
-				int j=orderDetailRepository.cancelItemOrder(1, retPer + " % Return", orderId);
+				int j=orderDetailRepository.cancelItemOrder(0, retPer + " % Return", orderId);
 				
 				if(h>0) {
 					info.setError(false);

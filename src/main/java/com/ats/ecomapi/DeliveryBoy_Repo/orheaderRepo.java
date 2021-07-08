@@ -51,6 +51,14 @@ public interface orheaderRepo extends JpaRepository<OrHeader,Long>{
 	@Modifying
 	@Query(value="update tn_order_header set order_status=:order_status where order_id=:order_id",nativeQuery=true)
 	Integer toUpdateStatus(@Param("order_id" )Integer order_id,@Param("order_status")String order_status);
+	
+	//Sac 2021-07-08
+	@Transactional
+	@Modifying
+	@Query(value="update tn_order_header set order_status=:order_status,paid_status=1 where order_id=:order_id",nativeQuery=true)
+	Integer toUpdateStatusWithPay(@Param("order_id" )Integer order_id,@Param("order_status")String order_status);
+	
+	
 	/*select
         tn_order_header.order_id,
         tn_order_header.order_status,

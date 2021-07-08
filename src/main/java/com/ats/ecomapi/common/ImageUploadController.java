@@ -28,7 +28,7 @@ public class ImageUploadController {
 	@RequestMapping(value = { "/sendEmail" }, method = RequestMethod.POST)
 	public @ResponseBody Info sendEmail(@RequestParam("recipientEmail") String recipientEmail,
 			@RequestParam("mailsubject") String mailsubject,
-			@RequestParam("mailMsg") String mailMsg) {
+	 		@RequestParam("mailMsg") String mailMsg) {
 				
 		Info info = new Info();
 		try {

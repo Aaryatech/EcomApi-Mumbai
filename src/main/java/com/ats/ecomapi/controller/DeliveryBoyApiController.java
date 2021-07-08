@@ -181,6 +181,15 @@ public class DeliveryBoyApiController {
 			
 		}
 		
+		@RequestMapping(value= {"/getGrevienceByOrderId"},method=RequestMethod.POST)
+		public @ResponseBody List<Grievances> getGrevienceByOrderId(@RequestParam String orderId )
+		{
+			List<Grievances> grList=new ArrayList<>();
+         grList  =grRepo.getGrevienceByOrderId(orderId);
+			return grList;
+			
+		}
+		
 		
         //5)API For Order Status Update
 		@RequestMapping(value= {"/statusUpdate"},method=RequestMethod.POST)

@@ -12,7 +12,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 
 	@Query(value=" SELECT\n" + 
 			"        UUID() AS id,\n" + 
-			"        t1.*,\n" + 
+			"        t1.*,ifnull(gr1.ex_int2,0) as ex_int2,\n" + 
 			"        COALESCE(t2.cust_name,\n" + 
 			"        '') AS cust_name,\n" + 
 			"        COALESCE(t2.cust_mobile_no,\n" + 
@@ -36,7 +36,65 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        MONTHNAME(t1.delivery_date) AS month_name  \n" + 
 			"    FROM\n" + 
 			"        (      SELECT\n" + 
-			"            h.*               \n" + 
+			"            h.order_id,h.order_no,\n" + 
+			"    h.order_date,\n" + 
+			"    h.fr_id,\n" + 
+			"    h.cust_id,\n" + 
+			"    h.status,\n" + 
+			"    h.taxable_amt,\n" + 
+			"    h.cgst_amt,\n" + 
+			"    h.sgst_amt,\n" + 
+			"    h.igst_amt,\n" + 
+			"    h.disc_amt,\n" + 
+			"    h.item_disc_amt,\n" + 
+			"    h.tax_amt,\n" + 
+			"    h.total_amt,\n" + 
+			"    h.order_status,\n" + 
+			"    h.paid_status,\n" + 
+			"    h.payment_method,\n" + 
+			"    h.payment_remark,\n" + 
+			"    h.city_id,\n" + 
+			"    h.area_id,\n" + 
+			"    h.address_id,\n" + 
+			"    h.address,\n" + 
+			"    h.whatsapp_no,\n" + 
+			"    h.landmark,\n" + 
+			"    h.delivery_date,\n" + 
+			"    h.delivery_time,\n" + 
+			"    h.production_date,\n" + 
+			"    h.production_time,\n" + 
+			"    h.insert_date_time,\n" + 
+			"    h.insert_user_id,\n" + 
+			"    h.order_platform,\n" + 
+			"    h.del_status,\n" + 
+			"    h.offer_id,\n" + 
+			"    h.remark,\n" + 
+			"    h.order_delivered_by,\n" + 
+			"    h.ex_int1,\n" + 
+			"   \n" + 
+			"    h.ex_int3,\n" + 
+			"    h.ex_int4,\n" + 
+			"    h.ex_var1,\n" + 
+			"    h.ex_var2,\n" + 
+			"    h.ex_var3,\n" + 
+			"    h.ex_var4,\n" + 
+			"    h.ex_float1,\n" + 
+			"    h.ex_float2,\n" + 
+			"    h.ex_float3,\n" + 
+			"    h.ex_float4,\n" + 
+			"    h.ex_date1,\n" + 
+			"    h.ex_date2,\n" + 
+			"    h.billing_name,\n" + 
+			"    h.billing_address,\n" + 
+			"    h.customer_gstn_no,\n" + 
+			"    h.delivery_type,\n" + 
+			"    h.delivery_inst_id,\n" + 
+			"    h.delivery_inst_text,\n" + 
+			"    h.delivery_km,\n" + 
+			"    h.delivery_charges,\n" + 
+			"    h.payment_sub_mode,\n" + 
+			"    h.is_agent,\n" + 
+			"    h.uuid_no                \n" + 
 			"        FROM\n" + 
 			"            tn_order_header h    \n" + 
 			"        WHERE\n" + 
@@ -45,7 +103,18 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"            AND h.delivery_date BETWEEN :fromDate AND :toDate \n" + 
 			"            AND h.order_status IN(:status)       \n" + 
 			"        ORDER BY\n" + 
-			"            h.order_id  ) t1  \n" + 
+			"            h.order_id  ) t1 LEFT JOIN\n" + 
+			"        (\n" + 
+			"            SELECT\n" + 
+			"                tn_grievences.order_id,\n" + 
+			"                tn_grievences.d_date,\n" + 
+			"                COUNT('') AS ex_int2                 \n" + 
+			"            FROM\n" + 
+			"                tn_grievences                                   \n" + 
+			"            GROUP BY\n" + 
+			"                  tn_grievences.d_date                      \n" + 
+			"        ) gr1 \n" + 
+			"            ON t1.order_id = gr1.d_date "+
 			"    LEFT JOIN\n" + 
 			"        (\n" + 
 			"            SELECT\n" + 
@@ -103,7 +172,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 	
 	@Query(value=" SELECT\n" + 
 			"        UUID() AS id,\n" + 
-			"        t1.*,\n" + 
+			"        t1.*, ifnull(gr1.ex_int2,0) as ex_int2,\n" + 
 			"        COALESCE(t2.cust_name,\n" + 
 			"        '') AS cust_name,\n" + 
 			"        COALESCE(t2.cust_mobile_no,\n" + 
@@ -127,7 +196,65 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        MONTHNAME(t1.delivery_date) AS month_name  \n" + 
 			"    FROM\n" + 
 			"        (      SELECT\n" + 
-			"            h.*               \n" + 
+			"             h.order_no,\n" + 
+			"   h.order_id, h.order_date,\n" + 
+			"    h.fr_id,\n" + 
+			"    h.cust_id,\n" + 
+			"    h.status,\n" + 
+			"    h.taxable_amt,\n" + 
+			"    h.cgst_amt,\n" + 
+			"    h.sgst_amt,\n" + 
+			"    h.igst_amt,\n" + 
+			"    h.disc_amt,\n" + 
+			"    h.item_disc_amt,\n" + 
+			"    h.tax_amt,\n" + 
+			"    h.total_amt,\n" + 
+			"    h.order_status,\n" + 
+			"    h.paid_status,\n" + 
+			"    h.payment_method,\n" + 
+			"    h.payment_remark,\n" + 
+			"    h.city_id,\n" + 
+			"    h.area_id,\n" + 
+			"    h.address_id,\n" + 
+			"    h.address,\n" + 
+			"    h.whatsapp_no,\n" + 
+			"    h.landmark,\n" + 
+			"    h.delivery_date,\n" + 
+			"    h.delivery_time,\n" + 
+			"    h.production_date,\n" + 
+			"    h.production_time,\n" + 
+			"    h.insert_date_time,\n" + 
+			"    h.insert_user_id,\n" + 
+			"    h.order_platform,\n" + 
+			"    h.del_status,\n" + 
+			"    h.offer_id,\n" + 
+			"    h.remark,\n" + 
+			"    h.order_delivered_by,\n" + 
+			"    h.ex_int1,\n" + 
+			"   \n" + 
+			"    h.ex_int3,\n" + 
+			"    h.ex_int4,\n" + 
+			"    h.ex_var1,\n" + 
+			"    h.ex_var2,\n" + 
+			"    h.ex_var3,\n" + 
+			"    h.ex_var4,\n" + 
+			"    h.ex_float1,\n" + 
+			"    h.ex_float2,\n" + 
+			"    h.ex_float3,\n" + 
+			"    h.ex_float4,\n" + 
+			"    h.ex_date1,\n" + 
+			"    h.ex_date2,\n" + 
+			"    h.billing_name,\n" + 
+			"    h.billing_address,\n" + 
+			"    h.customer_gstn_no,\n" + 
+			"    h.delivery_type,\n" + 
+			"    h.delivery_inst_id,\n" + 
+			"    h.delivery_inst_text,\n" + 
+			"    h.delivery_km,\n" + 
+			"    h.delivery_charges,\n" + 
+			"    h.payment_sub_mode,\n" + 
+			"    h.is_agent,\n" + 
+			"    h.uuid_no             \n" + 
 			"        FROM\n" + 
 			"            tn_order_header h    \n" + 
 			"        WHERE\n" + 
@@ -136,7 +263,18 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"            AND h.production_date BETWEEN :fromDate AND :toDate \n" + 
 			"            AND h.order_status IN(:status)       \n" + 
 			"        ORDER BY\n" + 
-			"            h.order_id  ) t1  \n" + 
+			"            h.order_id  ) t1  LEFT JOIN\n" + 
+			"        (\n" + 
+			"            SELECT\n" + 
+			"                tn_grievences.order_id,\n" + 
+			"                tn_grievences.d_date,\n" + 
+			"                COUNT('') AS ex_int2                 \n" + 
+			"            FROM\n" + 
+			"                tn_grievences                                   \n" + 
+			"            GROUP BY\n" + 
+			"                  tn_grievences.d_date                      \n" + 
+			"        ) gr1 \n" + 
+			"            ON t1.order_id = gr1.d_date\n" +
 			"    LEFT JOIN\n" + 
 			"        (\n" + 
 			"            SELECT\n" + 

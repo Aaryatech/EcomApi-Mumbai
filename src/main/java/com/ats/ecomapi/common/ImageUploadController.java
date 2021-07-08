@@ -1,6 +1,7 @@
 package com.ats.ecomapi.common;
 
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +21,27 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin
 public class ImageUploadController {
 	
+	
+	@RequestMapping(value = { "/sendEmail" }, method = RequestMethod.POST)
+	public @ResponseBody Info sendEmail(@RequestParam("recipientEmail") String recipientEmail,
+			@RequestParam("mailsubject") String mailsubject,
+			@RequestParam("mailMsg") String mailMsg) {
+				
+		Info info = new Info();
+		try {
+		EmailUtility.sendEmailer(recipientEmail, mailsubject, mailMsg);
+	
+		info.setError(false);
+		}catch (Exception e) {
+			info.setError(true);
+			return info;
+		}
+		
+		return info;
+	}
 	
 	
 	@RequestMapping(value = { "/photoUpload" }, method = RequestMethod.POST)

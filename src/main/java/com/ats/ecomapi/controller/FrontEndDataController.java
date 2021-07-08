@@ -7,10 +7,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.Writer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -66,7 +71,10 @@ import com.ats.ecomapi.mst_repo.CustomerAddDetailRepo;
 import com.ats.ecomapi.mst_repo.CustomerRepo;
 import com.ats.ecomapi.mst_repo.FestiveEventRepo;
 import com.ats.ecomapi.mst_repo.GetRelatedProductConfigRepo;
+import com.ats.ecomapi.mst_repo.OrderDetailRepository;
+import com.ats.ecomapi.mst_repo.OrderHeaderRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 //Author-Sachin
@@ -615,5 +623,203 @@ System.err.println("current path from setting is " + JSON_SAVE_URL);
 		}		
 		
 		return list;
+	}
+	
+	//SACHIN 07-07-2021 ordere CANCEL BY CUSTOMER
+	//CHECK THE INSERT TIME AND SET RETURN % IN ORDER DETAIL, 
+	//STATUS CHANGE AT HEADER AND DETAIL 
+	
+	@Autowired
+	OrderHeaderRepo orderHeadRepo;
+
+	@Autowired
+	OrderDetailRepository orderDetailRepository;
+
+	
+	@RequestMapping(value = { "/orderCancelByCust" }, method = RequestMethod.POST)
+	public @ResponseBody Info orderCancelByCust(@RequestParam int orderId,
+			@RequestParam int orderStatus ,
+			@RequestParam String  insertDateTime) {
+		Info info=new Info();
+		try {
+			
+			Setting ordCancelStatus=settingRepo.findBySettingKey("ORD_CANCEL_STATUSES");
+			String[] cancelStatusArr=ordCancelStatus.getSettingValue().split(",");
+			
+			List<String> cancelStatusList=Arrays.asList(cancelStatusArr);
+			if(cancelStatusList.contains(""+orderStatus)) {
+			 
+				Setting setting=settingRepo.findBySettingKey("ORD_CANCEL_RET%");
+				ObjectMapper mapper=new ObjectMapper();
+				
+				List<OrderReturnPer> ordRetPerList = new ArrayList<>();//mapper.readValue(setting.getSettingValue(), new TypeReference<List<OrderReturnPer>>(){});
+				ordRetPerList = Arrays.asList(mapper.readValue(setting.getSettingValue(), OrderReturnPer[].class));
+
+				
+				SimpleDateFormat dttime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date orderDtTime=null;
+				try {
+					orderDtTime =dttime.parse(insertDateTime);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				String curDtTime=dttime.format(new Date());
+				Date now = null;
+				try {
+					now = dttime.parse(curDtTime);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				long duration  = now.getTime() - orderDtTime.getTime();
+				long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+				
+				System.err.println("diffInMinutes" +diffInMinutes);
+				
+				String retPer=null;
+				/*
+				 * if(diffInMinutes<=Long.parseLong(retPerStrArr[0].split("-")[0])) {
+				 * retPer=retPerStrArr[0].split("-")[1];
+				 * 
+				 * }else if(diffInMinutes>Long.parseLong(retPerStrArr[0].split("-")[0])) {
+				 * retPer=retPerStrArr[1].split("-")[1]; }
+				 */
+				if(duration>0) {
+				retPer=null;
+				for(int a=0;a<ordRetPerList.size();a++) {
+					if(diffInMinutes>=ordRetPerList.get(a).getMinTime()&&diffInMinutes<=ordRetPerList.get(a).getMaxTime()) {
+						retPer=""+ordRetPerList.get(a).getRetPer();
+						break;
+					}
+				}
+				System.err.println("retPer" +retPer);
+				
+				curDtTime=dttime.format(new Date());
+				int h=orderHeadRepo.updateOrderByCust(orderId, 8, curDtTime, insertDateTime);
+				if(retPer.equalsIgnoreCase("null")) {
+					retPer="0";
+				}
+				int j=orderDetailRepository.cancelItemOrder(1, retPer + " % Return", orderId);
+				
+				if(h>0) {
+					info.setError(false);
+					info.setMsg("Order Cancelled");
+				}	
+				}//end of if duration >0
+			}
+			
+			
+			
+			/*
+			 * String retPerString=setting.getSettingValue();
+			 * 
+			 * String[] retPerStrArr=retPerString.split(",");
+			 */
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}		
+		
+		return info;
+		
+	}
+	
+	
+	@RequestMapping(value = { "/checkOrderCancelByCust" }, method = RequestMethod.POST)
+	public @ResponseBody Info checkOrderCancelByCust(@RequestParam int orderId,
+			@RequestParam int orderStatus ,
+			@RequestParam String  insertDateTime) {
+		Info info=new Info();
+		try {
+			
+			Setting ordCancelStatus=settingRepo.findBySettingKey("ORD_CANCEL_STATUSES");
+			String[] cancelStatusArr=ordCancelStatus.getSettingValue().split(",");
+			
+			List<String> cancelStatusList=Arrays.asList(cancelStatusArr);
+			//info.setMsg("Can not cancel this order");
+			if(cancelStatusList.contains(""+orderStatus)) {
+			 
+				Setting setting=settingRepo.findBySettingKey("ORD_CANCEL_RET%");
+				ObjectMapper mapper=new ObjectMapper();
+				
+				List<OrderReturnPer> ordRetPerList = new ArrayList<>();//mapper.readValue(setting.getSettingValue(), new TypeReference<List<OrderReturnPer>>(){});
+				ordRetPerList = Arrays.asList(mapper.readValue(setting.getSettingValue(), OrderReturnPer[].class));
+
+				
+				SimpleDateFormat dttime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date orderDtTime=null;
+				try {
+					orderDtTime =dttime.parse(insertDateTime);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				String curDtTime=dttime.format(new Date());
+				Date now = null;
+				try {
+					now = dttime.parse(curDtTime);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				long duration  = now.getTime() - orderDtTime.getTime();
+				long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+				
+				System.err.println("diffInMinutes" +diffInMinutes);
+				
+				String retPer=null;
+				/*
+				 * if(diffInMinutes<=Long.parseLong(retPerStrArr[0].split("-")[0])) {
+				 * retPer=retPerStrArr[0].split("-")[1];
+				 * 
+				 * }else if(diffInMinutes>Long.parseLong(retPerStrArr[0].split("-")[0])) {
+				 * retPer=retPerStrArr[1].split("-")[1]; }
+				 */
+				if(duration>0) {
+				retPer="0";
+				for(int a=0;a<ordRetPerList.size();a++) {
+					if(diffInMinutes>=ordRetPerList.get(a).getMinTime()&&diffInMinutes<=ordRetPerList.get(a).getMaxTime()) {
+						retPer=""+ordRetPerList.get(a).getRetPer();
+						break;
+					}
+				}
+				System.err.println("retPer" +retPer);
+				if(retPer.equalsIgnoreCase("null")) {
+					retPer="0";
+				}
+					info.setError(false);
+					info.setMsg("You will get "+retPer +" % of return on your order value");
+				
+				}//end of if duration >0
+			}
+			
+			
+			
+			/*
+			 * String retPerString=setting.getSettingValue();
+			 * 
+			 * String[] retPerStrArr=retPerString.split(",");
+			 */
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}		
+		
+		return info;
+		
+	}
+	
+	
+	@RequestMapping(value = { "/getAllowedCancelStatus" }, method = RequestMethod.POST)
+	public @ResponseBody Info getAllowedCancelStatus() {
+		Info info=new Info();
+		try {
+			
+			Setting ordCancelStatus=settingRepo.findBySettingKey("ORD_CANCEL_STATUSES");
+			info.setMessage(ordCancelStatus.getSettingValue());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return info;
 	}
 }

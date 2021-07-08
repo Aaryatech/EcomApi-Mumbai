@@ -239,4 +239,30 @@ public class ReportApiController {
 		return repList;
 	}
 	
+	
+	
+	//SAC -SHUBHAM 08-07-2021
+	
+	@RequestMapping(value = { "/getFrItemReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<HeadOfficeReport> getFrUnitMenufctrReport(@RequestParam("dateType") int dateType,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate, @RequestParam("orderStatus") List<String> orderStatus, 
+			@RequestParam("compId") int compId, @RequestParam("paymentMethod") int paymentMethod,
+			@RequestParam("frId") int frId) {
+
+		List<HeadOfficeReport> repList = new ArrayList<HeadOfficeReport>();
+
+		try {
+			if(dateType==1){
+				repList = headOfficeRepo.getFrUnitReportByDelvrDateAndFrId(fromDate, toDate, orderStatus, compId, paymentMethod,frId);
+			}else {
+				repList = headOfficeRepo.getFrUnitReportByPrdctnDateAndFrId(fromDate, toDate, orderStatus, compId, paymentMethod,frId);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.err.println(repList);
+		return repList;
+	}
+	
 }

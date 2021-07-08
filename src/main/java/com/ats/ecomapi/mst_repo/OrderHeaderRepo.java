@@ -124,4 +124,12 @@ public interface OrderHeaderRepo extends JpaRepository<OrderHeader, Integer> {
 		int deleteOrder(@Param("status") int status, @Param("orderId") int orderId);
 
 
+		
+		@Transactional
+		@Modifying
+		@Query(" UPDATE OrderHeader SET order_status=:ordStatus,delivery_inst_text=:curDtTime WHERE order_id=:orderId and insert_date_time=:insertDtTime")
+		int updateOrderByCust(@Param("orderId") int orderId,@Param("ordStatus") int ordStatus,
+				@Param("curDtTime") String curDtTime, @Param("insertDtTime") String insertDtTime);
+
+		
 }

@@ -126,7 +126,7 @@ public interface OfferHeaderRepo extends JpaRepository<OfferHeader, Integer> {
 				"    FIND_IN_SET(\r\n" + 
 				"        :applicableFor,\r\n" + 
 				"        h.applicable_for\r\n" + 
-				"    ) AND h.type = :type AND h.ex_int1=1 AND h.offer_type = :offerType AND h.offer_id IN(\r\n" + 
+				"    ) AND h.type = :type AND h.ex_int1=0 AND h.offer_type = :offerType AND h.offer_id IN(\r\n" + 
 				"    SELECT\r\n" + 
 				"        offer_id\r\n" + 
 				"    FROM\r\n" + 

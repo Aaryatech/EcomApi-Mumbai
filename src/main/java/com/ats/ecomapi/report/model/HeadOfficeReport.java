@@ -46,6 +46,62 @@ public class HeadOfficeReport {
 	private float cgstAmt; 
 	private float igstAmt; 
 	
+	
+	//NEW FIELDS ADDED SACHIN 10-07-2021
+	private String delAddress;
+	private String billingAddress;
+	private String custGst;
+	private String uuidNo;
+	private int	detailStatus;
+	private String retPerc;
+	private String shortName;
+	
+	
+	
+	
+	
+	public String getDelAddress() {
+		return delAddress;
+	}
+	public void setDelAddress(String delAddress) {
+		this.delAddress = delAddress;
+	}
+	public String getBillingAddress() {
+		return billingAddress;
+	}
+	public void setBillingAddress(String billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+	public String getCustGst() {
+		return custGst;
+	}
+	public void setCustGst(String custGst) {
+		this.custGst = custGst;
+	}
+	public String getUuidNo() {
+		return uuidNo;
+	}
+	public void setUuidNo(String uuidNo) {
+		this.uuidNo = uuidNo;
+	}
+	public int getDetailStatus() {
+		return detailStatus;
+	}
+	public void setDetailStatus(int detailStatus) {
+		this.detailStatus = detailStatus;
+	}
+	public String getRetPerc() {
+		return retPerc;
+	}
+	public void setRetPerc(String retPerc) {
+		this.retPerc = retPerc;
+	}
+	public String getShortName() {
+		return shortName;
+	}
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
 	public String getId() {
 		return id;
 	}

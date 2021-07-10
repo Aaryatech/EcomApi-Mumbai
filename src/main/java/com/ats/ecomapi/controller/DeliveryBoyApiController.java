@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.ats.ecomapi.DeliveryBoy_Repo.DelBoyOrderGrievRepo;
 import com.ats.ecomapi.DeliveryBoy_Repo.DeliveryBoyProfileUpdate;
 import com.ats.ecomapi.DeliveryBoy_Repo.DeliveryBoyRepo1;
 import com.ats.ecomapi.DeliveryBoy_Repo.GrievencesRepo;
@@ -25,7 +25,7 @@ import com.ats.ecomapi.mst_model.OrderDetail;
 import com.ats.ecomapi.common.SMSUtility;
 
 import com.ats.ecomapi.deliveryboy_model.DBoyLoginResponse;
-
+import com.ats.ecomapi.deliveryboy_model.DelBoyOrderGriev;
 import com.ats.ecomapi.deliveryboy_model.Grievances;
 import com.ats.ecomapi.deliveryboy_model.HeadObject;
 import com.ats.ecomapi.deliveryboy_model.OTP;
@@ -284,9 +284,60 @@ return info;
 	
 }
 
+//SAC 10-07-2021
+@Autowired DelBoyOrderGrievRepo delBoyGrievOrderRepo;
+@RequestMapping(value={"/getOrderGrievListByDelBoyId"},method=RequestMethod.POST)
+public @ResponseBody HeadObject getOrderGrievListByDelBoyId(@RequestParam Integer order_delivered_by)
+{ 
+		HeadObject hr1=new HeadObject();
+		try {
+	  List<DelBoyOrderGriev> or1=new ArrayList<DelBoyOrderGriev>();;
+	  or1=delBoyGrievOrderRepo.getOrderAndGrievByDelBoyId(order_delivered_by);
+	 // System.err.println("ORd" +or1);
+      List<OrderDetail1> detailList=new ArrayList<>();
+      detailList =odRepo.getProductDetailForGriev(order_delivered_by);
+      //System.err.println("detailList" +detailList);
+      
+			/*
+			 * for(int i=0;i<or1.size();i++) { ArrayList<OrderDetail1> detail= new
+			 * ArrayList<>();
+			 * 
+			 * for(int j=0;j<detailList.size();j++) {
+			 * if(Integer.compare((int)or1.get(i).getOrderId(),(int)detailList.get(j).
+			 * getOrderId())==1) { detail.add(detailList.get(j)); } }
+			 * or1.get(i).setDetailList(detail);
+			 * 
+			 * } hr1.setDelBoyOrderGrievList(or1); }catch (Exception e) {
+			 * e.printStackTrace(); }
+			 */
+  for(DelBoyOrderGriev o:or1)
+ {
+	 
+	 //or1.getOrHeader();
+	ArrayList<OrderDetail1> detail= new ArrayList<>();
+	 for(OrderDetail1 d:detailList)
+	 {
+		// System.err.println("Oreder Id Of->Head="+o.getOrderId()+"dar-->"+d.getOrderId());
+		// System.err.println("deatils-->"+d);
+		 if(o.getOrderId().equals(d.getOrderId())) {
+			 detail.add(d);	 
+		 }
+	 }
+	 o.setDetailList(detail);
+	
+ }
+
+    hr1.setDelBoyOrderGrievList(or1);
+  //  System.err.println(hr1);
+		}catch (Exception e) {
+			e.printStackTrace();
+		} 
+	return  hr1;
+	
+
 
 
 }
-
+}
 
 

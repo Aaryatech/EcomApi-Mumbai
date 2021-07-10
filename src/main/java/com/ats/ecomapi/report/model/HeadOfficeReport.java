@@ -314,7 +314,9 @@ public class HeadOfficeReport {
 				+ ", custName=" + custName + ", frCode=" + frCode + ", frName=" + frName + ", frAddress=" + frAddress
 				+ ", pincode=" + pincode + ", couponCode=" + couponCode + ", payRefNo=" + payRefNo
 				+ ", deliveryCharges=" + deliveryCharges + ", hsnCode=" + hsnCode + ", mrp=" + mrp + ", sgstAmt="
-				+ sgstAmt + ", cgstAmt=" + cgstAmt + ", igstAmt=" + igstAmt + "]";
+				+ sgstAmt + ", cgstAmt=" + cgstAmt + ", igstAmt=" + igstAmt + ", delAddress=" + delAddress
+				+ ", billingAddress=" + billingAddress + ", custGst=" + custGst + ", uuidNo=" + uuidNo
+				+ ", detailStatus=" + detailStatus + ", retPerc=" + retPerc + ", shortName=" + shortName + "]";
 	}
 			
 }

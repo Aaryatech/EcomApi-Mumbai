@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.ecomapi.DeliveryBoy_Repo.GrievencesRepo;
+import com.ats.ecomapi.deliveryboy_model.Grievances;
 import com.ats.ecomapi.fe_model.CategorywiseSell;
 import com.ats.ecomapi.fe_repo.CategorywiseItemSellRepo;
 import com.ats.ecomapi.master.model.GetOrderDetailDisplay;
@@ -41,6 +43,8 @@ public class DashApiController {
 	@Autowired
 	CategorywiseItemSellRepo categorywiseItemSellRepo;
 	
+	@Autowired 
+	GrievencesRepo grievRepo;
 	
 
 	@RequestMapping(value = { "/getAllStatusCount" }, method = RequestMethod.POST)
@@ -86,6 +90,8 @@ public class DashApiController {
 			
 			List<GetOrderDetailDisplay> detailList = orderDtlRepo.getOrderDetailsyBillNo(compId);
 			List<GetOrderTrailDisplay> trailList = getOrderTrailDisplayRepo.getOrderTrailListByCompId(compId);
+			List<Grievances> grList= grievRepo.getAllGreviences();
+			
 			
 			for (int i = 0; i < orderList.size(); i++) {
 				List<GetOrderDetailDisplay> detailHeadList = new ArrayList<GetOrderDetailDisplay>();
@@ -109,12 +115,25 @@ public class DashApiController {
 				
 				orderList.get(i).setOrderTrailList(trailHeadList);
 				
+				List<Grievances> grievList = new ArrayList<Grievances>();
+				for (int j = 0; j < grList.size(); j++) {
+					if(orderList.get(i).getOrderId() == Integer.parseInt(grList.get(j).getdDate())) {
+						System.err.println("grList--------------"+grList.get(j).getdDate());
+						grievList.add(grList.get(j));
+					}
+				}
+				orderList.get(i).setGrievances(grievList);				
 			}
+			
+			for (int i = 0; i < orderList.size(); i++) {
+				System.out.println("Griv"+orderList.get(i).getGrievances());
+			}
+				
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		System.err.println("Order ------------------ "+orderList);
 		return orderList;
 
 	}

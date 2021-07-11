@@ -252,6 +252,7 @@ public class ReportApiController {
 		List<HeadOfficeReport> repList = new ArrayList<HeadOfficeReport>();
 
 		try {
+			
 			if(dateType==1){
 				repList = headOfficeRepo.getFrUnitReportByDelvrDateAndFrId(fromDate, toDate, orderStatus, compId, paymentMethod,frId);
 			}else {

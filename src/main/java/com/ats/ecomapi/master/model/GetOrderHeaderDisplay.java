@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.ats.ecomapi.deliveryboy_model.Grievances;
+
 @Entity
 public class GetOrderHeaderDisplay {
 	@Id
@@ -91,6 +93,15 @@ public class GetOrderHeaderDisplay {
 	String frContactNo;
 	String city;
 	
+	@Transient
+	List<GetOrderDetailDisplay> orderDetailList;
+	
+	@Transient
+	List<GetOrderTrailDisplay> orderTrailList;
+	
+	@Transient
+	List<Grievances> grievances;
+	
 	public String getFrContactNo() {
 		return frContactNo;
 	}
@@ -106,12 +117,6 @@ public class GetOrderHeaderDisplay {
 	public void setCity(String city) {
 		this.city = city;
 	}
-
-	@Transient
-	List<GetOrderDetailDisplay> orderDetailList;
-	
-	@Transient
-	List<GetOrderTrailDisplay> orderTrailList;
 
 	public int getOrderId() {
 		return orderId;
@@ -697,6 +702,14 @@ public class GetOrderHeaderDisplay {
 		this.uuidNo = uuidNo;
 	}
 
+	public List<Grievances> getGrievances() {
+		return grievances;
+	}
+
+	public void setGrievances(List<Grievances> grievances) {
+		this.grievances = grievances;
+	}
+
 	@Override
 	public String toString() {
 		return "GetOrderHeaderDisplay [id=" + id + ", orderId=" + orderId + ", orderNo=" + orderNo + ", orderDate="
@@ -722,10 +735,6 @@ public class GetOrderHeaderDisplay {
 				+ deliveryYear + ", orderDateDisplay=" + orderDateDisplay + ", deliveryDateDisplay="
 				+ deliveryDateDisplay + ", deliveryTimeDisplay=" + deliveryTimeDisplay + ", monthName=" + monthName
 				+ ", frContactNo=" + frContactNo + ", city=" + city + ", orderDetailList=" + orderDetailList
-				+ ", orderTrailList=" + orderTrailList + "]";
+				+ ", orderTrailList=" + orderTrailList + ", grievances=" + grievances + "]";
 	}
-
-	
-
-	
 }

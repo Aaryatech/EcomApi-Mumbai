@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.ecomapi.JsonUtil;
+import com.ats.ecomapi.DeliveryBoy_Repo.GrievencesRepo;
+import com.ats.ecomapi.deliveryboy_model.Grievances;
 import com.ats.ecomapi.master.model.FrEmpLoginResp;
 import com.ats.ecomapi.master.model.Franchise;
 import com.ats.ecomapi.master.model.GetOrderDetailDisplay;
@@ -63,6 +65,8 @@ public class RestApiController {
 	@Autowired GetOrderTrailDisplayRepo getOrderTrailDisplayRepo;
 	
 	@Autowired OrderDetailListRepo orderDtlRepo;
+	
+	@Autowired GrievencesRepo grievRepo;
 
 	// Login FrontEnd Franchisee
 	@RequestMapping(value = { "/loginFr" }, method = RequestMethod.POST)
@@ -283,7 +287,8 @@ public class RestApiController {
 			orderList = orderHeaderRepo.getOrderHeaderByDeliveryDateFrId(fromDate, toDate, status, compId, frId);
 			
 			List<GetOrderDetailDisplay> detailList = orderDtlRepo.getOrderDetailsyBillNo(compId);
-			List<GetOrderTrailDisplay> trailList = getOrderTrailDisplayRepo.getOrderTrailListByCompId(compId);
+			List<GetOrderTrailDisplay> trailList = getOrderTrailDisplayRepo.getOrderTrailListByCompId(compId);			
+			List<Grievances> grList= grievRepo.getAllGreviences();
 			
 			for (int i = 0; i < orderList.size(); i++) {
 				List<GetOrderDetailDisplay> detailHeadList = new ArrayList<GetOrderDetailDisplay>();
@@ -307,6 +312,13 @@ public class RestApiController {
 				
 				orderList.get(i).setOrderTrailList(trailHeadList);
 				
+				List<Grievances> grievList = new ArrayList<Grievances>();
+				for (int j = 0; j < grList.size(); j++) {
+					if(orderList.get(i).getOrderId() == Integer.parseInt(grList.get(j).getdDate())) {
+						grievList.add(grList.get(j));
+					}
+				}
+				orderList.get(i).setGrievances(grievList);
 			}
 
 		} catch (Exception e) {

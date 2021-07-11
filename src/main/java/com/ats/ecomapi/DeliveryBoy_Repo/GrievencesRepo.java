@@ -13,5 +13,7 @@ public interface GrievencesRepo extends JpaRepository<Grievances, Integer>{
 	
 	@Query(value="SELECT *  FROM tn_grievences WHERE  tn_grievences.d_date=:orderId",nativeQuery=true)
 	List<Grievances> getGrevienceByOrderId(@Param("orderId") String orderId );
-	
+
+	@Query(value="SELECT * FROM `tn_grievences`",nativeQuery=true)
+	List<Grievances> getAllGreviences();
 }

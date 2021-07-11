@@ -18,7 +18,7 @@ public class HeadOfficeReport {
 	private String companyName;
 	private String orderNo;
 	private int paymentMethod;
-	private int orderStatus;
+	private String orderStatus;
 	private String timeSlot;
 	private float qty;
 	private float totalAmt;
@@ -140,10 +140,10 @@ public class HeadOfficeReport {
 	public void setPaymentMethod(int paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
-	public int getOrderStatus() {
+	public String getOrderStatus() {
 		return orderStatus;
 	}
-	public void setOrderStatus(int orderStatus) {
+	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 	
@@ -318,5 +318,7 @@ public class HeadOfficeReport {
 				+ ", billingAddress=" + billingAddress + ", custGst=" + custGst + ", uuidNo=" + uuidNo
 				+ ", detailStatus=" + detailStatus + ", retPerc=" + retPerc + ", shortName=" + shortName + "]";
 	}
+
+	
 			
 }

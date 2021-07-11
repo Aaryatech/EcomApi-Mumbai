@@ -68,7 +68,7 @@ public interface HeadOfficeReportRepo extends JpaRepository<HeadOfficeReport, In
         				"        h.order_date,\n" + 
         				"        h.ex_int1,\n" + 
         				"        h.payment_method,\n" + 
-        				"        h.order_status,\n" + 
+        				"        s.status_value AS order_status ,\n" + 
         				"      dtl.total_amt ,   \n" + 
         				"        h.cust_id,\n" + 
         				"        h.fr_id,\n" + 
@@ -88,9 +88,9 @@ public interface HeadOfficeReportRepo extends JpaRepository<HeadOfficeReport, In
         				" \n" + 
         				"\n" + 
         				"    FROM\n" + 
-        				"        tn_order_header h     ,  tn_order_detail dtl     \n" + 
+        				"        tn_order_header h     ,  tn_order_detail dtl ,mn_status s     \n" + 
         				"    WHERE\n" + 
-        				"        h.del_status = 1 and dtl.del_status=1 and dtl.order_id=h.order_id\n" + 
+        				"        h.del_status = 1 and dtl.del_status=1 and dtl.order_id=h.order_id AND s.status_id=h.order_status \n" + 
         				"        AND h.ex_int1 IN(\n" + 
         				"          :compIds " + 
         				"        ) \n" + 
@@ -232,7 +232,7 @@ public interface HeadOfficeReportRepo extends JpaRepository<HeadOfficeReport, In
         				"        h.order_date,\n" + 
         				"        h.ex_int1,\n" + 
         				"        h.payment_method,\n" + 
-        				"        h.order_status,\n" + 
+        				"        s.status_value AS order_status,\n" + 
         				"      dtl.total_amt ,   \n" + 
         				"        h.cust_id,\n" + 
         				"        h.fr_id,\n" + 
@@ -252,13 +252,13 @@ public interface HeadOfficeReportRepo extends JpaRepository<HeadOfficeReport, In
         				" \n" + 
         				"\n" + 
         				"    FROM\n" + 
-        				"        tn_order_header h     ,  tn_order_detail dtl     \n" + 
+        				"        tn_order_header h     ,  tn_order_detail dtl  ,mn_status s    \n" + 
         				"    WHERE\n" + 
         				"        h.del_status = 1 and dtl.del_status=1 and dtl.order_id=h.order_id\n" + 
         				"        AND h.ex_int1 IN(\n" + 
         				"          :compIds " + 
         				"        ) \n" + 
-        				"        AND h.production_date BETWEEN :fromDate and :toDate " + 
+        				"        AND h.production_date BETWEEN :fromDate and :toDate AND s.status_id=h.order_status" + 
         				"        AND h.order_status IN (\n" + 
         				"          :orderStatus " + 
         				"        ) \n" + 
@@ -399,7 +399,7 @@ public interface HeadOfficeReportRepo extends JpaRepository<HeadOfficeReport, In
         				"            h.order_date,\n" + 
         				"            h.ex_int1,\n" + 
         				"            h.payment_method,\n" + 
-        				"            h.order_status,\n" + 
+        				"            s.status_value AS order_status,\n" + 
         				"            h.ex_var2,\n" + 
         				"            h.cust_id,\n" + 
         				"            h.fr_id,\n" + 
@@ -425,11 +425,11 @@ public interface HeadOfficeReportRepo extends JpaRepository<HeadOfficeReport, In
         				"dtl.ex_var3 as ret_perc\n" + 
         				"                      \n" + 
         				"        FROM\n" + 
-        				"            tn_order_header h,  tn_order_detail dtl              \n" + 
+        				"            tn_order_header h,  tn_order_detail dtl  ,mn_status s              \n" + 
         				"        WHERE\n" + 
         				"            h.del_status = 1    and dtl.del_status = 1       and dtl.order_id=h.order_id          \n" + 
         				"            AND h.ex_int1 =:compId              \n" + 
-        				"            AND h.delivery_date BETWEEN :fromDate AND :toDate              \n" + 
+        				"            AND h.delivery_date BETWEEN :fromDate AND :toDate  AND s.status_id=h.order_status         \n" + 
         				"            AND h.order_status IN (\n" + 
         				"                 :orderStatus " + 
         				"            )              \n" + 
@@ -565,7 +565,7 @@ public interface HeadOfficeReportRepo extends JpaRepository<HeadOfficeReport, In
         				"            h.order_date,\n" + 
         				"            h.ex_int1,\n" + 
         				"            h.payment_method,\n" + 
-        				"            h.order_status,\n" + 
+        				"            s.status_value AS order_status,,\n" + 
         				//"          //  h.total_amt,\n" + 
         				"            h.cust_id,\n" + 
         				"            h.fr_id,\n" + 
@@ -591,11 +591,11 @@ public interface HeadOfficeReportRepo extends JpaRepository<HeadOfficeReport, In
         				"dtl.ex_var3 as ret_perc\n" + 
         				"                     \n" + 
         				"        FROM\n" + 
-        				"            tn_order_header h,  tn_order_detail dtl              \n" + 
+        				"            tn_order_header h,  tn_order_detail dtl    ,mn_status s             \n" + 
         				"        WHERE\n" + 
         				"            h.del_status = 1    and dtl.del_status = 1       and dtl.order_id=h.order_id          \n" + 
         				"            AND h.ex_int1 =:compId              \n" + 
-        				"            AND h.production_date BETWEEN :fromDate AND :toDate              \n" + 
+        				"            AND h.production_date BETWEEN :fromDate AND :toDate  AND s.status_id=h.order_status           \n" + 
         				"            AND h.order_status IN (\n" + 
         				"                 :orderStatus " + 
         				"            )              \n" + 

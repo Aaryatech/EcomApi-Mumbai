@@ -49,7 +49,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"    h.item_disc_amt,\n" + 
 			"    h.tax_amt,\n" + 
 			"    h.total_amt,\n" + 
-			"    h.order_status,\n" + 
+			"    s.status_value AS order_status,\n" + 
 			"    h.paid_status,\n" + 
 			"    h.payment_method,\n" + 
 			"    h.payment_remark,\n" + 
@@ -96,11 +96,11 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"    h.is_agent,\n" + 
 			"    h.uuid_no                \n" + 
 			"        FROM\n" + 
-			"            tn_order_header h    \n" + 
+			"            tn_order_header h  ,mn_status s    \n" + 
 			"        WHERE\n" + 
 			"            h.del_status = 1 \n" + 
 			"         	AND h.ex_int1=:compId\n" + 
-			"            AND h.delivery_date BETWEEN :fromDate AND :toDate \n" + 
+			"            AND h.delivery_date BETWEEN :fromDate AND :toDate  AND s.status_id=h.order_status \n" + 
 			"            AND h.order_status IN(:status)       \n" + 
 			"        ORDER BY\n" + 
 			"            h.order_id  ) t1 LEFT JOIN\n" + 
@@ -209,7 +209,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"    h.item_disc_amt,\n" + 
 			"    h.tax_amt,\n" + 
 			"    h.total_amt,\n" + 
-			"    h.order_status,\n" + 
+			"    s.status_value AS order_status,\n" + 
 			"    h.paid_status,\n" + 
 			"    h.payment_method,\n" + 
 			"    h.payment_remark,\n" + 
@@ -256,11 +256,11 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"    h.is_agent,\n" + 
 			"    h.uuid_no             \n" + 
 			"        FROM\n" + 
-			"            tn_order_header h    \n" + 
+			"            tn_order_header h  ,mn_status s   \n" + 
 			"        WHERE\n" + 
 			"            h.del_status = 1 \n" + 
 			"         	AND h.ex_int1=:compId\n" + 
-			"            AND h.production_date BETWEEN :fromDate AND :toDate \n" + 
+			"            AND h.production_date BETWEEN :fromDate AND :toDate AND s.status_id=h.order_status\n" + 
 			"            AND h.order_status IN(:status)       \n" + 
 			"        ORDER BY\n" + 
 			"            h.order_id  ) t1  LEFT JOIN\n" + 

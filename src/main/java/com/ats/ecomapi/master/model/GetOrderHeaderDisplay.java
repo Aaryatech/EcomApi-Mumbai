@@ -24,7 +24,7 @@ public class GetOrderHeaderDisplay {
 	private float itemDiscAmt;
 	private float taxAmt;
 	private float totalAmt;
-	private int orderStatus;
+	private String orderStatus;
 	private int paidStatus;
 	private int paymentMethod;
 	private String paymentRemark;
@@ -225,11 +225,11 @@ public class GetOrderHeaderDisplay {
 		this.totalAmt = totalAmt;
 	}
 
-	public int getOrderStatus() {
+	public String getOrderStatus() {
 		return orderStatus;
 	}
 
-	public void setOrderStatus(int orderStatus) {
+	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 
@@ -721,8 +721,11 @@ public class GetOrderHeaderDisplay {
 				+ cityName + ", areaName=" + areaName + ", deliveryMonth=" + deliveryMonth + ", deliveryYear="
 				+ deliveryYear + ", orderDateDisplay=" + orderDateDisplay + ", deliveryDateDisplay="
 				+ deliveryDateDisplay + ", deliveryTimeDisplay=" + deliveryTimeDisplay + ", monthName=" + monthName
-				+ ", orderDetailList=" + orderDetailList + ", orderTrailList=" + orderTrailList + "]";
+				+ ", frContactNo=" + frContactNo + ", city=" + city + ", orderDetailList=" + orderDetailList
+				+ ", orderTrailList=" + orderTrailList + "]";
 	}
+
+	
 
 	
 }

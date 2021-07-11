@@ -27,7 +27,7 @@ public interface CategorywiseItemSellRepo extends JpaRepository<CategorywiseItem
 			"            t_sell_bill_header.fr_id =:frId AND \n" + 
 			"            t_sell_bill_detail.cat_id =:catId AND  \n" + 
 			"            t_sell_bill_detail.item_id=m_product.product_id\n" + 
-			"            GROUP BY m_product.product_id ORDER BY item_total DESC LIMIT 5", nativeQuery = true)
+			"            GROUP BY m_product.product_id ORDER BY item_total DESC LIMIT 10", nativeQuery = true)
 	List<CategorywiseItemSell> getCategorywiseItemSellDesc(@Param("fromDate") String fromDate, @Param("toDate") String toDate,
 			@Param("frId") int  frId,@Param("catId") int  catId);
 	
@@ -48,7 +48,7 @@ public interface CategorywiseItemSellRepo extends JpaRepository<CategorywiseItem
 			"        t_sell_bill_detail.del_status = 1 AND t_sell_bill_header.fr_id =:frId AND \n" + 
 			"        t_sell_bill_detail.cat_id =:catId AND  \n" + 
 			"        t_sell_bill_detail.item_id=m_product.product_id\n" + 
-			"        GROUP BY m_product.product_id ORDER BY item_total ASC LIMIT 5", nativeQuery = true)
+			"        GROUP BY m_product.product_id ORDER BY item_total ASC LIMIT 10", nativeQuery = true)
 	List<CategorywiseItemSell> getCategorywiseItemSellAsc(@Param("fromDate") String fromDate, @Param("toDate") String toDate,@Param("frId") int  frId,@Param("catId") int  catId);
 	
 	

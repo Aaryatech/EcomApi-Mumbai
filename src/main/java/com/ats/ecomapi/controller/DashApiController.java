@@ -90,8 +90,7 @@ public class DashApiController {
 			
 			List<GetOrderDetailDisplay> detailList = orderDtlRepo.getOrderDetailsyBillNo(compId);
 			List<GetOrderTrailDisplay> trailList = getOrderTrailDisplayRepo.getOrderTrailListByCompId(compId);
-			List<Grievances> grList= grievRepo.getAllGreviences();
-			
+			List<Grievances> grList= grievRepo.getAllGreviences();			
 			
 			for (int i = 0; i < orderList.size(); i++) {
 				List<GetOrderDetailDisplay> detailHeadList = new ArrayList<GetOrderDetailDisplay>();
@@ -117,26 +116,32 @@ public class DashApiController {
 				
 				List<Grievances> grievList = new ArrayList<Grievances>();
 				for (int j = 0; j < grList.size(); j++) {
-					if(orderList.get(i).getOrderId() == Integer.parseInt(grList.get(j).getdDate())) {
-						System.err.println("grList--------------"+grList.get(j).getdDate());
+					if(orderList.get(i).getOrderId() == Integer.parseInt(grList.get(j).getdDate())) {						
 						grievList.add(grList.get(j));
 					}
 				}
 				orderList.get(i).setGrievances(grievList);				
-			}
-			
-			for (int i = 0; i < orderList.size(); i++) {
-				System.out.println("Griv"+orderList.get(i).getGrievances());
-			}
-				
-
+			}			
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.err.println("Order ------------------ "+orderList);
+		
 		return orderList;
 
 	}
+	
+	@RequestMapping(value = { "/getAllGrievanceList" }, method = RequestMethod.GET)
+	public @ResponseBody List<Grievances> getCatwiseSell() {
+		List<Grievances> grievList = new ArrayList<Grievances>();
+		try {
+			grievList= grievRepo.getAllGreviences();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}		
+		return grievList;		
+	}
+	
 	
 	@RequestMapping(value = { "/getCatwiseSell" }, method = RequestMethod.POST)
 	public @ResponseBody List<CategorywiseSell> getCatwiseSell(@RequestParam("fromDate") String fromDate,

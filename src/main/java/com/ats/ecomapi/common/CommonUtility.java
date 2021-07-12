@@ -200,7 +200,7 @@ public class CommonUtility {
 		return dateFormat.format(cal.getTime());
 	}
 
-	public static void main(String[] args) {
+	public static void main22(String[] args) {
 		// sendMessage("hhh","9404725912");
 		sendEmailWithSubMsgAndToAdd("Test", "hello ", "abc@kkk.com");
 

@@ -38,8 +38,8 @@ public class SMSUtility  {
 		return info;
 	}
 	
-	public static void main(String[] args) {
-		sendSMS("9404725912","Welcome to sms api services- test msg2" );
+	public static void main1(String[] args) {
+		//sendSMS("9404725912","Welcome to sms api services- test msg2" );
 	}
 	
 }

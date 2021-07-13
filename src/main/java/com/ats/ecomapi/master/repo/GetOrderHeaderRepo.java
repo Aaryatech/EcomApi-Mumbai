@@ -355,12 +355,71 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        MONTHNAME(t1.delivery_date) AS month_name       \n" + 
 			"    FROM\n" + 
 			"        (      SELECT\n" + 
-			"            h.*                        \n" + 
+			"            h.order_id,h.order_no,\n" + 
+			"    h.order_date,\n" + 
+			"    h.fr_id,\n" + 
+			"    h.cust_id,\n" + 
+			"    h.status,\n" + 
+			"    h.taxable_amt,\n" + 
+			"    h.cgst_amt,\n" + 
+			"    h.sgst_amt,\n" + 
+			"    h.igst_amt,\n" + 
+			"    h.disc_amt,\n" + 
+			"    h.item_disc_amt,\n" + 
+			"    h.tax_amt,\n" + 
+			"    h.total_amt,\n" + 
+			"    s.status_value AS order_status,\n" + 
+			"    h.paid_status,\n" + 
+			"    h.payment_method,\n" + 
+			"    h.payment_remark,\n" + 
+			"    h.city_id,\n" + 
+			"    h.area_id,\n" + 
+			"    h.address_id,\n" + 
+			"    h.address,\n" + 
+			"    h.whatsapp_no,\n" + 
+			"    h.landmark,\n" + 
+			"    h.delivery_date,\n" + 
+			"    h.delivery_time,\n" + 
+			"    h.production_date,\n" + 
+			"    h.production_time,\n" + 
+			"    h.insert_date_time,\n" + 
+			"    h.insert_user_id,\n" + 
+			"    h.order_platform,\n" + 
+			"    h.del_status,\n" + 
+			"    h.offer_id,\n" + 
+			"    h.remark,\n" + 
+			"    h.order_delivered_by,\n" + 
+			"    h.ex_int1,\n" + 
+			"   \n" + 
+			"    h.ex_int3,\n" + 
+			"    h.ex_int4,\n" + 
+			"    h.ex_var1,\n" + 
+			"    h.ex_var2,\n" + 
+			"    h.ex_var3,\n" + 
+			"    h.ex_var4,\n" + 
+			"    h.ex_float1,\n" + 
+			"    h.ex_float2,\n" + 
+			"    h.ex_float3,\n" + 
+			"    h.ex_float4,\n" + 
+			"    h.ex_date1,\n" + 
+			"    h.ex_date2,\n" + 
+			"    h.billing_name,\n" + 
+			"    h.billing_address,\n" + 
+			"    h.customer_gstn_no,\n" + 
+			"    h.delivery_type,\n" + 
+			"    h.delivery_inst_id,\n" + 
+			"    h.delivery_inst_text,\n" + 
+			"    h.delivery_km,\n" + 
+			"    h.delivery_charges,\n" + 
+			"    h.payment_sub_mode,\n" + 
+			"    h.is_agent,\n" + 
+			"    h.uuid_no,h.ex_int2                \n" + 
+//            "    h.*                \n" + 
 			"        FROM\n" + 
-			"            tn_order_header h             \n" + 
+			"            tn_order_header h ,mn_status s            \n" + 
 			"        WHERE\n" + 
-			"            h.del_status = 1            \n" + 
-			"            AND h.ex_int1= :compId\n" + 
+			"            h.del_status = 1         \n" + 
+			"            AND h.ex_int1= :compId AND s.status_id=h.order_status\n" + 
 			"            AND h.fr_id=:frId\n" + 
 			"            AND h.delivery_date BETWEEN :fromDate AND :toDate             \n" + 
 			"            AND h.order_status IN(:status)) t1       \n" + 

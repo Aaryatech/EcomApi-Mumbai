@@ -53,16 +53,27 @@ public interface GetDashStatusCntRepo extends JpaRepository<GetDashPieStatusCnt,
 			"			         UUID() AS id, \n" + 
 			"			         COUNT(head.order_status) order_status_cnt, \n" + 
 			"			         head.order_status, \n" + 
-			"			         CASE                                                       \n" + 
-			"			             WHEN head.order_status=1 THEN 'Pending'                                 \n" + 
-			"			             WHEN head.order_status=2 THEN 'Accept'                                  \n" + 
-			"			             WHEN head.order_status=3 THEN 'Processing'                                   \n" + 
-			"			             WHEN head.order_status=4 THEN 'Bill Generated'                                    \n" + 
-			"			             WHEN head.order_status=5 THEN 'Delivered'                                    \n" + 
-			"			             WHEN head.order_status=7 THEN 'Return Order'                                      \n" + 
-			"			             WHEN head.order_status=8 THEN 'Cancelled Order'                                 \n" + 
-			"			             ELSE  ''                                 \n" + 
-			"			         END AS status_name, \n" + 
+			/*
+			 * "			         CASE                                                       \n"
+			 * +
+			 * "			             WHEN head.order_status=1 THEN 'Pending'                                 \n"
+			 * +
+			 * "			             WHEN head.order_status=2 THEN 'Accept'                                  \n"
+			 * +
+			 * "			             WHEN head.order_status=3 THEN 'Processing'                                   \n"
+			 * +
+			 * "			             WHEN head.order_status=4 THEN 'Bill Generated'                                    \n"
+			 * +
+			 * "			             WHEN head.order_status=5 THEN 'Delivered'                                    \n"
+			 * +
+			 * "			             WHEN head.order_status=7 THEN 'Return Order'                                      \n"
+			 * +
+			 * "			             WHEN head.order_status=8 THEN 'Cancelled Order'                                 \n"
+			 * + "			             ELSE  ''                                 \n" +
+			 * "			         END AS status_name, \n" +
+			 */
+			 "        s.status_value\n" + 
+			 "         AS status_name,\n" + 
 			"			         'NA' AS fr_name, \n" + 
 			"			         head.ex_int1, \n" + 
 			"			         head.ex_int2, \n" + 
@@ -74,9 +85,9 @@ public interface GetDashStatusCntRepo extends JpaRepository<GetDashPieStatusCnt,
 			"			         head.ex_var2, \n" + 
 			"			         head.ex_var3                 \n" + 
 			"			     FROM \n" + 
-			"			         tn_order_header head        \n" + 
+			"			         tn_order_header head,mn_status s       \n" + 
 			"			     WHERE \n" + 
-			"			         head.del_status=1                     \n" + 
+			"			         head.del_status=1 and   s.status_id=head.order_status                   \n" + 
 			"			         AND    head.ex_int1=:compId                   \n" + 
 			"			         AND    head.delivery_date BETWEEN :fromDate AND :toDate                      			  "
 			+ "					 AND head.fr_id=:frId			                 \n" + 

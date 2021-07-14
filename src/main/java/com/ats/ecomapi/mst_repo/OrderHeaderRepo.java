@@ -111,10 +111,10 @@ public interface OrderHeaderRepo extends JpaRepository<OrderHeader, Integer> {
 		@Transactional
 		@Modifying
 		@Query("update OrderHeader SET uuid_no=:uniqNo,paid_status=:paidStatus,"
-				+ "payment_remark=:payRemark WHERE order_id=:orderId")
+				+ "payment_remark=:payRemark, ex_float4=:paidAmt WHERE order_id=:orderId")
 		int updateOrderFrontEndSuccessPay(@Param("uniqNo") String uniqNo,
 				@Param("paidStatus") int paidStatus,
-				@Param("payRemark") String payRemark,
+				@Param("payRemark") String payRemark,  @Param("paidAmt") String paidAmt,
 				@Param("orderId") int orderId);
 		
 		

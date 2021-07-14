@@ -94,7 +94,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"    h.delivery_charges,\n" + 
 			"    h.payment_sub_mode,\n" + 
 			"    h.is_agent,\n" + 
-			"    h.uuid_no                \n" + 
+			"    h.uuid_no,h.order_status as int_order_status                \n" + 
 			"        FROM\n" + 
 			"            tn_order_header h  ,mn_status s    \n" + 
 			"        WHERE\n" + 
@@ -254,7 +254,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"    h.delivery_charges,\n" + 
 			"    h.payment_sub_mode,\n" + 
 			"    h.is_agent,\n" + 
-			"    h.uuid_no             \n" + 
+			"    h.uuid_no, h.order_status as int_order_status            \n" + 
 			"        FROM\n" + 
 			"            tn_order_header h  ,mn_status s   \n" + 
 			"        WHERE\n" + 
@@ -413,7 +413,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"    h.delivery_charges,\n" + 
 			"    h.payment_sub_mode,\n" + 
 			"    h.is_agent,\n" + 
-			"    h.uuid_no,h.ex_int2                \n" + 
+			"    h.uuid_no,h.ex_int2 , h.order_status as int_order_status               \n" + 
 //            "    h.*                \n" + 
 			"        FROM\n" + 
 			"            tn_order_header h ,mn_status s            \n" + 
@@ -502,16 +502,76 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"         (t1.ex_var3) AS delivery_time_display,\n" + 
 			"        MONTHNAME(t1.delivery_date) AS month_name, 'NA' AS area_name       \n" + 
 			"    FROM\n" + 
-			"        (      SELECT\n" + 
-			"            h.*                        \n" + 
+			"        (      SELECT " + 
+			//"            h.*                        \n" +
+		 
+			"            h.order_id,h.order_no,\n" + 
+			"    h.order_date,\n" + 
+			"    h.fr_id,\n" + 
+			"    h.cust_id,\n" + 
+			"    h.status,\n" + 
+			"    h.taxable_amt,\n" + 
+			"    h.cgst_amt,\n" + 
+			"    h.sgst_amt,\n" + 
+			"    h.igst_amt,\n" + 
+			"    h.disc_amt,\n" + 
+			"    h.item_disc_amt,\n" + 
+			"    h.tax_amt,\n" + 
+			"    h.total_amt,\n" + 
+			"    s.status_value AS order_status,\n" + 
+			"    h.paid_status,\n" + 
+			"    h.payment_method,\n" + 
+			"    h.payment_remark,\n" + 
+			"    h.city_id,\n" + 
+			"    h.area_id,\n" + 
+			"    h.address_id,\n" + 
+			"    h.address,\n" + 
+			"    h.whatsapp_no,\n" + 
+			"    h.landmark,\n" + 
+			"    h.delivery_date,\n" + 
+			"    h.delivery_time,\n" + 
+			"    h.production_date,\n" + 
+			"    h.production_time,\n" + 
+			"    h.insert_date_time,\n" + 
+			"    h.insert_user_id,\n" + 
+			"    h.order_platform,\n" + 
+			"    h.del_status,\n" + 
+			"    h.offer_id,\n" + 
+			"    h.remark,\n" + 
+			"    h.order_delivered_by,\n" + 
+			"    h.ex_int1,\n" + 
+			"   \n" + 
+			"    h.ex_int3,\n" + 
+			"    h.ex_int4,\n" + 
+			"    h.ex_var1,\n" + 
+			"    h.ex_var2,\n" + 
+			"    h.ex_var3,\n" + 
+			"    h.ex_var4,\n" + 
+			"    h.ex_float1,\n" + 
+			"    h.ex_float2,\n" + 
+			"    h.ex_float3,\n" + 
+			"    h.ex_float4,\n" + 
+			"    h.ex_date1,\n" + 
+			"    h.ex_date2,\n" + 
+			"    h.billing_name,\n" + 
+			"    h.billing_address,\n" + 
+			"    h.customer_gstn_no,\n" + 
+			"    h.delivery_type,\n" + 
+			"    h.delivery_inst_id,\n" + 
+			"    h.delivery_inst_text,\n" + 
+			"    h.delivery_km,\n" + 
+			"    h.delivery_charges,\n" + 
+			"    h.payment_sub_mode,\n" + 
+			"    h.is_agent,\n" + 
+			"    h.uuid_no,h.ex_int2 , h.order_status as int_order_status "+
 			"        FROM\n" + 
-			"            tn_order_header h             \n" + 
+			"            tn_order_header h, mn_status s             \n" + 
 			"        WHERE\n" + 
-			"         	h.cust_id=:custId AND\n" + 
+			"         	h.cust_id=:custId AND s.status_id=h.order_status and " + 
 			"            h.del_status = 1            \n" + 
 			"            AND h.ex_int1=:compId           \n" + 
 			"            AND h.delivery_date BETWEEN :fromDate AND :toDate              \n" + 
-			"            AND h.order_status IN(0,1,2,3,4,5,6,7,8,9)                \n" + 
+			"                    \n" + 
 			"        ORDER BY\n" + 
 			"            h.order_id  ) t1       \n" + 
 			"    LEFT JOIN\n" + 
@@ -559,7 +619,7 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			@Param("toDate") String toDate, @Param("compId") int compId, @Param("custId") int custId);
 
 	
-	
+	//USED FOr ECOMOps Order History order status taken from mn_status
 	@Query(value="SELECT\n" + 
 			"        UUID() AS id,\n" + 
 			"        t1.*,\n" + 
@@ -584,17 +644,15 @@ public interface GetOrderHeaderRepo extends JpaRepository<GetOrderHeaderDisplay,
 			"        MONTHNAME(t1.delivery_date) AS month_name,\n" + 
 			"        'NA' AS area_name            \n" + 
 			"    FROM\n" + 
-			"        (      SELECT\n" + 
-			"            h.*                                 \n" + 
+			"        (      SELECT h.order_id, h.order_no, h.order_date, h.fr_id, h.cust_id, h.status, h.taxable_amt, h.cgst_amt, h.sgst_amt, h.igst_amt, h.disc_amt, h.item_disc_amt, h.tax_amt, h.total_amt,  h.paid_status, h.payment_method, h.payment_remark, h.city_id, h.area_id, h.address_id, h.address, h.whatsapp_no, h.landmark, h.delivery_date, h.delivery_time, h.production_date, h.production_time, h.insert_date_time, h.insert_user_id, h.order_platform, h.del_status, h.offer_id, h.remark, h.order_delivered_by, h.ex_int1, h.ex_int2, h.ex_int3, h.ex_int4, h.ex_var1, h.ex_var2, h.ex_var3, h.ex_var4, h.ex_float1, h.ex_float2, h.ex_float3, h.ex_float4, h.ex_date1, h.ex_date2, h.billing_name, h.billing_address, h.customer_gstn_no, h.delivery_type, h.delivery_inst_id, h.delivery_inst_text, h.delivery_km, h.delivery_charges, h.payment_sub_mode, h.is_agent, h.uuid_no,"
+			+ "			+ mn_status.status_value as order_status , h.order_status as int_order_status "+                               
 			"        FROM\n" + 
-			"            tn_order_header h                      \n" + 
+			"            tn_order_header h,mn_status                      \n" + 
 			"        WHERE\n" + 
 			"            h.cust_id=:custId \n" + 
 			"            AND h.del_status = 1                         \n" + 
 			"            AND h.ex_int1=:compId                        \n" + 
-			"            AND h.order_status IN(\n" + 
-			"                0,1,2,3,4,5,6,7,8,9\n" + 
-			"            )                         \n" + 
+			"            AND h.order_status=mn_status.status_id                       \n" + 
 			"        ) t1            \n" + 
 			"    LEFT JOIN\n" + 
 			"        (\n" + 

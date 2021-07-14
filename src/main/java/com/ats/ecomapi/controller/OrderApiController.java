@@ -738,7 +738,8 @@ public class OrderApiController {
 	@RequestMapping(value = { "/updateOrderFrontEnd" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateOrderFrontEnd(@RequestParam("orderId") int orderId,
 			@RequestParam("uniqNo") String uniqNo, @RequestParam("paidStatus") int paidStatus,
-			@RequestParam("payRemark") String payRemark, @RequestParam("orderStatus") int orderStatus) {
+			@RequestParam("payRemark") String payRemark, @RequestParam("orderStatus") int orderStatus,
+			@RequestParam("paidAmt") String paidAmt) {
 
 		Info info = new Info();
 		int update = 0;
@@ -747,7 +748,7 @@ public class OrderApiController {
 				update = orderHeadRepo.updateOrderFrontEndFailedPay(uniqNo, paidStatus, payRemark, orderStatus,
 						orderId);
 			} else {
-				update = orderHeadRepo.updateOrderFrontEndSuccessPay(uniqNo, paidStatus, payRemark, orderId);
+				update = orderHeadRepo.updateOrderFrontEndSuccessPay(uniqNo, paidStatus, payRemark,paidAmt, orderId);
 			}
 			if (update > 0) {
 				info.setError(false);

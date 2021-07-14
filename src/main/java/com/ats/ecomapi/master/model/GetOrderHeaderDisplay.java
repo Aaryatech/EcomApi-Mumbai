@@ -90,9 +90,18 @@ public class GetOrderHeaderDisplay {
 
 	
 	//SAC 21-07-2021
-	String frContactNo;
-	String city;
+	private String frContactNo;
+	private String city;
 	
+	//SAC 14-07-2021
+	private int intOrderStatus;
+	public int getIntOrderStatus() {
+		return intOrderStatus;
+	}
+	public void setIntOrderStatus(int intOrderStatus) {
+		this.intOrderStatus = intOrderStatus;
+	}
+
 	@Transient
 	List<GetOrderDetailDisplay> orderDetailList;
 	

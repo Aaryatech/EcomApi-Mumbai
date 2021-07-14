@@ -109,39 +109,49 @@ public class FrontEndDataController {
 
 	@Autowired
 	CompanyTestomonialsRepo companyTestomonialsRepo;
-	//Sachin 22-12-2020
-	@Autowired FrSubCatListRepo frSubcatListRepo;
-	
-	//Sachin 06-01-2021
-	@Autowired CustomerRepo custRepo;
-	@Autowired CustomerAddDetailRepo custAddDetailRepo;
-	//Sachin 06-01-2021
+	// Sachin 22-12-2020
+	@Autowired
+	FrSubCatListRepo frSubcatListRepo;
+
+	// Sachin 06-01-2021
+	@Autowired
+	CustomerRepo custRepo;
+	@Autowired
+	CustomerAddDetailRepo custAddDetailRepo;
+
+	// Sachin 06-01-2021
 	@RequestMapping(value = { "/getCustomerByMobNo" }, method = RequestMethod.POST)
 	public @ResponseBody Object getCustomerByMobNo(@RequestParam("mobNo") String mobNo) {
-		
-		Customer cust=new  Customer();
+
+		Customer cust = new Customer();
 		try {
-			cust=custRepo.findLastByCustIdCustMobileNoAndDelStatusAndIsActive(mobNo.trim());
-			if(cust==null) {
+			cust = custRepo.findLastByCustIdCustMobileNoAndDelStatusAndIsActive(mobNo.trim());
+			if (cust == null) {
 				System.err.println("Its null ");
-			}else {
-				System.err.println("Its cust "+cust);
-				CustomerAddDetail addDetail=custAddDetailRepo.getAddDetailByCustId(cust.getCustId());
+			} else {
+				System.err.println("Its cust " + cust);
+				CustomerAddDetail addDetail = custAddDetailRepo.getAddDetailByCustId(cust.getCustId());
 				return addDetail;
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return cust;
-		
+
 	}
-	@Autowired SiteVisitorRepo siteVistRepo;
+
+	@Autowired
+	SiteVisitorRepo siteVistRepo;
+
 	@RequestMapping(value = { "/saveSiteVisitor" }, method = RequestMethod.POST)
 	public @ResponseBody Object saveSiteVisitor(@RequestBody SiteVisitor inputVisitor) {
-		SiteVisitor visitor=siteVistRepo.save(inputVisitor);
+		SiteVisitor visitor = siteVistRepo.save(inputVisitor);
 		return visitor;
 	}
-	@Autowired HomePageStatusHeadRepo feHomePageStatusHeadRepo; //SAC 23-06-2021
+
+	@Autowired
+	HomePageStatusHeadRepo feHomePageStatusHeadRepo; // SAC 23-06-2021
+
 	@RequestMapping(value = { "/generateFrDataJSON" }, method = RequestMethod.POST)
 	public @ResponseBody Object getProdDataForFranchise(@RequestParam("frIdList") List<Integer> frIdList,
 			@RequestParam("companyId") int companyId) {
@@ -179,23 +189,23 @@ public class FrontEndDataController {
 				flavorTagStatusList = new ArrayList<>();
 			}
 			try {
-				List<Integer> homePageStatusIdList=new ArrayList<Integer>();
-				homePageStatusIdList=feFlavTagStatusRepo.getHomePageStatusIds(companyId);
-				if(homePageStatusIdList!=null) {
-					for(int k=0;k<homePageStatusIdList.size();k++) {
-						for(int i=0;i<flavorTagStatusList.size();i++) {
-							if(flavorTagStatusList.get(i).getFilterTypeId()==5) {
-								if(flavorTagStatusList.get(i).getFilterId()==homePageStatusIdList.get(k)) {
-								flavorTagStatusList.get(i).setCostAffect(1);
-								break;
+				List<Integer> homePageStatusIdList = new ArrayList<Integer>();
+				homePageStatusIdList = feFlavTagStatusRepo.getHomePageStatusIds(companyId);
+				if (homePageStatusIdList != null) {
+					for (int k = 0; k < homePageStatusIdList.size(); k++) {
+						for (int i = 0; i < flavorTagStatusList.size(); i++) {
+							if (flavorTagStatusList.get(i).getFilterTypeId() == 5) {
+								if (flavorTagStatusList.get(i).getFilterId() == homePageStatusIdList.get(k)) {
+									flavorTagStatusList.get(i).setCostAffect(1);
+									break;
+								}
+							} else {
+								continue;
 							}
-						}else {
-							continue;
 						}
 					}
-					}
 				}
-			}catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			dataTraveller.setFlavorTagStatusList(flavorTagStatusList);
@@ -280,10 +290,10 @@ public class FrontEndDataController {
 						} // End of For Loop prodHeaderList I.
 
 					} // End of For Loop homePageProdIdsList A.
-System.err.println("prodHeaderList "+prodHeaderList.toString());
+					System.err.println("prodHeaderList " + prodHeaderList.toString());
 					for (int i = 0; i < prodHeaderList.size(); i++) {
-						
-						String	pName = prodHeaderList.get(i).getProductName().replace(' ', '-');    
+
+						String pName = prodHeaderList.get(i).getProductName().replace(' ', '-');
 						prodHeaderList.get(i).setProdNameDisp(pName);
 						float defaultPrice = 0;
 						prodDetailList = new ArrayList<FEProdDetail>();
@@ -305,21 +315,20 @@ System.err.println("prodHeaderList "+prodHeaderList.toString());
 
 								isVegNonVMatch = Integer.compare(prodHeaderList.get(i).getDefaultFlavorId(),
 										prodDetailList.get(d).getFlavorId());
-									if(prodDetailList.get(0).getQty()>1 && isVegNonVMatch.equals(0)) {
-										
-										defaultPrice = prodDetailList.get(d).getActualRate();
-										if (prodHeaderList.get(i).getProductId() == 86)
-											System.err.println("defaultPrice 86 prodId If " + defaultPrice);
-									}
-									else if (isVegNonVMatch.equals(0) && prodDetailList.get(d).getQty() <= 1) {
+								if (prodDetailList.get(0).getQty() > 1 && isVegNonVMatch.equals(0)) {
+
+									defaultPrice = prodDetailList.get(d).getActualRate();
+									if (prodHeaderList.get(i).getProductId() == 86)
+										System.err.println("defaultPrice 86 prodId If " + defaultPrice);
+								} else if (isVegNonVMatch.equals(0) && prodDetailList.get(d).getQty() <= 1) {
 									defaultPrice = prodDetailList.get(d).getActualRate();
 									if (prodHeaderList.get(i).getProductId() == 86)
 										System.err.println("defaultPrice Else" + defaultPrice);
-									
+
 									break;
 								}
-									if (prodHeaderList.get(i).getProductId() == 86)
-										System.err.println("defaultPrice " + defaultPrice);
+								if (prodHeaderList.get(i).getProductId() == 86)
+									System.err.println("defaultPrice " + defaultPrice);
 							} // End of For D prodDetailList Loop
 						}
 						prodHeaderList.get(i).setDefaultPrice(defaultPrice);
@@ -350,9 +359,6 @@ System.err.println("prodHeaderList "+prodHeaderList.toString());
 			}
 			dataTraveller.setFeProductHeadList(prodHeaderList);
 
-			
-			
-			
 			// System.err.println("runtime fm " + runtime.getRuntime().freeMemory() / MB);
 			List<FestiveEvent> festEventList = new ArrayList<>();
 			try {
@@ -371,7 +377,7 @@ System.err.println("prodHeaderList "+prodHeaderList.toString());
 			}
 			dataTraveller.setCatFilterConfig(catFilterConfig);
 			// end
-			
+
 			// 5.5 Sachin 22-12-2020
 			List<FrSubCatList> frSubCatList = new ArrayList<>();
 			try {
@@ -381,15 +387,15 @@ System.err.println("prodHeaderList "+prodHeaderList.toString());
 			}
 			dataTraveller.setFrSubCatList(frSubCatList);
 
-			//SAC 23-06-2021
-			List<HomePageStatusHead> homePageStatusList=new ArrayList<HomePageStatusHead>();
+			// SAC 23-06-2021
+			List<HomePageStatusHead> homePageStatusList = new ArrayList<HomePageStatusHead>();
 			try {
-				homePageStatusList=feHomePageStatusHeadRepo.getHomePageProductConfigList(companyId);
-			}catch (Exception e) {
-				homePageStatusList=new ArrayList<HomePageStatusHead>();
+				homePageStatusList = feHomePageStatusHeadRepo.getHomePageProductConfigList(companyId);
+			} catch (Exception e) {
+				homePageStatusList = new ArrayList<HomePageStatusHead>();
 			}
 			dataTraveller.setHomePageStatusList(homePageStatusList);
-			//SAC 23-06-2021 END
+			// SAC 23-06-2021 END
 			ObjectMapper Obj = new ObjectMapper();
 			String json = "";
 			try {
@@ -398,15 +404,11 @@ System.err.println("prodHeaderList "+prodHeaderList.toString());
 				e.printStackTrace();
 			}
 			publishData(json, frId, 1);
-			
-			
-			
+
 			dataTravellerList.add(dataTraveller);
-		
-		} //End of FrId For Loop
-		
-	
-					
+
+		} // End of FrId For Loop
+
 		ObjectMapper obj = new ObjectMapper();
 		try {
 			List<City> cityList = cityRepo.findByDelStatusAndIsActiveOrderByCityIdDesc(1, 1);
@@ -421,8 +423,8 @@ System.err.println("prodHeaderList "+prodHeaderList.toString());
 			List<CategoryList> masterCompanyCatList = new ArrayList<>();
 			try {
 				masterCompanyCatList = feCategoryListRepo.getMasterCompCatList();
-				System.err.println("CAT " +masterCompanyCatList.toString());
-			
+				System.err.println("CAT " + masterCompanyCatList.toString());
+
 			} catch (Exception e) {
 				masterCompanyCatList = new ArrayList<>();
 			}
@@ -441,19 +443,16 @@ System.err.println("prodHeaderList "+prodHeaderList.toString());
 			}
 
 			try {
-				//publishData(obj.writeValueAsString(masterTestimonialList), 0, 5);
+				// publishData(obj.writeValueAsString(masterTestimonialList), 0, 5);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}			
-		
-			
+			}
 
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		return dataTravellerList.get(0).getFeProductHeadList();
-		//return prodHeaderList;
-
+		// return prodHeaderList;
 
 	}
 
@@ -483,7 +482,7 @@ System.err.println("prodHeaderList "+prodHeaderList.toString());
 
 	@RequestMapping(value = { "/getRelateProductByProductIds" }, method = RequestMethod.POST)
 	public @ResponseBody List<Integer> getRelateProductByProductIds(@RequestParam("compId") int compId,
-			  @RequestParam("itemIds") List<Integer> itemIds) {
+			@RequestParam("itemIds") List<Integer> itemIds) {
 		List<Integer> relatedProdIdList = new ArrayList<Integer>();
 
 		try {
@@ -523,43 +522,45 @@ System.err.println("prodHeaderList "+prodHeaderList.toString());
 		}
 		return relatedProdIdList;
 	}
-	
-	@RequestMapping(value = { "/generateCompTestimonialJson" }, method = RequestMethod.GET)	
+
+	@RequestMapping(value = { "/generateCompTestimonialJson" }, method = RequestMethod.GET)
 	public @ResponseBody Info generateCompTestimonialJson(@RequestParam int compId) {
 		Info info = new Info();
 		List<CompanyTestomonials> masterCompTestimonialList = new ArrayList<CompanyTestomonials>();
 		try {
 			masterCompTestimonialList = companyTestomonialsRepo.getCompanyTestomonialsList(compId);
-			if(masterCompTestimonialList!=null) {
+			if (masterCompTestimonialList != null) {
 				info.setError(false);
 				info.setMessage("Company Testimonial Json Generated");
-			}else {
+			} else {
 				info.setError(true);
 				info.setMessage("Unable To Company Generated Testimonial Json");
 			}
 		} catch (Exception e) {
 			masterCompTestimonialList = new ArrayList<CompanyTestomonials>();
-		}			
+		}
 		try {
 			ObjectMapper obj = new ObjectMapper();
 			publishData(obj.writeValueAsString(masterCompTestimonialList), 0, 6);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return info;
 	}
-	@Autowired SettingRepo settingRepo;
+
+	@Autowired
+	SettingRepo settingRepo;
 
 	public void publishData(String json, int frId, int fileType) {
-		Setting setting=settingRepo.findBySettingKey("JSON_SAVE_PATH");
-		
-		//Setting setting=settingRepo.findBySettingKey("	");
-		 String JSON_SAVE_URL = setting.getSettingValue();//"/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
+		Setting setting = settingRepo.findBySettingKey("JSON_SAVE_PATH");
+
+		// Setting setting=settingRepo.findBySettingKey(" ");
+		String JSON_SAVE_URL = setting.getSettingValue();// "/home/ubuntu/Documents/apache-tomcat-8.51.38/webapps/IMG_UP/";
 		// JSON_SAVE_URL="/home/ubuntu/Documents/apache-tomcat-8.51.38/";
 //		 final String JSON_SAVE_URL = 
 //		 "/opt/apache-tomcat-8.5.39/webapps/IMG_UP/";
-System.err.println("current path from setting is " + JSON_SAVE_URL);
+		System.err.println("current path from setting is " + JSON_SAVE_URL);
 		if (json != null) {
 
 			try {
@@ -581,7 +582,8 @@ System.err.println("current path from setting is " + JSON_SAVE_URL);
 					file = new File(JSON_SAVE_URL + "MasterTestimonialData" + "_" + ".json");
 				} else if (fileType == 6) {
 					// Save All Company Testimonial JSON
-					//file = new File(JSON_SAVE_URL + "MasterCompanyTestimonialData" + "_" + ".json");
+					// file = new File(JSON_SAVE_URL + "MasterCompanyTestimonialData" + "_" +
+					// ".json");
 					file = new File(JSON_SAVE_URL + "MasterTestimonialData" + "_" + ".json");
 				}
 
@@ -611,72 +613,72 @@ System.err.println("current path from setting is " + JSON_SAVE_URL);
 		}
 
 	}
-	
-	@Autowired ProdListExlRepo prdExlRepo; 
+
+	@Autowired
+	ProdListExlRepo prdExlRepo;
+
 	@RequestMapping(value = { "/getProductListExcl" }, method = RequestMethod.POST)
 	public @ResponseBody List<ProdListExl> getProductListExcl(@RequestParam int compId) {
 		List<ProdListExl> list = new ArrayList<ProdListExl>();
 		try {
 			list = prdExlRepo.getProductListForPdfExcel(compId);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}		
-		
+		}
+
 		return list;
 	}
-	
-	//SACHIN 07-07-2021 ordere CANCEL BY CUSTOMER
-	//CHECK THE INSERT TIME AND SET RETURN % IN ORDER DETAIL, 
-	//STATUS CHANGE AT HEADER AND DETAIL 
-	
+
+	// SACHIN 07-07-2021 ordere CANCEL BY CUSTOMER
+	// CHECK THE INSERT TIME AND SET RETURN % IN ORDER DETAIL,
+	// STATUS CHANGE AT HEADER AND DETAIL
+
 	@Autowired
 	OrderHeaderRepo orderHeadRepo;
 
 	@Autowired
 	OrderDetailRepository orderDetailRepository;
 
-	
 	@RequestMapping(value = { "/orderCancelByCust" }, method = RequestMethod.POST)
-	public @ResponseBody Info orderCancelByCust(@RequestParam int orderId,
-			@RequestParam int orderStatus ,
-			@RequestParam String  insertDateTime) {
-		Info info=new Info();
+	public @ResponseBody Info orderCancelByCust(@RequestParam int orderId, @RequestParam int orderStatus,
+			@RequestParam String insertDateTime) {
+		Info info = new Info();
 		try {
-			
-			Setting ordCancelStatus=settingRepo.findBySettingKey("ORD_CANCEL_STATUSES");
-			String[] cancelStatusArr=ordCancelStatus.getSettingValue().split(",");
-			
-			List<String> cancelStatusList=Arrays.asList(cancelStatusArr);
-			if(cancelStatusList.contains(""+orderStatus)) {
-			 
-				Setting setting=settingRepo.findBySettingKey("ORD_CANCEL_RET%");
-				ObjectMapper mapper=new ObjectMapper();
-				
-				List<OrderReturnPer> ordRetPerList = new ArrayList<>();//mapper.readValue(setting.getSettingValue(), new TypeReference<List<OrderReturnPer>>(){});
+
+			Setting ordCancelStatus = settingRepo.findBySettingKey("ORD_CANCEL_STATUSES");
+			String[] cancelStatusArr = ordCancelStatus.getSettingValue().split(",");
+
+			List<String> cancelStatusList = Arrays.asList(cancelStatusArr);
+			if (cancelStatusList.contains("" + orderStatus)) {
+
+				Setting setting = settingRepo.findBySettingKey("ORD_CANCEL_RET%");
+				ObjectMapper mapper = new ObjectMapper();
+
+				List<OrderReturnPer> ordRetPerList = new ArrayList<>();// mapper.readValue(setting.getSettingValue(),
+																		// new TypeReference<List<OrderReturnPer>>(){});
 				ordRetPerList = Arrays.asList(mapper.readValue(setting.getSettingValue(), OrderReturnPer[].class));
 
-				
 				SimpleDateFormat dttime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date orderDtTime=null;
+				Date orderDtTime = null;
 				try {
-					orderDtTime =dttime.parse(insertDateTime);
+					orderDtTime = dttime.parse(insertDateTime);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				String curDtTime=dttime.format(new Date());
+				String curDtTime = dttime.format(new Date());
 				Date now = null;
 				try {
 					now = dttime.parse(curDtTime);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				
-				long duration  = now.getTime() - orderDtTime.getTime();
+
+				long duration = now.getTime() - orderDtTime.getTime();
 				long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-				
-				System.err.println("diffInMinutes" +diffInMinutes);
-				
-				String retPer=null;
+
+				System.err.println("diffInMinutes" + diffInMinutes);
+
+				String retPer = null;
 				/*
 				 * if(diffInMinutes<=Long.parseLong(retPerStrArr[0].split("-")[0])) {
 				 * retPer=retPerStrArr[0].split("-")[1];
@@ -684,142 +686,159 @@ System.err.println("current path from setting is " + JSON_SAVE_URL);
 				 * }else if(diffInMinutes>Long.parseLong(retPerStrArr[0].split("-")[0])) {
 				 * retPer=retPerStrArr[1].split("-")[1]; }
 				 */
-				if(duration>0) {
-				retPer=null;
-				for(int a=0;a<ordRetPerList.size();a++) {
-					if(diffInMinutes>=ordRetPerList.get(a).getMinTime()&&diffInMinutes<=ordRetPerList.get(a).getMaxTime()) {
-						retPer=""+ordRetPerList.get(a).getRetPer();
-						break;
+				if (duration > 0) {
+					retPer = null;
+					for (int a = 0; a < ordRetPerList.size(); a++) {
+						if (diffInMinutes >= ordRetPerList.get(a).getMinTime()
+								&& diffInMinutes <= ordRetPerList.get(a).getMaxTime()) {
+							retPer = "" + ordRetPerList.get(a).getRetPer();
+							break;
+						}
 					}
-				}
-				System.err.println("retPer" +retPer);
-				
-				curDtTime=dttime.format(new Date());
-				int h=orderHeadRepo.updateOrderByCust(orderId, 8, curDtTime, insertDateTime);
-				if(retPer.equalsIgnoreCase("null")) {
-					retPer="0";
-				}
-				int j=orderDetailRepository.cancelItemOrder(0, retPer + " % Return", orderId);
-				
-				if(h>0) {
-					info.setError(false);
-					info.setMsg("Order Cancelled");
-				}	
-				}//end of if duration >0
-			}
-			
-			
-			
-			/*
-			 * String retPerString=setting.getSettingValue();
-			 * 
-			 * String[] retPerStrArr=retPerString.split(",");
-			 */
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}		
-		
-		return info;
-		
-	}
-	
-	
-	@RequestMapping(value = { "/checkOrderCancelByCust" }, method = RequestMethod.POST)
-	public @ResponseBody Info checkOrderCancelByCust(@RequestParam int orderId,
-			@RequestParam int orderStatus ,
-			@RequestParam String  insertDateTime) {
-		Info info=new Info();
-		try {
-			
-			Setting ordCancelStatus=settingRepo.findBySettingKey("ORD_CANCEL_STATUSES");
-			String[] cancelStatusArr=ordCancelStatus.getSettingValue().split(",");
-			
-			List<String> cancelStatusList=Arrays.asList(cancelStatusArr);
-			//info.setMsg("Can not cancel this order");
-			if(cancelStatusList.contains(""+orderStatus)) {
-			 
-				Setting setting=settingRepo.findBySettingKey("ORD_CANCEL_RET%");
-				ObjectMapper mapper=new ObjectMapper();
-				
-				List<OrderReturnPer> ordRetPerList = new ArrayList<>();//mapper.readValue(setting.getSettingValue(), new TypeReference<List<OrderReturnPer>>(){});
-				ordRetPerList = Arrays.asList(mapper.readValue(setting.getSettingValue(), OrderReturnPer[].class));
+					System.err.println("retPer" + retPer);
 
-				
-				SimpleDateFormat dttime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date orderDtTime=null;
-				try {
-					orderDtTime =dttime.parse(insertDateTime);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				String curDtTime=dttime.format(new Date());
-				Date now = null;
-				try {
-					now = dttime.parse(curDtTime);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				
-				long duration  = now.getTime() - orderDtTime.getTime();
-				long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-				
-				System.err.println("diffInMinutes" +diffInMinutes);
-				
-				String retPer=null;
-				/*
-				 * if(diffInMinutes<=Long.parseLong(retPerStrArr[0].split("-")[0])) {
-				 * retPer=retPerStrArr[0].split("-")[1];
-				 * 
-				 * }else if(diffInMinutes>Long.parseLong(retPerStrArr[0].split("-")[0])) {
-				 * retPer=retPerStrArr[1].split("-")[1]; }
-				 */
-				if(duration>0) {
-				retPer="0";
-				for(int a=0;a<ordRetPerList.size();a++) {
-					if(diffInMinutes>=ordRetPerList.get(a).getMinTime()&&diffInMinutes<=ordRetPerList.get(a).getMaxTime()) {
-						retPer=""+ordRetPerList.get(a).getRetPer();
-						break;
+					curDtTime = dttime.format(new Date());
+					int h = orderHeadRepo.updateOrderByCust(orderId, 8, curDtTime, insertDateTime);
+					if (retPer.equalsIgnoreCase("null")) {
+						retPer = "0";
 					}
-				}
-				System.err.println("retPer" +retPer);
-				if(retPer.equalsIgnoreCase("null")) {
-					retPer="0";
-				}
-					info.setError(false);
-					info.setMsg("You will get "+retPer +" % of return on your order value");
-				
-				}//end of if duration >0
+					int j = orderDetailRepository.cancelItemOrder(0, retPer + " % Return", orderId);
+
+					if (h > 0) {
+						info.setError(false);
+						info.setMsg("Order Cancelled");
+					}
+				} // end of if duration >0
 			}
-			
-			
-			
+
 			/*
 			 * String retPerString=setting.getSettingValue();
 			 * 
 			 * String[] retPerStrArr=retPerString.split(",");
 			 */
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}		
-		
-		return info;
-		
-	}
-	
-	
-	@RequestMapping(value = { "/getAllowedCancelStatus" }, method = RequestMethod.POST)
-	public @ResponseBody Info getAllowedCancelStatus() {
-		Info info=new Info();
-		try {
-			
-			Setting ordCancelStatus=settingRepo.findBySettingKey("ORD_CANCEL_STATUSES");
-			info.setMessage(ordCancelStatus.getSettingValue());
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return info;
+
+	}
+
+	@RequestMapping(value = { "/checkOrderCancelByCust" }, method = RequestMethod.POST)
+	public @ResponseBody Info checkOrderCancelByCust(@RequestParam int orderId, @RequestParam int orderStatus,
+			@RequestParam String insertDateTime) {
+		Info info = new Info();
+		try {
+
+			Setting ordCancelStatus = settingRepo.findBySettingKey("ORD_CANCEL_STATUSES");
+			String[] cancelStatusArr = ordCancelStatus.getSettingValue().split(",");
+
+			List<String> cancelStatusList = Arrays.asList(cancelStatusArr);
+			// info.setMsg("Can not cancel this order");
+			if (cancelStatusList.contains("" + orderStatus)) {
+
+				Setting setting = settingRepo.findBySettingKey("ORD_CANCEL_RET%");
+				ObjectMapper mapper = new ObjectMapper();
+
+				List<OrderReturnPer> ordRetPerList = new ArrayList<>();// mapper.readValue(setting.getSettingValue(),
+																		// new TypeReference<List<OrderReturnPer>>(){});
+				ordRetPerList = Arrays.asList(mapper.readValue(setting.getSettingValue(), OrderReturnPer[].class));
+
+				SimpleDateFormat dttime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date orderDtTime = null;
+				try {
+					orderDtTime = dttime.parse(insertDateTime);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				String curDtTime = dttime.format(new Date());
+				Date now = null;
+				try {
+					now = dttime.parse(curDtTime);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				long duration = now.getTime() - orderDtTime.getTime();
+				long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+
+				System.err.println("diffInMinutes" + diffInMinutes);
+
+				String retPer = null;
+				/*
+				 * if(diffInMinutes<=Long.parseLong(retPerStrArr[0].split("-")[0])) {
+				 * retPer=retPerStrArr[0].split("-")[1];
+				 * 
+				 * }else if(diffInMinutes>Long.parseLong(retPerStrArr[0].split("-")[0])) {
+				 * retPer=retPerStrArr[1].split("-")[1]; }
+				 */
+				if (duration > 0) {
+					retPer = "0";
+					for (int a = 0; a < ordRetPerList.size(); a++) {
+						if (diffInMinutes >= ordRetPerList.get(a).getMinTime()
+								&& diffInMinutes <= ordRetPerList.get(a).getMaxTime()) {
+							retPer = "" + ordRetPerList.get(a).getRetPer();
+							break;
+						}
+					}
+					System.err.println("retPer" + retPer);
+					if (retPer.equalsIgnoreCase("null")) {
+						retPer = "0";
+					}
+					info.setError(false);
+					info.setMsg("You will get " + retPer + " % of return on your order value");
+
+				} // end of if duration >0
+			}
+
+			/*
+			 * String retPerString=setting.getSettingValue();
+			 * 
+			 * String[] retPerStrArr=retPerString.split(",");
+			 */
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return info;
+
+	}
+
+	@RequestMapping(value = { "/getAllowedCancelStatus" }, method = RequestMethod.POST)
+	public @ResponseBody Info getAllowedCancelStatus() {
+		Info info = new Info();
+		try {
+
+			Setting ordCancelStatus = settingRepo.findBySettingKey("ORD_CANCEL_STATUSES");
+			info.setMessage(ordCancelStatus.getSettingValue());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return info;
+	}
+
+	@RequestMapping(value = { "/getOrderRetPerList" }, method = RequestMethod.GET)
+	public @ResponseBody List<OrderReturnPer> getOrderRetPerList() {
+		List<OrderReturnPer> ordRetPerList = new ArrayList<>();// mapper.readValue(setting.getSettingValue(), new
+																// TypeReference<List<OrderReturnPer>>(){});
+		try {
+			Setting setting = settingRepo.findBySettingKey("ORD_CANCEL_RET%");
+			ObjectMapper mapper = new ObjectMapper();
+
+			try {
+				return ordRetPerList = Arrays
+						.asList(mapper.readValue(setting.getSettingValue(), OrderReturnPer[].class));
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			ordRetPerList = new ArrayList<>();
+		}
+		return ordRetPerList;
+
 	}
 }

@@ -2,9 +2,19 @@ package com.ats.ecomapi.controller;
 
 public class OrderReturnPer {
 
+	private String title;
 	private int minTime;
 	private int maxTime;
 	private  float retPer;
+	
+	
+	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public int getMinTime() {
 		return minTime;
 	}
